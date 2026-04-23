@@ -1,3 +1,389 @@
+var version = 1;
+var gameConfig = {
+  id: "forest",
+  type: "legacy",
+  assets: "forest",
+  temples: "forest",
+  title: "Fireboy & Watergirl Forest Temple",
+};
+var temple = {
+  index: 0,
+  id: "forest",
+  label: "forest temple",
+  color: "#5B4610",
+  type: "tree",
+  levels: [
+    {
+      id: 1,
+      x: 0.5,
+      y: 0.9,
+      filename: "tutorials/levels/forest_01.json",
+      time: 40,
+      mobileTime: 70,
+      required: 0,
+      initial: true,
+      _id: 1,
+    },
+    {
+      id: 2,
+      x: 0.55,
+      y: 0.8,
+      filename: "forest/levels/forest_02.json",
+      time: 40,
+      mobileTime: 60,
+      required: 0,
+      _id: 2,
+    },
+    {
+      id: 3,
+      x: 0.5,
+      y: 0.7,
+      filename: "forest/levels/forest_03.json",
+      time: 25,
+      mobileTime: 45,
+      required: 0,
+      type: "speed",
+      _id: 3,
+    },
+    {
+      id: 4,
+      x: 0.5,
+      y: 0.55,
+      filename: "forest/levels/forest_04.json",
+      time: 35,
+      mobileTime: 45,
+      required: 0,
+      _id: 4,
+    },
+    {
+      id: 5,
+      x: 0.35,
+      y: 0.7,
+      filename: "forest/levels/forest_05.json",
+      time: 40,
+      mobileTime: 200,
+      required: 0,
+      _id: 5,
+    },
+    {
+      id: 6,
+      x: 0.25,
+      y: 0.65,
+      filename: "forest/levels/forest_06.json",
+      time: 20,
+      mobileTime: 60,
+      required: 0,
+      type: "speed",
+      _id: 6,
+    },
+    {
+      id: 7,
+      x: 0.15,
+      y: 0.75,
+      filename: "forest/levels/forest_07.json",
+      time: 60,
+      mobileTime: 120,
+      type: "puzzle",
+      required: 0,
+      _id: 7,
+    },
+    {
+      id: 30,
+      x: 0.65,
+      y: 0.7,
+      filename: "forest/levels/forest_30.json",
+      time: 40,
+      mobileTime: 65,
+      required: 0,
+      _id: 8,
+    },
+    {
+      id: 31,
+      x: 0.75,
+      y: 0.65,
+      filename: "forest/levels/forest_31.json",
+      time: 60,
+      mobileTime: 80,
+      required: 0,
+      _id: 9,
+    },
+    {
+      id: 32,
+      x: 0.85,
+      y: 0.75,
+      filename: "forest/levels/forest_32.json",
+      time: 60,
+      mobileTime: 120,
+      type: "puzzle",
+      required: 0,
+      _id: 10,
+    },
+    {
+      id: 8,
+      x: 0.35,
+      y: 0.5,
+      filename: "forest/levels/forest_08.json",
+      time: 40,
+      mobileTime: 80,
+      required: 0,
+      _id: 11,
+    },
+    {
+      id: 9,
+      x: 0.25,
+      y: 0.5,
+      filename: "forest/levels/forest_09.json",
+      time: 40,
+      mobileTime: 50,
+      required: 0,
+      _id: 12,
+    },
+    {
+      id: 10,
+      x: 0.15,
+      y: 0.55,
+      filename: "forest/levels/forest_10.json",
+      time: 45,
+      mobileTime: 60,
+      required: 0,
+      _id: 13,
+    },
+    {
+      id: 11,
+      x: 0.05,
+      y: 0.6,
+      filename: "forest/levels/forest_11.json",
+      time: 80,
+      mobileTime: 100,
+      type: "puzzle",
+      required: 0,
+      _id: 14,
+    },
+    {
+      id: 12,
+      x: 0.1667,
+      y: 0.3767,
+      filename: "forest/levels/forest_12.json",
+      time: 25,
+      mobileTime: 45,
+      type: "speed",
+      required: 0,
+      _id: 15,
+    },
+    {
+      id: 13,
+      x: 0.04222,
+      y: 0.3144,
+      filename: "forest/levels/forest_13.json",
+      time: 60,
+      mobileTime: 90,
+      required: 0,
+      type: "puzzle",
+      _id: 16,
+    },
+    {
+      id: 14,
+      x: 0.5,
+      y: 0.4,
+      filename: "forest/levels/forest_14.json",
+      time: 30,
+      mobileTime: 50,
+      type: "speed",
+      required: 0,
+      _id: 18,
+    },
+    {
+      id: 15,
+      x: 0.35,
+      y: 0.35,
+      filename: "forest/levels/forest_15.json",
+      time: 100,
+      mobileTime: 150,
+      required: 0,
+      _id: 19,
+    },
+    {
+      id: 16,
+      x: 0.25,
+      y: 0.25,
+      filename: "forest/levels/forest_16.json",
+      time: 70,
+      mobileTime: 105,
+      required: 0,
+      type: "speed",
+      _id: 20,
+    },
+    {
+      id: 17,
+      x: 0.1,
+      y: 0.2,
+      filename: "forest/levels/forest_17.json",
+      time: 90,
+      mobileTime: 180,
+      required: 0,
+      type: "puzzle",
+      _id: 21,
+    },
+    {
+      id: 18,
+      x: 0.45,
+      y: 0.25,
+      filename: "forest/levels/forest_18.json",
+      time: 70,
+      mobileTime: 90,
+      required: 0,
+      _id: 22,
+    },
+    {
+      id: 19,
+      x: 0.55,
+      y: 0.2,
+      filename: "forest/levels/forest_19.json",
+      time: 65,
+      mobileTime: 100,
+      required: 0,
+      _id: 23,
+    },
+    {
+      id: 20,
+      x: 0.45,
+      y: 0.1,
+      filename: "forest/levels/forest_20.json",
+      time: 105,
+      mobileTime: 210,
+      required: 0,
+      type: "puzzle",
+      _id: 24,
+    },
+    {
+      id: 21,
+      x: 0.6,
+      y: 0.35,
+      filename: "forest/levels/forest_21.json",
+      time: 30,
+      mobileTime: 55,
+      required: 0,
+      _id: 25,
+    },
+    {
+      id: 22,
+      x: 0.7,
+      y: 0.25,
+      filename: "forest/levels/forest_22.json",
+      time: 95,
+      mobileTime: 110,
+      required: 0,
+      _id: 26,
+    },
+    {
+      id: 23,
+      x: 0.85,
+      y: 0.2,
+      filename: "forest/levels/forest_23.json",
+      time: 90,
+      mobileTime: 180,
+      type: "puzzle",
+      required: 0,
+      _id: 27,
+    },
+    {
+      id: 24,
+      x: 0.6,
+      y: 0.5,
+      filename: "forest/levels/forest_24.json",
+      time: 75,
+      mobileTime: 120,
+      required: 0,
+      _id: 28,
+    },
+    {
+      id: 25,
+      x: 0.7,
+      y: 0.55,
+      filename: "forest/levels/forest_25.json",
+      time: 45,
+      mobileTime: 65,
+      required: 0,
+      _id: 29,
+    },
+    {
+      id: 26,
+      x: 0.8,
+      y: 0.4,
+      filename: "forest/levels/forest_26.json",
+      time: 18,
+      mobileTime: 36,
+      type: "speed",
+      required: 0,
+      _id: 30,
+    },
+    {
+      id: 27,
+      x: 0.9,
+      y: 0.35,
+      filename: "forest/levels/forest_27.json",
+      time: 45,
+      mobileTime: 90,
+      type: "puzzle",
+      required: 0,
+      _id: 31,
+    },
+    {
+      id: 28,
+      x: 0.85,
+      y: 0.55,
+      filename: "forest/levels/forest_28.json",
+      time: 58,
+      mobileTime: 70,
+      required: 0,
+      _id: 32,
+    },
+    {
+      id: 29,
+      x: 0.95,
+      y: 0.6,
+      filename: "forest/levels/forest_29.json",
+      time: 70,
+      mobileTime: 140,
+      type: "puzzle",
+      required: 0,
+      _id: 33,
+    },
+  ],
+  edges: [
+    { id: "12", source: 1, target: 2 },
+    { id: "23", source: 2, target: 3 },
+    { id: "34", source: 3, target: 4 },
+    { id: "45", source: 4, target: 5 },
+    { id: "56", source: 5, target: 6 },
+    { id: "67", source: 6, target: 7 },
+    { id: "48", source: 4, target: 8 },
+    { id: "89", source: 8, target: 9 },
+    { id: "910", source: 9, target: 10 },
+    { id: "411", source: 4, target: 11 },
+    { id: "1112", source: 11, target: 12 },
+    { id: "1215", source: 12, target: 15 },
+    { id: "1516", source: 15, target: 16 },
+    { id: "1213", source: 12, target: 13 },
+    { id: "1314", source: 13, target: 14 },
+    { id: "418", source: 4, target: 18 },
+    { id: "1819", source: 18, target: 19 },
+    { id: "1920", source: 19, target: 20 },
+    { id: "2021", source: 20, target: 21 },
+    { id: "1822", source: 18, target: 22 },
+    { id: "2223", source: 22, target: 23 },
+    { id: "2324", source: 23, target: 24 },
+    { id: "1825", source: 18, target: 25 },
+    { id: "2526", source: 25, target: 26 },
+    { id: "2627", source: 26, target: 27 },
+    { id: "428", source: 4, target: 28 },
+    { id: "2829", source: 28, target: 29 },
+    { id: "2930", source: 29, target: 30 },
+    { id: "3031", source: 30, target: 31 },
+    { id: "2932", source: 29, target: 32 },
+    { id: "3233", source: 32, target: 33 },
+  ],
+};
 (!(function (a) {
   if ("object" == typeof exports) module.exports = a();
   else {
@@ -38654,2960 +39040,6 @@
       })(Phaser.Sprite);
     });
   }.call(this),
-  (function (a, b) {
-    "object" == typeof exports && "undefined" != typeof module
-      ? b(exports)
-      : "function" == typeof define && define.amd
-        ? define("h5branding", ["exports"], b)
-        : ((a = "undefined" != typeof globalThis ? globalThis : a || self),
-          b((a.h5branding = a.h5branding || {})));
-  })(this, function (a) {
-    "use strict";
-    function b() {
-      throw new Error(
-        "Dynamic requires are not currently supported by rollup-plugin-commonjs",
-      );
-    }
-    function c(a, b) {
-      return ((b = { exports: {} }), a(b, b.exports), b.exports);
-    }
-    function d(a, b, c, d) {
-      return new (c || (c = Promise))(function (e, f) {
-        function g(a) {
-          try {
-            i(d.next(a));
-          } catch (a) {
-            f(a);
-          }
-        }
-        function h(a) {
-          try {
-            i(d.throw(a));
-          } catch (a) {
-            f(a);
-          }
-        }
-        function i(a) {
-          a.done
-            ? e(a.value)
-            : new c(function (b) {
-                b(a.value);
-              }).then(g, h);
-        }
-        i((d = d.apply(a, b || [])).next());
-      });
-    }
-    function e(a, b) {
-      function c(a) {
-        return function (b) {
-          return d([a, b]);
-        };
-      }
-      function d(c) {
-        if (e) throw new TypeError("Generator is already executing.");
-        for (; i; )
-          try {
-            if (
-              ((e = 1),
-              f &&
-                (g =
-                  2 & c[0]
-                    ? f.return
-                    : c[0]
-                      ? f.throw || ((g = f.return) && g.call(f), 0)
-                      : f.next) &&
-                !(g = g.call(f, c[1])).done)
-            )
-              return g;
-            switch (((f = 0), g && (c = [2 & c[0], g.value]), c[0])) {
-              case 0:
-              case 1:
-                g = c;
-                break;
-              case 4:
-                return (i.label++, { value: c[1], done: !1 });
-              case 5:
-                (i.label++, (f = c[1]), (c = [0]));
-                continue;
-              case 7:
-                ((c = i.ops.pop()), i.trys.pop());
-                continue;
-              default:
-                if (
-                  ((g = i.trys),
-                  !(g = g.length > 0 && g[g.length - 1]) &&
-                    (6 === c[0] || 2 === c[0]))
-                ) {
-                  i = 0;
-                  continue;
-                }
-                if (3 === c[0] && (!g || (c[1] > g[0] && c[1] < g[3]))) {
-                  i.label = c[1];
-                  break;
-                }
-                if (6 === c[0] && i.label < g[1]) {
-                  ((i.label = g[1]), (g = c));
-                  break;
-                }
-                if (g && i.label < g[2]) {
-                  ((i.label = g[2]), i.ops.push(c));
-                  break;
-                }
-                (g[2] && i.ops.pop(), i.trys.pop());
-                continue;
-            }
-            c = b.call(a, i);
-          } catch (a) {
-            ((c = [6, a]), (f = 0));
-          } finally {
-            e = g = 0;
-          }
-        if (5 & c[0]) throw c[1];
-        return { value: c[0] ? c[1] : void 0, done: !0 };
-      }
-      var e,
-        f,
-        g,
-        h,
-        i = {
-          label: 0,
-          sent: function () {
-            if (1 & g[0]) throw g[1];
-            return g[1];
-          },
-          trys: [],
-          ops: [],
-        };
-      return (
-        (h = { next: c(0), throw: c(1), return: c(2) }),
-        "function" == typeof Symbol &&
-          (h[Symbol.iterator] = function () {
-            return this;
-          }),
-        h
-      );
-    }
-    function f(a, b, c) {
-      var d = document.createElement("script");
-      (d.setAttribute("src", a + "?v=" + b),
-        "function" == typeof c && (d.onload = c),
-        document.body.appendChild(d));
-    }
-    function g(a, b) {
-      return '\n        <div id="h5branding-background"></div>\n        <div id="h5branding-version"></div>\n        <div id="h5branding-logo"></div>\n        <div id="h5branding-center">\n            <div id="h5branding-ad"></div>\n            <div id="h5branding-wrapper">\n                <img src="'
-        .concat(
-          a,
-          '" />\n                <div id="h5branding-bar"></div>\n                <button id="h5branding-button" onclick="h5branding.SplashLoader.getInstance().onPlayButtonClick();">Play</button>\n            </div>\n        </div>\n        <div id="h5branding-title">',
-        )
-        .concat(b, "</div>\n    ");
-    }
-    var h =
-      "undefined" != typeof globalThis
-        ? globalThis
-        : "undefined" != typeof window
-          ? window
-          : "undefined" != typeof global
-            ? global
-            : "undefined" != typeof self
-              ? self
-              : {};
-    c(function (a, c) {
-      !(function (c, d) {
-        a.exports = (function () {
-          function a(a) {
-            var b = typeof a;
-            return null !== a && ("object" === b || "function" === b);
-          }
-          function c(a) {
-            return "function" == typeof a;
-          }
-          function d(a) {
-            N = a;
-          }
-          function e(a) {
-            O = a;
-          }
-          function f() {
-            return void 0 !== M
-              ? function () {
-                  M(i);
-                }
-              : g();
-          }
-          function g() {
-            var a = setTimeout;
-            return function () {
-              return a(i, 1);
-            };
-          }
-          function i() {
-            for (var a = 0; a < L; a += 2) {
-              ((0, U[a])(U[a + 1]), (U[a] = void 0), (U[a + 1] = void 0));
-            }
-            L = 0;
-          }
-          function j(a, b) {
-            var c = this,
-              d = new this.constructor(l);
-            void 0 === d[W] && B(d);
-            var e = c._state;
-            if (e) {
-              var f = arguments[e - 1];
-              O(function () {
-                return y(e, d, f, c._result);
-              });
-            } else w(c, d, a, b);
-            return d;
-          }
-          function k(a) {
-            var b = this;
-            if (a && "object" == typeof a && a.constructor === b) return a;
-            var c = new b(l);
-            return (s(c, a), c);
-          }
-          function l() {}
-          function m() {
-            return new TypeError("You cannot resolve a promise with itself");
-          }
-          function n() {
-            return new TypeError(
-              "A promises callback cannot return that same promise.",
-            );
-          }
-          function o(a, b, c, d) {
-            try {
-              a.call(b, c, d);
-            } catch (a) {
-              return a;
-            }
-          }
-          function p(a, b, c) {
-            O(function (a) {
-              var d = !1,
-                e = o(
-                  c,
-                  b,
-                  function (c) {
-                    d || ((d = !0), b !== c ? s(a, c) : u(a, c));
-                  },
-                  function (b) {
-                    d || ((d = !0), v(a, b));
-                  },
-                  "Settle: " + (a._label || " unknown promise"),
-                );
-              !d && e && ((d = !0), v(a, e));
-            }, a);
-          }
-          function q(a, b) {
-            b._state === Y
-              ? u(a, b._result)
-              : b._state === Z
-                ? v(a, b._result)
-                : w(
-                    b,
-                    void 0,
-                    function (b) {
-                      return s(a, b);
-                    },
-                    function (b) {
-                      return v(a, b);
-                    },
-                  );
-          }
-          function r(a, b, d) {
-            b.constructor === a.constructor &&
-            d === j &&
-            b.constructor.resolve === k
-              ? q(a, b)
-              : void 0 === d
-                ? u(a, b)
-                : c(d)
-                  ? p(a, b, d)
-                  : u(a, b);
-          }
-          function s(b, c) {
-            if (b === c) v(b, m());
-            else if (a(c)) {
-              var d = void 0;
-              try {
-                d = c.then;
-              } catch (a) {
-                return void v(b, a);
-              }
-              r(b, c, d);
-            } else u(b, c);
-          }
-          function t(a) {
-            (a._onerror && a._onerror(a._result), x(a));
-          }
-          function u(a, b) {
-            a._state === X &&
-              ((a._result = b),
-              (a._state = Y),
-              0 !== a._subscribers.length && O(x, a));
-          }
-          function v(a, b) {
-            a._state === X && ((a._state = Z), (a._result = b), O(t, a));
-          }
-          function w(a, b, c, d) {
-            var e = a._subscribers,
-              f = e.length;
-            ((a._onerror = null),
-              (e[f] = b),
-              (e[f + Y] = c),
-              (e[f + Z] = d),
-              0 === f && a._state && O(x, a));
-          }
-          function x(a) {
-            var b = a._subscribers,
-              c = a._state;
-            if (0 !== b.length) {
-              for (
-                var d = void 0, e = void 0, f = a._result, g = 0;
-                g < b.length;
-                g += 3
-              )
-                ((d = b[g]), (e = b[g + c]), d ? y(c, d, e, f) : e(f));
-              a._subscribers.length = 0;
-            }
-          }
-          function y(a, b, d, e) {
-            var f = c(d),
-              g = void 0,
-              h = void 0,
-              i = !0;
-            if (f) {
-              try {
-                g = d(e);
-              } catch (a) {
-                ((i = !1), (h = a));
-              }
-              if (b === g) return void v(b, n());
-            } else g = e;
-            b._state !== X ||
-              (f && i
-                ? s(b, g)
-                : !1 === i
-                  ? v(b, h)
-                  : a === Y
-                    ? u(b, g)
-                    : a === Z && v(b, g));
-          }
-          function z(a, b) {
-            try {
-              b(
-                function (b) {
-                  s(a, b);
-                },
-                function (b) {
-                  v(a, b);
-                },
-              );
-            } catch (b) {
-              v(a, b);
-            }
-          }
-          function A() {
-            return $++;
-          }
-          function B(a) {
-            ((a[W] = $++),
-              (a._state = void 0),
-              (a._result = void 0),
-              (a._subscribers = []));
-          }
-          function C() {
-            return new Error("Array Methods must be provided an Array");
-          }
-          function D(a) {
-            return new _(this, a).promise;
-          }
-          function E(a) {
-            var b = this;
-            return new b(
-              K(a)
-                ? function (c, d) {
-                    for (var e = a.length, f = 0; f < e; f++)
-                      b.resolve(a[f]).then(c, d);
-                  }
-                : function (a, b) {
-                    return b(new TypeError("You must pass an array to race."));
-                  },
-            );
-          }
-          function F(a) {
-            var b = this,
-              c = new b(l);
-            return (v(c, a), c);
-          }
-          function G() {
-            throw new TypeError(
-              "You must pass a resolver function as the first argument to the promise constructor",
-            );
-          }
-          function H() {
-            throw new TypeError(
-              "Failed to construct 'Promise': Please use the 'new' operator, this object constructor cannot be called as a function.",
-            );
-          }
-          function I() {
-            var a = void 0;
-            if (void 0 !== h) a = h;
-            else if ("undefined" != typeof self) a = self;
-            else
-              try {
-                a = Function("return this")();
-              } catch (a) {
-                throw new Error(
-                  "polyfill failed because global object is unavailable in this environment",
-                );
-              }
-            var b = a.Promise;
-            if (b) {
-              var c = null;
-              try {
-                c = Object.prototype.toString.call(b.resolve());
-              } catch (a) {}
-              if ("[object Promise]" === c && !b.cast) return;
-            }
-            a.Promise = aa;
-          }
-          var J = void 0;
-          J = Array.isArray
-            ? Array.isArray
-            : function (a) {
-                return "[object Array]" === Object.prototype.toString.call(a);
-              };
-          var K = J,
-            L = 0,
-            M = void 0,
-            N = void 0,
-            O = function (a, b) {
-              ((U[L] = a), (U[L + 1] = b), 2 === (L += 2) && (N ? N(i) : V()));
-            },
-            P = "undefined" != typeof window ? window : void 0,
-            Q = P || {},
-            R = Q.MutationObserver || Q.WebKitMutationObserver,
-            S =
-              "undefined" == typeof self &&
-              "undefined" != typeof process &&
-              "[object process]" === {}.toString.call(process),
-            T =
-              "undefined" != typeof Uint8ClampedArray &&
-              "undefined" != typeof importScripts &&
-              "undefined" != typeof MessageChannel,
-            U = new Array(1e3),
-            V = void 0;
-          V = S
-            ? (function () {
-                return function () {
-                  return process.nextTick(i);
-                };
-              })()
-            : R
-              ? (function () {
-                  var a = 0,
-                    b = new R(i),
-                    c = document.createTextNode("");
-                  return (
-                    b.observe(c, { characterData: !0 }),
-                    function () {
-                      c.data = a = ++a % 2;
-                    }
-                  );
-                })()
-              : T
-                ? (function () {
-                    var a = new MessageChannel();
-                    return (
-                      (a.port1.onmessage = i),
-                      function () {
-                        return a.port2.postMessage(0);
-                      }
-                    );
-                  })()
-                : void 0 === P && "function" == typeof b
-                  ? (function () {
-                      try {
-                        var a = Function("return this")().require("vertx");
-                        return ((M = a.runOnLoop || a.runOnContext), f());
-                      } catch (a) {
-                        return g();
-                      }
-                    })()
-                  : g();
-          var W = Math.random().toString(36).substring(2),
-            X = void 0,
-            Y = 1,
-            Z = 2,
-            $ = 0,
-            _ = (function () {
-              function a(a, b) {
-                ((this._instanceConstructor = a),
-                  (this.promise = new a(l)),
-                  this.promise[W] || B(this.promise),
-                  K(b)
-                    ? ((this.length = b.length),
-                      (this._remaining = b.length),
-                      (this._result = new Array(this.length)),
-                      0 === this.length
-                        ? u(this.promise, this._result)
-                        : ((this.length = this.length || 0),
-                          this._enumerate(b),
-                          0 === this._remaining &&
-                            u(this.promise, this._result)))
-                    : v(this.promise, C()));
-              }
-              return (
-                (a.prototype._enumerate = function (a) {
-                  for (var b = 0; this._state === X && b < a.length; b++)
-                    this._eachEntry(a[b], b);
-                }),
-                (a.prototype._eachEntry = function (a, b) {
-                  var c = this._instanceConstructor,
-                    d = c.resolve;
-                  if (d === k) {
-                    var e = void 0,
-                      f = void 0,
-                      g = !1;
-                    try {
-                      e = a.then;
-                    } catch (a) {
-                      ((g = !0), (f = a));
-                    }
-                    if (e === j && a._state !== X)
-                      this._settledAt(a._state, b, a._result);
-                    else if ("function" != typeof e)
-                      (this._remaining--, (this._result[b] = a));
-                    else if (c === aa) {
-                      var h = new c(l);
-                      (g ? v(h, f) : r(h, a, e), this._willSettleAt(h, b));
-                    } else
-                      this._willSettleAt(
-                        new c(function (b) {
-                          return b(a);
-                        }),
-                        b,
-                      );
-                  } else this._willSettleAt(d(a), b);
-                }),
-                (a.prototype._settledAt = function (a, b, c) {
-                  var d = this.promise;
-                  (d._state === X &&
-                    (this._remaining--,
-                    a === Z ? v(d, c) : (this._result[b] = c)),
-                    0 === this._remaining && u(d, this._result));
-                }),
-                (a.prototype._willSettleAt = function (a, b) {
-                  var c = this;
-                  w(
-                    a,
-                    void 0,
-                    function (a) {
-                      return c._settledAt(Y, b, a);
-                    },
-                    function (a) {
-                      return c._settledAt(Z, b, a);
-                    },
-                  );
-                }),
-                a
-              );
-            })(),
-            aa = (function () {
-              function a(b) {
-                ((this[W] = A()),
-                  (this._result = this._state = void 0),
-                  (this._subscribers = []),
-                  l !== b &&
-                    ("function" != typeof b && G(),
-                    this instanceof a ? z(this, b) : H()));
-              }
-              return (
-                (a.prototype.catch = function (a) {
-                  return this.then(null, a);
-                }),
-                (a.prototype.finally = function (a) {
-                  var b = this,
-                    d = b.constructor;
-                  return c(a)
-                    ? b.then(
-                        function (b) {
-                          return d.resolve(a()).then(function () {
-                            return b;
-                          });
-                        },
-                        function (b) {
-                          return d.resolve(a()).then(function () {
-                            throw b;
-                          });
-                        },
-                      )
-                    : b.then(a, a);
-                }),
-                a
-              );
-            })();
-          return (
-            (aa.prototype.then = j),
-            (aa.all = D),
-            (aa.race = E),
-            (aa.resolve = k),
-            (aa.reject = F),
-            (aa._setScheduler = d),
-            (aa._setAsap = e),
-            (aa._asap = O),
-            (aa.polyfill = I),
-            (aa.Promise = aa),
-            aa
-          );
-        })();
-      })();
-    }).polyfill();
-    var i,
-      j = (function () {
-        function a() {}
-        return (
-          (a.has = function (a) {
-            var b = a.lastIndexOf(".");
-            if (b <= 0 || b >= a.length - 1) return !1;
-            var c = a.lastIndexOf(".", b - 1);
-            if (c <= 0 || c >= b - 1) return !1;
-            var d = i[a.slice(b + 1)];
-            return !!d && d.indexOf(" " + a.slice(c + 1, b) + " ") >= 0;
-          }),
-          (a.is = function (a) {
-            var b = a.lastIndexOf(".");
-            if (b <= 0 || b >= a.length - 1) return !1;
-            if (a.lastIndexOf(".", b - 1) >= 0) return !1;
-            var c = i[a.slice(b + 1)];
-            return !!c && c.indexOf(" " + a.slice(0, b) + " ") >= 0;
-          }),
-          (a.get = function (a) {
-            var b = a.lastIndexOf(".");
-            if (b <= 0 || b >= a.length - 1) return null;
-            var c = a.lastIndexOf(".", b - 1);
-            if (c <= 0 || c >= b - 1) return null;
-            var d = i[a.slice(b + 1)];
-            return d
-              ? d.indexOf(" " + a.slice(c + 1, b) + " ") < 0
-                ? null
-                : a.slice(c + 1)
-              : null;
-          }),
-          a
-        );
-      })(),
-      k = (function () {
-        function a() {}
-        return (
-          (a.setList = function (a) {
-            i = a || {};
-          }),
-          (a.getDomain = function (a) {
-            if (!i) return null;
-            var b = a.match(/\./g);
-            if (b && b.length < 2) return a;
-            var c = this.getTld(a);
-            if (!c) return null;
-            var d = a.length - c.length - 1;
-            return ((d = a.lastIndexOf(".", d - 1) + 1), a.substring(d) || "");
-          }),
-          (a.getTld = function (a) {
-            if (!i) return "";
-            var b = a.lastIndexOf("."),
-              c = a.substring(b + 1);
-            return i[c.toLowerCase()] ? j.get(a) || c : c;
-          }),
-          (a.KEY = "Domains"),
-          a
-        );
-      })(),
-      l = (function () {
-        function a() {
-          this.cache = {};
-        }
-        return (
-          Object.defineProperty(a, "instance", {
-            get: function () {
-              return (
-                void 0 === a.classInstance && (a.classInstance = new a()),
-                a.classInstance
-              );
-            },
-            enumerable: !1,
-            configurable: !0,
-          }),
-          (a.prototype.load = function (a, b, c) {
-            var d = this;
-            return this.contains(a)
-              ? Promise.reject("Already in cache.")
-              : ((this.cache[a] = { url: b, data: null }),
-                this.requestXhr(b, c)
-                  .then(function (b) {
-                    return d.loadComplete(a, b);
-                  })
-                  .catch(function (b) {
-                    return (d.remove(a), Promise.reject(b));
-                  }));
-          }),
-          (a.prototype.loadComplete = function (a, b) {
-            if (!this.contains(a))
-              return Promise.reject(
-                "Item was removed from cache before loading was complete.",
-              );
-            try {
-              var c = JSON.parse(b);
-              return ((this.cache[a].data = c), Promise.resolve(c));
-            } catch (a) {
-              return Promise.reject("There was an error parsing JSON file.");
-            }
-          }),
-          (a.prototype.remove = function (a) {
-            this.contains(a) && delete this.cache[a];
-          }),
-          (a.prototype.get = function (a) {
-            return this.contains(a) ? this.cache[a].data : null;
-          }),
-          (a.prototype.contains = function (a) {
-            return this.cache.hasOwnProperty(a);
-          }),
-          (a.prototype.isLoading = function (a) {
-            return this.contains(a) && null === this.cache[a].data;
-          }),
-          (a.prototype.isLoaded = function (a) {
-            return this.contains(a) && null !== this.cache[a].data;
-          }),
-          (a.prototype.loadScript = function (a, b, c) {
-            return new Promise(function (b, d) {
-              var e = document.createElement("script");
-              ((e.src = a),
-                (e.async = !1),
-                (e.onload = function () {
-                  ("function" == typeof c && c(), b());
-                }),
-                document.head.appendChild(e));
-            });
-          }),
-          (a.prototype.requestXhr = function (a, b) {
-            void 0 === b && (b = "application/json");
-            var c;
-            return window.XMLHttpRequest
-              ? ((c = new XMLHttpRequest()),
-                new Promise(function (d, e) {
-                  c.onreadystatechange = function () {
-                    4 === c.readyState &&
-                      (200 === c.status
-                        ? (d(c.responseText), (c.onreadystatechange = null))
-                        : c.status > 0 &&
-                          (e(
-                            "There was a problem with the request: status ".concat(
-                              c.status,
-                            ),
-                          ),
-                          (c.onreadystatechange = null)));
-                  };
-                  try {
-                    (c.open("GET", a, !0),
-                      c.setRequestHeader("Content-Type", b),
-                      c.send());
-                  } catch (a) {
-                    e("Error: Unable to send request, CORS not allowed.");
-                  }
-                }))
-              : Promise.reject(
-                  "Unable to send request, XMLHttpRequest not supported.",
-                );
-          }),
-          a
-        );
-      })();
-    ((a.BrandingDomain = void 0),
-      (function (a) {
-        ((a[(a.Neutral = 0)] = "Neutral"),
-          (a[(a.Yepi = 1)] = "Yepi"),
-          (a[(a.Spele = 2)] = "Spele"),
-          (a[(a.Funnygames = 3)] = "Funnygames"),
-          (a[(a.Kizi = 4)] = "Kizi"),
-          (a[(a.PlayCell = 5)] = "PlayCell"),
-          (a[(a.GameCell = 6)] = "GameCell"),
-          (a[(a.Bild = 7)] = "Bild"),
-          (a[(a.AGame = 8)] = "AGame"),
-          (a[(a.Admeen = 9)] = "Admeen"),
-          (a[(a.PlayTime = 10)] = "PlayTime"),
-          (a[(a.Zigiz = 11)] = "Zigiz"));
-      })(a.BrandingDomain || (a.BrandingDomain = {})));
-    var m = (function () {
-      function a() {}
-      return (
-        (a.isBip = function () {
-          return (
-            -1 !== window.location.search.indexOf("bipgaming") ||
-            "bip.fbrq.io" === window.location.host
-          );
-        }),
-        (a.isPlaycellApp = function () {
-          return -1 !== window.location.search.indexOf("playcellApp");
-        }),
-        (a.isAGame = function () {
-          return -1 !== window.location.search.indexOf("agame");
-        }),
-        (a.isAirfi = function () {
-          return !!window.hasOwnProperty("airfi") && window.airfi;
-        }),
-        (a.isPlaytime = function () {
-          return -1 !== window.location.host.indexOf("playtime.nl");
-        }),
-        (a.isBild = function () {
-          return (
-            "bild.fbrq.io" === window.location.host ||
-            -1 !== window.location.host.indexOf("contentfleet.com")
-          );
-        }),
-        (a.isYandex = function () {
-          return (
-            window.hasOwnProperty("_YaSDK") || window.hasOwnProperty("YaGames")
-          );
-        }),
-        (a.getYandexBaseURL = function () {
-          var a, b;
-          if (
-            null ===
-              (b =
-                null === (a = window.YandexGamesSDKEnvironment) || void 0 === a
-                  ? void 0
-                  : a.browser) || void 0 === b
-              ? void 0
-              : b.lang
-          ) {
-            if ("en" === window.YandexGamesSDKEnvironment.browser.lang)
-              return "yandex.com";
-          }
-          return "yandex.ru";
-        }),
-        a
-      );
-    })();
-    ((a.UtmTargets = void 0),
-      (function (a) {
-        ((a[(a.splashscreen = 0)] = "splashscreen"),
-          (a[(a.logo = 1)] = "logo"),
-          (a[(a.facebook = 2)] = "facebook"),
-          (a[(a.twitter = 3)] = "twitter"),
-          (a[(a.playstore = 4)] = "playstore"),
-          (a[(a.appstore = 5)] = "appstore"),
-          (a[(a.more_games = 6)] = "more_games"),
-          (a[(a.download_game = 7)] = "download_game"),
-          (a[(a.walkthrough = 8)] = "walkthrough"),
-          (a[(a.disclaimer = 9)] = "disclaimer"),
-          (a[(a.highscores = 10)] = "highscores"));
-      })(a.UtmTargets || (a.UtmTargets = {})));
-    var n = (function () {
-        function b() {}
-        return (
-          (b.getProtocol = function (a) {
-            return a ? "https://" : "//";
-          }),
-          (b.getUtmContent = function (b) {
-            return "string" == typeof b ? b : a.UtmTargets[b];
-          }),
-          (b.getDomainURL = function (b, c) {
-            var d;
-            switch (b) {
-              case a.BrandingDomain.Spele:
-                d = c + "www.spele.nl";
-                break;
-              case a.BrandingDomain.Yepi:
-                d = c + "www.yepi.com";
-                break;
-              case a.BrandingDomain.Admeen:
-                d = "https://media.admeen.com/branding/link.php";
-                break;
-              case a.BrandingDomain.PlayCell:
-                d = c + "www.playcell.com";
-                break;
-              case a.BrandingDomain.GameCell:
-                d = c + "www.gamecell.com";
-                break;
-              case a.BrandingDomain.Kizi:
-                d = c + "www.kizi.com";
-                break;
-              case a.BrandingDomain.Bild:
-                d = c + "www.bildspielt.de";
-                break;
-              case a.BrandingDomain.Funnygames:
-                d = c + "www.funnygames.nu";
-                break;
-              case a.BrandingDomain.PlayTime:
-                d = c + "playtime.nl";
-                break;
-              default:
-              case a.BrandingDomain.AGame:
-                d = c + "www.agame.com";
-                break;
-              case a.BrandingDomain.Zigiz:
-                d = c + "m.zigiz.com";
-            }
-            return d;
-          }),
-          (b.getPromoURL = function (b, c, d, e, f) {
-            return window.hasOwnProperty("_YaSDK") ||
-              window.hasOwnProperty("YaGames")
-              ? "https://".concat(
-                  m.getYandexBaseURL(),
-                  "/games/developer?name=Azerion",
-                )
-              : b === a.BrandingDomain.Admeen
-                ? "https://media.admeen.com/branding/link.php"
-                : b === a.BrandingDomain.Bild
-                  ? c
-                  : c +
-                    "/?utm_source=" +
-                    d +
-                    "&utm_medium=html5&utm_term=" +
-                    e +
-                    "&utm_content=" +
-                    f +
-                    "&utm_campaign=Gamedistribution";
-          }),
-          b
-        );
-      })(),
-      o = (function () {
-        function a() {}
-        return (
-          (a.loadPortalScript = function (a) {
-            (a &&
-              a.hasOwnProperty("minijuegos") &&
-              -1 !== a.minijuegos.indexOf(r.getSourceSite()) &&
-              (void 0 !== window.mpConfig
-                ? (window.mpConfig.partner = "orange-games")
-                : (window.mpConfig = { partner: "orange-games" }),
-              f(
-                "https://ext.minijuegosgratis.com/external-host/main.js",
-                Date.now() / 1e3,
-              )),
-              a &&
-                a.hasOwnProperty("kongregate") &&
-                -1 !== a.kongregate.indexOf(r.getSourceSite()) &&
-                f(
-                  "https://cdn1.kongregate.com/javascripts/kongregate_api.js",
-                  Date.now() / 1e3,
-                  function () {
-                    "undefined" != typeof kongregateAPI &&
-                      kongregateAPI.loadAPI(function () {
-                        window.kongregate = kongregateAPI.getAPI();
-                      });
-                  },
-                ),
-              a &&
-                a.hasOwnProperty("newgrounds") &&
-                -1 !== a.newgrounds.indexOf(r.getSourceSite()) &&
-                f(
-                  "https://cdn.fbrq.io/@azerion/splash/assets/scripts/newgroundsio.min.js",
-                  Date.now() / 1e3,
-                ));
-          }),
-          a
-        );
-      })(),
-      p = (function () {
-        function b() {}
-        return (
-          (b.isStandAlone = function () {
-            var a, b;
-            return (
-              null === (a = window._azerionIntegration) || void 0 === a
-                ? void 0
-                : a.sa
-            )
-              ? null === (b = window._azerionIntegration) || void 0 === b
-                ? void 0
-                : b.sa
-              : !!window.hasOwnProperty("fbrqSA") && window.fbrqSA;
-          }),
-          (b.hasDomainForCustomBuild = function () {
-            var a;
-            return (
-              (null === (a = window._azerionIntegration) || void 0 === a
-                ? void 0
-                : a.bd) || window.hasOwnProperty("fbrqBD")
-            );
-          }),
-          (b.getDomainForCustomBuild = function () {
-            var b, c, d;
-            return (null === (b = window._azerionIntegration) || void 0 === b
-              ? void 0
-              : b.bd) &&
-              (null === (c = window._azerionIntegration) || void 0 === c
-                ? void 0
-                : c.bd) in a.BrandingDomain
-              ? null === (d = window._azerionIntegration) || void 0 === d
-                ? void 0
-                : d.bd
-              : window.hasOwnProperty("fbrqBD") &&
-                  window.fbrqBD in a.BrandingDomain
-                ? window.fbrqBD
-                : void 0;
-          }),
-          (b.hasLinksSettingsForCustomBuild = function () {
-            var a;
-            return (
-              (null === (a = window._azerionIntegration) || void 0 === a
-                ? void 0
-                : a.la) || window.hasOwnProperty("fbrqLA")
-            );
-          }),
-          (b.getLinkSettingsForCustomBuild = function () {
-            var a, b;
-            return (
-              null === (a = window._azerionIntegration) || void 0 === a
-                ? void 0
-                : a.la
-            )
-              ? null === (b = window._azerionIntegration) || void 0 === b
-                ? void 0
-                : b.la
-              : window.hasOwnProperty("fbrqLA")
-                ? window.hasOwnProperty("fbrqLA")
-                : void 0;
-          }),
-          b
-        );
-      })(),
-      q = (function () {
-        function b() {}
-        return (
-          (b.preload = function (a) {
-            var c = Promise.all([
-              l.instance.load(
-                k.KEY,
-                "".concat(r.ASSET_LOCATION, "json/domains.json?v=").concat(a),
-                "text/plain",
-              ),
-              l.instance.load(
-                b.SITELOCK_PORTALS,
-                "".concat(r.ASSET_LOCATION, "json/sitelock.json?v=").concat(a),
-                "text/plain",
-              ),
-            ]);
-            return (
-              Promise.all([
-                l.instance.load(
-                  b.INTERNAL_PORTALS_KEY,
-                  ""
-                    .concat(r.ASSET_LOCATION, "json/internal.json?v=")
-                    .concat(a),
-                  "text/plain",
-                ),
-                l.instance.load(
-                  b.CONTRACTED_PORTALS_KEY,
-                  ""
-                    .concat(r.ASSET_LOCATION, "json/contracted.json?v=")
-                    .concat(a),
-                  "text/plain",
-                ),
-                l.instance.load(
-                  b.SPECIAL_PORTALS_KEY,
-                  "".concat(r.ASSET_LOCATION, "json/special.json?v=").concat(a),
-                  "text/plain",
-                ),
-              ]),
-              c
-                .then(function (a) {
-                  var c = a[0],
-                    d = a[1];
-                  (k.setList(c), o.loadPortalScript(d), b.setSiteLock(d));
-                })
-                .catch(function () {
-                  console.warn("Unable to parse json");
-                })
-            );
-          }),
-          (b.setSiteLock = function (a) {
-            b.siteLocks = a;
-          }),
-          Object.defineProperty(b, "brandingLogoUrl", {
-            get: function () {
-              var b;
-              switch (
-                (r.isOnDevice() || m.isAirfi()
-                  ? (r.ASSET_LOCATION = "assets/")
-                  : "fbrq.io" === r.getSourceSite(!0) &&
-                    (r.ASSET_LOCATION =
-                      "https://" +
-                      window.location.host +
-                      "/@azerion/splash/assets/"),
-                r.getBrandingDomain())
-              ) {
-                case a.BrandingDomain.Spele:
-                  b = "spele";
-                  break;
-                case a.BrandingDomain.PlayCell:
-                  b = "playcell";
-                  break;
-                case a.BrandingDomain.GameCell:
-                  b = "gamecell";
-                  break;
-                case a.BrandingDomain.Yepi:
-                  b = "yepi";
-                  break;
-                case a.BrandingDomain.Admeen:
-                  b = "admeen";
-                  break;
-                case a.BrandingDomain.Bild:
-                  b = "bild";
-                  break;
-                case a.BrandingDomain.Kizi:
-                  b = "kizi";
-                  break;
-                case a.BrandingDomain.Funnygames:
-                  b = "funnygames";
-                  break;
-                case a.BrandingDomain.PlayTime:
-                  b = "playtime";
-                  break;
-                default:
-                case a.BrandingDomain.AGame:
-                  b = "agame";
-                  break;
-                case a.BrandingDomain.Zigiz:
-                  b = "zigiz";
-              }
-              return (
-                r.ASSET_LOCATION + "images/branding_logo_" + b + "_small.png"
-              );
-            },
-            enumerable: !1,
-            configurable: !0,
-          }),
-          Object.defineProperty(b, "brandingBackgroundColor", {
-            get: function () {
-              var b;
-              switch (r.getBrandingDomain()) {
-                case a.BrandingDomain.Spele:
-                  b = "#4a72ad";
-                  break;
-                case a.BrandingDomain.PlayCell:
-                  b = "#52a1e1";
-                  break;
-                case a.BrandingDomain.GameCell:
-                  b = "#c600b2";
-                  break;
-                case a.BrandingDomain.Yepi:
-                  b = "#0573a7";
-                  break;
-                case a.BrandingDomain.AGame:
-                  b = "#0C486C";
-                  break;
-                case a.BrandingDomain.Admeen:
-                  b = "#4267B2";
-                  break;
-                case a.BrandingDomain.Bild:
-                  b = "#de0000";
-                  break;
-                default:
-                case a.BrandingDomain.Kizi:
-                  b = "#012f50";
-                  break;
-                case a.BrandingDomain.Funnygames:
-                  b = "#33b0ff";
-                  break;
-                case a.BrandingDomain.PlayTime:
-                case a.BrandingDomain.Zigiz:
-                  b = "#023a63";
-              }
-              return b;
-            },
-            enumerable: !1,
-            configurable: !0,
-          }),
-          (b.blockedDomain = function () {
-            return r.isOnDevice() || b.isSpecial();
-          }),
-          (b.createCampaignURL = function (a, b) {
-            var c = r.getSourceSite(),
-              d = r.getBrandingDomain(),
-              e = n.getProtocol(r.isOnDevice()),
-              f = n.getDomainURL(d, e),
-              g = n.getUtmContent(b);
-            return n.getPromoURL(d, f, c, a, g);
-          }),
-          (b.openCampaignLink = function (a, c) {
-            var d,
-              e = b.createCampaignURL(a, c);
-            b.blockedDomain() || ((d = window.open(e)) && d.focus && d.focus());
-          }),
-          (b.isInternal = function () {
-            return b.hostMatchesList(l.instance.get(b.INTERNAL_PORTALS_KEY));
-          }),
-          (b.isContracted = function () {
-            return b.hostMatchesList(l.instance.get(b.CONTRACTED_PORTALS_KEY));
-          }),
-          (b.isSpecial = function () {
-            return b.hostMatchesList(l.instance.get(b.SPECIAL_PORTALS_KEY));
-          }),
-          (b.isAdmeen = function () {
-            if (!b.siteLocks || !b.siteLocks.hasOwnProperty("admeen"))
-              return !1;
-            var a = b.siteLocks.admeen;
-            return b.hostMatchesList(a);
-          }),
-          (b.isKongregate = function () {
-            if (!b.siteLocks || !b.siteLocks.hasOwnProperty("kongregate"))
-              return !1;
-            var a = b.siteLocks.kongregate;
-            return b.hostMatchesList(a);
-          }),
-          (b.isNewgrounds = function () {
-            if (!b.siteLocks || !b.siteLocks.hasOwnProperty("newgrounds"))
-              return !1;
-            var a = b.siteLocks.newgrounds;
-            return b.hostMatchesList(a);
-          }),
-          (b.crossPromoAllowed = function () {
-            var a = b.siteLocks.yandex;
-            return b.hostMatchesList(a);
-          }),
-          (b.outGoingLinksAllowed = function () {
-            return (
-              !(m.isAirfi() || b.isSpecial() || b.isContracted()) &&
-              (!p.hasLinksSettingsForCustomBuild() ||
-                p.getLinkSettingsForCustomBuild())
-            );
-          }),
-          (b.hostMatchesList = function (a) {
-            a = a || [];
-            for (var b = r.getSourceSite(), c = 0; c < a.length; c++)
-              if (b === a[c]) return !0;
-            return !1;
-          }),
-          (b.LOGO_KEY = "branding_logo"),
-          (b.INTERNAL_PORTALS_KEY = "branding_portals"),
-          (b.CONTRACTED_PORTALS_KEY = "branding_contracted"),
-          (b.SPECIAL_PORTALS_KEY = "branding_special"),
-          (b.SITELOCK_PORTALS = "sitelock_portals"),
-          (b.DOMAIN_OVERWRITE = null),
-          (b.analyticsEnabled = !0),
-          b
-        );
-      })(),
-      r = (function () {
-        function b() {}
-        return (
-          (b.loadHost = function () {
-            return d(this, void 0, void 0, function () {
-              var a, c, d;
-              return e(this, function (e) {
-                switch (e.label) {
-                  case 0:
-                    if (
-                      ((a = document.referrer || window.location.host),
-                      !window.hasOwnProperty("gdsdk"))
-                    )
-                      return [3, 4];
-                    e.label = 1;
-                  case 1:
-                    return (
-                      e.trys.push([1, 3, , 4]),
-                      [4, window.gdsdk.getSession()]
-                    );
-                  case 2:
-                    return (
-                      (c = e.sent()),
-                      (a = c.location.parentDomain),
-                      [3, 4]
-                    );
-                  case 3:
-                    return ((d = e.sent()), console.log(d), [3, 4]);
-                  case 4:
-                    return ((b.HOST = a), [2]);
-                }
-              });
-            });
-          }),
-          (b.getSourceSite = function (a) {
-            void 0 === a && (a = !1);
-            var c = b.HOST;
-            if (
-              (a && (c = window.location.host),
-              -1 !== c.indexOf("embed.gamedistribution.com") &&
-                -1 !== window.location.search.indexOf("gd_sdk_referrer_url") &&
-                (c = b.getUrlParameter("gd_sdk_referrer_url") || c),
-              (c = decodeURIComponent(c)),
-              m.isBild())
-            )
-              return "bildspielt.de";
-            if (m.isBip()) return "bipgaming.com";
-            ((c = c.indexOf("://") > -1 ? c.split("/")[2] : c.split("/")[0]),
-              (c = c.split(":")[0]));
-            var d = k.getDomain(c);
-            return null !== d
-              ? d
-              : (3 === c.split(".").length &&
-                  (c = c.substr(c.indexOf(".") + 1)),
-                c);
-          }),
-          (b.getBrandingDomain = function () {
-            if (p.hasDomainForCustomBuild()) return p.getDomainForCustomBuild();
-            if (q.DOMAIN_OVERWRITE) return q.DOMAIN_OVERWRITE;
-            var c = b.getSourceSite();
-            if (q.isAdmeen()) return a.BrandingDomain.Admeen;
-            if (m.isPlaycellApp() || m.isBip())
-              return a.BrandingDomain.PlayCell;
-            switch (c) {
-              case "spele.nl":
-                return a.BrandingDomain.Spele;
-              case "yepi.com":
-                return a.BrandingDomain.Yepi;
-              case "oyunskor.com":
-              case "barbioyunu.com.tr":
-              case "bebekoyunu.com.tr":
-              case "oyunkolu.com":
-              case "oyungemisi.com":
-              case "oyunlar1.com":
-              case "oyunkuzusu.com":
-              case "kraloyun.com":
-              case "rekoroyun.com":
-              case "oyundedem.com":
-              case "oyunoyna.com":
-              case "pastaoyunu.com.tr":
-              case "playcell.com":
-                return a.BrandingDomain.PlayCell;
-              case "gamecell.com":
-                return a.BrandingDomain.GameCell;
-              case "playxl.com":
-                return a.BrandingDomain.Admeen;
-              case "kizi.com":
-                return a.BrandingDomain.Kizi;
-              case "bildspielt.de":
-                return a.BrandingDomain.Bild;
-              case "funnygames.nl":
-                return a.BrandingDomain.Funnygames;
-              case "playtime.nl":
-                return a.BrandingDomain.PlayTime;
-              default:
-              case "agame.com":
-                return a.BrandingDomain.AGame;
-              case "gmbl.nl":
-              case "zigiz.com":
-                return a.BrandingDomain.Zigiz;
-              case "coolmathgames.com":
-                return a.BrandingDomain.Neutral;
-            }
-          }),
-          (b.getReferrer = function (a) {
-            return -1 !== a.indexOf("?ref=")
-              ? a.substr(a.indexOf("?ref=") + 5)
-              : a;
-          }),
-          (b.inIframe = function () {
-            try {
-              return window.self !== window.top;
-            } catch (a) {
-              return !0;
-            }
-          }),
-          (b.inGDGameZone = function () {
-            return (
-              -1 !== document.referrer.indexOf("html5.gamedistribution.com")
-            );
-          }),
-          (b.getDomain = function (a) {
-            var b = document.createElement("a");
-            return ((b.href = a), b.origin);
-          }),
-          (b.isOnDevice = function () {
-            return (
-              void 0 !== window.cordova &&
-              !/(gamedistribution\.com)/.test(window.location.hostname)
-            );
-          }),
-          (b.isTc = function () {
-            return /(teamcity\.azerdev\.com)/.test(window.location.host);
-          }),
-          (b.getRandomRange = function (a, b) {
-            return (Math.random() * (b - a) + a) | 0;
-          }),
-          (b.getUrlParameter = function (a) {
-            a = a.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-            var b = new RegExp("[\\?&]" + a + "=([^&#]*)"),
-              c = b.exec(location.search);
-            return null === c
-              ? ""
-              : decodeURIComponent(c[1].replace(/\+/g, " "));
-          }),
-          (b.intTimeToString = function (a) {
-            var b = Math.floor(a / 3600),
-              c = Math.floor((a % 3600) / 60),
-              d = a % 60;
-            return (
-              (b < 10 ? "0" + b : b.toString()) +
-              ":" +
-              (c < 10 ? "0" + c : c.toString()) +
-              ":" +
-              (d < 10 ? "0" + d : d.toString())
-            );
-          }),
-          (b.LANGUAGE = "en"),
-          (b.HOST = document.referrer || window.location.host),
-          (b.ASSET_LOCATION = p.isStandAlone()
-            ? "assets/"
-            : "https://cdn.fbrq.io/@azerion/splash/assets/"),
-          b
-        );
-      })(),
-      s = c(function (a, c) {
-        !(function (c) {
-          a.exports = (function () {
-            return (function a(c, d, e) {
-              function f(h, i) {
-                if (!d[h]) {
-                  if (!c[h]) {
-                    var j = "function" == typeof b && b;
-                    if (!i && j) return j(h, !0);
-                    if (g) return g(h, !0);
-                    var k = new Error("Cannot find module '" + h + "'");
-                    throw ((k.code = "MODULE_NOT_FOUND"), k);
-                  }
-                  var l = (d[h] = { exports: {} });
-                  c[h][0].call(
-                    l.exports,
-                    function (a) {
-                      var b = c[h][1][a];
-                      return f(b || a);
-                    },
-                    l,
-                    l.exports,
-                    a,
-                    c,
-                    d,
-                    e,
-                  );
-                }
-                return d[h].exports;
-              }
-              for (
-                var g = "function" == typeof b && b, h = 0;
-                h < e.length;
-                h++
-              )
-                f(e[h]);
-              return f;
-            })(
-              {
-                1: [
-                  function (a, b, c) {
-                    (function () {
-                      var a = this || Function("return this")(),
-                        d = (function () {
-                          function d() {}
-                          function e(a, b) {
-                            var c;
-                            for (c in a)
-                              Object.hasOwnProperty.call(a, c) && b(c);
-                          }
-                          function f(a, b) {
-                            return (
-                              e(b, function (c) {
-                                a[c] = b[c];
-                              }),
-                              a
-                            );
-                          }
-                          function g(a, b) {
-                            e(b, function (c) {
-                              void 0 === a[c] && (a[c] = b[c]);
-                            });
-                          }
-                          function h(a, b, c, d, e, f, g) {
-                            var h,
-                              j,
-                              k,
-                              l = a < f ? 0 : (a - f) / e;
-                            for (h in b)
-                              b.hasOwnProperty(h) &&
-                                ((j = g[h]),
-                                (k = "function" == typeof j ? j : n[j]),
-                                (b[h] = i(c[h], d[h], k, l)));
-                            return b;
-                          }
-                          function i(a, b, c, d) {
-                            return a + (b - a) * c(d);
-                          }
-                          function j(a, b) {
-                            var c = m.prototype.filter,
-                              d = a._filterArgs;
-                            e(c, function (e) {
-                              void 0 !== c[e][b] && c[e][b].apply(a, d);
-                            });
-                          }
-                          function k(a, b, c, d, e, f, g, i, k, l, m) {
-                            ((t = b + c + d),
-                              (u = Math.min(m || s(), t)),
-                              (v = u >= t),
-                              (w = d - (t - u)),
-                              a.isPlaying() &&
-                                (v
-                                  ? (k(g, a._attachment, w), a.stop(!0))
-                                  : ((a._scheduleId = l(a._timeoutHandler, q)),
-                                    j(a, "beforeTween"),
-                                    u < b + c
-                                      ? h(1, e, f, g, 1, 1, i)
-                                      : h(u, e, f, g, d, b + c, i),
-                                    j(a, "afterTween"),
-                                    k(e, a._attachment, w))));
-                          }
-                          function l(a, b) {
-                            var c = {},
-                              d = typeof b;
-                            return (
-                              "string" === d || "function" === d
-                                ? e(a, function (a) {
-                                    c[a] = b;
-                                  })
-                                : e(a, function (a) {
-                                    c[a] || (c[a] = b[a] || p);
-                                  }),
-                              c
-                            );
-                          }
-                          function m(a, b) {
-                            ((this._currentState = a || {}),
-                              (this._configured = !1),
-                              (this._scheduleFunction = o),
-                              void 0 !== b && this.setConfig(b));
-                          }
-                          var n,
-                            o,
-                            p = "linear",
-                            q = 1e3 / 60,
-                            r = Date.now
-                              ? Date.now
-                              : function () {
-                                  return +new Date();
-                                },
-                            s =
-                              "undefined" != typeof SHIFTY_DEBUG_NOW
-                                ? SHIFTY_DEBUG_NOW
-                                : r;
-                          o =
-                            "undefined" != typeof window
-                              ? window.requestAnimationFrame ||
-                                window.webkitRequestAnimationFrame ||
-                                window.oRequestAnimationFrame ||
-                                window.msRequestAnimationFrame ||
-                                (window.mozCancelRequestAnimationFrame &&
-                                  window.mozRequestAnimationFrame) ||
-                                setTimeout
-                              : setTimeout;
-                          var t, u, v, w;
-                          return (
-                            (m.prototype.tween = function (a) {
-                              return this._isTweening
-                                ? this
-                                : ((void 0 === a && this._configured) ||
-                                    this.setConfig(a),
-                                  (this._timestamp = s()),
-                                  this._start(this.get(), this._attachment),
-                                  this.resume());
-                            }),
-                            (m.prototype.setConfig = function (a) {
-                              ((a = a || {}),
-                                (this._configured = !0),
-                                (this._attachment = a.attachment),
-                                (this._pausedAtTime = null),
-                                (this._scheduleId = null),
-                                (this._delay = a.delay || 0),
-                                (this._start = a.start || d),
-                                (this._step = a.step || d),
-                                (this._finish = a.finish || d),
-                                (this._duration = a.duration || 500),
-                                (this._currentState = f(
-                                  {},
-                                  a.from || this.get(),
-                                )),
-                                (this._originalState = this.get()),
-                                (this._targetState = f(
-                                  {},
-                                  a.to || this.get(),
-                                )));
-                              var b = this;
-                              this._timeoutHandler = function () {
-                                k(
-                                  b,
-                                  b._timestamp,
-                                  b._delay,
-                                  b._duration,
-                                  b._currentState,
-                                  b._originalState,
-                                  b._targetState,
-                                  b._easing,
-                                  b._step,
-                                  b._scheduleFunction,
-                                );
-                              };
-                              var c = this._currentState,
-                                e = this._targetState;
-                              return (
-                                g(e, c),
-                                (this._easing = l(c, a.easing || p)),
-                                (this._filterArgs = [
-                                  c,
-                                  this._originalState,
-                                  e,
-                                  this._easing,
-                                ]),
-                                j(this, "tweenCreated"),
-                                this
-                              );
-                            }),
-                            (m.prototype.get = function () {
-                              return f({}, this._currentState);
-                            }),
-                            (m.prototype.set = function (a) {
-                              this._currentState = a;
-                            }),
-                            (m.prototype.pause = function () {
-                              return (
-                                (this._pausedAtTime = s()),
-                                (this._isPaused = !0),
-                                this
-                              );
-                            }),
-                            (m.prototype.resume = function () {
-                              return (
-                                this._isPaused &&
-                                  (this._timestamp += s() - this._pausedAtTime),
-                                (this._isPaused = !1),
-                                (this._isTweening = !0),
-                                this._timeoutHandler(),
-                                this
-                              );
-                            }),
-                            (m.prototype.seek = function (a) {
-                              a = Math.max(a, 0);
-                              var b = s();
-                              return this._timestamp + a === 0
-                                ? this
-                                : ((this._timestamp = b - a),
-                                  this.isPlaying() ||
-                                    ((this._isTweening = !0),
-                                    (this._isPaused = !1),
-                                    k(
-                                      this,
-                                      this._timestamp,
-                                      this._delay,
-                                      this._duration,
-                                      this._currentState,
-                                      this._originalState,
-                                      this._targetState,
-                                      this._easing,
-                                      this._step,
-                                      this._scheduleFunction,
-                                      b,
-                                    ),
-                                    this.pause()),
-                                  this);
-                            }),
-                            (m.prototype.stop = function (b) {
-                              return (
-                                (this._isTweening = !1),
-                                (this._isPaused = !1),
-                                (this._timeoutHandler = d),
-                                (
-                                  a.cancelAnimationFrame ||
-                                  a.webkitCancelAnimationFrame ||
-                                  a.oCancelAnimationFrame ||
-                                  a.msCancelAnimationFrame ||
-                                  a.mozCancelRequestAnimationFrame ||
-                                  a.clearTimeout
-                                )(this._scheduleId),
-                                b &&
-                                  (j(this, "beforeTween"),
-                                  h(
-                                    1,
-                                    this._currentState,
-                                    this._originalState,
-                                    this._targetState,
-                                    1,
-                                    0,
-                                    this._easing,
-                                  ),
-                                  j(this, "afterTween"),
-                                  j(this, "afterTweenEnd"),
-                                  this._finish.call(
-                                    this,
-                                    this._currentState,
-                                    this._attachment,
-                                  )),
-                                this
-                              );
-                            }),
-                            (m.prototype.isPlaying = function () {
-                              return this._isTweening && !this._isPaused;
-                            }),
-                            (m.prototype.setScheduleFunction = function (a) {
-                              this._scheduleFunction = a;
-                            }),
-                            (m.prototype.dispose = function () {
-                              var a;
-                              for (a in this)
-                                this.hasOwnProperty(a) && delete this[a];
-                            }),
-                            (m.prototype.filter = {}),
-                            (m.prototype.formula = {
-                              linear: function (a) {
-                                return a;
-                              },
-                            }),
-                            (n = m.prototype.formula),
-                            f(m, {
-                              now: s,
-                              each: e,
-                              tweenProps: h,
-                              tweenProp: i,
-                              applyFilter: j,
-                              shallowCopy: f,
-                              defaults: g,
-                              composeEasingObject: l,
-                            }),
-                            "function" == typeof SHIFTY_DEBUG_NOW &&
-                              (a.timeoutHandler = k),
-                            "object" == typeof c
-                              ? (b.exports = m)
-                              : void 0 === a.Tweenable && (a.Tweenable = m),
-                            m
-                          );
-                        })();
-                      (!(function () {
-                        d.shallowCopy(d.prototype.formula, {
-                          easeInQuad: function (a) {
-                            return Math.pow(a, 2);
-                          },
-                          easeOutQuad: function (a) {
-                            return -(Math.pow(a - 1, 2) - 1);
-                          },
-                          easeInOutQuad: function (a) {
-                            return (a /= 0.5) < 1
-                              ? 0.5 * Math.pow(a, 2)
-                              : -0.5 * ((a -= 2) * a - 2);
-                          },
-                          easeInCubic: function (a) {
-                            return Math.pow(a, 3);
-                          },
-                          easeOutCubic: function (a) {
-                            return Math.pow(a - 1, 3) + 1;
-                          },
-                          easeInOutCubic: function (a) {
-                            return (a /= 0.5) < 1
-                              ? 0.5 * Math.pow(a, 3)
-                              : 0.5 * (Math.pow(a - 2, 3) + 2);
-                          },
-                          easeInQuart: function (a) {
-                            return Math.pow(a, 4);
-                          },
-                          easeOutQuart: function (a) {
-                            return -(Math.pow(a - 1, 4) - 1);
-                          },
-                          easeInOutQuart: function (a) {
-                            return (a /= 0.5) < 1
-                              ? 0.5 * Math.pow(a, 4)
-                              : -0.5 * ((a -= 2) * Math.pow(a, 3) - 2);
-                          },
-                          easeInQuint: function (a) {
-                            return Math.pow(a, 5);
-                          },
-                          easeOutQuint: function (a) {
-                            return Math.pow(a - 1, 5) + 1;
-                          },
-                          easeInOutQuint: function (a) {
-                            return (a /= 0.5) < 1
-                              ? 0.5 * Math.pow(a, 5)
-                              : 0.5 * (Math.pow(a - 2, 5) + 2);
-                          },
-                          easeInSine: function (a) {
-                            return 1 - Math.cos(a * (Math.PI / 2));
-                          },
-                          easeOutSine: function (a) {
-                            return Math.sin(a * (Math.PI / 2));
-                          },
-                          easeInOutSine: function (a) {
-                            return -0.5 * (Math.cos(Math.PI * a) - 1);
-                          },
-                          easeInExpo: function (a) {
-                            return 0 === a ? 0 : Math.pow(2, 10 * (a - 1));
-                          },
-                          easeOutExpo: function (a) {
-                            return 1 === a ? 1 : 1 - Math.pow(2, -10 * a);
-                          },
-                          easeInOutExpo: function (a) {
-                            return 0 === a
-                              ? 0
-                              : 1 === a
-                                ? 1
-                                : (a /= 0.5) < 1
-                                  ? 0.5 * Math.pow(2, 10 * (a - 1))
-                                  : 0.5 * (2 - Math.pow(2, -10 * --a));
-                          },
-                          easeInCirc: function (a) {
-                            return -(Math.sqrt(1 - a * a) - 1);
-                          },
-                          easeOutCirc: function (a) {
-                            return Math.sqrt(1 - Math.pow(a - 1, 2));
-                          },
-                          easeInOutCirc: function (a) {
-                            return (a /= 0.5) < 1
-                              ? -0.5 * (Math.sqrt(1 - a * a) - 1)
-                              : 0.5 * (Math.sqrt(1 - (a -= 2) * a) + 1);
-                          },
-                          easeOutBounce: function (a) {
-                            return a < 1 / 2.75
-                              ? 7.5625 * a * a
-                              : a < 2 / 2.75
-                                ? 7.5625 * (a -= 1.5 / 2.75) * a + 0.75
-                                : a < 2.5 / 2.75
-                                  ? 7.5625 * (a -= 2.25 / 2.75) * a + 0.9375
-                                  : 7.5625 * (a -= 2.625 / 2.75) * a + 0.984375;
-                          },
-                          easeInBack: function (a) {
-                            var b = 1.70158;
-                            return a * a * ((b + 1) * a - b);
-                          },
-                          easeOutBack: function (a) {
-                            var b = 1.70158;
-                            return (a -= 1) * a * ((b + 1) * a + b) + 1;
-                          },
-                          easeInOutBack: function (a) {
-                            var b = 1.70158;
-                            return (a /= 0.5) < 1
-                              ? a * a * ((1 + (b *= 1.525)) * a - b) * 0.5
-                              : 0.5 *
-                                  ((a -= 2) * a * ((1 + (b *= 1.525)) * a + b) +
-                                    2);
-                          },
-                          elastic: function (a) {
-                            return (
-                              -1 *
-                                Math.pow(4, -8 * a) *
-                                Math.sin(((6 * a - 1) * (2 * Math.PI)) / 2) +
-                              1
-                            );
-                          },
-                          swingFromTo: function (a) {
-                            var b = 1.70158;
-                            return (a /= 0.5) < 1
-                              ? a * a * ((1 + (b *= 1.525)) * a - b) * 0.5
-                              : 0.5 *
-                                  ((a -= 2) * a * ((1 + (b *= 1.525)) * a + b) +
-                                    2);
-                          },
-                          swingFrom: function (a) {
-                            var b = 1.70158;
-                            return a * a * ((b + 1) * a - b);
-                          },
-                          swingTo: function (a) {
-                            var b = 1.70158;
-                            return (a -= 1) * a * ((b + 1) * a + b) + 1;
-                          },
-                          bounce: function (a) {
-                            return a < 1 / 2.75
-                              ? 7.5625 * a * a
-                              : a < 2 / 2.75
-                                ? 7.5625 * (a -= 1.5 / 2.75) * a + 0.75
-                                : a < 2.5 / 2.75
-                                  ? 7.5625 * (a -= 2.25 / 2.75) * a + 0.9375
-                                  : 7.5625 * (a -= 2.625 / 2.75) * a + 0.984375;
-                          },
-                          bouncePast: function (a) {
-                            return a < 1 / 2.75
-                              ? 7.5625 * a * a
-                              : a < 2 / 2.75
-                                ? 2 - (7.5625 * (a -= 1.5 / 2.75) * a + 0.75)
-                                : a < 2.5 / 2.75
-                                  ? 2 -
-                                    (7.5625 * (a -= 2.25 / 2.75) * a + 0.9375)
-                                  : 2 -
-                                    (7.5625 * (a -= 2.625 / 2.75) * a +
-                                      0.984375);
-                          },
-                          easeFromTo: function (a) {
-                            return (a /= 0.5) < 1
-                              ? 0.5 * Math.pow(a, 4)
-                              : -0.5 * ((a -= 2) * Math.pow(a, 3) - 2);
-                          },
-                          easeFrom: function (a) {
-                            return Math.pow(a, 4);
-                          },
-                          easeTo: function (a) {
-                            return Math.pow(a, 0.25);
-                          },
-                        });
-                      })(),
-                        (function () {
-                          function a(a, b, c, d, e, f) {
-                            function g(a) {
-                              return ((l * a + m) * a + n) * a;
-                            }
-                            function h(a) {
-                              return ((o * a + p) * a + q) * a;
-                            }
-                            function i(a) {
-                              return (3 * l * a + 2 * m) * a + n;
-                            }
-                            function j(a) {
-                              return a >= 0 ? a : 0 - a;
-                            }
-                            function k(a, b) {
-                              var c, d, e, f, h, k;
-                              for (e = a, k = 0; k < 8; k++) {
-                                if (((f = g(e) - a), j(f) < b)) return e;
-                                if (((h = i(e)), j(h) < 1e-6)) break;
-                                e -= f / h;
-                              }
-                              if (((c = 0), (d = 1), (e = a) < c)) return c;
-                              if (e > d) return d;
-                              for (; c < d; ) {
-                                if (((f = g(e)), j(f - a) < b)) return e;
-                                (a > f ? (c = e) : (d = e),
-                                  (e = 0.5 * (d - c) + c));
-                              }
-                              return e;
-                            }
-                            var l = 0,
-                              m = 0,
-                              n = 0,
-                              o = 0,
-                              p = 0,
-                              q = 0;
-                            return (
-                              (n = 3 * b),
-                              (m = 3 * (d - b) - n),
-                              (l = 1 - n - m),
-                              (q = 3 * c),
-                              (p = 3 * (e - c) - q),
-                              (o = 1 - q - p),
-                              (function (a, b) {
-                                return h(k(a, b));
-                              })(
-                                a,
-                                (function (a) {
-                                  return 1 / (200 * a);
-                                })(f),
-                              )
-                            );
-                          }
-                          function b(b, c, d, e) {
-                            return function (f) {
-                              return a(f, b, c, d, e, 1);
-                            };
-                          }
-                          ((d.setBezierFunction = function (a, c, e, f, g) {
-                            var h = b(c, e, f, g);
-                            return (
-                              (h.displayName = a),
-                              (h.x1 = c),
-                              (h.y1 = e),
-                              (h.x2 = f),
-                              (h.y2 = g),
-                              (d.prototype.formula[a] = h)
-                            );
-                          }),
-                            (d.unsetBezierFunction = function (a) {
-                              delete d.prototype.formula[a];
-                            }));
-                        })(),
-                        (function () {
-                          function a(a, b, c, e, f, g) {
-                            return d.tweenProps(e, b, a, c, 1, g, f);
-                          }
-                          var b = new d();
-                          ((b._filterArgs = []),
-                            (d.interpolate = function (c, e, f, g, h) {
-                              var i = d.shallowCopy({}, c),
-                                j = h || 0,
-                                k = d.composeEasingObject(c, g || "linear");
-                              b.set({});
-                              var l = b._filterArgs;
-                              ((l.length = 0),
-                                (l[0] = i),
-                                (l[1] = c),
-                                (l[2] = e),
-                                (l[3] = k),
-                                d.applyFilter(b, "tweenCreated"),
-                                d.applyFilter(b, "beforeTween"));
-                              var m = a(c, i, e, f, k, j);
-                              return (d.applyFilter(b, "afterTween"), m);
-                            }));
-                        })(),
-                        (function (a) {
-                          function b(a, b) {
-                            var c,
-                              d = [],
-                              e = a.length;
-                            for (c = 0; c < e; c++) d.push("_" + b + "_" + c);
-                            return d;
-                          }
-                          function c(a) {
-                            var b = a.match(v);
-                            return (
-                              b
-                                ? (1 === b.length || a.charAt(0).match(u)) &&
-                                  b.unshift("")
-                                : (b = ["", ""]),
-                              b.join(A)
-                            );
-                          }
-                          function d(b) {
-                            a.each(b, function (a) {
-                              var c = b[a];
-                              "string" == typeof c &&
-                                c.match(z) &&
-                                (b[a] = e(c));
-                            });
-                          }
-                          function e(a) {
-                            return i(z, a, f);
-                          }
-                          function f(a) {
-                            var b = g(a);
-                            return (
-                              "rgb(" + b[0] + "," + b[1] + "," + b[2] + ")"
-                            );
-                          }
-                          function g(a) {
-                            return (
-                              (a = a.replace(/#/, "")),
-                              3 === a.length &&
-                                ((a = a.split("")),
-                                (a = a[0] + a[0] + a[1] + a[1] + a[2] + a[2])),
-                              (B[0] = h(a.substr(0, 2))),
-                              (B[1] = h(a.substr(2, 2))),
-                              (B[2] = h(a.substr(4, 2))),
-                              B
-                            );
-                          }
-                          function h(a) {
-                            return parseInt(a, 16);
-                          }
-                          function i(a, b, c) {
-                            var d = b.match(a),
-                              e = b.replace(a, A);
-                            if (d)
-                              for (var f, g = d.length, h = 0; h < g; h++)
-                                ((f = d.shift()), (e = e.replace(A, c(f))));
-                            return e;
-                          }
-                          function j(a) {
-                            return i(x, a, k);
-                          }
-                          function k(a) {
-                            for (
-                              var b = a.match(w),
-                                c = b.length,
-                                d = a.match(y)[0],
-                                e = 0;
-                              e < c;
-                              e++
-                            )
-                              d += parseInt(b[e], 10) + ",";
-                            return (d = d.slice(0, -1) + ")");
-                          }
-                          function l(d) {
-                            var e = {};
-                            return (
-                              a.each(d, function (a) {
-                                var f = d[a];
-                                if ("string" == typeof f) {
-                                  var g = r(f);
-                                  e[a] = {
-                                    formatString: c(f),
-                                    chunkNames: b(g, a),
-                                  };
-                                }
-                              }),
-                              e
-                            );
-                          }
-                          function m(b, c) {
-                            a.each(c, function (a) {
-                              for (
-                                var d = b[a], e = r(d), f = e.length, g = 0;
-                                g < f;
-                                g++
-                              )
-                                b[c[a].chunkNames[g]] = +e[g];
-                              delete b[a];
-                            });
-                          }
-                          function n(b, c) {
-                            a.each(c, function (a) {
-                              var d = b[a],
-                                e = o(b, c[a].chunkNames),
-                                f = p(e, c[a].chunkNames);
-                              ((d = q(c[a].formatString, f)), (b[a] = j(d)));
-                            });
-                          }
-                          function o(a, b) {
-                            for (var c, d = {}, e = b.length, f = 0; f < e; f++)
-                              ((c = b[f]), (d[c] = a[c]), delete a[c]);
-                            return d;
-                          }
-                          function p(a, b) {
-                            C.length = 0;
-                            for (var c = b.length, d = 0; d < c; d++)
-                              C.push(a[b[d]]);
-                            return C;
-                          }
-                          function q(a, b) {
-                            for (var c = a, d = b.length, e = 0; e < d; e++)
-                              c = c.replace(A, +b[e].toFixed(4));
-                            return c;
-                          }
-                          function r(a) {
-                            return a.match(w);
-                          }
-                          function s(b, c) {
-                            a.each(c, function (a) {
-                              var d,
-                                e = c[a],
-                                f = e.chunkNames,
-                                g = f.length,
-                                h = b[a];
-                              if ("string" == typeof h) {
-                                var i = h.split(" "),
-                                  j = i[i.length - 1];
-                                for (d = 0; d < g; d++) b[f[d]] = i[d] || j;
-                              } else for (d = 0; d < g; d++) b[f[d]] = h;
-                              delete b[a];
-                            });
-                          }
-                          function t(b, c) {
-                            a.each(c, function (a) {
-                              var d = c[a],
-                                e = d.chunkNames,
-                                f = e.length,
-                                g = b[e[0]];
-                              if ("string" == typeof g) {
-                                for (var h = "", i = 0; i < f; i++)
-                                  ((h += " " + b[e[i]]), delete b[e[i]]);
-                                b[a] = h.substr(1);
-                              } else b[a] = g;
-                            });
-                          }
-                          var u = /(\d|\-|\.)/,
-                            v = /([^\-0-9\.]+)/g,
-                            w = /[0-9.\-]+/g,
-                            x = new RegExp(
-                              "rgb\\(" +
-                                w.source +
-                                /,\s*/.source +
-                                w.source +
-                                /,\s*/.source +
-                                w.source +
-                                "\\)",
-                              "g",
-                            ),
-                            y = /^.*\(/,
-                            z = /#([0-9]|[a-f]){3,6}/gi,
-                            A = "VAL",
-                            B = [],
-                            C = [];
-                          a.prototype.filter.token = {
-                            tweenCreated: function (a, b, c, e) {
-                              (d(a), d(b), d(c), (this._tokenData = l(a)));
-                            },
-                            beforeTween: function (a, b, c, d) {
-                              (s(d, this._tokenData),
-                                m(a, this._tokenData),
-                                m(b, this._tokenData),
-                                m(c, this._tokenData));
-                            },
-                            afterTween: function (a, b, c, d) {
-                              (n(a, this._tokenData),
-                                n(b, this._tokenData),
-                                n(c, this._tokenData),
-                                t(d, this._tokenData));
-                            },
-                          };
-                        })(d));
-                    }).call(null);
-                  },
-                  {},
-                ],
-                2: [
-                  function (a, b, c) {
-                    var d = a("./shape"),
-                      e = a("./utils"),
-                      f = function (a, b) {
-                        ((this._pathTemplate =
-                          "M 50,50 m 0,-{radius} a {radius},{radius} 0 1 1 0,{2radius} a {radius},{radius} 0 1 1 0,-{2radius}"),
-                          (this.containerAspectRatio = 1),
-                          d.apply(this, arguments));
-                      };
-                    ((f.prototype = new d()),
-                      (f.prototype.constructor = f),
-                      (f.prototype._pathString = function (a) {
-                        var b = a.strokeWidth;
-                        a.trailWidth &&
-                          a.trailWidth > a.strokeWidth &&
-                          (b = a.trailWidth);
-                        var c = 50 - b / 2;
-                        return e.render(this._pathTemplate, {
-                          radius: c,
-                          "2radius": 2 * c,
-                        });
-                      }),
-                      (f.prototype._trailString = function (a) {
-                        return this._pathString(a);
-                      }),
-                      (b.exports = f));
-                  },
-                  { "./shape": 7, "./utils": 9 },
-                ],
-                3: [
-                  function (a, b, c) {
-                    var d = a("./shape"),
-                      e = a("./utils"),
-                      f = function (a, b) {
-                        ((this._pathTemplate = "M 0,{center} L 100,{center}"),
-                          d.apply(this, arguments));
-                      };
-                    ((f.prototype = new d()),
-                      (f.prototype.constructor = f),
-                      (f.prototype._initializeSvg = function (a, b) {
-                        (a.setAttribute("viewBox", "0 0 100 " + b.strokeWidth),
-                          a.setAttribute("preserveAspectRatio", "none"));
-                      }),
-                      (f.prototype._pathString = function (a) {
-                        return e.render(this._pathTemplate, {
-                          center: a.strokeWidth / 2,
-                        });
-                      }),
-                      (f.prototype._trailString = function (a) {
-                        return this._pathString(a);
-                      }),
-                      (b.exports = f));
-                  },
-                  { "./shape": 7, "./utils": 9 },
-                ],
-                4: [
-                  function (a, b, c) {
-                    b.exports = {
-                      Line: a("./line"),
-                      Circle: a("./circle"),
-                      SemiCircle: a("./semicircle"),
-                      Square: a("./square"),
-                      Path: a("./path"),
-                      Shape: a("./shape"),
-                      utils: a("./utils"),
-                    };
-                  },
-                  {
-                    "./circle": 2,
-                    "./line": 3,
-                    "./path": 5,
-                    "./semicircle": 6,
-                    "./shape": 7,
-                    "./square": 8,
-                    "./utils": 9,
-                  },
-                ],
-                5: [
-                  function (a, b, c) {
-                    var d = a("shifty"),
-                      e = a("./utils"),
-                      f = {
-                        easeIn: "easeInCubic",
-                        easeOut: "easeOutCubic",
-                        easeInOut: "easeInOutCubic",
-                      },
-                      g = function a(b, c) {
-                        if (!(this instanceof a))
-                          throw new Error(
-                            "Constructor was called without new keyword",
-                          );
-                        c = e.extend(
-                          {
-                            duration: 800,
-                            easing: "linear",
-                            from: {},
-                            to: {},
-                            step: function () {},
-                          },
-                          c,
-                        );
-                        var d;
-                        ((d = e.isString(b) ? document.querySelector(b) : b),
-                          (this.path = d),
-                          (this._opts = c),
-                          (this._tweenable = null));
-                        var f = this.path.getTotalLength();
-                        ((this.path.style.strokeDasharray = f + " " + f),
-                          this.set(0));
-                      };
-                    ((g.prototype.value = function () {
-                      var a = this._getComputedDashOffset(),
-                        b = this.path.getTotalLength(),
-                        c = 1 - a / b;
-                      return parseFloat(c.toFixed(6), 10);
-                    }),
-                      (g.prototype.set = function (a) {
-                        (this.stop(),
-                          (this.path.style.strokeDashoffset =
-                            this._progressToOffset(a)));
-                        var b = this._opts.step;
-                        if (e.isFunction(b)) {
-                          var c = this._easing(this._opts.easing);
-                          b(
-                            this._calculateTo(a, c),
-                            this._opts.shape || this,
-                            this._opts.attachment,
-                          );
-                        }
-                      }),
-                      (g.prototype.stop = function () {
-                        (this._stopTween(),
-                          (this.path.style.strokeDashoffset =
-                            this._getComputedDashOffset()));
-                      }),
-                      (g.prototype.animate = function (a, b, c) {
-                        ((b = b || {}), e.isFunction(b) && ((c = b), (b = {})));
-                        var f = e.extend({}, b),
-                          g = e.extend({}, this._opts);
-                        b = e.extend(g, b);
-                        var h = this._easing(b.easing),
-                          i = this._resolveFromAndTo(a, h, f);
-                        (this.stop(), this.path.getBoundingClientRect());
-                        var j = this._getComputedDashOffset(),
-                          k = this._progressToOffset(a),
-                          l = this;
-                        ((this._tweenable = new d()),
-                          this._tweenable.tween({
-                            from: e.extend({ offset: j }, i.from),
-                            to: e.extend({ offset: k }, i.to),
-                            duration: b.duration,
-                            easing: h,
-                            step: function (a) {
-                              l.path.style.strokeDashoffset = a.offset;
-                              var c = b.shape || l;
-                              b.step(a, c, b.attachment);
-                            },
-                            finish: function (a) {
-                              e.isFunction(c) && c();
-                            },
-                          }));
-                      }),
-                      (g.prototype._getComputedDashOffset = function () {
-                        var a = window.getComputedStyle(this.path, null);
-                        return parseFloat(
-                          a.getPropertyValue("stroke-dashoffset"),
-                          10,
-                        );
-                      }),
-                      (g.prototype._progressToOffset = function (a) {
-                        var b = this.path.getTotalLength();
-                        return b - a * b;
-                      }),
-                      (g.prototype._resolveFromAndTo = function (a, b, c) {
-                        return c.from && c.to
-                          ? { from: c.from, to: c.to }
-                          : {
-                              from: this._calculateFrom(b),
-                              to: this._calculateTo(a, b),
-                            };
-                      }),
-                      (g.prototype._calculateFrom = function (a) {
-                        return d.interpolate(
-                          this._opts.from,
-                          this._opts.to,
-                          this.value(),
-                          a,
-                        );
-                      }),
-                      (g.prototype._calculateTo = function (a, b) {
-                        return d.interpolate(
-                          this._opts.from,
-                          this._opts.to,
-                          a,
-                          b,
-                        );
-                      }),
-                      (g.prototype._stopTween = function () {
-                        null !== this._tweenable &&
-                          (this._tweenable.stop(), (this._tweenable = null));
-                      }),
-                      (g.prototype._easing = function (a) {
-                        return f.hasOwnProperty(a) ? f[a] : a;
-                      }),
-                      (b.exports = g));
-                  },
-                  { "./utils": 9, shifty: 1 },
-                ],
-                6: [
-                  function (a, b, c) {
-                    var d = a("./shape"),
-                      e = a("./circle"),
-                      f = a("./utils"),
-                      g = function (a, b) {
-                        ((this._pathTemplate =
-                          "M 50,50 m -{radius},0 a {radius},{radius} 0 1 1 {2radius},0"),
-                          (this.containerAspectRatio = 2),
-                          d.apply(this, arguments));
-                      };
-                    ((g.prototype = new d()),
-                      (g.prototype.constructor = g),
-                      (g.prototype._initializeSvg = function (a, b) {
-                        a.setAttribute("viewBox", "0 0 100 50");
-                      }),
-                      (g.prototype._initializeTextContainer = function (
-                        a,
-                        b,
-                        c,
-                      ) {
-                        a.text.style &&
-                          ((c.style.top = "auto"),
-                          (c.style.bottom = "0"),
-                          a.text.alignToBottom
-                            ? f.setStyle(c, "transform", "translate(-50%, 0)")
-                            : f.setStyle(
-                                c,
-                                "transform",
-                                "translate(-50%, 50%)",
-                              ));
-                      }),
-                      (g.prototype._pathString = e.prototype._pathString),
-                      (g.prototype._trailString = e.prototype._trailString),
-                      (b.exports = g));
-                  },
-                  { "./circle": 2, "./shape": 7, "./utils": 9 },
-                ],
-                7: [
-                  function (a, b, c) {
-                    var d = a("./path"),
-                      e = a("./utils"),
-                      f = function a(b, c) {
-                        if (!(this instanceof a))
-                          throw new Error(
-                            "Constructor was called without new keyword",
-                          );
-                        if (0 !== arguments.length) {
-                          ((this._opts = e.extend(
-                            {
-                              color: "#555",
-                              strokeWidth: 1,
-                              trailColor: null,
-                              trailWidth: null,
-                              fill: null,
-                              text: {
-                                style: {
-                                  color: null,
-                                  position: "absolute",
-                                  left: "50%",
-                                  top: "50%",
-                                  padding: 0,
-                                  margin: 0,
-                                  transform: {
-                                    prefix: !0,
-                                    value: "translate(-50%, -50%)",
-                                  },
-                                },
-                                autoStyleContainer: !0,
-                                alignToBottom: !0,
-                                value: null,
-                                className: "progressbar-text",
-                              },
-                              svgStyle: { display: "block", width: "100%" },
-                              warnings: !1,
-                            },
-                            c,
-                            !0,
-                          )),
-                            e.isObject(c) &&
-                              void 0 !== c.svgStyle &&
-                              (this._opts.svgStyle = c.svgStyle),
-                            e.isObject(c) &&
-                              e.isObject(c.text) &&
-                              void 0 !== c.text.style &&
-                              (this._opts.text.style = c.text.style));
-                          var f,
-                            g = this._createSvgView(this._opts);
-                          if (
-                            !(f = e.isString(b) ? document.querySelector(b) : b)
-                          )
-                            throw new Error("Container does not exist: " + b);
-                          ((this._container = f),
-                            this._container.appendChild(g.svg),
-                            this._opts.warnings &&
-                              this._warnContainerAspectRatio(this._container),
-                            this._opts.svgStyle &&
-                              e.setStyles(g.svg, this._opts.svgStyle),
-                            (this.svg = g.svg),
-                            (this.path = g.path),
-                            (this.trail = g.trail),
-                            (this.text = null));
-                          var h = e.extend(
-                            { attachment: void 0, shape: this },
-                            this._opts,
-                          );
-                          ((this._progressPath = new d(g.path, h)),
-                            e.isObject(this._opts.text) &&
-                              null !== this._opts.text.value &&
-                              this.setText(this._opts.text.value));
-                        }
-                      };
-                    ((f.prototype.animate = function (a, b, c) {
-                      if (null === this._progressPath)
-                        throw new Error("Object is destroyed");
-                      this._progressPath.animate(a, b, c);
-                    }),
-                      (f.prototype.stop = function () {
-                        if (null === this._progressPath)
-                          throw new Error("Object is destroyed");
-                        void 0 !== this._progressPath &&
-                          this._progressPath.stop();
-                      }),
-                      (f.prototype.destroy = function () {
-                        if (null === this._progressPath)
-                          throw new Error("Object is destroyed");
-                        (this.stop(),
-                          this.svg.parentNode.removeChild(this.svg),
-                          (this.svg = null),
-                          (this.path = null),
-                          (this.trail = null),
-                          (this._progressPath = null),
-                          null !== this.text &&
-                            (this.text.parentNode.removeChild(this.text),
-                            (this.text = null)));
-                      }),
-                      (f.prototype.set = function (a) {
-                        if (null === this._progressPath)
-                          throw new Error("Object is destroyed");
-                        this._progressPath.set(a);
-                      }),
-                      (f.prototype.value = function () {
-                        if (null === this._progressPath)
-                          throw new Error("Object is destroyed");
-                        return void 0 === this._progressPath
-                          ? 0
-                          : this._progressPath.value();
-                      }),
-                      (f.prototype.setText = function (a) {
-                        if (null === this._progressPath)
-                          throw new Error("Object is destroyed");
-                        (null === this.text &&
-                          ((this.text = this._createTextContainer(
-                            this._opts,
-                            this._container,
-                          )),
-                          this._container.appendChild(this.text)),
-                          e.isObject(a)
-                            ? (e.removeChildren(this.text),
-                              this.text.appendChild(a))
-                            : (this.text.innerHTML = a));
-                      }),
-                      (f.prototype._createSvgView = function (a) {
-                        var b = document.createElementNS(
-                          "http://www.w3.org/2000/svg",
-                          "svg",
-                        );
-                        this._initializeSvg(b, a);
-                        var c = null;
-                        (a.trailColor || a.trailWidth) &&
-                          ((c = this._createTrail(a)), b.appendChild(c));
-                        var d = this._createPath(a);
-                        return (
-                          b.appendChild(d),
-                          { svg: b, path: d, trail: c }
-                        );
-                      }),
-                      (f.prototype._initializeSvg = function (a, b) {
-                        a.setAttribute("viewBox", "0 0 100 100");
-                      }),
-                      (f.prototype._createPath = function (a) {
-                        var b = this._pathString(a);
-                        return this._createPathElement(b, a);
-                      }),
-                      (f.prototype._createTrail = function (a) {
-                        var b = this._trailString(a),
-                          c = e.extend({}, a);
-                        return (
-                          c.trailColor || (c.trailColor = "#eee"),
-                          c.trailWidth || (c.trailWidth = c.strokeWidth),
-                          (c.color = c.trailColor),
-                          (c.strokeWidth = c.trailWidth),
-                          (c.fill = null),
-                          this._createPathElement(b, c)
-                        );
-                      }),
-                      (f.prototype._createPathElement = function (a, b) {
-                        var c = document.createElementNS(
-                          "http://www.w3.org/2000/svg",
-                          "path",
-                        );
-                        return (
-                          c.setAttribute("d", a),
-                          c.setAttribute("stroke", b.color),
-                          c.setAttribute("stroke-width", b.strokeWidth),
-                          b.fill
-                            ? c.setAttribute("fill", b.fill)
-                            : c.setAttribute("fill-opacity", "0"),
-                          c
-                        );
-                      }),
-                      (f.prototype._createTextContainer = function (a, b) {
-                        var c = document.createElement("div");
-                        c.className = a.text.className;
-                        var d = a.text.style;
-                        return (
-                          d &&
-                            (a.text.autoStyleContainer &&
-                              (b.style.position = "relative"),
-                            e.setStyles(c, d),
-                            d.color || (c.style.color = a.color)),
-                          this._initializeTextContainer(a, b, c),
-                          c
-                        );
-                      }),
-                      (f.prototype._initializeTextContainer = function (
-                        a,
-                        b,
-                        c,
-                      ) {}),
-                      (f.prototype._pathString = function (a) {
-                        throw new Error(
-                          "Override this function for each progress bar",
-                        );
-                      }),
-                      (f.prototype._trailString = function (a) {
-                        throw new Error(
-                          "Override this function for each progress bar",
-                        );
-                      }),
-                      (f.prototype._warnContainerAspectRatio = function (a) {
-                        if (this.containerAspectRatio) {
-                          var b = window.getComputedStyle(a, null),
-                            c = parseFloat(b.getPropertyValue("width"), 10),
-                            d = parseFloat(b.getPropertyValue("height"), 10);
-                          e.floatEquals(this.containerAspectRatio, c / d) ||
-                            (console.warn(
-                              "Incorrect aspect ratio of container",
-                              "#" + a.id,
-                              "detected:",
-                              b.getPropertyValue("width") + "(width)",
-                              "/",
-                              b.getPropertyValue("height") + "(height)",
-                              "=",
-                              c / d,
-                            ),
-                            console.warn(
-                              "Aspect ratio of should be",
-                              this.containerAspectRatio,
-                            ));
-                        }
-                      }),
-                      (b.exports = f));
-                  },
-                  { "./path": 5, "./utils": 9 },
-                ],
-                8: [
-                  function (a, b, c) {
-                    var d = a("./shape"),
-                      e = a("./utils"),
-                      f = function (a, b) {
-                        ((this._pathTemplate =
-                          "M 0,{halfOfStrokeWidth} L {width},{halfOfStrokeWidth} L {width},{width} L {halfOfStrokeWidth},{width} L {halfOfStrokeWidth},{strokeWidth}"),
-                          (this._trailTemplate =
-                            "M {startMargin},{halfOfStrokeWidth} L {width},{halfOfStrokeWidth} L {width},{width} L {halfOfStrokeWidth},{width} L {halfOfStrokeWidth},{halfOfStrokeWidth}"),
-                          d.apply(this, arguments));
-                      };
-                    ((f.prototype = new d()),
-                      (f.prototype.constructor = f),
-                      (f.prototype._pathString = function (a) {
-                        var b = 100 - a.strokeWidth / 2;
-                        return e.render(this._pathTemplate, {
-                          width: b,
-                          strokeWidth: a.strokeWidth,
-                          halfOfStrokeWidth: a.strokeWidth / 2,
-                        });
-                      }),
-                      (f.prototype._trailString = function (a) {
-                        var b = 100 - a.strokeWidth / 2;
-                        return e.render(this._trailTemplate, {
-                          width: b,
-                          strokeWidth: a.strokeWidth,
-                          halfOfStrokeWidth: a.strokeWidth / 2,
-                          startMargin: a.strokeWidth / 2 - a.trailWidth / 2,
-                        });
-                      }),
-                      (b.exports = f));
-                  },
-                  { "./shape": 7, "./utils": 9 },
-                ],
-                9: [
-                  function (a, b, c) {
-                    function d(a, b, c) {
-                      ((a = a || {}), (b = b || {}), (c = c || !1));
-                      for (var e in b)
-                        if (b.hasOwnProperty(e)) {
-                          var f = a[e],
-                            g = b[e];
-                          c && l(f) && l(g) ? (a[e] = d(f, g, c)) : (a[e] = g);
-                        }
-                      return a;
-                    }
-                    function e(a, b) {
-                      var c = a;
-                      for (var d in b)
-                        if (b.hasOwnProperty(d)) {
-                          var e = b[d],
-                            f = "\\{" + d + "\\}",
-                            g = new RegExp(f, "g");
-                          c = c.replace(g, e);
-                        }
-                      return c;
-                    }
-                    function f(a, b, c) {
-                      for (var d = a.style, e = 0; e < p.length; ++e) {
-                        d[p[e] + h(b)] = c;
-                      }
-                      d[b] = c;
-                    }
-                    function g(a, b) {
-                      m(b, function (b, c) {
-                        null !== b &&
-                          void 0 !== b &&
-                          (l(b) && !0 === b.prefix
-                            ? f(a, c, b.value)
-                            : (a.style[c] = b));
-                      });
-                    }
-                    function h(a) {
-                      return a.charAt(0).toUpperCase() + a.slice(1);
-                    }
-                    function i(a) {
-                      return "string" == typeof a || a instanceof String;
-                    }
-                    function j(a) {
-                      return "function" == typeof a;
-                    }
-                    function k(a) {
-                      return (
-                        "[object Array]" === Object.prototype.toString.call(a)
-                      );
-                    }
-                    function l(a) {
-                      return !k(a) && "object" == typeof a && !!a;
-                    }
-                    function m(a, b) {
-                      for (var c in a)
-                        if (a.hasOwnProperty(c)) {
-                          var d = a[c];
-                          b(d, c);
-                        }
-                    }
-                    function n(a, b) {
-                      return Math.abs(a - b) < q;
-                    }
-                    function o(a) {
-                      for (; a.firstChild; ) a.removeChild(a.firstChild);
-                    }
-                    var p = "Webkit Moz O ms".split(" "),
-                      q = 0.001;
-                    b.exports = {
-                      extend: d,
-                      render: e,
-                      setStyle: f,
-                      setStyles: g,
-                      capitalize: h,
-                      isString: i,
-                      isFunction: j,
-                      isObject: l,
-                      forEachObject: m,
-                      floatEquals: n,
-                      removeChildren: o,
-                    };
-                  },
-                  {},
-                ],
-              },
-              {},
-              [4],
-            )(4);
-          })();
-        })();
-      }),
-      t = (function () {
-        function b(a) {
-          ((this.circleLoader = null),
-            (this.loaded = !1),
-            (this.showPlayButton = "undefined" == typeof playBtn || playBtn),
-            (this.progress = 0),
-            (this.options = {
-              gameId: "12346",
-              gameTitle: "Place Holder",
-              gameName: "place-holder",
-              libs: [],
-              version: "dev",
-              barColor: "white",
-              gaMeasurementId: "none",
-            }),
-            (this.options.gameId = a.gameId),
-            (this.options.gameTitle = a.gameTitle),
-            (this.options.version = a.version),
-            (this.options.barColor = a.barColor
-              ? a.barColor
-              : this.options.barColor),
-            (this.options.libs = a.libs),
-            (this.options.gaMeasurementId = a.gaMeasurementId));
-        }
-        return (
-          (b.getInstance = function (a) {
-            if (!b.instance) {
-              if (!a)
-                throw new Error(
-                  "Can not create new SplashLoader instance without options!",
-                );
-              b.instance = new b(a);
-            }
-            return b.instance;
-          }),
-          (b.prototype.create = function () {
-            return d(this, void 0, void 0, function () {
-              var a, b, c, d, f, h, i;
-              return e(this, function (e) {
-                switch (e.label) {
-                  case 0:
-                    return (
-                      (a =
-                        "\n        #h5branding-center {\n            position: absolute;\n            top: 45%;\n            left: 50%;\n            transform: translate(-50%, -20%);\n            text-align: center;\n            width: 100%;\n        }\n        #h5branding-wrapper {\n            position: relative;\n            z-index: 665;\n            width: 150px;\n            height: 150px;\n            display:inline-block;\n            margin: 35px 40px 96px 40px;\n        }\n\n        #h5branding-version {\n            position: absolute;\n            right: 10px;\n            font-family: Helvetica, Arial, sans-serif;\n            color: #ffffff;\n            font-size: 0.8em;\n            top: 10px;\n            display: none;\n        }\n\n        #h5branding-wrapper > #h5branding-bar, #h5branding-wrapper > img {\n            box-shadow: inset 10px 10px 20px 5px rgba(0, 0, 0, 0.5);\n            border-radius: 50%;\n            position: absolute;\n            top: 0;\n            left: 0;\n            width: 100%;\n            height: 100%;\n        }\n\n        #h5branding-ad {\n            position: relative;\n            z-index: 667;\n            border-radius: 5px;\n            border: 3px solid white;\n            background: rgba(256, 256, 256, 0.2);\n            width: 336px;\n            height: 280px;\n            display: none;\n            margin: 0px 10px 0px 10px;\n        }\n\n        #h5branding-wrapper > img {\n            /* Needs appropriate vendor prefixes */\n            box-sizing: border-box;\n\n            /* This needs to be equal to strokeWidth */\n            padding: 4%;\n        }\n\n        #h5branding-wrapper > img {\n            border-radius: 50%;\n            box-shadow: inset 0 5px 5px rgba(0, 0, 0, 0.5), 5px 5px 7px rgba(0, 0, 0, 0.3);\n        }\n\n        #h5branding-container {\n            box-sizing: border-box;\n            position: absolute;\n            z-index: 664;\n            top: 0;\n            left: 0;\n            width: 100%;\n            height: 100%;\n            background-color: #000;\n            overflow: hidden;\n        }\n\n        #h5branding-background {\n            position: absolute;\n            top: -25%;\n            left: -25%;\n            width: 150%;\n            height: 150%;\n            background-blend-mode: multiply;\n            background-size: cover;\n            filter: blur(40px) brightness(1.5);\n        }\n\n        @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {\n             /* IE10+ CSS styles go here */\n             #h5branding-background {\n                background-image: none !important;\n             }\n        }\n\n        #h5branding-logo {\n            position: absolute;\n            margin: 0 auto;\n            left: 0;\n            right: 0;\n            text-align: center;\n            top: 10%;\n        }\n\n        #h5branding-logo > img {\n            height: 150px;\n        }\n\n        #h5branding-title {\n            position: absolute;\n            width: 100%;\n            background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.5) 50%, transparent);\n            color: #fff;\n            text-shadow: 0 0 1px rgba(0, 0, 0, 0.7);\n            bottom:10%;\n            padding: 15px 0;\n            text-align: center;\n            font-size: 18px;\n            font-family: Helvetica, Arial, sans-serif;\n            font-weight: bold;\n            line-height: 100%;\n        }\n\n        #h5branding-button {\n            /* border: 0; */\n            padding: 10px 22px;\n            border-radius: 5px;\n            border: 3px solid white;\n            background: linear-gradient(0deg, #dddddd, #ffffff);\n            color: #222;\n            text-transform: uppercase;\n            text-shadow: 0 0 1px #fff;\n            font-family: Helvetica, Arial, sans-serif;\n            font-weight: bold;\n            font-size: 18px;\n            cursor: pointer;\n            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);\n            display: none;\n            width: 150px;\n            position: absolute;\n            top: 170px;\n            margin: 0 auto;\n            left: 0;\n            right: 0;\n        }\n\n        @media (orientation: portrait) and (max-width: 1080px) {\n            #h5branding-logo > img {\n                height: initial;\n                width:100%;\n            }\n        }\n\n        @media (orientation: landscape) and (max-height: 640px) {\n            #h5branding-title {\n                display: none;\n            }\n\n            #h5branding-logo > img {\n                height: 100px;\n            }\n        }\n\n        @media (orientation: landscape) and (max-height: 460px) {\n            #h5branding-title {\n                display: none;\n            }\n\n            #h5branding-wrapper {\n                width: 110px;\n                height: 110px;\n                margin: 0;\n            }\n\n            #h5branding-logo {\n                top: 0;\n                transform: scale(0.7, 0.7);\n            }\n\n            #h5branding-button {\n                top: initial;\n                width: 110px;\n                font-size: 14px;\n                position: absolute;\n                top: 140px;\n                left: 0;\n                right: 0;\n            }\n\n            #h5branding-ad {\n               display: none !important;\n            }\n        }\n\n        @media (orientation: portrait) and (max-width: 250px) {\n            #h5branding-logo {\n                top: 2%;\n            }\n        }\n\n        @media (orientation: landscape) and (max-width: 330px) {\n             #h5branding-button {\n                top: 120px;\n            }\n\n            #h5branding-logo > img {\n                height: 70px;\n            }\n        }\n\n        @media (max-width: 600px) and (max-height: 850px) {\n            #h5branding-ad {\n               display: none !important;\n            }\n        }\n\n        @media (max-width: 600px) and (max-height: 1100px) {\n            #h5branding-center {\n                top: 40%;\n            }\n\n            #h5branding-title {\n               bottom: 5%\n            }\n        }\n\n        @media (max-width: 600px) and (max-height: 900px) {\n            #h5branding-title {\n               display: none\n            }\n        }\n\n        @media (orientation: landscape) and (min-width: 800px) {\n            #h5branding-wrapper {\n                margin-left: 120px;\n                margin-right: 120px;\n            }\n        }\n\n        "),
-                      (b = g(this.getGameLogoUrl(), this.options.gameTitle)),
-                      (c =
-                        document.head ||
-                        document.getElementsByTagName("head")[0]),
-                      (d = document.createElement("style")),
-                      (d.type = "text/css"),
-                      d.styleSheet
-                        ? (d.styleSheet.cssText = a)
-                        : d.appendChild(document.createTextNode(a)),
-                      c.appendChild(d),
-                      (f = document.createElement("div")),
-                      (f.innerHTML = b),
-                      (f.id = "h5branding-container"),
-                      (h =
-                        document.body ||
-                        document.getElementsByTagName("body")[0]),
-                      h.insertBefore(f, h.firstChild),
-                      (this.circleLoader = new s.Circle("#h5branding-bar", {
-                        strokeWidth: 3,
-                        color: this.options.barColor,
-                      })),
-                      (i = document.getElementById("h5branding-version")),
-                      i && (i.innerHTML = this.options.version),
-                      [4, this.loadLibs()]
-                    );
-                  case 1:
-                    return (e.sent(), [4, r.loadHost()]);
-                  case 2:
-                    return (e.sent(), [4, this.loadBranding()]);
-                  case 3:
-                    return (e.sent(), (this.loaded = !0), [2]);
-                }
-              });
-            });
-          }),
-          (b.prototype.loadBranding = function () {
-            return d(this, void 0, void 0, function () {
-              var b, c, d;
-              return e(this, function (e) {
-                switch (e.label) {
-                  case 0:
-                    return [4, q.preload(Date.now().toString())];
-                  case 1:
-                    return (
-                      e.sent(),
-                      (b = document.getElementById("h5branding-background")),
-                      b &&
-                        (b.style.backgroundColor = q.brandingBackgroundColor),
-                      (c = document.getElementById("h5branding-logo")),
-                      c &&
-                        r.getBrandingDomain() !== a.BrandingDomain.Neutral &&
-                        ((d = document.createElement("img")),
-                        (d.src = q.brandingLogoUrl.replace("_small", "")),
-                        c.appendChild(d)),
-                      [2]
-                    );
-                }
-              });
-            });
-          }),
-          (b.prototype.loadLibs = function () {
-            var a = this,
-              b = this.options.libs.map(function (c, d) {
-                return l.instance.loadScript(c, !0, function () {
-                  a.setScriptloadProgress(b.length, d + 1);
-                });
-              });
-            return Promise.all(b);
-          }),
-          Object.defineProperty(b.prototype, "bannerAllowed", {
-            get: function () {
-              var a = document.body.clientWidth,
-                b = document.body.clientHeight;
-              return (
-                this.progress < 100 &&
-                !(a > b && b <= 460) &&
-                !(a < 600 && b < 850)
-              );
-            },
-            enumerable: !1,
-            configurable: !0,
-          }),
-          (b.prototype.showBanner = function () {
-            if (!this.bannerAllowed) return null;
-            var a = document.getElementById("h5branding-ad");
-            return a ? ((a.style.display = "inline-flex"), a) : null;
-          }),
-          (b.prototype.setScriptloadProgress = function (a, b) {
-            var c = (0.3 * b) / a;
-            this.circleLoader.animate(c, null, function () {});
-          }),
-          (b.prototype.setLoadProgress = function (a) {
-            var b = this;
-            if (this.loaded)
-              if (((a = 30 + 0.7 * a), (this.progress = a), 100 === a)) {
-                var c = document.querySelector("#h5branding-button");
-                this.circleLoader.animate(1, null, function () {
-                  !r.inGDGameZone() && c && !0 === b.showPlayButton
-                    ? (c.style.display = "block")
-                    : (r.inGDGameZone() || !1 === b.showPlayButton) &&
-                      b.onPlayButtonClick();
-                });
-              } else this.circleLoader.animate(a / 100, null, function () {});
-          }),
-          (b.prototype.setButtonCallback = function (a) {
-            this.buttonCallback = a;
-          }),
-          (b.prototype.onPlayButtonClick = function () {
-            this.buttonCallback && this.buttonCallback();
-          }),
-          (b.prototype.destroy = function () {
-            var a = document.querySelector("#h5branding-container");
-            null !== a && null !== a.parentNode && a.parentNode.removeChild(a);
-          }),
-          (b.prototype.getGameLogoUrl = function () {
-            return "assets/icon.jpeg";
-          }),
-          b
-        );
-      })();
-    ((a.Branding = q),
-      (a.Domain = k),
-      (a.Hosts = m),
-      (a.SplashLoader = t),
-      (a.Utils = r),
-      Object.defineProperty(a, "__esModule", { value: !0 }));
-  }),
   function () {
     var a = function (a, b) {
         return function () {
@@ -41633,15 +39065,13 @@
       "../Common/Button",
       "../Common/GoldButton",
       "../Common/Navies",
-      "h5branding",
     ], function (c) {
-      var d, e, f, g;
+      var d, e, f;
       return (
         (f = c("Phaser")),
         c("../Common/Button"),
         (d = c("../Common/GoldButton")),
         (e = c("../Common/Navies")),
-        (g = c("h5branding")),
         (function (c) {
           function h(b, c, i) {
             ((this.layoutContent = a(this.layoutContent, this)),
@@ -41707,25 +39137,7 @@
                   40,
                 )),
               this.addChild(n),
-              g.Hosts.isYandex() | g.Branding.outGoingLinksAllowed() &&
-                (this.moreBtn = n =
-                  new d(
-                    this.game,
-                    0,
-                    0,
-                    this.game.lang.locale("More Games"),
-                    (function (a) {
-                      return function () {
-                        return g.Branding.openCampaignLink(
-                          "Forest Temple",
-                          "more_games",
-                        );
-                      };
-                    })(),
-                    30,
-                  )),
               this.addChild(n),
-              console.log(this.moreBtn),
               this.domainAllowsExtenral() &&
                 ((this.walkthrouhgBtn = n =
                   new d(
@@ -41750,28 +39162,7 @@
           }
           return (
             b(h, c),
-            (h.prototype.domainAllowsExtenral = function () {
-              var a;
-              return (
-                !!g.Branding.outGoingLinksAllowed() &&
-                ((a = ["playcell.com"]),
-                a.reduce(
-                  (function (a) {
-                    return function (a, b) {
-                      return (
-                        null != document.referrer &&
-                          (a = a && document.referrer.indexOf(b) < 0),
-                        null != window.location &&
-                          null != window.location.hostname &&
-                          (a = a && window.location.hostname.indexOf(b) < 0),
-                        a
-                      );
-                    };
-                  })(),
-                  !0,
-                ))
-              );
-            }),
+            (h.prototype.domainAllowsExtenral = () => false),
             (h.prototype.createChar = function (a) {
               var b, c, d, e;
               return (
@@ -41869,7 +39260,6 @@
               return (
                 (this.gameName.y = -this.game.realHeight / 5),
                 (this.playBtn.y = this.playBtn.height),
-                this.moreBtn && (this.moreBtn.y = 0.2 * this.game.realHeight),
                 this.walkthrouhgBtn
                   ? (this.walkthrouhgBtn.y = 0.3 * this.game.realHeight)
                   : (this.playBtn.y = 2 * this.playBtn.height),
@@ -42047,1540 +39437,6 @@
       })(Phaser.State);
     });
   }.call(this),
-  (function (a, b) {
-    "object" == typeof exports && "undefined" != typeof module
-      ? b(exports)
-      : "function" == typeof define && define.amd
-        ? define("h5ads", ["exports"], b)
-        : b((a.h5ads = a.h5ads || {}));
-  })(this, function (a) {
-    "use strict";
-    function b(a, b) {
-      function c() {
-        this.constructor = a;
-      }
-      (d(a, b),
-        (a.prototype =
-          null === b
-            ? Object.create(b)
-            : ((c.prototype = b.prototype), new c())));
-    }
-    var c,
-      d = function (a, b) {
-        return (d =
-          Object.setPrototypeOf ||
-          ({ __proto__: [] } instanceof Array &&
-            function (a, b) {
-              a.__proto__ = b;
-            }) ||
-          function (a, b) {
-            for (var c in b) b.hasOwnProperty(c) && (a[c] = b[c]);
-          })(a, b);
-      },
-      e = (function (a, b) {
-        return ((b = { exports: {} }), a(b, b.exports), b.exports);
-      })(function (a) {
-        function b() {}
-        function c(a, b, c) {
-          ((this.fn = a), (this.context = b), (this.once = c || !1));
-        }
-        function d(a, b, d, e, f) {
-          if ("function" != typeof d)
-            throw new TypeError("The listener must be a function");
-          var g = new c(d, e || a, f),
-            i = h ? h + b : b;
-          return (
-            a._events[i]
-              ? a._events[i].fn
-                ? (a._events[i] = [a._events[i], g])
-                : a._events[i].push(g)
-              : ((a._events[i] = g), a._eventsCount++),
-            a
-          );
-        }
-        function e(a, c) {
-          0 == --a._eventsCount ? (a._events = new b()) : delete a._events[c];
-        }
-        function f() {
-          ((this._events = new b()), (this._eventsCount = 0));
-        }
-        var g = Object.prototype.hasOwnProperty,
-          h = "~";
-        (Object.create &&
-          ((b.prototype = Object.create(null)), new b().__proto__ || (h = !1)),
-          (f.prototype.eventNames = function () {
-            var a,
-              b,
-              c = [];
-            if (0 === this._eventsCount) return c;
-            for (b in (a = this._events))
-              g.call(a, b) && c.push(h ? b.slice(1) : b);
-            return Object.getOwnPropertySymbols
-              ? c.concat(Object.getOwnPropertySymbols(a))
-              : c;
-          }),
-          (f.prototype.listeners = function (a) {
-            var b = h ? h + a : a,
-              c = this._events[b];
-            if (!c) return [];
-            if (c.fn) return [c.fn];
-            for (var d = 0, e = c.length, f = new Array(e); d < e; d++)
-              f[d] = c[d].fn;
-            return f;
-          }),
-          (f.prototype.listenerCount = function (a) {
-            var b = h ? h + a : a,
-              c = this._events[b];
-            return c ? (c.fn ? 1 : c.length) : 0;
-          }),
-          (f.prototype.emit = function (a, b, c, d, e, f) {
-            var g = h ? h + a : a;
-            if (!this._events[g]) return !1;
-            var i,
-              j,
-              k = this._events[g],
-              l = arguments.length;
-            if (k.fn) {
-              switch ((k.once && this.removeListener(a, k.fn, void 0, !0), l)) {
-                case 1:
-                  return (k.fn.call(k.context), !0);
-                case 2:
-                  return (k.fn.call(k.context, b), !0);
-                case 3:
-                  return (k.fn.call(k.context, b, c), !0);
-                case 4:
-                  return (k.fn.call(k.context, b, c, d), !0);
-                case 5:
-                  return (k.fn.call(k.context, b, c, d, e), !0);
-                case 6:
-                  return (k.fn.call(k.context, b, c, d, e, f), !0);
-              }
-              for (j = 1, i = new Array(l - 1); j < l; j++)
-                i[j - 1] = arguments[j];
-              k.fn.apply(k.context, i);
-            } else {
-              var m,
-                n = k.length;
-              for (j = 0; j < n; j++)
-                switch (
-                  (k[j].once && this.removeListener(a, k[j].fn, void 0, !0), l)
-                ) {
-                  case 1:
-                    k[j].fn.call(k[j].context);
-                    break;
-                  case 2:
-                    k[j].fn.call(k[j].context, b);
-                    break;
-                  case 3:
-                    k[j].fn.call(k[j].context, b, c);
-                    break;
-                  case 4:
-                    k[j].fn.call(k[j].context, b, c, d);
-                    break;
-                  default:
-                    if (!i)
-                      for (m = 1, i = new Array(l - 1); m < l; m++)
-                        i[m - 1] = arguments[m];
-                    k[j].fn.apply(k[j].context, i);
-                }
-            }
-            return !0;
-          }),
-          (f.prototype.on = function (a, b, c) {
-            return d(this, a, b, c, !1);
-          }),
-          (f.prototype.once = function (a, b, c) {
-            return d(this, a, b, c, !0);
-          }),
-          (f.prototype.removeListener = function (a, b, c, d) {
-            var f = h ? h + a : a;
-            if (!this._events[f]) return this;
-            if (!b) return (e(this, f), this);
-            var g = this._events[f];
-            if (g.fn)
-              g.fn !== b ||
-                (d && !g.once) ||
-                (c && g.context !== c) ||
-                e(this, f);
-            else {
-              for (var i = 0, j = [], k = g.length; i < k; i++)
-                (g[i].fn !== b ||
-                  (d && !g[i].once) ||
-                  (c && g[i].context !== c)) &&
-                  j.push(g[i]);
-              j.length
-                ? (this._events[f] = 1 === j.length ? j[0] : j)
-                : e(this, f);
-            }
-            return this;
-          }),
-          (f.prototype.removeAllListeners = function (a) {
-            var c;
-            return (
-              a
-                ? ((c = h ? h + a : a), this._events[c] && e(this, c))
-                : ((this._events = new b()), (this._eventsCount = 0)),
-              this
-            );
-          }),
-          (f.prototype.off = f.prototype.removeListener),
-          (f.prototype.addListener = f.prototype.on),
-          (f.prefixed = h),
-          (f.EventEmitter = f),
-          (a.exports = f));
-      });
-    !(function (a) {
-      ((a[(a.AdMob = 0)] = "AdMob"),
-        (a[(a.MoPub = 1)] = "MoPub"),
-        (a[(a.Chartboost = 2)] = "Chartboost"),
-        (a[(a.Heyzap = 3)] = "Heyzap"));
-    })(c || (c = {}));
-    var f,
-      g = (function () {
-        function b(a, b) {
-          if (
-            ((this.adsEnabled = !1),
-            (this.bannerShowable = !1),
-            (this.interstitialShowable = !1),
-            (this.insentiveShowable = !1),
-            Cocoon && Cocoon.Ad)
-          ) {
-            switch (((this.adsEnabled = !0), a)) {
-              default:
-              case c.AdMob:
-                this.cocoonProvider = Cocoon.Ad.AdMob;
-                break;
-              case c.Chartboost:
-                this.cocoonProvider = Cocoon.Ad.Chartboost;
-                break;
-              case c.Heyzap:
-                this.cocoonProvider = Cocoon.Ad.Heyzap;
-                break;
-              case c.MoPub:
-                this.cocoonProvider = Cocoon.Ad.MoPub;
-            }
-            this.cocoonProvider.configure(b);
-          }
-        }
-        return (
-          (b.prototype.setManager = function (b) {
-            ((this.adManager = b),
-              this.adManager.emit(a.AdEvents.AD_PROVIDER_LOADED));
-          }),
-          (b.prototype.showAd = function (b) {
-            if (!this.adsEnabled)
-              return void (
-                b !== a.AdType.banner &&
-                this.adManager.emit(a.AdEvents.CONTENT_RESUMED)
-              );
-            if (b === a.AdType.banner) {
-              if (!this.bannerShowable || null === this.banner) return;
-              (this.adManager.emit(
-                a.AdEvents.BANNER_SHOWN,
-                this.banner.width,
-                this.banner.height,
-              ),
-                (this.adManager.bannerActive = !0),
-                this.banner.show());
-            }
-            if (b === a.AdType.interstitial) {
-              if (!this.interstitialShowable || null === this.interstitial)
-                return void this.adManager.emit(
-                  a.AdEvents.CONTENT_RESUMED,
-                  a.AdType.interstitial,
-                );
-              this.interstitial.show();
-            }
-            if (b === a.AdType.rewarded) {
-              if (!this.insentiveShowable || null === this.insentive)
-                return void this.adManager.emit(
-                  a.AdEvents.CONTENT_RESUMED,
-                  a.AdType.rewarded,
-                );
-              this.insentive.show();
-            }
-          }),
-          (b.prototype.adAvailable = function (a) {
-            return !0;
-          }),
-          (b.prototype.preloadAd = function (b, c, d) {
-            var e = this;
-            this.adsEnabled &&
-              (this.destroyAd(b),
-              b === a.AdType.banner &&
-                ((this.banner = this.cocoonProvider.createBanner(c)),
-                d && this.banner.setLayout(d),
-                this.banner.on("load", function () {
-                  e.bannerShowable = !0;
-                }),
-                this.banner.on("fail", function () {
-                  ((e.bannerShowable = !1), (e.banner = null));
-                }),
-                this.banner.on("click", function () {
-                  e.adManager.emit(a.AdEvents.AD_CLICKED, a.AdType.banner);
-                }),
-                this.banner.on("show", function () {}),
-                this.banner.on("dismiss", function () {}),
-                this.banner.load()),
-              b === a.AdType.interstitial &&
-                ((this.interstitial =
-                  this.cocoonProvider.createInterstitial(c)),
-                this.interstitial.on("load", function () {
-                  e.interstitialShowable = !0;
-                }),
-                this.interstitial.on("fail", function () {
-                  ((e.interstitialShowable = !1), (e.interstitial = null));
-                }),
-                this.interstitial.on("click", function () {
-                  e.adManager.emit(
-                    a.AdEvents.AD_CLICKED,
-                    a.AdType.interstitial,
-                  );
-                }),
-                this.interstitial.on("show", function () {
-                  e.adManager.emit(
-                    a.AdEvents.CONTENT_PAUSED,
-                    a.AdType.interstitial,
-                  );
-                }),
-                this.interstitial.on("dismiss", function () {
-                  (e.adManager.emit(
-                    a.AdEvents.CONTENT_RESUMED,
-                    a.AdType.interstitial,
-                  ),
-                    (e.interstitialShowable = !1),
-                    (e.interstitial = null));
-                }),
-                this.interstitial.load()),
-              b === a.AdType.rewarded &&
-                ((this.insentive = this.cocoonProvider.createRewardedVideo(c)),
-                this.insentive.on("load", function () {
-                  e.insentiveShowable = !0;
-                }),
-                this.insentive.on("fail", function () {
-                  ((e.insentiveShowable = !1), (e.insentive = null));
-                }),
-                this.insentive.on("click", function () {
-                  e.adManager.emit(a.AdEvents.AD_CLICKED, a.AdType.rewarded);
-                }),
-                this.insentive.on("show", function () {
-                  e.adManager.emit(
-                    a.AdEvents.CONTENT_PAUSED,
-                    a.AdType.rewarded,
-                  );
-                }),
-                this.insentive.on("dismiss", function () {
-                  (e.adManager.emit(
-                    a.AdEvents.CONTENT_RESUMED,
-                    a.AdType.rewarded,
-                  ),
-                    (e.insentiveShowable = !1),
-                    (e.insentive = null));
-                }),
-                this.insentive.on("reward", function () {
-                  (e.adManager.emit(a.AdEvents.AD_REWARDED, a.AdType.rewarded),
-                    (e.insentiveShowable = !1),
-                    (e.insentive = null));
-                }),
-                this.insentive.load()));
-          }),
-          (b.prototype.destroyAd = function (b) {
-            if (this.adsEnabled) {
-              if (b === a.AdType.banner && null !== this.banner) {
-                try {
-                  this.cocoonProvider.releaseBanner(this.banner);
-                } catch (a) {}
-                ((this.banner = null), (this.bannerShowable = !1));
-              }
-              b === a.AdType.interstitial &&
-                null !== this.interstitial &&
-                (this.cocoonProvider.releaseInterstitial(this.interstitial),
-                (this.interstitial = null),
-                (this.interstitialShowable = !1));
-            }
-          }),
-          (b.prototype.hideAd = function (b) {
-            this.adsEnabled &&
-              (b === a.AdType.interstitial &&
-                null !== this.interstitial &&
-                this.interstitial.hide(),
-              b === a.AdType.banner &&
-                null !== this.banner &&
-                (this.adManager.bannerActive &&
-                  ((this.adManager.bannerActive = !1),
-                  this.adManager.emit(
-                    a.AdEvents.BANNER_HIDDEN,
-                    this.banner.width,
-                    this.banner.height,
-                  )),
-                this.banner.hide()),
-              b === a.AdType.rewarded &&
-                null !== this.insentive &&
-                this.insentive.hide());
-          }),
-          b
-        );
-      })(),
-      h = (function () {
-        function b(a, b, c) {
-          if (
-            (void 0 === c && (c = !1),
-            (this.adsEnabled = !1),
-            void 0 === cordova.plugins ||
-              (void 0 !== cordova.plugins && void 0 === cordova.plugins.gdApi))
-          )
-            return void console.log("gdApi not available!");
-          (c && cordova.plugins.gdApi.enableTestAds(),
-            this.setAdListeners(),
-            cordova.plugins.gdApi.init(
-              [a, b],
-              function (a) {
-                console.log("API init success!", a);
-              },
-              function (a) {
-                console.log("API init error!", a);
-              },
-            ));
-        }
-        return (
-          (b.prototype.setAdListeners = function () {
-            var b = this;
-            cordova.plugins.gdApi.setAdListener(
-              function (c) {
-                switch (
-                  (console.log("banner reply, data.event", c.event, c), c.event)
-                ) {
-                  case "BANNER_STARTED":
-                    b.adManager.emit(a.AdEvents.CONTENT_PAUSED);
-                    break;
-                  case "API_IS_READY":
-                    b.adsEnabled = !0;
-                    break;
-                  case "API_ALREADY_INITIALIZED":
-                    break;
-                  case "BANNER_CLOSED":
-                  case "API_NOT_READY":
-                  case "BANNER_FAILED":
-                    b.adManager.emit(a.AdEvents.CONTENT_RESUMED);
-                }
-              },
-              function (a) {
-                (console.log("Set listener error:", a), (b.adsEnabled = !1));
-              },
-            );
-          }),
-          (b.prototype.setManager = function (b) {
-            ((this.adManager = b),
-              this.adManager.emit(a.AdEvents.AD_PROVIDER_LOADED));
-          }),
-          (b.prototype.showAd = function (b) {
-            var c = this;
-            this.adsEnabled
-              ? (console.log("show banner called"),
-                cordova.plugins.gdApi.showBanner(
-                  function (a) {
-                    console.log("Show banner worked", a);
-                  },
-                  function (b) {
-                    (console.log("Could not show banner:", b),
-                      c.adManager.emit(a.AdEvents.CONTENT_RESUMED));
-                  },
-                ))
-              : (console.log("Ads not enabled, resuming"),
-                this.adManager.emit(a.AdEvents.CONTENT_RESUMED));
-          }),
-          (b.prototype.adAvailable = function (a) {
-            return !0;
-          }),
-          (b.prototype.preloadAd = function (a) {}),
-          (b.prototype.destroyAd = function (a) {}),
-          (b.prototype.hideAd = function (a) {}),
-          b
-        );
-      })(),
-      i = (function () {
-        function b() {
-          var b = this;
-          if (
-            ((this.adsEnabled = !1),
-            (this.rewardedLoaded = !1),
-            "undefined" != typeof gamedockSDK)
-          ) {
-            var c = { shouldBlock: !0, requiredAge: 12 },
-              d = [];
-            (gamedockSDK.on("PrivacyPolicyStatus", function (c) {
-              b.adManager.emit(a.AdEvents.AD_PROVIDER_LOADED);
-            }),
-              gamedockSDK.initialise(!1, c, !0, "PRODUCTION", d),
-              gamedockSDK.on("AdAvailable", function (a) {
-                switch (a.type) {
-                  case "interstitial":
-                    b.interstitalAvailable();
-                    break;
-                  case "rewardVideo":
-                    b.rewardedChanged(!0);
-                    break;
-                  case "banner":
-                    throw new Error("Not yet implemented.");
-                }
-              }),
-              gamedockSDK.on("AdNotAvailable", function (a) {
-                switch (a.type) {
-                  case "interstitial":
-                  case "rewardVideo":
-                    b.resumeGameplay();
-                    break;
-                  case "banner":
-                    throw new Error("Not yet implemented.");
-                }
-              }),
-              gamedockSDK.on("AdFinished", function (a) {
-                switch (a.type) {
-                  case "interstitial":
-                    b.resumeGameplay();
-                    break;
-                  case "rewardVideo":
-                    b.rewardVideoFinished(a.reason);
-                    break;
-                  case "banner":
-                    throw new Error("Not yet implemented.");
-                }
-              }));
-          }
-        }
-        return (
-          (b.prototype.setManager = function (a) {
-            this.adManager = a;
-          }),
-          (b.prototype.showAd = function (b) {
-            if (
-              (void 0 === b && (b = a.AdType.interstitial),
-              "undefined" != typeof gamedockSDK)
-            )
-              switch (b) {
-                case a.AdType.interstitial:
-                  (this.adManager.emit(a.AdEvents.CONTENT_PAUSED),
-                    gamedockSDK.requestInterstitial());
-                  break;
-                case a.AdType.rewarded:
-                  if (!this.adAvailable(a.AdType.rewarded)) {
-                    this.resumeGameplay();
-                    break;
-                  }
-                  (this.adManager.emit(a.AdEvents.CONTENT_PAUSED),
-                    this.rewardedChanged(!1),
-                    gamedockSDK.playRewardVideo());
-                  break;
-                default:
-                  this.resumeGameplay();
-              }
-          }),
-          (b.prototype.interstitalAvailable = function () {
-            "undefined" != typeof gamedockSDK && gamedockSDK.playInterstitial();
-          }),
-          (b.prototype.rewardVideoFinished = function (b) {
-            switch (b) {
-              case "dismiss":
-                this.resumeGameplay();
-                break;
-              case "close":
-                this.adManager.emit(a.AdEvents.AD_REWARDED);
-            }
-          }),
-          (b.prototype.resumeGameplay = function () {
-            this.adManager.emit(a.AdEvents.CONTENT_RESUMED);
-          }),
-          (b.prototype.preloadAd = function (b) {
-            if (
-              (void 0 === b && (b = a.AdType.interstitial),
-              "undefined" != typeof gamedockSDK)
-            )
-              switch (b) {
-                case a.AdType.rewarded:
-                  if (this.rewardedLoaded) return;
-                  gamedockSDK.requestRewardVideo();
-              }
-          }),
-          (b.prototype.destroyAd = function () {}),
-          (b.prototype.hideAd = function () {}),
-          (b.prototype.adAvailable = function (b) {
-            switch (b) {
-              case a.AdType.rewarded:
-                return this.rewardedLoaded;
-            }
-            return !1;
-          }),
-          (b.prototype.rewardedChanged = function (a) {
-            this.rewardedLoaded = a;
-          }),
-          b
-        );
-      })(),
-      j = (function () {
-        function b(a) {
-          var b = this;
-          ((this.adsEnabled = !1),
-            (this.adsEnabled = !0),
-            HeyzapAds.start(a).then(
-              function () {},
-              function (a) {
-                b.adsEnabled = !1;
-              },
-            ));
-        }
-        return (
-          (b.prototype.setManager = function (b) {
-            ((this.adManager = b),
-              this.adManager.emit(a.AdEvents.AD_PROVIDER_LOADED));
-          }),
-          (b.prototype.showAd = function (b, c) {
-            var d = this;
-            switch (
-              (this.adsEnabled ||
-                this.adManager.emit(a.AdEvents.CONTENT_RESUMED),
-              b)
-            ) {
-              case a.AdType.interstitial:
-                (HeyzapAds.InterstitialAd.addEventListener(
-                  HeyzapAds.InterstitialAd.Events.HIDE,
-                  function () {
-                    d.adManager.emit(
-                      a.AdEvents.CONTENT_RESUMED,
-                      HeyzapAds.InterstitialAd.Events.HIDE,
-                    );
-                  },
-                ),
-                  HeyzapAds.InterstitialAd.addEventListener(
-                    HeyzapAds.InterstitialAd.Events.SHOW_FAILED,
-                    function () {
-                      d.adManager.emit(
-                        a.AdEvents.CONTENT_RESUMED,
-                        HeyzapAds.InterstitialAd.Events.SHOW_FAILED,
-                      );
-                    },
-                  ),
-                  HeyzapAds.InterstitialAd.addEventListener(
-                    HeyzapAds.InterstitialAd.Events.CLICKED,
-                    function () {
-                      d.adManager.emit(
-                        a.AdEvents.AD_CLICKED,
-                        HeyzapAds.InterstitialAd.Events.CLICKED,
-                      );
-                    },
-                  ),
-                  HeyzapAds.InterstitialAd.show().then(
-                    function () {
-                      d.adManager.emit(a.AdEvents.CONTENT_PAUSED);
-                    },
-                    function (b) {
-                      d.adManager.emit(a.AdEvents.CONTENT_RESUMED);
-                    },
-                  ));
-                break;
-              case a.AdType.interstitial:
-                (HeyzapAds.VideoAd.addEventListener(
-                  HeyzapAds.VideoAd.Events.HIDE,
-                  function () {
-                    d.adManager.emit(
-                      a.AdEvents.CONTENT_RESUMED,
-                      HeyzapAds.VideoAd.Events.HIDE,
-                    );
-                  },
-                ),
-                  HeyzapAds.VideoAd.addEventListener(
-                    HeyzapAds.VideoAd.Events.SHOW_FAILED,
-                    function () {
-                      d.adManager.emit(
-                        a.AdEvents.CONTENT_RESUMED,
-                        HeyzapAds.VideoAd.Events.SHOW_FAILED,
-                      );
-                    },
-                  ),
-                  HeyzapAds.VideoAd.addEventListener(
-                    HeyzapAds.VideoAd.Events.CLICKED,
-                    function () {
-                      d.adManager.emit(
-                        a.AdEvents.AD_CLICKED,
-                        HeyzapAds.VideoAd.Events.CLICKED,
-                      );
-                    },
-                  ),
-                  HeyzapAds.VideoAd.show().then(
-                    function () {
-                      d.adManager.emit(a.AdEvents.CONTENT_PAUSED);
-                    },
-                    function (b) {
-                      d.adManager.emit(a.AdEvents.CONTENT_RESUMED);
-                    },
-                  ));
-                break;
-              case a.AdType.rewarded:
-                (HeyzapAds.IncentivizedAd.addEventListener(
-                  HeyzapAds.IncentivizedAd.Events.HIDE,
-                  function () {
-                    d.adManager.emit(
-                      a.AdEvents.CONTENT_RESUMED,
-                      HeyzapAds.IncentivizedAd.Events.HIDE,
-                    );
-                  },
-                ),
-                  HeyzapAds.IncentivizedAd.addEventListener(
-                    HeyzapAds.IncentivizedAd.Events.SHOW_FAILED,
-                    function () {
-                      d.adManager.emit(
-                        a.AdEvents.CONTENT_RESUMED,
-                        HeyzapAds.IncentivizedAd.Events.SHOW_FAILED,
-                      );
-                    },
-                  ),
-                  HeyzapAds.IncentivizedAd.addEventListener(
-                    HeyzapAds.IncentivizedAd.Events.CLICKED,
-                    function () {
-                      d.adManager.emit(
-                        a.AdEvents.AD_CLICKED,
-                        HeyzapAds.IncentivizedAd.Events.CLICKED,
-                      );
-                    },
-                  ),
-                  HeyzapAds.IncentivizedAd.show().then(
-                    function () {
-                      d.adManager.emit(a.AdEvents.CONTENT_PAUSED);
-                    },
-                    function (b) {
-                      d.adManager.emit(a.AdEvents.CONTENT_RESUMED);
-                    },
-                  ));
-                break;
-              case a.AdType.banner:
-                if (void 0 === c) return;
-                HeyzapAds.BannerAd.show(c).then(
-                  function () {},
-                  function (a) {},
-                );
-            }
-          }),
-          (b.prototype.adAvailable = function (a) {
-            return !0;
-          }),
-          (b.prototype.preloadAd = function (b) {
-            this.adsEnabled &&
-              b === a.AdType.rewarded &&
-              HeyzapAds.IncentivizedAd.fetch().then(
-                function () {},
-                function (a) {},
-              );
-          }),
-          (b.prototype.destroyAd = function (b) {
-            this.adsEnabled &&
-              b === a.AdType.banner &&
-              HeyzapAds.BannerAd.destroy().then(
-                function () {},
-                function (a) {},
-              );
-          }),
-          (b.prototype.hideAd = function (b) {
-            this.adsEnabled &&
-              b === a.AdType.banner &&
-              HeyzapAds.BannerAd.hide().then(
-                function () {},
-                function (a) {},
-              );
-          }),
-          b
-        );
-      })(),
-      k = (function () {
-        function b(a) {
-          var b = this;
-          if (
-            ((this.adsEnabled = !1),
-            (this.interstitialLoaded = !1),
-            (this.rewardedLoaded = !1),
-            "undefined" != typeof IronSourceAds)
-          ) {
-            IronSourceAds.init({ appKey: a });
-            var c = function () {
-              return b.resumeGameplay();
-            };
-            (window.addEventListener("interstitialClosed", c),
-              window.addEventListener("interstitialShowFailed", c),
-              window.addEventListener("interstitialLoaded", function () {
-                return b.interstitialChanged(!0);
-              }),
-              window.addEventListener("rewardedVideoClosed", c),
-              window.addEventListener("rewardedVideoFailed", c),
-              IronSourceAds.hasRewardedVideo({
-                onSuccess: this.rewardedChanged.bind(this),
-              }),
-              window.addEventListener(
-                "rewardedVideoAvailabilityChanged",
-                function (a) {
-                  return b.rewardedChanged(a.available);
-                },
-              ));
-          }
-        }
-        return (
-          (b.prototype.setManager = function (b) {
-            ((this.adManager = b),
-              this.adManager.emit(a.AdEvents.AD_PROVIDER_LOADED));
-          }),
-          (b.prototype.showAd = function (b) {
-            switch ((void 0 === b && (b = a.AdType.interstitial), b)) {
-              case a.AdType.interstitial:
-                if (!this.interstitialLoaded) {
-                  this.resumeGameplay();
-                  break;
-                }
-                (this.interstitialChanged(!1),
-                  this.adManager.emit(a.AdEvents.CONTENT_PAUSED),
-                  IronSourceAds.showInterstitial());
-                break;
-              case a.AdType.rewarded:
-                if (!this.rewardedLoaded) {
-                  this.resumeGameplay();
-                  break;
-                }
-                (this.adManager.emit(a.AdEvents.CONTENT_PAUSED),
-                  IronSourceAds.showRewardedVideo());
-                break;
-              default:
-                this.resumeGameplay();
-            }
-          }),
-          (b.prototype.resumeGameplay = function () {
-            this.adManager.emit(a.AdEvents.CONTENT_RESUMED);
-          }),
-          (b.prototype.preloadAd = function (b) {
-            (void 0 === b && (b = a.AdType.interstitial),
-              b === a.AdType.interstitial && IronSourceAds.loadInterstitial());
-          }),
-          (b.prototype.destroyAd = function () {}),
-          (b.prototype.hideAd = function () {}),
-          (b.prototype.adAvailable = function (b) {
-            switch (b) {
-              case a.AdType.interstitial:
-                return this.interstitialLoaded;
-              case a.AdType.rewarded:
-                return this.rewardedLoaded;
-            }
-            return !1;
-          }),
-          (b.prototype.interstitialChanged = function (a) {
-            this.interstitialLoaded = a;
-          }),
-          (b.prototype.rewardedChanged = function (a) {
-            this.rewardedLoaded = a;
-          }),
-          b
-        );
-      })();
-    (!(function (a) {
-      ((a.interstitial = "interstitial"),
-        (a.rewarded = "rewarded"),
-        (a.display = "display"));
-    })(f || (f = {})),
-      (function (a) {
-        ((a[(a.LargeRectangle = 0)] = "LargeRectangle"),
-          (a[(a.MediumRectangle = 1)] = "MediumRectangle"),
-          (a[(a.Billboard = 2)] = "Billboard"),
-          (a[(a.Leaderboard = 3)] = "Leaderboard"),
-          (a[(a.Skyscraper = 4)] = "Skyscraper"),
-          (a[(a.WideSkyscraper = 5)] = "WideSkyscraper"));
-      })(a.GameDistributionBannerSize || (a.GameDistributionBannerSize = {})),
-      (function (a) {
-        ((a[(a.TopLeft = 0)] = "TopLeft"),
-          (a[(a.TopCenter = 1)] = "TopCenter"),
-          (a[(a.TopRight = 2)] = "TopRight"),
-          (a[(a.CenterLeft = 3)] = "CenterLeft"),
-          (a[(a.Center = 4)] = "Center"),
-          (a[(a.CenterRight = 5)] = "CenterRight"),
-          (a[(a.BottomLeft = 6)] = "BottomLeft"),
-          (a[(a.BottomCenter = 7)] = "BottomCenter"),
-          (a[(a.BottomRight = 8)] = "BottomRight"));
-      })(a.GameDistributionAlignment || (a.GameDistributionAlignment = {})));
-    var l,
-      m = (function () {
-        function b() {
-          ((this.scaleFactor = 1),
-            (this.offsetX = 0),
-            (this.offsetY = 0),
-            (this.element = document.createElement("div")),
-            (this.element.style.position = "absolute"),
-            (this.element.style.top = "0px"),
-            (this.element.style.left = "0px"),
-            (this.element.id =
-              "banner-" + Date.now() + ((1e7 * Math.random()) | 0)),
-            document.body.appendChild(this.element));
-        }
-        return (
-          (b.prototype.loadBanner = function () {
-            return "undefined" == typeof gdsdk
-              ? Promise.reject(
-                  "GD Sdk not available, probably due to adblocker",
-                )
-              : gdsdk.showAd(f.display, { containerId: this.element.id });
-          }),
-          (b.prototype.destroy = function () {
-            (document.body.removeChild(this.element),
-              this.resizeListener &&
-                window.removeEventListener("resize", this.resizeListener),
-              delete this.element,
-              delete this.parent,
-              delete this.alignment);
-          }),
-          (b.prototype.alignIn = function (a, b) {
-            var c = this;
-            if (this.parent)
-              return void console.warn("Banner already aligned, ignoring...");
-            ((this.parent = a),
-              (this.alignment = b),
-              (this.resizeListener = function () {
-                return c.resize();
-              }),
-              window.addEventListener("resize", this.resizeListener),
-              this.resize());
-          }),
-          (b.prototype.setOffset = function (a, b) {
-            (void 0 === a && (a = 0),
-              void 0 === b && (b = 0),
-              (this.offsetX = a),
-              (this.offsetY = b),
-              this.resize());
-          }),
-          (b.prototype.resize = function () {
-            if (this.parent) {
-              var b = this.parent.getBoundingClientRect();
-              switch (this.alignment) {
-                case a.GameDistributionAlignment.TopLeft:
-                  this.position(b.left, b.top);
-                  break;
-                case a.GameDistributionAlignment.TopCenter:
-                  this.position(
-                    b.left + b.width / 2 - (this.width * this.scaleFactor) / 2,
-                    b.top,
-                  );
-                  break;
-                case a.GameDistributionAlignment.TopRight:
-                  this.position(
-                    b.left + b.width - this.width * this.scaleFactor,
-                    b.top,
-                  );
-                  break;
-                case a.GameDistributionAlignment.CenterLeft:
-                  this.position(
-                    b.left,
-                    b.top + b.height / 2 - (this.height * this.scaleFactor) / 2,
-                  );
-                  break;
-                case a.GameDistributionAlignment.Center:
-                  this.position(
-                    b.left + b.width / 2 - (this.width * this.scaleFactor) / 2,
-                    b.top + b.height / 2 - (this.height * this.scaleFactor) / 2,
-                  );
-                  break;
-                case a.GameDistributionAlignment.CenterRight:
-                  this.position(
-                    b.left + b.width - this.width * this.scaleFactor,
-                    b.top + b.height / 2 - (this.height * this.scaleFactor) / 2,
-                  );
-                  break;
-                case a.GameDistributionAlignment.BottomLeft:
-                  this.position(
-                    b.left,
-                    b.top + b.height - this.height * this.scaleFactor,
-                  );
-                  break;
-                case a.GameDistributionAlignment.BottomCenter:
-                  this.position(
-                    b.left + b.width / 2 - (this.width * this.scaleFactor) / 2,
-                    b.top + b.height - this.height * this.scaleFactor,
-                  );
-                  break;
-                case a.GameDistributionAlignment.BottomRight:
-                  this.position(
-                    b.left + b.width - this.width * this.scaleFactor,
-                    b.top + b.height - this.height * this.scaleFactor,
-                  );
-              }
-            }
-          }),
-          (b.prototype.setSize = function (b) {
-            var c, d;
-            switch (b) {
-              default:
-              case a.GameDistributionBannerSize.LargeRectangle:
-                ((c = 336), (d = 280));
-                break;
-              case a.GameDistributionBannerSize.MediumRectangle:
-                ((c = 300), (d = 250));
-                break;
-              case a.GameDistributionBannerSize.Billboard:
-                ((c = 970), (d = 250));
-                break;
-              case a.GameDistributionBannerSize.Leaderboard:
-                ((c = 728), (d = 90));
-                break;
-              case a.GameDistributionBannerSize.Skyscraper:
-                ((c = 120), (d = 600));
-                break;
-              case a.GameDistributionBannerSize.WideSkyscraper:
-                ((c = 160), (d = 600));
-            }
-            ((this.width = c),
-              (this.height = d),
-              (this.element.style.width = c + "px"),
-              (this.element.style.height = d + "px"));
-          }),
-          (b.prototype.position = function (a, b) {
-            ((this.element.style.left = a + this.offsetX + "px"),
-              (this.element.style.top = b + this.offsetY + "px"));
-          }),
-          (b.prototype.scale = function (a) {
-            ((this.element.style.transformOrigin = "left top"),
-              (this.scaleFactor = a),
-              (this.element.style.transform = "scale(" + a + ")"));
-          }),
-          b
-        );
-      })(),
-      n = (function () {
-        function b(b) {
-          var c = this;
-          ((this.adsEnabled = !1),
-            (this.hasRewarded = !1),
-            (this.adShowing = !1),
-            (window.GD_OPTIONS = {
-              gameId: b,
-              advertisementSettings: { autoplay: !1 },
-              onEvent: function (b) {
-                switch (b.name) {
-                  case "SDK_GAME_PAUSE":
-                    c.adManager.emit(a.AdEvents.CONTENT_PAUSED);
-                    break;
-                  case "SDK_READY":
-                    c.sdkLoaded();
-                }
-              },
-            }),
-            (function (a, b, c) {
-              var d,
-                e = a.getElementsByTagName(b)[0];
-              a.getElementById(c) ||
-                ((d = a.createElement(b)),
-                (d.id = c),
-                (d.src = "//html5.api.gamedistribution.com/main.min.js"),
-                e.parentNode && e.parentNode.insertBefore(d, e));
-            })(document, "script", "gamedistribution-jssdk"));
-        }
-        return (
-          (b.prototype.setManager = function (b) {
-            ((this.adManager = b),
-              this.adManager.emit(a.AdEvents.AD_PROVIDER_LOADED));
-          }),
-          (b.prototype.sdkLoaded = function () {
-            this.adsEnabled = !0;
-          }),
-          (b.prototype.showAd = function (b) {
-            var c = this;
-            if (this.adsEnabled) {
-              if (
-                "undefined" == typeof gdsdk ||
-                (gdsdk && void 0 === gdsdk.showAd)
-              )
-                return (
-                  (this.adsEnabled = !1),
-                  void this.adManager.emit(a.AdEvents.CONTENT_RESUMED)
-                );
-              gdsdk
-                .showAd(b === a.AdType.rewarded ? f.rewarded : f.interstitial)
-                .then(function () {
-                  (b === a.AdType.rewarded &&
-                    (c.adManager.emit(a.AdEvents.AD_REWARDED),
-                    (c.hasRewarded = !1)),
-                    c.adManager.emit(a.AdEvents.CONTENT_RESUMED));
-                })
-                .catch(function () {
-                  (b === a.AdType.rewarded &&
-                    c.hasRewarded &&
-                    (c.hasRewarded = !1),
-                    c.adManager.emit(a.AdEvents.CONTENT_RESUMED));
-                });
-            } else this.adManager.emit(a.AdEvents.CONTENT_RESUMED);
-          }),
-          (b.prototype.createBanner = function (a) {
-            if (this.adsEnabled) {
-              var b = new m();
-              return (b.setSize(a), b);
-            }
-          }),
-          (b.prototype.loadBanner = function (a) {
-            if (this.adsEnabled) {
-              var b = new m();
-              return (b.setSize(a), b.loadBanner(), b);
-            }
-          }),
-          (b.prototype.preloadAd = function (b) {
-            var c = this;
-            !this.hasRewarded &&
-              this.adsEnabled &&
-              b === a.AdType.rewarded &&
-              (console.log("preloading ad"),
-              gdsdk.preloadAd(f.rewarded).then(function () {
-                ((c.hasRewarded = !0),
-                  c.adManager.emit(a.AdEvents.AD_LOADED, b));
-              }));
-          }),
-          (b.prototype.adAvailable = function (b) {
-            return b !== a.AdType.rewarded || this.hasRewarded;
-          }),
-          (b.prototype.destroyAd = function () {}),
-          (b.prototype.hideAd = function () {}),
-          (b.prototype.areAdsEnabled = function () {
-            var a = document.createElement("script");
-            ((a.id = "debug-test-ad"),
-              (a.src = "https://storage.googleapis.com/cdn.fbrq.io/anyad.js"),
-              document.body.appendChild(a));
-            var b = function () {
-              var a = !0;
-              if (
-                (document.getElementById("az-test-ad") || (a = !1),
-                document.getElementById("debug-test-ad"))
-              ) {
-                var b = document.getElementById("debug-test-ad");
-                try {
-                  b.parentNode.removeChild(b);
-                } catch (a) {
-                  console.log("cannot remove div");
-                }
-              }
-              if (document.getElementById("az-test-ad")) {
-                var c = document.getElementById("az-test-ad");
-                try {
-                  c.parentNode.removeChild(c);
-                } catch (a) {
-                  console.log("cannot remove div");
-                }
-              }
-              return a;
-            };
-            return new Promise(function (a) {
-              window.setTimeout(function () {
-                a(b());
-              }, 100);
-            });
-          }),
-          b
-        );
-      })();
-    !(function (a) {
-      ((a[(a.start = 0)] = "start"),
-        (a[(a.firstQuartile = 1)] = "firstQuartile"),
-        (a[(a.midPoint = 2)] = "midPoint"),
-        (a[(a.thirdQuartile = 3)] = "thirdQuartile"),
-        (a[(a.complete = 4)] = "complete"));
-    })(l || (l = {}));
-    var o = (function () {
-      function b(a, b) {
-        ((this.googleEnabled = !1),
-          (this.adsEnabled = !0),
-          (this.adTagUrl = ""),
-          (this.adRequested = !1),
-          this.areAdsEnabled(),
-          "undefined" != typeof google &&
-            ((this.googleEnabled = !0),
-            (this.gameContent =
-              "string" == typeof a.parentElement
-                ? document.getElementById(a.parentElement)
-                : a.parentElement),
-            (this.gameContent.style.position = "absolute"),
-            (this.gameContent.style.width = "100%"),
-            (this.adContent = this.gameContent.parentNode.appendChild(
-              document.createElement("div"),
-            )),
-            (this.adContent.id = "phaser-ad-container"),
-            (this.adContent.style.position = "absolute"),
-            (this.adContent.style.zIndex = "9999"),
-            (this.adContent.style.display = "none"),
-            (this.adContent.style.top = "0"),
-            (this.adContent.style.left = "0"),
-            (this.adContent.style.width = "100%"),
-            (this.adContent.style.height = "100%"),
-            (this.adContent.style.overflow = "hidden"),
-            (this.adTagUrl = b),
-            (this.adDisplay = new google.ima.AdDisplayContainer(
-              this.adContent,
-            )),
-            google.ima.settings.setVpaidMode(
-              google.ima.ImaSdkSettings.VpaidMode.ENABLED,
-            ),
-            google.ima.settings.setLocale("nl"),
-            (this.adLoader = new google.ima.AdsLoader(this.adDisplay)),
-            this.adLoader.addEventListener(
-              google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
-              this.onAdManagerLoader,
-              !1,
-              this,
-            ),
-            this.adLoader.addEventListener(
-              google.ima.AdErrorEvent.Type.AD_ERROR,
-              this.onAdError,
-              !1,
-              this,
-            )));
-      }
-      return (
-        (b.prototype.setManager = function (b) {
-          ((this.adManager = b),
-            this.adManager.emit(a.AdEvents.AD_PROVIDER_LOADED));
-        }),
-        (b.prototype.showAd = function (b, c) {
-          if ((console.log("Ad Requested"), !this.adRequested)) {
-            if (
-              (this.adsEnabled ||
-                this.adManager.emit(a.AdEvents.AD_DISABLED, !0),
-              !this.googleEnabled)
-            )
-              return void this.onContentResumeRequested();
-            this.adDisplay.initialize();
-            var d = new google.ima.AdsRequest();
-            d.adTagUrl = this.adTagUrl + this.parseCustomParams(c);
-            var e = window.innerWidth,
-              f = window.innerHeight;
-            (document.body.clientHeight < window.innerHeight &&
-              ((f = document.body.clientHeight),
-              (e = document.body.clientWidth)),
-              (d.linearAdSlotWidth = e),
-              (d.linearAdSlotHeight = f),
-              (d.nonLinearAdSlotWidth = e),
-              (d.nonLinearAdSlotHeight = f),
-              (d.forceNonLinearFullSlot = !0));
-            try {
-              ((this.adRequested = !0), this.adLoader.requestAds(d));
-            } catch (a) {
-              (console.log(a), this.onContentResumeRequested());
-            }
-          }
-        }),
-        (b.prototype.adAvailable = function (a) {
-          return !0;
-        }),
-        (b.prototype.preloadAd = function () {}),
-        (b.prototype.destroyAd = function () {}),
-        (b.prototype.hideAd = function () {}),
-        (b.prototype.onAdManagerLoader = function (a) {
-          var b = this;
-          console.log("AdsManager loaded");
-          var c = new google.ima.AdsRenderingSettings();
-          c.restoreCustomPlaybackStateOnAdBreakComplete = !0;
-          var d = a.getAdsManager(this.gameContent, c);
-          ((this.adsManager = d),
-            console.log(d.isCustomClickTrackingUsed()),
-            d.addEventListener(
-              google.ima.AdEvent.Type.CONTENT_PAUSE_REQUESTED,
-              this.onContentPauseRequested,
-              !1,
-              this,
-            ),
-            d.addEventListener(
-              google.ima.AdEvent.Type.CONTENT_RESUME_REQUESTED,
-              this.onContentResumeRequested,
-              !1,
-              this,
-            ),
-            d.addEventListener(
-              google.ima.AdErrorEvent.Type.AD_ERROR,
-              this.onAdError,
-              !1,
-              this,
-            ),
-            [
-              google.ima.AdEvent.Type.ALL_ADS_COMPLETED,
-              google.ima.AdEvent.Type.CLICK,
-              google.ima.AdEvent.Type.COMPLETE,
-              google.ima.AdEvent.Type.FIRST_QUARTILE,
-              google.ima.AdEvent.Type.LOADED,
-              google.ima.AdEvent.Type.MIDPOINT,
-              google.ima.AdEvent.Type.PAUSED,
-              google.ima.AdEvent.Type.STARTED,
-              google.ima.AdEvent.Type.THIRD_QUARTILE,
-            ].forEach(function (a) {
-              d.addEventListener(a, b.onAdEvent, !1, b);
-            }));
-          try {
-            this.adContent.style.display = "block";
-            var e = window.innerWidth,
-              f = window.innerHeight;
-            (this.adsManager.init(e, f, google.ima.ViewMode.NORMAL),
-              this.adsManager.start(),
-              (this.resizeListener = function () {
-                null !== b.adsManager &&
-                  (console.log("Resizing ad size"),
-                  b.adsManager.resize(
-                    window.innerWidth,
-                    window.innerHeight,
-                    google.ima.ViewMode.NORMAL,
-                  ));
-              }),
-              window.addEventListener("resize", this.resizeListener));
-          } catch (a) {
-            (console.log("Adsmanager error:", a), this.onAdError(a));
-          }
-        }),
-        (b.prototype.onAdEvent = function (b) {
-          switch ((console.log("onAdEvent", b), b.type)) {
-            case google.ima.AdEvent.Type.CLICK:
-              this.adManager.emit(a.AdEvents.AD_CLICKED);
-              break;
-            case google.ima.AdEvent.Type.LOADED:
-              this.adRequested = !1;
-              var c = b.getAd();
-              (console.log("is ad linear?", c.isLinear()),
-                c.isLinear() || this.onContentResumeRequested());
-              break;
-            case google.ima.AdEvent.Type.STARTED:
-              this.adManager.emit(a.AdEvents.AD_PROGRESSION, l.start);
-              break;
-            case google.ima.AdEvent.Type.FIRST_QUARTILE:
-              this.adManager.emit(a.AdEvents.AD_PROGRESSION, l.firstQuartile);
-              break;
-            case google.ima.AdEvent.Type.MIDPOINT:
-              this.adManager.emit(a.AdEvents.AD_PROGRESSION, l.midPoint);
-              break;
-            case google.ima.AdEvent.Type.THIRD_QUARTILE:
-              this.adManager.emit(a.AdEvents.AD_PROGRESSION, l.thirdQuartile);
-              break;
-            case google.ima.AdEvent.Type.COMPLETE:
-              this.adManager.emit(a.AdEvents.AD_PROGRESSION, l.complete);
-              break;
-            case google.ima.AdEvent.Type.ALL_ADS_COMPLETED:
-              this.onContentResumeRequested();
-          }
-        }),
-        (b.prototype.onAdError = function (a) {
-          (console.log("gneric ad error", a),
-            null !== this.adsManager &&
-              (this.adsManager.destroy(),
-              null !== this.resizeListener &&
-                window.removeEventListener("resize", this.resizeListener)),
-            this.adRequested && (this.adRequested = !1),
-            this.onContentResumeRequested());
-        }),
-        (b.prototype.onContentPauseRequested = function () {
-          (console.log("onContentPauseRequested", arguments),
-            this.adManager.emit(a.AdEvents.CONTENT_PAUSED));
-        }),
-        (b.prototype.onContentResumeRequested = function () {
-          if (
-            (console.log("onContentResumeRequested", arguments),
-            "undefined" == typeof google)
-          )
-            return void this.adManager.emit(a.AdEvents.CONTENT_RESUMED);
-          ((this.adContent.style.display = "none"),
-            this.adManager.emit(a.AdEvents.CONTENT_RESUMED));
-        }),
-        (b.prototype.parseCustomParams = function (a) {
-          if (void 0 !== a) {
-            var b = "";
-            for (var c in a)
-              if (a.hasOwnProperty(c)) {
-                b.length > 0 && (b += "&");
-                var d = Array.isArray(a[c]) ? a[c].join(",") : a[c];
-                b += c + "=" + d;
-              }
-            return "&cust_params=" + encodeURIComponent(b);
-          }
-          return "";
-        }),
-        (b.prototype.areAdsEnabled = function () {
-          var a = this,
-            b = document.createElement("div");
-          ((b.innerHTML = "&nbsp;"),
-            (b.className = "adsbox"),
-            (b.style.position = "absolute"),
-            (b.style.fontSize = "10px"),
-            document.body.appendChild(b));
-          var c = function () {
-            var a = !0;
-            return (
-              0 === b.offsetHeight && (a = !1),
-              b.parentNode && b.parentNode.removeChild(b),
-              a
-            );
-          };
-          window.setTimeout(function () {
-            a.adsEnabled = c();
-          }, 100);
-        }),
-        b
-      );
-    })();
-    (!(function (a) {
-      ((a.CONTENT_PAUSED = "onContentPaused"),
-        (a.CONTENT_RESUMED = "onContentResumed"),
-        (a.AD_PROGRESSION = "onAdProgression"),
-        (a.AD_DISABLED = "onAdsDisabled"),
-        (a.AD_CLICKED = "onAdClicked"),
-        (a.AD_REWARDED = "onAdRewardGranted"),
-        (a.BANNER_SHOWN = "onBannerShown"),
-        (a.BANNER_HIDDEN = "onBannerHidden"),
-        (a.AD_LOADED = "onAdLoaded"),
-        (a.AD_PROVIDER_LOADED = "onAdProviderLoaded"));
-    })(a.AdEvents || (a.AdEvents = {})),
-      (function (a) {
-        ((a[(a.interstitial = 0)] = "interstitial"),
-          (a[(a.rewarded = 1)] = "rewarded"),
-          (a[(a.banner = 2)] = "banner"));
-      })(a.AdType || (a.AdType = {})));
-    var p = (function (a) {
-        function c() {
-          var b = (null !== a && a.apply(this, arguments)) || this;
-          return ((b.bannerActive = !1), (b.provider = null), b);
-        }
-        return (
-          b(c, a),
-          (c.prototype.setAdProvider = function (a) {
-            ((this.provider = a), this.provider.setManager(this));
-          }),
-          (c.prototype.showAd = function (a) {
-            for (var b = [], c = 1; c < arguments.length; c++)
-              b[c - 1] = arguments[c];
-            if (null === this.provider)
-              throw new Error(
-                "Can not request an ad without an provider, please attach an ad provider!",
-              );
-            (b.unshift(a), this.provider.showAd.apply(this.provider, b));
-          }),
-          (c.prototype.createBanner = function () {
-            for (var a = [], b = 0; b < arguments.length; b++)
-              a[b] = arguments[b];
-            return this.provider.loadBanner.apply(this.provider, a);
-          }),
-          (c.prototype.loadBanner = function () {
-            for (var a = [], b = 0; b < arguments.length; b++)
-              a[b] = arguments[b];
-            return "function" == typeof this.provider.loadBanner
-              ? this.provider.loadBanner.apply(this.provider, a)
-              : null;
-          }),
-          (c.prototype.preloadAd = function (a) {
-            for (var b = [], c = 1; c < arguments.length; c++)
-              b[c - 1] = arguments[c];
-            if (null === this.provider)
-              throw new Error(
-                "Can not preload an ad without an provider, please attach an ad provider!",
-              );
-            (b.unshift(a), this.provider.preloadAd.apply(this.provider, b));
-          }),
-          (c.prototype.destroyAd = function (a) {
-            for (var b = [], c = 1; c < arguments.length; c++)
-              b[c - 1] = arguments[c];
-            if (null === this.provider)
-              throw new Error(
-                "Can not destroy an ad without an provider, please attach an ad provider!",
-              );
-            (b.unshift(a), this.provider.destroyAd.apply(this.provider, b));
-          }),
-          (c.prototype.hideAd = function (a) {
-            for (var b = [], c = 1; c < arguments.length; c++)
-              b[c - 1] = arguments[c];
-            if (null === this.provider)
-              throw new Error(
-                "Can not hide an ad without an provider, please attach an ad provider!",
-              );
-            (b.unshift(a), this.provider.hideAd.apply(this.provider, b));
-          }),
-          (c.prototype.adsEnabled = function () {
-            if (null === this.provider)
-              throw new Error(
-                "Can not hide an ad without an provider, please attach an ad provider!",
-              );
-            return this.provider.adsEnabled;
-          }),
-          (c.prototype.adAvailable = function (a) {
-            for (var b = [], c = 1; c < arguments.length; c++)
-              b[c - 1] = arguments[c];
-            if (null === this.provider)
-              throw new Error(
-                "Can not hide an ad without an provider, please attach an ad provider!",
-              );
-            return (
-              b.unshift(a),
-              this.provider.adAvailable.apply(this.provider, b)
-            );
-          }),
-          c
-        );
-      })(e),
-      q = new p();
-    ((a.H5AdWrapper = p),
-      (a.adWrapper = q),
-      (a.CocoonAds = g),
-      (a.CordovaGamedistribution = h),
-      (a.CordovaGamedock = i),
-      (a.CordovaHeyzap = j),
-      (a.CordovaIronSource = k),
-      (a.GameDistribution = n),
-      (a.GameDistributionBanner = m),
-      (a.Ima3 = o),
-      Object.defineProperty(a, "__esModule", { value: !0 }));
-  }));
-var AzRTBHelper;
-(!(function (a) {
-  var b = (function () {
-    function a() {}
-    return (
-      (a.getInstance = function () {
-        return (null === a.instance && (a.instance = new a()), a.instance);
-      }),
-      (a.prototype.createAdBlock = function (a, b) {
-        var c = document.getElementById("root"),
-          d = document.createElement("div");
-        ((d.id = a),
-          c.appendChild(d),
-          window.hasOwnProperty("Ya") &&
-            window.hasOwnProperty("yaContextCb") &&
-            window.yaContextCb.push(
-              function () {
-                window.Ya.Context.AdvManager.render({
-                  renderTo: a,
-                  blockId: b,
-                  onError: function (b) {
-                    (console.log("code", b.code),
-                      console.log("text", b.text),
-                      this.removeAdBlock(a));
-                  }.bind(this),
-                });
-              }.bind(this),
-            ));
-      }),
-      (a.prototype.removeAdBlock = function (a) {
-        var b = document.getElementById("root"),
-          c = document.getElementById(a);
-        c && b.removeChild(c);
-      }),
-      (a.prototype.resize = function (a, b) {
-        var c = (document.getElementById("root"), document.getElementById(a));
-        c &&
-          (c.style.left =
-            "vertical" === b ? "5px" : window.innerWidth - 364 + "px");
-      }),
-      (a.prototype.hide = function (a) {
-        document.getElementById(a) &&
-          (document.getElementById(a).style.display = "none");
-      }),
-      (a.prototype.show = function (a, b) {
-        document.getElementById(a)
-          ? (document.getElementById(a).style.display = "block")
-          : this.createAdBlock(a, b);
-      }),
-      (a.instance = null),
-      a
-    );
-  })();
-  a.AzRTB = b;
-})(AzRTBHelper || (AzRTBHelper = {})),
-  define("AzRTBHelper", function () {}),
   function () {
     var a = function (a, b) {
         return function () {
@@ -43710,8 +39566,8 @@ var AzRTBHelper;
       })(Phaser.Sprite);
     });
   }.call(this));
-var COMPILED = !1,
-  goog = goog || {};
+var COMPILED = !1;
+goog = {};
 ((goog.global = this),
   goog.global.CLOSURE_UNCOMPILED_DEFINES,
   goog.global.CLOSURE_DEFINES,
@@ -69295,12 +65151,6 @@ var COMPILED = !1,
               )
             );
           }),
-          (g.prototype.show = function () {
-            return (
-              g.__super__.show.call(this),
-              this.game.AnalyticsManager.sendScreenView("settings")
-            );
-          }),
           (g.prototype.setState = function () {
             return (
               this.dual &&
@@ -69359,7 +65209,6 @@ var COMPILED = !1,
       "./IngameMenu",
       "../Common/StoneButton",
       "../Common/Button",
-      "AzRTBHelper",
       "Phaser",
       "States/Settings/SettingsMenu",
     ], function (c) {
@@ -69368,7 +65217,6 @@ var COMPILED = !1,
         (e = c("./IngameMenu")),
         (g = c("../Common/StoneButton")),
         (d = c("../Common/Button")),
-        c("AzRTBHelper"),
         c("Phaser"),
         (f = c("States/Settings/SettingsMenu")),
         (function (c) {
@@ -69483,81 +65331,27 @@ var COMPILED = !1,
                 (this.settingsButton.y =
                   -this.contentSize.halfHeight +
                   this.settingsButton.height +
-                  100),
-                this.resize()
+                  100)
               );
             }),
             (e.prototype.show = function () {
-              if (
-                (e.__super__.show.call(this),
-                (this.isPressed = !1),
-                this.game.AnalyticsManager.sendScreenView("button_game_pause"),
-                h5branding.Hosts.isYandex())
-              ) {
-                if (this.game.device.desktop)
-                  return (
-                    AzRTBHelper.AzRTB.getInstance().createAdBlock(
-                      this.divID,
-                      this.blockID,
-                    ),
-                    AzRTBHelper.AzRTB.getInstance().resize()
-                  );
-                if (window.innerHeight > window.innerWidth)
-                  return (
-                    AzRTBHelper.AzRTB.getInstance().createAdBlock(
-                      this.divID,
-                      this.blockID,
-                    ),
-                    AzRTBHelper.AzRTB.getInstance().resize()
-                  );
-              }
+              e.__super__.show.call(this);
+              this.isPressed = !1;
             }),
             (e.prototype.resume = function () {
-              if (
-                !this.isPressed &&
-                (this.game.level.togglePause(),
-                (this.isPressed = !0),
-                h5branding.Hosts.isYandex())
-              )
-                return AzRTBHelper.AzRTB.getInstance().removeAdBlock(
-                  this.divID,
-                );
+              if (this.isPressed) return;
+              this.game.level.togglePause();
+              this.isPressed = !0;
             }),
             (e.prototype.quit = function () {
-              if (
-                !this.isPressed &&
-                (this.level.quit(),
-                (this.isPressed = !0),
-                h5branding.Hosts.isYandex())
-              )
-                return AzRTBHelper.AzRTB.getInstance().removeAdBlock(
-                  this.divID,
-                );
+              if (this.isPressed) return;
+              this.level.quit();
+              this.isPressed = !0;
             }),
             (e.prototype.retry = function () {
-              if (
-                !this.isPressed &&
-                (this.level.retry(),
-                (this.isPressed = !0),
-                h5branding.Hosts.isYandex())
-              )
-                return AzRTBHelper.AzRTB.getInstance().removeAdBlock(
-                  this.divID,
-                );
-            }),
-            (e.prototype.resize = function () {
-              if (this.game.paused)
-                return h5branding.Hosts.isYandex()
-                  ? this.game.device.desktop
-                    ? AzRTBHelper.AzRTB.getInstance().resize()
-                    : window.innerHeight > window.innerWidth
-                      ? (AzRTBHelper.AzRTB.getInstance().show(
-                          this.divID,
-                          this.blockID,
-                        ),
-                        AzRTBHelper.AzRTB.getInstance().resize())
-                      : AzRTBHelper.AzRTB.getInstance().hide(this.divID)
-                  : void 0;
+              if (this.isPressed) return;
+              this.level.retry();
+              this.isPressed = !0;
             }),
             e
           );
@@ -69944,7 +65738,6 @@ var COMPILED = !1,
       "./FinishCounter",
       "../Common/StoneButton",
       "Phaser",
-      "h5ads",
     ], function (c, d, e) {
       "use strict";
       return (function (f) {
@@ -70146,9 +65939,6 @@ var COMPILED = !1,
           (e.prototype.renderContent = function () {
             var a, b;
             return (
-              this.game.AnalyticsManager.sendScreenView(
-                "rewarded_unavailable_menu",
-              ),
               (b = this.game.make.bitmapText(
                 0,
                 -this.contentSize.halfHeight / 2 + 30,
@@ -70218,8 +66008,6 @@ var COMPILED = !1,
     define("States/Level/GameOverMenu", [
       "require",
       "Phaser",
-      "AzRTBHelper",
-      "h5ads",
       "./IngameMenu",
       "../Common/RewardedUnavailableMenu",
       "../Common/StoneButton",
@@ -70227,8 +66015,6 @@ var COMPILED = !1,
       var d, e, f, g;
       return (
         c("Phaser"),
-        c("AzRTBHelper"),
-        (g = c("h5ads")),
         (e = c("./IngameMenu")),
         (f = c("../Common/RewardedUnavailableMenu")),
         (d = c("../Common/StoneButton")),
@@ -70243,8 +66029,6 @@ var COMPILED = !1,
                 this,
               )),
               (this.skip = a(this.skip, this)),
-              (this.endRewardedAd = a(this.endRewardedAd, this)),
-              (this.showRewardedAd = a(this.showRewardedAd, this)),
               (this.retry = a(this.retry, this)),
               (this.gotoMenu = a(this.gotoMenu, this)),
               (this.layoutContent = a(this.layoutContent, this)),
@@ -70261,20 +66045,6 @@ var COMPILED = !1,
                   ? ((this.divID = "rtb-v-3"), (this.blockID = "R-A-800494-8"))
                   : ((this.divID = "rtb-m-h-1"),
                     (this.blockID = "R-A-800494-14")),
-                h5branding.Hosts.isYandex() &&
-                  (this.game.device.desktop
-                    ? (AzRTBHelper.AzRTB.getInstance().createAdBlock(
-                        this.divID,
-                        this.blockID,
-                      ),
-                      AzRTBHelper.AzRTB.getInstance().resize())
-                    : window.innerHeight > window.innerWidth &&
-                      (AzRTBHelper.AzRTB.getInstance().createAdBlock(
-                        this.divID,
-                        this.blockID,
-                      ),
-                      AzRTBHelper.AzRTB.getInstance().resize())),
-                this.game.AnalyticsManager.sendScreenView("gameover_menu"),
                 (this.label = b =
                   this.game.make.bitmapText(
                     0,
@@ -70287,68 +66057,46 @@ var COMPILED = !1,
                 (b.x = -b.width / 2),
                 (b.y = 0.5 * -this.contentSize.halfHeight + b.textHeight / 2),
                 this.board.addChild(b),
-                h5branding.Branding.analyticsEnabled &&
-                g.adWrapper.adAvailable(g.AdType.rewarded)
-                  ? ((b = this.game.make.bitmapText(
-                      0,
-                      0,
-                      this.game.lang.font,
-                      this.game.lang.locale("SkipText"),
-                      36,
-                    )),
-                    b.anchor.set(0),
-                    (b.fontSize = 22),
-                    (b.x = -b.width / 2),
-                    (b.y =
-                      0.15 * -this.contentSize.halfHeight + b.textHeight / 2),
-                    this.board.addChild(b),
-                    (a = new d(
-                      this.game,
-                      0.6 * -this.contentSize.halfWidth,
-                      0.4 * this.contentSize.halfHeight,
-                      this.game.lang.locale("Menu"),
-                      this.gotoMenu,
-                    )),
-                    a.anchor.set(0.5),
-                    this.board.addChild(a),
-                    (a = new d(
-                      this.game,
-                      0,
-                      0.4 * this.contentSize.halfHeight,
-                      this.game.lang.locale("Retry"),
-                      this.retry,
-                    )),
-                    a.anchor.set(0.5),
-                    this.board.addChild(a),
-                    (this.skipButton = a =
-                      new d(
-                        this.game,
-                        0.6 * this.contentSize.halfWidth,
-                        0.4 * this.contentSize.halfHeight,
-                        this.game.lang.locale("Skip"),
-                        this.showRewardedAd,
-                      )),
-                    a.anchor.set(0.5),
-                    this.board.addChild(a))
-                  : ((a = new d(
-                      this.game,
-                      0.4 * -this.contentSize.halfWidth,
-                      0.4 * this.contentSize.halfHeight,
-                      this.game.lang.locale("Menu"),
-                      this.gotoMenu,
-                    )),
-                    a.anchor.set(0.5),
-                    this.board.addChild(a),
-                    (a = new d(
-                      this.game,
-                      0.4 * this.contentSize.halfWidth,
-                      0.4 * this.contentSize.halfHeight,
-                      this.game.lang.locale("Retry"),
-                      this.retry,
-                    )),
-                    a.anchor.set(0.5),
-                    this.board.addChild(a)),
-                this.resize()
+                ((b = this.game.make.bitmapText(
+                  0,
+                  0,
+                  this.game.lang.font,
+                  this.game.lang.locale("SkipText"),
+                  36,
+                )),
+                b.anchor.set(0),
+                (b.fontSize = 22),
+                (b.x = -b.width / 2),
+                (b.y = 0.15 * -this.contentSize.halfHeight + b.textHeight / 2),
+                this.board.addChild(b),
+                (a = new d(
+                  this.game,
+                  0.6 * -this.contentSize.halfWidth,
+                  0.4 * this.contentSize.halfHeight,
+                  this.game.lang.locale("Menu"),
+                  this.gotoMenu,
+                )),
+                a.anchor.set(0.5),
+                this.board.addChild(a),
+                (a = new d(
+                  this.game,
+                  0,
+                  0.4 * this.contentSize.halfHeight,
+                  this.game.lang.locale("Retry"),
+                  this.retry,
+                )),
+                a.anchor.set(0.5),
+                this.board.addChild(a),
+                (this.skipButton = a =
+                  new d(
+                    this.game,
+                    0.6 * this.contentSize.halfWidth,
+                    0.4 * this.contentSize.halfHeight,
+                    this.game.lang.locale("Skip"),
+                    this.skip,
+                  )),
+                a.anchor.set(0.5),
+                this.board.addChild(a))
               );
             }),
             (e.prototype.layoutContent = function () {
@@ -70362,47 +66110,15 @@ var COMPILED = !1,
               );
             }),
             (e.prototype.gotoMenu = function () {
-              return (
-                AzRTBHelper.AzRTB.getInstance().removeAdBlock(this.divID),
-                this.game.state.fade(
-                  "levelMenu",
-                  !0,
-                  !1,
-                  this.game.currentTemple,
-                )
+              return this.game.state.fade(
+                "levelMenu",
+                !0,
+                !1,
+                this.game.currentTemple,
               );
             }),
             (e.prototype.retry = function () {
-              return (
-                AzRTBHelper.AzRTB.getInstance().removeAdBlock(this.divID),
-                this.game.level.retry()
-              );
-            }),
-            (e.prototype.showRewardedAd = function () {
-              if (!this.blockRewarded)
-                return (
-                  (this.blockRewarded = !0),
-                  this.game.AnalyticsManager.sendScreenView(
-                    "advertisement_skip_level_rewarded",
-                  ),
-                  g.adWrapper.addListener(
-                    g.AdEvents.AD_REWARDED,
-                    this.endRewardedAd,
-                  ),
-                  g.adWrapper.addListener(
-                    g.AdEvents.CONTENT_RESUMED,
-                    this.showRewardedUnavailable,
-                  ),
-                  g.adWrapper.showAd(g.AdType.rewarded)
-                );
-            }),
-            (e.prototype.endRewardedAd = function () {
-              return (
-                g.adWrapper.removeAllListeners(g.AdEvents.AD_REWARDED),
-                g.adWrapper.removeAllListeners(g.AdEvents.CONTENT_RESUMED),
-                g.adWrapper.preloadAd(g.AdType.rewarded),
-                this.skip()
-              );
+              return this.game.level.retry();
             }),
             (e.prototype.skip = function () {
               return (
@@ -70413,34 +66129,11 @@ var COMPILED = !1,
             }),
             (e.prototype.showRewardedUnavailable = function () {
               return (
-                g.adWrapper.removeAllListeners(g.AdEvents.AD_REWARDED),
-                g.adWrapper.removeAllListeners(g.AdEvents.CONTENT_RESUMED),
                 (this.menu = new f(this.game)),
                 this.menu.show(),
                 this.menu.onClose.add(this.onUnavailableClose),
                 (this.skipButton.alpha = 0.5)
               );
-            }),
-            (e.prototype.onUnavailableClose = function () {
-              return this.game.AnalyticsManager.sendScreenView("gameover_menu");
-            }),
-            (e.prototype.close = function () {
-              return (
-                g.adWrapper.removeAllListeners(g.AdEvents.AD_REWARDED),
-                g.adWrapper.removeAllListeners(g.AdEvents.CONTENT_RESUMED),
-                e.__super__.close.apply(this, arguments).close()
-              );
-            }),
-            (e.prototype.resize = function () {
-              return this.game.device.desktop
-                ? AzRTBHelper.AzRTB.getInstance().resize()
-                : window.innerHeight > window.innerWidth
-                  ? (AzRTBHelper.AzRTB.getInstance().show(
-                      this.divID,
-                      this.blockID,
-                    ),
-                    AzRTBHelper.AzRTB.getInstance().resize())
-                  : AzRTBHelper.AzRTB.getInstance().hide(this.divID);
             }),
             e
           );
@@ -70601,7 +66294,6 @@ var COMPILED = !1,
               (this.setupLayers = a(this.setupLayers, this)),
               (this.pauseUpdate = a(this.pauseUpdate, this)),
               (this.togglePause = a(this.togglePause, this)),
-              (this.sendScreenView = a(this.sendScreenView, this)),
               (this.startLevel = a(this.startLevel, this)),
               (this.start = a(this.start, this)),
               (this.layoutContent = a(this.layoutContent, this)),
@@ -70644,8 +66336,7 @@ var COMPILED = !1,
                   this.baseLoadComplete,
                   this,
                 ),
-                this.game.load.start(),
-                this.sendScreenView());
+                this.game.load.start());
             }),
             (m.prototype.baseLoadComplete = function () {
               _.defer(
@@ -70655,7 +66346,7 @@ var COMPILED = !1,
                     return (
                       (a.mapData = a.parseMapPropper()),
                       (b =
-                        "assets/atlasses/Temples/" + a.game.currentTemple.id),
+                        "./assets/atlasses/Temples/" + a.game.currentTemple.id),
                       a.game.load.atlasJSONArray(
                         "TempleAssets",
                         b + "/TempleAssets.png",
@@ -70733,7 +66424,7 @@ var COMPILED = !1,
                   (c =
                     (q[p] || p).charAt(0).toUpperCase() + (q[p] || p).slice(1)),
                   o.push(
-                    this.game.load.audio(p, "assets/audio/" + c + ".mp3"),
+                    this.game.load.audio(p, "./assets/audio/" + c + ".mp3"),
                   ));
               return o;
             }),
@@ -71166,9 +66857,6 @@ var COMPILED = !1,
                 )
               );
             }),
-            (m.prototype.sendScreenView = function () {
-              return this.game.AnalyticsManager.sendScreenView("gameplay");
-            }),
             (m.prototype.togglePause = function () {
               return (
                 (this.game.paused = !this.game.paused),
@@ -71176,8 +66864,7 @@ var COMPILED = !1,
                   ? ((this.root.alpha.cacheAsBitmap = !0),
                     this.pauseMenu.show(),
                     this.ui.clock.pause())
-                  : (this.sendScreenView(),
-                    (this.root.alpha.cacheAsBitmap = !1),
+                  : ((this.root.alpha.cacheAsBitmap = !1),
                     (this.root.alpha = 1),
                     this.pauseMenu.hide(),
                     this.ui.clock.resume())
@@ -71446,10 +67133,6 @@ var COMPILED = !1,
                   this.pers2.data.silverDiamond),
                 (this.levelState.time = this.ui.clock.getElapsedSeconds()),
                 this.ui.clock.stop(),
-                this.game.AnalyticsManager.addProgressionEvent(
-                  "Complete",
-                  this.levelData.id.toString(),
-                ),
                 (this.levelData.totalDiamonds = this.totalDiamonds),
                 this.game.state.add("endGame", g),
                 this.game.state.start("endGame", !1, !1, {
@@ -71565,10 +67248,6 @@ var COMPILED = !1,
             (m.prototype.retry = function () {
               return (
                 this.game.level.sounds.levelMusic.stop(),
-                this.game.AnalyticsManager.addProgressionEvent(
-                  "Start",
-                  this.levelData.id.toString(),
-                ),
                 this.game.state.add("level", m),
                 this.game.state.fade("level", !0, !1, this.levelData),
                 this.killAll()
@@ -71577,10 +67256,6 @@ var COMPILED = !1,
             (m.prototype.gameOver = function () {
               return (
                 this.ui.clock.stop(),
-                this.game.AnalyticsManager.addProgressionEvent(
-                  "Fail",
-                  this.levelData.id.toString(),
-                ),
                 this.game.state.add("endGame", g),
                 this.game.state.start("endGame", !1, !1, {
                   success: !1,
@@ -71593,10 +67268,6 @@ var COMPILED = !1,
             (m.prototype.quit = function () {
               return (
                 this.game.level.sounds.levelMusic.stop(),
-                this.game.AnalyticsManager.addProgressionEvent(
-                  "Fail",
-                  this.levelData.id.toString(),
-                ),
                 this.game.state.fade(
                   "levelMenu",
                   !0,
@@ -71764,15 +67435,13 @@ var COMPILED = !1,
       "../Level/IngameMenu",
       "../Common/StoneButton",
       "./RewardedUnavailableMenu",
-      "h5ads",
     ], function (c) {
-      var d, e, f, g;
+      var d, e, f;
       return (
         c("Phaser"),
         (e = c("../Level/IngameMenu")),
         (d = c("../Common/StoneButton")),
         (f = c("./RewardedUnavailableMenu")),
-        (g = c("h5ads")),
         (function (c) {
           function e(b, c) {
             ((this.close = a(this.close, this)),
@@ -71836,17 +67505,8 @@ var COMPILED = !1,
             (e.prototype.watchAd = function () {
               if (!this.debounceClick)
                 return (
-                  g.adWrapper.addListener(
-                    g.AdEvents.AD_REWARDED,
-                    this.rewardedAdCompleted,
-                  ),
-                  g.adWrapper.addListener(
-                    g.AdEvents.CONTENT_RESUMED,
-                    this.rewardedShown,
-                  ),
                   (this.game.sound.mute = !0),
                   (this.game.paused = !0),
-                  g.adWrapper.showAd(g.AdType.rewarded),
                   (this.watchButton.alpha = 0.5),
                   (this.debounceClick = !0)
                 );
@@ -71854,8 +67514,6 @@ var COMPILED = !1,
             (e.prototype.rewardedShown = function () {
               return (
                 (this.game.sound.mute = !this.game.settings.fx),
-                g.adWrapper.removeAllListeners(g.AdEvents.CONTENT_RESUMED),
-                g.adWrapper.preloadAd(g.AdType.rewarded),
                 (this.game.paused = !1),
                 this.rewarded ||
                   ((this.menu = new f(this.game)), this.menu.show()),
@@ -71866,8 +67524,6 @@ var COMPILED = !1,
             }),
             (e.prototype.close = function () {
               return (
-                g.adWrapper.removeAllListeners(g.AdEvents.AD_REWARDED),
-                g.adWrapper.removeAllListeners(g.AdEvents.CONTENT_RESUMED),
                 this.hide(),
                 _.delay(
                   (function (a) {
@@ -72219,24 +67875,7 @@ var COMPILED = !1,
                       q.scale.set(y),
                       q.anchor.set(0.5),
                       this.addChild(q))
-                    : ((c =
-                        o.state > 0 || o.rewarded
-                          ? this.buttonClick
-                          : h5branding.Branding.analyticsEnabled
-                            ? (function (a) {
-                                return function (b) {
-                                  return a.showPopup({
-                                    type: "rewarded",
-                                    button: b,
-                                    buttonClick: a.buttonClick,
-                                  });
-                                };
-                              })(this)
-                            : (function (a) {
-                                return function () {
-                                  return a.showPopup({ type: "softLock" });
-                                };
-                              })(this)),
+                    : ((c = this.buttonClick),
                       (b = new e(this.game, E, F, o.type, z(o.state), c)),
                       b.scale.set(y),
                       b.anchor.set(0.5),
@@ -72255,22 +67894,7 @@ var COMPILED = !1,
                         (r.y -= 20),
                         r.scale.set(y),
                         r.anchor.set(0.5),
-                        s.addChild(r)),
-                      0 === o.state &&
-                        o.rewarded &&
-                        h5branding.Branding.analyticsEnabled &&
-                        ((w = new f.BitmapText(
-                          this.game,
-                          E,
-                          F,
-                          this.game.lang.font,
-                          this.game.lang.locale("rewarded_play"),
-                        )),
-                        (w.x += 40),
-                        (w.y -= 20),
-                        w.scale.set(y),
-                        w.anchor.set(0.5),
-                        x.addChild(w))),
+                        s.addChild(r))),
                   (A = {
                     font: "28px Arial",
                     fill: "#ffffff",
@@ -72291,7 +67915,7 @@ var COMPILED = !1,
               if (null === this.currentMenu)
                 return (
                   console.log("show popup for", a.type),
-                  "rewarded" === a.type && h5branding.Branding.analyticsEnabled
+                  "rewarded" === a.type
                     ? (b = new g(this.game, {
                         button: a.button,
                         buttonClick: a.buttonClick,
@@ -72644,8 +68268,6 @@ var COMPILED = !1,
     define("States/LevelMenu/LevelMenu", [
       "require",
       "Phaser",
-      "h5ads",
-      "AzRTBHelper",
       "../Common/UIState",
       "./LevelButton",
       "States/Level/Level",
@@ -72657,11 +68279,9 @@ var COMPILED = !1,
       "States/Buy/Buy",
       "States/Complete/Complete",
     ], function (c) {
-      var d, e, f, g, h, i, j, k, l;
+      var d, e, f, g, h, i, j, k;
       return (
         c("Phaser"),
-        (l = c("h5ads")),
-        c("AzRTBHelper"),
         (k = c("../Common/UIState")),
         c("./LevelButton"),
         (j = c("States/Level/Level")),
@@ -72708,13 +68328,12 @@ var COMPILED = !1,
               var a;
               if (
                 (k.__super__.preload.apply(this, arguments),
-                (a = "assets/atlasses/Temples/" + this.templeData.id),
+                (a = "./assets/atlasses/Temples/" + this.templeData.id),
                 this.game.load.atlasJSONArray(
                   "TempleAssets",
                   a + "/TempleAssets.png",
                   a + "/TempleAssets.json",
                 ),
-                this.game.AnalyticsManager.sendScreenView("level_menu"),
                 this.game.device.desktop)
               )
                 return (
@@ -72726,7 +68345,6 @@ var COMPILED = !1,
               var a, b, c, f, g, h;
               return (
                 console.log("createing MenuState"),
-                l.adWrapper.preloadAd(l.AdType.rewarded),
                 (this.game.stage.backgroundColor = "#000000"),
                 (h = this.game.realWidth),
                 (c = this.game.realHeight),
@@ -72814,35 +68432,12 @@ var COMPILED = !1,
             }),
             (k.prototype.afterAddContent = function () {
               return (
-                h5branding.Hosts.isYandex() &&
-                  AzRTBHelper.AzRTB.getInstance().createAdBlock(
-                    this.divID,
-                    this.blockID,
-                  ),
                 this.game.progress.firstComplete &&
                   ((this.game.progress.firstComplete = !1),
                   this.game.state.add("gameComplete", g),
                   this.game.state.start("gameComplete", !1, !1, {
                     success: !0,
                   })),
-                ("cordova" === this.game.gameConfig.target ||
-                  this.game.config.simulateCordova) &&
-                  ((this.unlockButton = new e(
-                    this.game,
-                    this.game.realWidth / 2 - 100,
-                    this.game.realHeight / 2 - 100,
-                    "MenuAssets",
-                    "UnlockButton0000",
-                    (function (a) {
-                      return function () {
-                        return (
-                          a.game.state.add("buy", f),
-                          a.game.state.start("buy", !1, !1, { success: !0 })
-                        );
-                      };
-                    })(this),
-                  )),
-                  this.root.addChild(this.unlockButton)),
                 this.layoutContent()
               );
             }),
@@ -72872,9 +68467,6 @@ var COMPILED = !1,
                   (b = this.back.sprite.height / 4),
                   (this.back.x = -c / 2 + this.back.sprite.width / 2 + b),
                   (this.back.y = a / 2 - this.back.sprite.height / 2 - b)),
-                null != this.unlockButton &&
-                  ((this.unlockButton.x = this.game.realWidth / 2 - 100),
-                  (this.unlockButton.y = this.game.realHeight / 2 - 100)),
                 null != this.showNumBtn &&
                   ((this.showNumBtn.x =
                     this.game.realWidth / 2 -
@@ -72896,14 +68488,7 @@ var COMPILED = !1,
             }),
             (k.prototype.startLevel = function (a) {
               return (
-                h5branding.Hosts.isYandex() &&
-                  AzRTBHelper.AzRTB.getInstance().removeAdBlock(this.divID),
-                console.log(a),
                 this.game.progress.setPlayed(a.data),
-                this.game.AnalyticsManager.addProgressionEvent(
-                  "Start",
-                  a.data.id.toString(),
-                ),
                 null != this.game.menuMusic &&
                   (this.game.menuMusic.fadeOut(500),
                   this.game.menuMusic.onFadeComplete.add(function (a) {
@@ -72914,17 +68499,9 @@ var COMPILED = !1,
               );
             }),
             (k.prototype.goBack = function () {
-              return (
-                h5branding.Hosts.isYandex() &&
-                  AzRTBHelper.AzRTB.getInstance().removeAdBlock(this.divID),
-                "menu" !== this.game.state.current
-                  ? this.game.state.fade("menu", !0, !1)
-                  : console.log("dasfasdfa")
-              );
-            }),
-            (k.prototype.resize = function () {
-              if (h5branding.Hosts.isYandex() && this.game.device.desktop)
-                return AzRTBHelper.AzRTB.getInstance().resize();
+              return "menu" !== this.game.state.current
+                ? this.game.state.fade("menu", !0, !1)
+                : console.log("dasfasdfa");
             }),
             k
           );
@@ -73016,18 +68593,14 @@ var COMPILED = !1,
               this.board.addChild(a)
             );
           }),
-          (e.prototype.show = function () {
-            return (
-              e.__super__.show.call(this),
-              this.game.AnalyticsManager.sendScreenView("credits")
-            );
-          }),
           (e.prototype.close = function () {
             return (
+              console.log(1),
               this.hide(),
               _.delay(
                 (function (a) {
                   return function () {
+                    console.log(2);
                     return a.onClose.dispatch();
                   };
                 })(this),
@@ -73038,62 +68611,6 @@ var COMPILED = !1,
           e
         );
       })(c);
-    });
-  }.call(this),
-  function () {
-    var a = function (a, b) {
-        return function () {
-          return a.apply(b, arguments);
-        };
-      },
-      b = function (a, b) {
-        function d() {
-          this.constructor = a;
-        }
-        for (var e in b) c.call(b, e) && (a[e] = b[e]);
-        return (
-          (d.prototype = b.prototype),
-          (a.prototype = new d()),
-          (a.__super__ = b.prototype),
-          a
-        );
-      },
-      c = {}.hasOwnProperty;
-    define("States/Menu/SkirbyUpsellButton", [
-      "require",
-      "Phaser",
-      "States/Common/Button",
-    ], function (c) {
-      var d;
-      return (
-        c("Phaser"),
-        (d = c("States/Common/Button")),
-        (function (c) {
-          function d(b, c, e) {
-            ((this.openAffiliateLink = a(this.openAffiliateLink, this)),
-              d.__super__.constructor.call(
-                this,
-                b,
-                c,
-                e,
-                "skirby-upsell",
-                null,
-                this.openAffiliateLink,
-              ),
-              this.anchor.set(0.5));
-          }
-          return (
-            b(d, c),
-            (d.prototype.openAffiliateLink = function () {
-              return window.open(
-                "https://skirby.refersion.com/c/4ab1c2",
-                "_blank",
-              );
-            }),
-            d
-          );
-        })(d)
-      );
     });
   }.call(this),
   function () {
@@ -73128,10 +68645,8 @@ var COMPILED = !1,
       "States/Menu/TempleHall",
       "States/Complete/Complete",
       "../Common/GoldButton",
-      "States/Menu/SkirbyUpsellButton",
-      "h5branding",
     ], function (c) {
-      var d, e, f, g, h, i, j, k, l, m;
+      var d, e, f, g, h, i, j, l;
       return (
         c("Phaser"),
         (l = c("../Common/UIState")),
@@ -73144,8 +68659,6 @@ var COMPILED = !1,
         c("States/Menu/TempleHall"),
         c("States/Complete/Complete"),
         (g = c("../Common/GoldButton")),
-        (k = c("States/Menu/SkirbyUpsellButton")),
-        (m = c("h5branding")),
         (function (c) {
           function l() {
             ((this.layoutContent = a(this.layoutContent, this)),
@@ -73161,43 +68674,8 @@ var COMPILED = !1,
           }
           return (
             b(l, c),
-            (l.prototype.preload = function () {
-              return (
-                l.__super__.preload.apply(this, arguments),
-                this.game.AnalyticsManager.sendScreenView("main_menu")
-              );
-            }),
             (l.prototype.afterAddContent = function () {
               var a, b, c, e, f, h, i, j, l;
-              if (
-                (("cordova" === this.game.gameConfig.target ||
-                  this.game.config.simulateCordova) &&
-                  ((this.unlockButton = new d(
-                    this.game,
-                    this.game.realWidth / 2 - 100,
-                    this.game.realHeight / 2 - 100,
-                    "MenuAssets",
-                    "UnlockButton0000",
-                    this.showBuy,
-                    "pusher",
-                  )),
-                  this.root.addChild(this.unlockButton)),
-                "cordova" !== this.game.gameConfig.target &&
-                  !this.game.config.simulateCordova &&
-                  ((j = this.game.getStoreObjects()), j.length > 0))
-              )
-                for (this.appStoreButtons = [], e = 0, f = j.length; e < f; e++)
-                  ((i = j[e]),
-                    (h = (function (a) {
-                      return function (a) {
-                        return window.open(a.data.url, "_blank");
-                      };
-                    })()),
-                    (a = new d(this.game, 0, 0, i.image, null, h, "pusher")),
-                    (a.data = i),
-                    a.anchor.set(1),
-                    this.root.addChild(a),
-                    this.appStoreButtons.push(a));
               return (
                 (c =
                   "multi" === this.game.gameConfig.type
@@ -73224,10 +68702,6 @@ var COMPILED = !1,
                   )),
                 (this.creditsBtn.hitArea = new PIXI.Circle(0, 0, 3 * b.width)),
                 this.root.addChild(b),
-                m.Branding.outGoingLinksAllowed() &&
-                  ((this.upsellButton = l =
-                    new k(this.game, this.game.realWidth / 2 - 100, 0)),
-                  this.root.addChild(l)),
                 this.layoutContent()
               );
             }),
@@ -73240,11 +68714,7 @@ var COMPILED = !1,
                 a.onClose.add(
                   (function (b) {
                     return function () {
-                      return (
-                        a.destroy(),
-                        (b.currentMenu = null),
-                        b.game.AnalyticsManager.sendScreenView("main_menu")
-                      );
+                      return (a.destroy(), (b.currentMenu = null));
                     };
                   })(this),
                 )
@@ -73259,11 +68729,7 @@ var COMPILED = !1,
                 a.onClose.add(
                   (function (b) {
                     return function () {
-                      return (
-                        a.destroy(),
-                        (b.currentMenu = null),
-                        b.game.AnalyticsManager.sendScreenView("main_menu")
-                      );
+                      return (a.destroy(), (b.currentMenu = null));
                     };
                   })(this),
                 )
@@ -73278,11 +68744,7 @@ var COMPILED = !1,
                 a.onClose.add(
                   (function (b) {
                     return function () {
-                      return (
-                        a.destroy(),
-                        (b.currentMenu = null),
-                        b.game.AnalyticsManager.sendScreenView("main_menu")
-                      );
+                      return (a.destroy(), (b.currentMenu = null));
                     };
                   })(this),
                 )
@@ -73307,13 +68769,6 @@ var COMPILED = !1,
                 (l.__super__.layoutContent.call(this),
                 this.game.realWidth,
                 this.game.realHeight,
-                null != this.unlockButton &&
-                  ((this.unlockButton.x = this.game.realWidth / 2 - 100),
-                  (this.unlockButton.y = this.game.realHeight / 2 - 100),
-                  this.game.realWidth <= 900
-                    ? ((this.unlockButton.x = this.game.realWidth / 2 - 50),
-                      this.unlockButton.scale.set(0.7))
-                    : this.unlockButton.scale.set(1)),
                 null != this.appStoreButtons && this.appStoreButtons.length > 0)
               ) {
                 for (
@@ -82114,46 +77569,21 @@ var COMPILED = !1,
           (d.prototype.url = ""),
           (d.prototype.myKeys = []),
           (d.prototype.fetch = function () {
-            var a, b, c, d, e, f, g;
-            for (
-              e = [],
-                a = this.game.gameConfig,
-                f = [].concat(a.temples),
-                b = 0,
-                c = f.length;
-              b < c;
-              b++
-            )
-              ((g = f[b]),
-                (d = $.ajax("./data/" + g + "/temple.json")),
-                e.push(d));
-            return $.when.apply($, e).then(
-              (function (a) {
-                return function () {
-                  var b, c, f;
-                  for (
-                    console.log("all loaded ", e),
-                      f = { temples: [] },
-                      b = 0,
-                      c = e.length;
-                    b < c;
-                    b++
-                  )
-                    ((d = e[b]), f.temples.push(JSON.parse(d.responseText)));
-                  return a.getStored().then(function (b) {
-                    var c, d;
-                    (b || (b = {}), (f = _.deepObjectExtend(f, b)));
-                    for (c in f) ((d = f[c]), a.set(c, d));
-                    return (
-                      "cordova" === a.game.gameConfig.target &&
-                      null != window.store
-                        ? a.initStore()
-                        : (console.log("store not available"), (a.myKeys = [])),
-                      a.trigger("sync")
-                    );
-                  });
-                };
-              })(this),
+            console.log(`data/${this.game.gameConfig.temples}/temple.json`);
+            var f = { temples: [temple] };
+            return this.getStored().then(
+              function (b) {
+                var c, d;
+                (b || (b = {}), (f = _.deepObjectExtend(f, b)));
+                for (c in f) this.set(c, f[c]);
+                return (
+                  "cordova" === this.game.gameConfig.target &&
+                  null != window.store
+                    ? this.initStore()
+                    : (console.log("store not available"), ($.myKeys = [])),
+                  this.trigger("sync")
+                );
+              }.bind(this),
             );
           }),
           (d.prototype.initStore = function () {
@@ -82659,9 +78089,8 @@ var COMPILED = !1,
       "States/Complete/Complete",
       "States/LevelMenu/LevelMenu",
       "promise-polyfill",
-      "h5branding",
     ], function (c) {
-      var d, e, f, g, h;
+      var d, e, f, g;
       return (
         (e = c("Phaser")),
         (g = c("States/Menu/SingleMenu")),
@@ -82670,45 +78099,23 @@ var COMPILED = !1,
         c("States/Complete/Complete"),
         c("States/LevelMenu/LevelMenu"),
         c("promise-polyfill"),
-        (h = c("h5branding")),
         (function (c) {
           function e() {
             ((this.initialize = a(this.initialize, this)),
               (this.loadSettings = a(this.loadSettings, this)),
               (this.setStorageAdapter = a(this.setStorageAdapter, this)),
-              (this.gameName = "Fireboy Watergirl Forest Temple"));
+              (this.gameName = gameConfig.title));
           }
           return (
             b(e, c),
             (e.prototype.preload = function () {
               return (
                 console.log("Preloading Boot State"),
-                this.game.load.json("gameConfig", "game.json"),
                 this.game.load.atlasJSONArray(
                   "PreloaderAssets",
-                  "assets/atlasses/PreloaderAssets.png",
-                  "assets/atlasses/PreloaderAssets.json",
-                ),
-                h.Utils.getBrandingDomain() !== h.BrandingDomain.Neutral &&
-                  this.game.load.image(
-                    "KiziLogo",
-                    "assets/images/branding/branding_logo_kizi.png",
-                  ),
-                (h.Branding.analyticsEnabled = true),
-                h.SplashLoader.getInstance({
-                  gameId: this.GAME_DISTRIBUTION_ID,
-                  gameName: this.gameName,
-                  gameTitle: this.gameName,
-                  libs: [],
-                  version: version,
-                })
-                  .create()
-                  .catch(function (a) {
-                    return console.log(a);
-                  })
-                  .then(function () {
-                    return console.log("Splash Loaded");
-                  })
+                  "./assets/atlasses/PreloaderAssets.png",
+                  "./assets/atlasses/PreloaderAssets.json",
+                )
               );
             }),
             (e.prototype.create = function () {
@@ -82716,9 +78123,7 @@ var COMPILED = !1,
                 this.game.add.plugin(PhaserSuperStorage.StoragePlugin),
                 this.game.add.plugin(PhaserCachebuster.CacheBuster),
                 (this.game.load.cacheBuster = version),
-                this.game.AnalyticsManager.load(this.game),
-                this.game.AdManager.start(this.game),
-                (this.game.gameConfig = this.game.cache.getJSON("gameConfig")),
+                (this.game.gameConfig = gameConfig),
                 this.setStorageAdapter().then(
                   (function (a) {
                     return function () {
@@ -82979,7 +78384,6 @@ var COMPILED = !1,
       "Phaser",
       "ProgressModel",
       "States/Common/LoaderBar",
-      "h5branding",
       "States/LevelMenu/LevelMenu",
       "States/Menu/SingleMenu",
     ], function (b) {
@@ -82988,64 +78392,35 @@ var COMPILED = !1,
         (d = b("Phaser")),
         b("ProgressModel"),
         b("States/Common/LoaderBar"),
-        (f = b("h5branding")),
         (c = b("States/LevelMenu/LevelMenu")),
         (e = b("States/Menu/SingleMenu")),
         (function (b) {
           function g() {
-            ((this.gameName = "Fireboy Watergirl Forest Temple"),
-              (this.GAME_ANALYTICS_GAME_KEY =
-                "ae8d753aedafb86cc7b1c3f125bef56a"),
-              (this.GAME_ANALYTICS_SECRET_KEY =
-                "84c90aca8d94c8afdd855a2860a523b36cefb4f4"),
-              (this.GOOGLE_ANALYTICS_KEY = "UA-114327842-32"),
-              (this.GAME_DISTRIBUTION_ID = "a55c9cc9c21e4fc683c8c6857f3d0c75"));
+            this.gameName = "Fireboy Watergirl Forest Temple";
           }
           return (
             a(g, b),
             (g.prototype.preload = function () {
               return (
                 console.log("Loading"),
+                (this.onFileComplete = this.onFileComplete.bind(this)),
                 this.game.load.onFileComplete.add(this.onFileComplete),
+                (this.onLoadComplete = this.onLoadComplete.bind(this)),
                 this.game.load.onLoadComplete.add(this.onLoadComplete),
-                f.SplashLoader.getInstance().setButtonCallback(
-                  (function (a) {
-                    return function () {
-                      return (
-                        f.SplashLoader.getInstance().destroy(),
-                        f.Utils.inGDGameZone()
-                          ? a.startGame()
-                          : a.game.AdManager.showAd(function () {
-                              return a.startGame();
-                            }, "splash")
-                      );
-                    };
-                  })(this),
-                ),
                 this.loadAssets()
               );
             }),
             (g.prototype.startGame = function () {
               return (
-                this.game.progress.get("temples")[0].levels[0].played
-                  ? (this.game.state.add("levelMenu", c),
-                    this.game.state.start(
-                      "levelMenu",
-                      !0,
-                      !1,
-                      this.game.progress.get("temples")[0],
-                    ))
-                  : (this.game.state.add("menu", e),
-                    this.game.state.start("menu")),
+                this.game.state.add("menu", e),
+                this.game.state.start("menu"),
                 this.game.load.onFileComplete.remove(this.onFileComplete),
                 this.game.load.onLoadComplete.remove(this.onLoadComplete)
               );
             }),
-            (g.prototype.onFileComplete = function (a) {
-              return f.SplashLoader.getInstance().setLoadProgress(a);
-            }),
+            (g.prototype.onFileComplete = function (a) {}),
             (g.prototype.onLoadComplete = function () {
-              return f.SplashLoader.getInstance().setLoadProgress(100);
+              this.startGame();
             }),
             (g.prototype.loadAssets = function () {
               var a, b, c, e, f, g, h, i, j, k, l, m, n, o, p;
@@ -83053,28 +78428,28 @@ var COMPILED = !1,
                 ((this.game.load.crossOrigin = "anonymous"),
                 this.game.load.atlasJSONArray(
                   "MenuAssets",
-                  "assets/atlasses/MenuAssets.png",
-                  "assets/atlasses/MenuAssets.json",
+                  "./assets/atlasses/MenuAssets.png",
+                  "./assets/atlasses/MenuAssets.json",
                 ),
                 this.game.load.atlasJSONArray(
                   "PopupAssets",
-                  "assets/atlasses/PopupAssets.png",
-                  "assets/atlasses/PopupAssets.json",
+                  "./assets/atlasses/PopupAssets.png",
+                  "./assets/atlasses/PopupAssets.json",
                 ),
                 this.game.load.bitmapFont(
                   "font_en",
-                  "assets/fonts/font.png",
-                  "assets/fonts/font.fnt",
+                  "./assets/fonts/font.png",
+                  "./assets/fonts/font.fnt",
                 ),
                 this.game.load.bitmapFont(
                   "font_ru",
-                  "assets/fonts/fbwg_font_cyrillic.png",
-                  "assets/fonts/fbwg_font_cyrillic.fnt",
+                  "./assets/fonts/fbwg_font_cyrillic.png",
+                  "./assets/fonts/fbwg_font_cyrillic.fnt",
                 ),
                 this.game.load.atlasJSONArray(
                   "MenuBackgrounds",
-                  "assets/atlasses/MenuBackgrounds.png",
-                  "assets/atlasses/MenuBackgrounds.json",
+                  "./assets/atlasses/MenuBackgrounds.png",
+                  "./assets/atlasses/MenuBackgrounds.json",
                 ),
                 (o = _.isArray(this.game.gameConfig.assets)
                   ? this.game.gameConfig.assets
@@ -83084,8 +78459,8 @@ var COMPILED = !1,
                 for (
                   this.game.load.atlasJSONArray(
                     "TempleIcons",
-                    "assets/atlasses/TempleIcons.png",
-                    "assets/atlasses/TempleIcons.json",
+                    "./assets/atlasses/TempleIcons.png",
+                    "./assets/atlasses/TempleIcons.json",
                   ),
                     e = 0,
                     h = o.length;
@@ -83096,76 +78471,56 @@ var COMPILED = !1,
                     (k = a.charAt(0).toUpperCase() + a.slice(1)),
                     this.game.load.image(
                       "TempleHall" + k,
-                      "assets/images/TempleHall" + k + ".jpg",
+                      "./assets/images/TempleHall" + k + ".jpg",
                     ));
                 this.game.load.image(
                   "GameName",
-                  "assets/images/GameNameElements.png",
+                  "./assets/images/GameNameElements.png",
                 );
               } else
                 ((a = o[0]),
                   (k = a.charAt(0).toUpperCase() + a.slice(1)),
                   this.game.load.image(
                     "TempleHall",
-                    "assets/images/TempleHall" + k + ".jpg",
+                    "./assets/images/TempleHall" + k + ".jpg",
                   ),
                   this.game.load.image(
                     "GameName",
-                    "assets/images/GameName" + k + ".png",
+                    "./assets/images/GameName" + k + ".png",
                   ));
               for (
                 this.game.load.atlasJSONArray(
                   "CharAssets",
-                  "assets/atlasses/CharAssets.png",
-                  "assets/atlasses/CharAssets.json",
+                  "./assets/atlasses/CharAssets.png",
+                  "./assets/atlasses/CharAssets.json",
                 ),
-                  this.game.load.image("HallBeam", "assets/images/Beam.png"),
-                  this.game.load.image(
-                    "ios-store",
-                    "assets/images/stores/ios.png",
-                  ),
-                  this.game.load.image(
-                    "android-store",
-                    "assets/images/stores/android.png",
-                  ),
-                  this.game.load.image(
-                    "microsoft-store",
-                    "assets/images/stores/microsoft.png",
-                  ),
-                  this.game.load.image(
-                    "steam-store",
-                    "assets/images/stores/steam.png",
-                  ),
-                  this.game.load.image(
-                    "skirby-upsell",
-                    "assets/images/TOASTER-MINI-new.png",
-                  ),
+                  this.game.load.image("HallBeam", "./assets/images/Beam.png"),
                   this.game.load.atlasJSONArray(
                     "PopupAssets",
-                    "assets/atlasses/PopupAssets.png",
-                    "assets/atlasses/PopupAssets.json",
+                    "./assets/atlasses/PopupAssets.png",
+                    "./assets/atlasses/PopupAssets.json",
                   ),
                   this.game.load.json(
                     "Ground",
-                    "assets/tilemaps/tilesets/Ground.json",
+                    "./assets/tilemaps/tilesets/Ground.json",
                     null,
                     d.Tilemap.TILED_JSON,
                   ),
                   this.game.load.json(
                     "Objects",
-                    "assets/tilemaps/tilesets/Objects.json",
+                    "./assets/tilemaps/tilesets/Objects.json",
                     null,
                     d.Tilemap.TILED_JSON,
                   ),
                   this.game.load.json(
                     "LargeObjects",
-                    "assets/tilemaps/tilesets/LargeObjects.json",
+                    "./assets/tilemaps/tilesets/LargeObjects.json",
                     null,
                     d.Tilemap.TILED_JSON,
                   ),
                   this.game.load.json(
                     "Chars",
-                    "assets/tilemaps/tilesets/Chars.json",
+                    "./assets/tilemaps/tilesets/Chars.json",
                     null,
                     d.Tilemap.TILED_JSON,
                   ),
@@ -83175,7 +78530,7 @@ var COMPILED = !1,
                 f++
               )
                 ((c = o[f]),
-                  (p = "assets/atlasses/Temples/" + c),
+                  (p = "./assets/atlasses/Temples/" + c),
                   this.game.load.atlasJSONArray(
                     "TempleAssets",
                     p + "/TempleAssets.png",
@@ -83184,18 +78539,18 @@ var COMPILED = !1,
               for (
                 this.game.load.atlasJSONArray(
                   "GroundAssets",
-                  "assets/atlasses/GroundAssets.png",
-                  "assets/atlasses/GroundAssets.json",
+                  "./assets/atlasses/GroundAssets.png",
+                  "./assets/atlasses/GroundAssets.json",
                 ),
                   this.game.load.atlasJSONArray(
                     "CharAssets",
-                    "assets/atlasses/CharAssets.png",
-                    "assets/atlasses/CharAssets.json",
+                    "./assets/atlasses/CharAssets.png",
+                    "./assets/atlasses/CharAssets.json",
                   ),
                   this.game.load.atlasJSONArray(
                     "MechAssets",
-                    "assets/atlasses/MechAssets.png",
-                    "assets/atlasses/MechAssets.json",
+                    "./assets/atlasses/MechAssets.png",
+                    "./assets/atlasses/MechAssets.json",
                   ),
                   n = [
                     "menuMusic",
@@ -83241,21 +78596,9 @@ var COMPILED = !1,
                 ((m = n[g]),
                   (b = m.charAt(0).toUpperCase() + m.slice(1)),
                   l.push(
-                    this.game.load.audio(m, "assets/audio/" + b + ".mp3"),
+                    this.game.load.audio(m, "./assets/audio/" + b + ".mp3"),
                   ));
               return l;
-            }),
-            (g.prototype.create = function () {
-              return (
-                (window.h5branding = f),
-                this.game.AnalyticsManager.create({
-                  gameKey: this.GAME_ANALYTICS_GAME_KEY,
-                  gameSecret: this.GAME_ANALYTICS_SECRET_KEY,
-                  googleID: this.GOOGLE_ANALYTICS_KEY,
-                  gameTitle: this.gameName,
-                  version: version,
-                })
-              );
             }),
             g
           );
@@ -83278,7 +78621,7 @@ var COMPILED = !1,
         End: "End",
         Retry: "Retry",
         Skip: "Skip",
-        SkipText: "Retry or skip by watching an ad.",
+        SkipText: "Retry or skip.",
         Resume: "Resume",
         Menu: "Menu",
         "Game Over": "Game Over",
@@ -87476,4510 +82819,545 @@ var COMPILED = !1,
         );
       },
       c = {}.hasOwnProperty;
-    define("Ads/AdManager", ["require", "Phaser", "h5ads"], function (c) {
-      var d, e;
-      return (
-        (d = c("Phaser")),
-        (e = c("h5ads")),
-        (function (c) {
-          function d() {
-            return (
-              (this.pauseGame = a(this.pauseGame, this)),
-              (this.resumeGame = a(this.resumeGame, this)),
-              (this.showAd = a(this.showAd, this)),
-              (this.start = a(this.start, this)),
-              d.__super__.constructor.apply(this, arguments)
-            );
-          }
-          return (
-            b(d, c),
-            (d.prototype.start = function (a) {
-              if (((this.game = a), !this.game.config.devSkipAds))
-                return (
-                  (this.provider = new e.GameDistribution(
-                    "a55c9cc9c21e4fc683c8c6857f3d0c75",
-                  )),
-                  e.adWrapper.setAdProvider(this.provider),
-                  (window.h5ads = e)
-                );
-            }),
-            (d.prototype.showAd = function (a, b) {
-              return (
-                console.log("----------------------------------------", b),
-                this.game.AnalyticsManager.sendScreenView("advertisement_" + b),
-                e.adWrapper.once(
-                  e.AdEvents.CONTENT_PAUSED,
-                  (function (a) {
-                    return function () {
-                      return a.pauseGame();
-                    };
-                  })(this),
-                ),
-                e.adWrapper.once(
-                  e.AdEvents.CONTENT_RESUMED,
-                  (function (a) {
-                    return function () {
-                      return a.resumeGame();
-                    };
-                  })(this),
-                ),
-                this.game.config.devSkipAds
-                  ? void (null != a && a())
-                  : ((this.callback = a),
-                    e.adWrapper.showAd(e.AdType.interstitial))
-              );
-            }),
-            (d.prototype.resumeGame = function () {
-              return (
-                (this.game.paused = !1),
-                null != this.callback && this.callback(),
-                (this.callback = null),
-                e.adWrapper.removeAllListeners(e.AdEvents.CONTENT_PAUSED),
-                e.adWrapper.removeAllListeners(e.AdEvents.CONTENT_RESUMED)
-              );
-            }),
-            (d.prototype.pauseGame = function () {
-              return (this.game.paused = !0);
-            }),
-            d
-          );
-        })(d.Signal)
-      );
-    });
-  }.call(this),
-  (function (a, b) {
-    "object" == typeof exports && "undefined" != typeof module
-      ? b(exports)
-      : "function" == typeof define && define.amd
-        ? define("h5Analytics", ["exports"], b)
-        : b((a.h5Analytics = a.h5Analytics || {}));
-  })(this, function (a) {
-    "use strict";
-    function b(a, b) {
-      function d() {
-        this.constructor = a;
-      }
-      (c(a, b),
-        (a.prototype =
-          null === b
-            ? Object.create(b)
-            : ((d.prototype = b.prototype), new d())));
+  }.call(this));
+define("bowser", function () {
+  function a(a) {
+    function b(b) {
+      var c = a.match(b);
+      return (c && c.length > 1 && c[1]) || "";
     }
-    var c = function (a, b) {
-        return (c =
-          Object.setPrototypeOf ||
-          ({ __proto__: [] } instanceof Array &&
-            function (a, b) {
-              a.__proto__ = b;
-            }) ||
-          function (a, b) {
-            for (var c in b) b.hasOwnProperty(c) && (a[c] = b[c]);
-          })(a, b);
-      },
-      d = (function () {
-        function a() {
-          this.providers = [];
-        }
-        return (
-          (a.prototype.loadScript = function (a) {
-            this.providers.forEach(function (b) {
-              return b.loadScript(a);
-            });
-          }),
-          (a.prototype.create = function (a) {
-            this.providers.forEach(function (b) {
-              return b.create(a);
-            });
-          }),
-          (a.prototype.sendScreenView = function (a) {
-            this.providers.forEach(function (b) {
-              return b.sendScreenView(a);
-            });
-          }),
-          (a.prototype.sendEvent = function (a, b) {
-            this.providers.forEach(function (c) {
-              return c.sendEvent(a, b);
-            });
-          }),
-          (a.prototype.sendCustomEvent = function (a, b) {
-            this.providers.forEach(function (c) {
-              return c.sendCustomEvent(a, b);
-            });
-          }),
-          (a.prototype.sendGenericEvent = function (a, b, c) {
-            this.providers.forEach(function (d) {
-              return d.sendGenericEvent(a, b, c);
-            });
-          }),
-          (a.prototype.addProgressionEvent = function (a, b, c, d, e) {
-            this.providers.forEach(function (f) {
-              return f.addProgressionEvent(a, b, c, d, e);
-            });
-          }),
-          (a.prototype.addDesignEvent = function (a, b) {
-            this.providers.forEach(function (c) {
-              return c.addDesignEvent(a, b);
-            });
-          }),
-          a
-        );
-      })(),
-      e =
-        e ||
-        (function (a, b) {
-          var c = {},
-            d = (c.lib = {}),
-            e = function () {},
-            f = (d.Base = {
-              extend: function (a) {
-                e.prototype = this;
-                var b = new e();
-                return (
-                  a && b.mixIn(a),
-                  b.hasOwnProperty("init") ||
-                    (b.init = function () {
-                      b.$super.init.apply(this, arguments);
-                    }),
-                  (b.init.prototype = b),
-                  (b.$super = this),
-                  b
-                );
-              },
-              create: function () {
-                var a = this.extend();
-                return (a.init.apply(a, arguments), a);
-              },
-              init: function () {},
-              mixIn: function (a) {
-                for (var b in a) a.hasOwnProperty(b) && (this[b] = a[b]);
-                a.hasOwnProperty("toString") && (this.toString = a.toString);
-              },
-              clone: function () {
-                return this.init.prototype.extend(this);
-              },
-            }),
-            g = (d.WordArray = f.extend({
-              init: function (a, b) {
-                ((a = this.words = a || []),
-                  (this.sigBytes = void 0 != b ? b : 4 * a.length));
-              },
-              toString: function (a) {
-                return (a || i).stringify(this);
-              },
-              concat: function (a) {
-                var b = this.words,
-                  c = a.words,
-                  d = this.sigBytes;
-                if (((a = a.sigBytes), this.clamp(), d % 4))
-                  for (var e = 0; e < a; e++)
-                    b[(d + e) >>> 2] |=
-                      ((c[e >>> 2] >>> (24 - (e % 4) * 8)) & 255) <<
-                      (24 - ((d + e) % 4) * 8);
-                else if (65535 < c.length)
-                  for (e = 0; e < a; e += 4) b[(d + e) >>> 2] = c[e >>> 2];
-                else b.push.apply(b, c);
-                return ((this.sigBytes += a), this);
-              },
-              clamp: function () {
-                var b = this.words,
-                  c = this.sigBytes;
-                ((b[c >>> 2] &= 4294967295 << (32 - (c % 4) * 8)),
-                  (b.length = a.ceil(c / 4)));
-              },
-              clone: function () {
-                var a = f.clone.call(this);
-                return ((a.words = this.words.slice(0)), a);
-              },
-              random: function (b) {
-                for (var c = [], d = 0; d < b; d += 4)
-                  c.push((4294967296 * a.random()) | 0);
-                return new g.init(c, b);
-              },
-            })),
-            h = (c.enc = {}),
-            i = (h.Hex = {
-              stringify: function (a) {
-                var b = a.words;
-                a = a.sigBytes;
-                for (var c = [], d = 0; d < a; d++) {
-                  var e = (b[d >>> 2] >>> (24 - (d % 4) * 8)) & 255;
-                  (c.push((e >>> 4).toString(16)),
-                    c.push((15 & e).toString(16)));
-                }
-                return c.join("");
-              },
-              parse: function (a) {
-                for (var b = a.length, c = [], d = 0; d < b; d += 2)
-                  c[d >>> 3] |=
-                    parseInt(a.substr(d, 2), 16) << (24 - (d % 8) * 4);
-                return new g.init(c, b / 2);
-              },
-            }),
-            j = (h.Latin1 = {
-              stringify: function (a) {
-                var b = a.words;
-                a = a.sigBytes;
-                for (var c = [], d = 0; d < a; d++)
-                  c.push(
-                    String.fromCharCode(
-                      (b[d >>> 2] >>> (24 - (d % 4) * 8)) & 255,
-                    ),
-                  );
-                return c.join("");
-              },
-              parse: function (a) {
-                for (var b = a.length, c = [], d = 0; d < b; d++)
-                  c[d >>> 2] |= (255 & a.charCodeAt(d)) << (24 - (d % 4) * 8);
-                return new g.init(c, b);
-              },
-            }),
-            k = (h.Utf8 = {
-              stringify: function (a) {
-                try {
-                  return decodeURIComponent(escape(j.stringify(a)));
-                } catch (a) {
-                  throw Error("Malformed UTF-8 data");
-                }
-              },
-              parse: function (a) {
-                return j.parse(unescape(encodeURIComponent(a)));
-              },
-            }),
-            l = (d.BufferedBlockAlgorithm = f.extend({
-              reset: function () {
-                ((this._data = new g.init()), (this._nDataBytes = 0));
-              },
-              _append: function (a) {
-                ("string" == typeof a && (a = k.parse(a)),
-                  this._data.concat(a),
-                  (this._nDataBytes += a.sigBytes));
-              },
-              _process: function (b) {
-                var c = this._data,
-                  d = c.words,
-                  e = c.sigBytes,
-                  f = this.blockSize,
-                  h = e / (4 * f),
-                  h = b ? a.ceil(h) : a.max((0 | h) - this._minBufferSize, 0);
-                if (((b = h * f), (e = a.min(4 * b, e)), b)) {
-                  for (var i = 0; i < b; i += f) this._doProcessBlock(d, i);
-                  ((i = d.splice(0, b)), (c.sigBytes -= e));
-                }
-                return new g.init(i, e);
-              },
-              clone: function () {
-                var a = f.clone.call(this);
-                return ((a._data = this._data.clone()), a);
-              },
-              _minBufferSize: 0,
-            }));
-          d.Hasher = l.extend({
-            cfg: f.extend(),
-            init: function (a) {
-              ((this.cfg = this.cfg.extend(a)), this.reset());
-            },
-            reset: function () {
-              (l.reset.call(this), this._doReset());
-            },
-            update: function (a) {
-              return (this._append(a), this._process(), this);
-            },
-            finalize: function (a) {
-              return (a && this._append(a), this._doFinalize());
-            },
-            blockSize: 16,
-            _createHelper: function (a) {
-              return function (b, c) {
-                return new a.init(c).finalize(b);
-              };
-            },
-            _createHmacHelper: function (a) {
-              return function (b, c) {
-                return new m.HMAC.init(a, c).finalize(b);
-              };
-            },
-          });
-          var m = (c.algo = {});
-          return c;
-        })(Math);
-    (!(function (a) {
-      for (
-        var b = e,
-          c = b.lib,
-          d = c.WordArray,
-          f = c.Hasher,
-          c = b.algo,
-          g = [],
-          h = [],
-          i = function (a) {
-            return (4294967296 * (a - (0 | a))) | 0;
-          },
-          j = 2,
-          k = 0;
-        64 > k;
-      ) {
-        var l;
-        a: {
-          l = j;
-          for (var m = a.sqrt(l), n = 2; n <= m; n++)
-            if (!(l % n)) {
-              l = !1;
-              break a;
-            }
-          l = !0;
-        }
-        (l &&
-          (8 > k && (g[k] = i(a.pow(j, 0.5))),
-          (h[k] = i(a.pow(j, 1 / 3))),
-          k++),
-          j++);
-      }
-      var o = [],
-        c = (c.SHA256 = f.extend({
-          _doReset: function () {
-            this._hash = new d.init(g.slice(0));
-          },
-          _doProcessBlock: function (a, b) {
-            for (
-              var c = this._hash.words,
-                d = c[0],
-                e = c[1],
-                f = c[2],
-                g = c[3],
-                i = c[4],
-                j = c[5],
-                k = c[6],
-                l = c[7],
-                m = 0;
-              64 > m;
-              m++
-            ) {
-              if (16 > m) o[m] = 0 | a[b + m];
-              else {
-                var n = o[m - 15],
-                  p = o[m - 2];
-                o[m] =
-                  (((n << 25) | (n >>> 7)) ^
-                    ((n << 14) | (n >>> 18)) ^
-                    (n >>> 3)) +
-                  o[m - 7] +
-                  (((p << 15) | (p >>> 17)) ^
-                    ((p << 13) | (p >>> 19)) ^
-                    (p >>> 10)) +
-                  o[m - 16];
-              }
-              ((n =
-                l +
-                (((i << 26) | (i >>> 6)) ^
-                  ((i << 21) | (i >>> 11)) ^
-                  ((i << 7) | (i >>> 25))) +
-                ((i & j) ^ (~i & k)) +
-                h[m] +
-                o[m]),
-                (p =
-                  (((d << 30) | (d >>> 2)) ^
-                    ((d << 19) | (d >>> 13)) ^
-                    ((d << 10) | (d >>> 22))) +
-                  ((d & e) ^ (d & f) ^ (e & f))),
-                (l = k),
-                (k = j),
-                (j = i),
-                (i = (g + n) | 0),
-                (g = f),
-                (f = e),
-                (e = d),
-                (d = (n + p) | 0));
-            }
-            ((c[0] = (c[0] + d) | 0),
-              (c[1] = (c[1] + e) | 0),
-              (c[2] = (c[2] + f) | 0),
-              (c[3] = (c[3] + g) | 0),
-              (c[4] = (c[4] + i) | 0),
-              (c[5] = (c[5] + j) | 0),
-              (c[6] = (c[6] + k) | 0),
-              (c[7] = (c[7] + l) | 0));
-          },
-          _doFinalize: function () {
-            var b = this._data,
-              c = b.words,
-              d = 8 * this._nDataBytes,
-              e = 8 * b.sigBytes;
-            return (
-              (c[e >>> 5] |= 128 << (24 - (e % 32))),
-              (c[14 + (((e + 64) >>> 9) << 4)] = a.floor(d / 4294967296)),
-              (c[15 + (((e + 64) >>> 9) << 4)] = d),
-              (b.sigBytes = 4 * c.length),
-              this._process(),
-              this._hash
-            );
-          },
-          clone: function () {
-            var a = f.clone.call(this);
-            return ((a._hash = this._hash.clone()), a);
-          },
-        }));
-      ((b.SHA256 = f._createHelper(c)),
-        (b.HmacSHA256 = f._createHmacHelper(c)));
-    })(Math),
-      (function () {
-        var a = e,
-          b = a.enc.Utf8;
-        a.algo.HMAC = a.lib.Base.extend({
-          init: function (a, c) {
-            ((a = this._hasher = new a.init()),
-              "string" == typeof c && (c = b.parse(c)));
-            var d = a.blockSize,
-              e = 4 * d;
-            (c.sigBytes > e && (c = a.finalize(c)), c.clamp());
-            for (
-              var f = (this._oKey = c.clone()),
-                g = (this._iKey = c.clone()),
-                h = f.words,
-                i = g.words,
-                j = 0;
-              j < d;
-              j++
-            )
-              ((h[j] ^= 1549556828), (i[j] ^= 909522486));
-            ((f.sigBytes = g.sigBytes = e), this.reset());
-          },
-          reset: function () {
-            var a = this._hasher;
-            (a.reset(), a.update(this._iKey));
-          },
-          update: function (a) {
-            return (this._hasher.update(a), this);
-          },
-          finalize: function (a) {
-            var b = this._hasher;
-            return (
-              (a = b.finalize(a)),
-              b.reset(),
-              b.finalize(this._oKey.clone().concat(a))
-            );
-          },
-        });
-      })(),
-      (function () {
-        var a = e,
-          b = a.lib.WordArray;
-        a.enc.Base64 = {
-          stringify: function (a) {
-            var b = a.words,
-              c = a.sigBytes,
-              d = this._map;
-            (a.clamp(), (a = []));
-            for (var e = 0; e < c; e += 3)
-              for (
-                var f =
-                    (((b[e >>> 2] >>> (24 - (e % 4) * 8)) & 255) << 16) |
-                    (((b[(e + 1) >>> 2] >>> (24 - ((e + 1) % 4) * 8)) & 255) <<
-                      8) |
-                    ((b[(e + 2) >>> 2] >>> (24 - ((e + 2) % 4) * 8)) & 255),
-                  g = 0;
-                4 > g && e + 0.75 * g < c;
-                g++
-              )
-                a.push(d.charAt((f >>> (6 * (3 - g))) & 63));
-            if ((b = d.charAt(64))) for (; a.length % 4; ) a.push(b);
-            return a.join("");
-          },
-          parse: function (a) {
-            var c = a.length,
-              d = this._map,
-              e = d.charAt(64);
-            e && -1 != (e = a.indexOf(e)) && (c = e);
-            for (var e = [], f = 0, g = 0; g < c; g++)
-              if (g % 4) {
-                var h = d.indexOf(a.charAt(g - 1)) << ((g % 4) * 2),
-                  i = d.indexOf(a.charAt(g)) >>> (6 - (g % 4) * 2);
-                ((e[f >>> 2] |= (h | i) << (24 - (f % 4) * 8)), f++);
-              }
-            return b.create(e, f);
-          },
-          _map: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
-        };
-      })());
-    var f;
-    !(function (a) {
-      !(function (a) {
-        ((a[(a.Undefined = 0)] = "Undefined"),
-          (a[(a.Debug = 1)] = "Debug"),
-          (a[(a.Info = 2)] = "Info"),
-          (a[(a.Warning = 3)] = "Warning"),
-          (a[(a.Error = 4)] = "Error"),
-          (a[(a.Critical = 5)] = "Critical"));
-      })(a.EGAErrorSeverity || (a.EGAErrorSeverity = {}));
-      !(function (a) {
-        ((a[(a.Undefined = 0)] = "Undefined"),
-          (a[(a.Male = 1)] = "Male"),
-          (a[(a.Female = 2)] = "Female"));
-      })(a.EGAGender || (a.EGAGender = {}));
-      !(function (a) {
-        ((a[(a.Undefined = 0)] = "Undefined"),
-          (a[(a.Start = 1)] = "Start"),
-          (a[(a.Complete = 2)] = "Complete"),
-          (a[(a.Fail = 3)] = "Fail"));
-      })(a.EGAProgressionStatus || (a.EGAProgressionStatus = {}));
-      !(function (a) {
-        ((a[(a.Undefined = 0)] = "Undefined"),
-          (a[(a.Source = 1)] = "Source"),
-          (a[(a.Sink = 2)] = "Sink"));
-      })(a.EGAResourceFlowType || (a.EGAResourceFlowType = {}));
-      !(function (a) {
-        !(function (a) {
-          ((a[(a.Undefined = 0)] = "Undefined"),
-            (a[(a.Rejected = 1)] = "Rejected"));
-        })(a.EGASdkErrorType || (a.EGASdkErrorType = {}));
-        !(function (a) {
-          ((a[(a.NoResponse = 0)] = "NoResponse"),
-            (a[(a.BadResponse = 1)] = "BadResponse"),
-            (a[(a.RequestTimeout = 2)] = "RequestTimeout"),
-            (a[(a.JsonEncodeFailed = 3)] = "JsonEncodeFailed"),
-            (a[(a.JsonDecodeFailed = 4)] = "JsonDecodeFailed"),
-            (a[(a.InternalServerError = 5)] = "InternalServerError"),
-            (a[(a.BadRequest = 6)] = "BadRequest"),
-            (a[(a.Unauthorized = 7)] = "Unauthorized"),
-            (a[(a.UnknownResponseCode = 8)] = "UnknownResponseCode"),
-            (a[(a.Ok = 9)] = "Ok"));
-        })(a.EGAHTTPApiResponse || (a.EGAHTTPApiResponse = {}));
-      })(a.http || (a.http = {}));
-    })(f || (f = {}));
-    var f;
-    (f.EGAErrorSeverity,
-      f.EGAGender,
-      f.EGAProgressionStatus,
-      f.EGAResourceFlowType);
-    !(function (a) {
-      !(function (a) {
-        var b;
-        !(function (a) {
-          ((a[(a.Error = 0)] = "Error"),
-            (a[(a.Warning = 1)] = "Warning"),
-            (a[(a.Info = 2)] = "Info"),
-            (a[(a.Debug = 3)] = "Debug"));
-        })(b || (b = {}));
-        var c = (function () {
-          function a() {
-            a.debugEnabled = !1;
-          }
-          return (
-            (a.setInfoLog = function (b) {
-              a.instance.infoLogEnabled = b;
-            }),
-            (a.setVerboseLog = function (b) {
-              a.instance.infoLogVerboseEnabled = b;
-            }),
-            (a.i = function (c) {
-              if (a.instance.infoLogEnabled) {
-                var d = "Info/" + a.Tag + ": " + c;
-                a.instance.sendNotificationMessage(d, b.Info);
-              }
-            }),
-            (a.w = function (c) {
-              var d = "Warning/" + a.Tag + ": " + c;
-              a.instance.sendNotificationMessage(d, b.Warning);
-            }),
-            (a.e = function (c) {
-              var d = "Error/" + a.Tag + ": " + c;
-              a.instance.sendNotificationMessage(d, b.Error);
-            }),
-            (a.ii = function (c) {
-              if (a.instance.infoLogVerboseEnabled) {
-                var d = "Verbose/" + a.Tag + ": " + c;
-                a.instance.sendNotificationMessage(d, b.Info);
-              }
-            }),
-            (a.d = function (c) {
-              if (a.debugEnabled) {
-                var d = "Debug/" + a.Tag + ": " + c;
-                a.instance.sendNotificationMessage(d, b.Debug);
-              }
-            }),
-            (a.prototype.sendNotificationMessage = function (a, c) {
-              switch (c) {
-                case b.Error:
-                  console.error(a);
-                  break;
-                case b.Warning:
-                  console.warn(a);
-                  break;
-                case b.Debug:
-                  "function" == typeof console.debug
-                    ? console.debug(a)
-                    : console.log(a);
-                  break;
-                case b.Info:
-                  console.log(a);
-              }
-            }),
-            (a.instance = new a()),
-            (a.Tag = "GameAnalytics"),
-            a
-          );
-        })();
-        a.GALogger = c;
-      })(a.logging || (a.logging = {}));
-    })(f || (f = {}));
-    var f;
-    !(function (a) {
-      !(function (b) {
-        var c = a.logging.GALogger,
-          d = (function () {
-            function a() {}
-            return (
-              (a.getHmac = function (a, b) {
-                var c = e.HmacSHA256(b, a);
-                return e.enc.Base64.stringify(c);
-              }),
-              (a.stringMatch = function (a, b) {
-                return !(!a || !b) && b.test(a);
-              }),
-              (a.joinStringArray = function (a, b) {
-                for (var c = "", d = 0, e = a.length; d < e; d++)
-                  (d > 0 && (c += b), (c += a[d]));
-                return c;
-              }),
-              (a.stringArrayContainsString = function (a, b) {
-                if (0 === a.length) return !1;
-                for (var c in a) if (a[c] === b) return !0;
-                return !1;
-              }),
-              (a.encode64 = function (b) {
-                b = encodeURI(b);
-                var c,
-                  d,
-                  e,
-                  f,
-                  g,
-                  h = "",
-                  i = 0,
-                  j = 0,
-                  k = 0;
-                do {
-                  ((c = b.charCodeAt(k++)),
-                    (d = b.charCodeAt(k++)),
-                    (i = b.charCodeAt(k++)),
-                    (e = c >> 2),
-                    (f = ((3 & c) << 4) | (d >> 4)),
-                    (g = ((15 & d) << 2) | (i >> 6)),
-                    (j = 63 & i),
-                    isNaN(d) ? (g = j = 64) : isNaN(i) && (j = 64),
-                    (h =
-                      h +
-                      a.keyStr.charAt(e) +
-                      a.keyStr.charAt(f) +
-                      a.keyStr.charAt(g) +
-                      a.keyStr.charAt(j)),
-                    (c = d = i = 0),
-                    (e = f = g = j = 0));
-                } while (k < b.length);
-                return h;
-              }),
-              (a.decode64 = function (b) {
-                var d,
-                  e,
-                  f,
-                  g,
-                  h,
-                  i = "",
-                  j = 0,
-                  k = 0,
-                  l = 0;
-                (/[^A-Za-z0-9\+\/\=]/g.exec(b) &&
-                  c.w(
-                    "There were invalid base64 characters in the input text. Valid base64 characters are A-Z, a-z, 0-9, '+', '/',and '='. Expect errors in decoding.",
-                  ),
-                  (b = b.replace(/[^A-Za-z0-9\+\/\=]/g, "")));
-                do {
-                  ((f = a.keyStr.indexOf(b.charAt(l++))),
-                    (g = a.keyStr.indexOf(b.charAt(l++))),
-                    (h = a.keyStr.indexOf(b.charAt(l++))),
-                    (k = a.keyStr.indexOf(b.charAt(l++))),
-                    (d = (f << 2) | (g >> 4)),
-                    (e = ((15 & g) << 4) | (h >> 2)),
-                    (j = ((3 & h) << 6) | k),
-                    (i += String.fromCharCode(d)),
-                    64 != h && (i += String.fromCharCode(e)),
-                    64 != k && (i += String.fromCharCode(j)),
-                    (d = e = j = 0),
-                    (f = g = h = k = 0));
-                } while (l < b.length);
-                return decodeURI(i);
-              }),
-              (a.timeIntervalSince1970 = function () {
-                var a = new Date();
-                return Math.round(a.getTime() / 1e3);
-              }),
-              (a.createGuid = function () {
-                return (
-                  a.s4() +
-                  a.s4() +
-                  "-" +
-                  a.s4() +
-                  "-4" +
-                  a.s4().substr(0, 3) +
-                  "-" +
-                  a.s4() +
-                  "-" +
-                  a.s4() +
-                  a.s4() +
-                  a.s4()
-                ).toLowerCase();
-              }),
-              (a.s4 = function () {
-                return ((65536 * (1 + Math.random())) | 0)
-                  .toString(16)
-                  .substring(1);
-              }),
-              (a.keyStr =
-                "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="),
-              a
-            );
-          })();
-        b.GAUtilities = d;
-      })(a.utilities || (a.utilities = {}));
-    })(f || (f = {}));
-    var f;
-    !(function (a) {
-      !(function (b) {
-        var c = a.logging.GALogger,
-          d = a.http.EGASdkErrorType,
-          e = a.utilities.GAUtilities,
-          f = (function () {
-            function b() {}
-            return (
-              (b.validateBusinessEvent = function (a, d, e, f, g) {
-                return b.validateCurrency(a)
-                  ? d < 0
-                    ? (c.w(
-                        "Validation fail - business event - amount. Cannot be less than 0. Failed amount: " +
-                          d,
-                      ),
-                      !1)
-                    : b.validateShortString(e, !0)
-                      ? b.validateEventPartLength(f, !1)
-                        ? b.validateEventPartCharacters(f)
-                          ? b.validateEventPartLength(g, !1)
-                            ? !!b.validateEventPartCharacters(g) ||
-                              (c.w(
-                                "Validation fail - business event - itemId: Cannot contain other characters than A-z, 0-9, -_., ()!?. String: " +
-                                  g,
-                              ),
-                              !1)
-                            : (c.w(
-                                "Validation fail - business event - itemId. Cannot be (null), empty or above 64 characters. String: " +
-                                  g,
-                              ),
-                              !1)
-                          : (c.w(
-                              "Validation fail - business event - itemType: Cannot contain other characters than A-z, 0-9, -_., ()!?. String: " +
-                                f,
-                            ),
-                            !1)
-                        : (c.w(
-                            "Validation fail - business event - itemType: Cannot be (null), empty or above 64 characters. String: " +
-                              f,
-                          ),
-                          !1)
-                      : (c.w(
-                          "Validation fail - business event - cartType. Cannot be above 32 length. String: " +
-                            e,
-                        ),
-                        !1)
-                  : (c.w(
-                      "Validation fail - business event - currency: Cannot be (null) and need to be A-Z, 3 characters and in the standard at openexchangerates.org. Failed currency: " +
-                        a,
-                    ),
-                    !1);
-              }),
-              (b.validateResourceEvent = function (d, f, g, h, i, j, k) {
-                return d == a.EGAResourceFlowType.Undefined
-                  ? (c.w(
-                      "Validation fail - resource event - flowType: Invalid flow type.",
-                    ),
-                    !1)
-                  : f
-                    ? e.stringArrayContainsString(j, f)
-                      ? g > 0
-                        ? h
-                          ? b.validateEventPartLength(h, !1)
-                            ? b.validateEventPartCharacters(h)
-                              ? e.stringArrayContainsString(k, h)
-                                ? b.validateEventPartLength(i, !1)
-                                  ? !!b.validateEventPartCharacters(i) ||
-                                    (c.w(
-                                      "Validation fail - resource event - itemId: Cannot contain other characters than A-z, 0-9, -_., ()!?. String: " +
-                                        i,
-                                    ),
-                                    !1)
-                                  : (c.w(
-                                      "Validation fail - resource event - itemId: Cannot be (null), empty or above 64 characters. String: " +
-                                        i,
-                                    ),
-                                    !1)
-                                : (c.w(
-                                    "Validation fail - resource event - itemType: Not found in list of pre-defined available resource itemTypes. String: " +
-                                      h,
-                                  ),
-                                  !1)
-                              : (c.w(
-                                  "Validation fail - resource event - itemType: Cannot contain other characters than A-z, 0-9, -_., ()!?. String: " +
-                                    h,
-                                ),
-                                !1)
-                            : (c.w(
-                                "Validation fail - resource event - itemType: Cannot be (null), empty or above 64 characters. String: " +
-                                  h,
-                              ),
-                              !1)
-                          : (c.w(
-                              "Validation fail - resource event - itemType: Cannot be (null)",
-                            ),
-                            !1)
-                        : (c.w(
-                            "Validation fail - resource event - amount: Float amount cannot be 0 or negative. Value: " +
-                              g,
-                          ),
-                          !1)
-                      : (c.w(
-                          "Validation fail - resource event - currency: Not found in list of pre-defined available resource currencies. String: " +
-                            f,
-                        ),
-                        !1)
-                    : (c.w(
-                        "Validation fail - resource event - currency: Cannot be (null)",
-                      ),
-                      !1);
-              }),
-              (b.validateProgressionEvent = function (d, e, f, g) {
-                if (d == a.EGAProgressionStatus.Undefined)
-                  return (
-                    c.w(
-                      "Validation fail - progression event: Invalid progression status.",
-                    ),
-                    !1
-                  );
-                if (g && !f && e)
-                  return (
-                    c.w(
-                      "Validation fail - progression event: 03 found but 01+02 are invalid. Progression must be set as either 01, 01+02 or 01+02+03.",
-                    ),
-                    !1
-                  );
-                if (f && !e)
-                  return (
-                    c.w(
-                      "Validation fail - progression event: 02 found but not 01. Progression must be set as either 01, 01+02 or 01+02+03",
-                    ),
-                    !1
-                  );
-                if (!e)
-                  return (
-                    c.w(
-                      "Validation fail - progression event: progression01 not valid. Progressions must be set as either 01, 01+02 or 01+02+03",
-                    ),
-                    !1
-                  );
-                if (!b.validateEventPartLength(e, !1))
-                  return (
-                    c.w(
-                      "Validation fail - progression event - progression01: Cannot be (null), empty or above 64 characters. String: " +
-                        e,
-                    ),
-                    !1
-                  );
-                if (!b.validateEventPartCharacters(e))
-                  return (
-                    c.w(
-                      "Validation fail - progression event - progression01: Cannot contain other characters than A-z, 0-9, -_., ()!?. String: " +
-                        e,
-                    ),
-                    !1
-                  );
-                if (f) {
-                  if (!b.validateEventPartLength(f, !0))
-                    return (
-                      c.w(
-                        "Validation fail - progression event - progression02: Cannot be empty or above 64 characters. String: " +
-                          f,
-                      ),
-                      !1
-                    );
-                  if (!b.validateEventPartCharacters(f))
-                    return (
-                      c.w(
-                        "Validation fail - progression event - progression02: Cannot contain other characters than A-z, 0-9, -_., ()!?. String: " +
-                          f,
-                      ),
-                      !1
-                    );
-                }
-                if (g) {
-                  if (!b.validateEventPartLength(g, !0))
-                    return (
-                      c.w(
-                        "Validation fail - progression event - progression03: Cannot be empty or above 64 characters. String: " +
-                          g,
-                      ),
-                      !1
-                    );
-                  if (!b.validateEventPartCharacters(g))
-                    return (
-                      c.w(
-                        "Validation fail - progression event - progression03: Cannot contain other characters than A-z, 0-9, -_., ()!?. String: " +
-                          g,
-                      ),
-                      !1
-                    );
-                }
-                return !0;
-              }),
-              (b.validateDesignEvent = function (a, d) {
-                return b.validateEventIdLength(a)
-                  ? !!b.validateEventIdCharacters(a) ||
-                      (c.w(
-                        "Validation fail - design event - eventId: Non valid characters. Only allowed A-z, 0-9, -_., ()!?. String: " +
-                          a,
-                      ),
-                      !1)
-                  : (c.w(
-                      "Validation fail - design event - eventId: Cannot be (null) or empty. Only 5 event parts allowed seperated by :. Each part need to be 32 characters or less. String: " +
-                        a,
-                    ),
-                    !1);
-              }),
-              (b.validateErrorEvent = function (d, e) {
-                return d == a.EGAErrorSeverity.Undefined
-                  ? (c.w(
-                      "Validation fail - error event - severity: Severity was unsupported value.",
-                    ),
-                    !1)
-                  : !!b.validateLongString(e, !0) ||
-                      (c.w(
-                        "Validation fail - error event - message: Message cannot be above 8192 characters.",
-                      ),
-                      !1);
-              }),
-              (b.validateSdkErrorEvent = function (a, e, f) {
-                return (
-                  !!b.validateKeys(a, e) &&
-                  (f !== d.Undefined ||
-                    (c.w(
-                      "Validation fail - sdk error event - type: Type was unsupported value.",
-                    ),
-                    !1))
-                );
-              }),
-              (b.validateKeys = function (a, b) {
-                return !(
-                  !e.stringMatch(a, /^[A-z0-9]{32}$/) ||
-                  !e.stringMatch(b, /^[A-z0-9]{40}$/)
-                );
-              }),
-              (b.validateCurrency = function (a) {
-                return !!a && !!e.stringMatch(a, /^[A-Z]{3}$/);
-              }),
-              (b.validateEventPartLength = function (a, b) {
-                return !(!b || a) || (!!a && !(a.length > 64));
-              }),
-              (b.validateEventPartCharacters = function (a) {
-                return !!e.stringMatch(a, /^[A-Za-z0-9\s\-_\.\(\)\!\?]{1,64}$/);
-              }),
-              (b.validateEventIdLength = function (a) {
-                return (
-                  !!a && !!e.stringMatch(a, /^[^:]{1,64}(?::[^:]{1,64}){0,4}$/)
-                );
-              }),
-              (b.validateEventIdCharacters = function (a) {
-                return (
-                  !!a &&
-                  !!e.stringMatch(
-                    a,
-                    /^[A-Za-z0-9\s\-_\.\(\)\!\?]{1,64}(:[A-Za-z0-9\s\-_\.\(\)\!\?]{1,64}){0,4}$/,
-                  )
-                );
-              }),
-              (b.validateAndCleanInitRequestResponse = function (a) {
-                if (null == a)
-                  return (
-                    c.w(
-                      "validateInitRequestResponse failed - no response dictionary.",
-                    ),
-                    null
-                  );
-                var b = {};
-                try {
-                  b.enabled = a.enabled;
-                } catch (a) {
-                  return (
-                    c.w(
-                      "validateInitRequestResponse failed - invalid type in 'enabled' field.",
-                    ),
-                    null
-                  );
-                }
-                try {
-                  var d = a.server_ts;
-                  if (!(d > 0))
-                    return (
-                      c.w(
-                        "validateInitRequestResponse failed - invalid value in 'server_ts' field.",
-                      ),
-                      null
-                    );
-                  b.server_ts = d;
-                } catch (b) {
-                  return (
-                    c.w(
-                      "validateInitRequestResponse failed - invalid type in 'server_ts' field. type=" +
-                        typeof a.server_ts +
-                        ", value=" +
-                        a.server_ts +
-                        ", " +
-                        b,
-                    ),
-                    null
-                  );
-                }
-                try {
-                  var e = a.configurations;
-                  b.configurations = e;
-                } catch (b) {
-                  return (
-                    c.w(
-                      "validateInitRequestResponse failed - invalid type in 'configurations' field. type=" +
-                        typeof a.configurations +
-                        ", value=" +
-                        a.configurations +
-                        ", " +
-                        b,
-                    ),
-                    null
-                  );
-                }
-                return b;
-              }),
-              (b.validateBuild = function (a) {
-                return !!b.validateShortString(a, !1);
-              }),
-              (b.validateSdkWrapperVersion = function (a) {
-                return !!e.stringMatch(
-                  a,
-                  /^(unity|unreal|gamemaker|cocos2d|construct|defold) [0-9]{0,5}(\.[0-9]{0,5}){0,2}$/,
-                );
-              }),
-              (b.validateEngineVersion = function (a) {
-                return !(
-                  !a ||
-                  !e.stringMatch(
-                    a,
-                    /^(unity|unreal|gamemaker|cocos2d|construct|defold) [0-9]{0,5}(\.[0-9]{0,5}){0,2}$/,
-                  )
-                );
-              }),
-              (b.validateUserId = function (a) {
-                return (
-                  !!b.validateString(a, !1) ||
-                  (c.w(
-                    "Validation fail - user id: id cannot be (null), empty or above 64 characters.",
-                  ),
-                  !1)
-                );
-              }),
-              (b.validateShortString = function (a, b) {
-                return !(!b || a) || !(!a || a.length > 32);
-              }),
-              (b.validateString = function (a, b) {
-                return !(!b || a) || !(!a || a.length > 64);
-              }),
-              (b.validateLongString = function (a, b) {
-                return !(!b || a) || !(!a || a.length > 8192);
-              }),
-              (b.validateConnectionType = function (a) {
-                return e.stringMatch(a, /^(wwan|wifi|lan|offline)$/);
-              }),
-              (b.validateCustomDimensions = function (a) {
-                return b.validateArrayOfStrings(
-                  20,
-                  32,
-                  !1,
-                  "custom dimensions",
-                  a,
-                );
-              }),
-              (b.validateResourceCurrencies = function (a) {
-                if (
-                  !b.validateArrayOfStrings(
-                    20,
-                    64,
-                    !1,
-                    "resource currencies",
-                    a,
-                  )
-                )
-                  return !1;
-                for (var d = 0; d < a.length; ++d)
-                  if (!e.stringMatch(a[d], /^[A-Za-z]+$/))
-                    return (
-                      c.w(
-                        "resource currencies validation failed: a resource currency can only be A-Z, a-z. String was: " +
-                          a[d],
-                      ),
-                      !1
-                    );
-                return !0;
-              }),
-              (b.validateResourceItemTypes = function (a) {
-                if (
-                  !b.validateArrayOfStrings(
-                    20,
-                    32,
-                    !1,
-                    "resource item types",
-                    a,
-                  )
-                )
-                  return !1;
-                for (var d = 0; d < a.length; ++d)
-                  if (!b.validateEventPartCharacters(a[d]))
-                    return (
-                      c.w(
-                        "resource item types validation failed: a resource item type cannot contain other characters than A-z, 0-9, -_., ()!?. String was: " +
-                          a[d],
-                      ),
-                      !1
-                    );
-                return !0;
-              }),
-              (b.validateDimension01 = function (a, b) {
-                return !a || !!e.stringArrayContainsString(b, a);
-              }),
-              (b.validateDimension02 = function (a, b) {
-                return !a || !!e.stringArrayContainsString(b, a);
-              }),
-              (b.validateDimension03 = function (a, b) {
-                return !a || !!e.stringArrayContainsString(b, a);
-              }),
-              (b.validateArrayOfStrings = function (a, b, d, e, f) {
-                var g = e;
-                if ((g || (g = "Array"), !f))
-                  return (
-                    c.w(g + " validation failed: array cannot be null. "),
-                    !1
-                  );
-                if (0 == d && 0 == f.length)
-                  return (
-                    c.w(g + " validation failed: array cannot be empty. "),
-                    !1
-                  );
-                if (a > 0 && f.length > a)
-                  return (
-                    c.w(
-                      g +
-                        " validation failed: array cannot exceed " +
-                        a +
-                        " values. It has " +
-                        f.length +
-                        " values.",
-                    ),
-                    !1
-                  );
-                for (var h = 0; h < f.length; ++h) {
-                  var i = f[h] ? f[h].length : 0;
-                  if (0 === i)
-                    return (
-                      c.w(
-                        g +
-                          " validation failed: contained an empty string. Array=" +
-                          JSON.stringify(f),
-                      ),
-                      !1
-                    );
-                  if (b > 0 && i > b)
-                    return (
-                      c.w(
-                        g +
-                          " validation failed: a string exceeded max allowed length (which is: " +
-                          b +
-                          "). String was: " +
-                          f[h],
-                      ),
-                      !1
-                    );
-                }
-                return !0;
-              }),
-              (b.validateFacebookId = function (a) {
-                return (
-                  !!b.validateString(a, !1) ||
-                  (c.w(
-                    "Validation fail - facebook id: id cannot be (null), empty or above 64 characters.",
-                  ),
-                  !1)
-                );
-              }),
-              (b.validateGender = function (b) {
-                if (isNaN(Number(a.EGAGender[b]))) {
-                  if (
-                    b == a.EGAGender.Undefined ||
-                    (b != a.EGAGender.Male && b != a.EGAGender.Female)
-                  )
-                    return (
-                      c.w(
-                        "Validation fail - gender: Has to be 'male' or 'female'. Was: " +
-                          b,
-                      ),
-                      !1
-                    );
-                } else if (
-                  b == a.EGAGender[a.EGAGender.Undefined] ||
-                  (b != a.EGAGender[a.EGAGender.Male] &&
-                    b != a.EGAGender[a.EGAGender.Female])
-                )
-                  return (
-                    c.w(
-                      "Validation fail - gender: Has to be 'male' or 'female'. Was: " +
-                        b,
-                    ),
-                    !1
-                  );
-                return !0;
-              }),
-              (b.validateBirthyear = function (a) {
-                return (
-                  !(a < 0 || a > 9999) ||
-                  (c.w(
-                    "Validation fail - birthYear: Cannot be (null) or invalid range.",
-                  ),
-                  !1)
-                );
-              }),
-              (b.validateClientTs = function (a) {
-                return !(a < -4294967294 || a > 4294967294);
-              }),
-              b
-            );
-          })();
-        b.GAValidator = f;
-      })(a.validators || (a.validators = {}));
-    })(f || (f = {}));
-    var f;
-    !(function (a) {
-      !(function (a) {
-        var b = (function () {
-          function a(a, b, c) {
-            ((this.name = a), (this.value = b), (this.version = c));
-          }
-          return a;
-        })();
-        a.NameValueVersion = b;
-        var c = (function () {
-          function a(a, b) {
-            ((this.name = a), (this.version = b));
-          }
-          return a;
-        })();
-        a.NameVersion = c;
-        var d = (function () {
-          function a() {}
-          return (
-            (a.touch = function () {}),
-            (a.getRelevantSdkVersion = function () {
-              return a.sdkGameEngineVersion
-                ? a.sdkGameEngineVersion
-                : a.sdkWrapperVersion;
-            }),
-            (a.getConnectionType = function () {
-              return a.connectionType;
-            }),
-            (a.updateConnectionType = function () {
-              navigator.onLine
-                ? "ios" === a.buildPlatform || "android" === a.buildPlatform
-                  ? (a.connectionType = "wwan")
-                  : (a.connectionType = "lan")
-                : (a.connectionType = "offline");
-            }),
-            (a.getOSVersionString = function () {
-              return a.buildPlatform + " " + a.osVersionPair.version;
-            }),
-            (a.runtimePlatformToString = function () {
-              return a.osVersionPair.name;
-            }),
-            (a.getBrowserVersionString = function () {
-              var b,
-                c = navigator.userAgent,
-                d =
-                  c.match(
-                    /(opera|chrome|safari|firefox|ubrowser|msie|trident|fbav(?=\/))\/?\s*(\d+)/i,
-                  ) || [];
-              if (0 == d.length && "ios" === a.buildPlatform)
-                return "webkit_" + a.osVersion;
-              if (/trident/i.test(d[1]))
-                return (
-                  (b = /\brv[ :]+(\d+)/g.exec(c) || []),
-                  "IE " + (b[1] || "")
-                );
-              if (
-                "Chrome" === d[1] &&
-                null != (b = c.match(/\b(OPR|Edge|UBrowser)\/(\d+)/))
-              )
-                return b
-                  .slice(1)
-                  .join(" ")
-                  .replace("OPR", "Opera")
-                  .replace("UBrowser", "UC")
-                  .toLowerCase();
-              if (
-                d[1] &&
-                "fbav" === d[1].toLowerCase() &&
-                ((d[1] = "facebook"), d[2])
-              )
-                return "facebook " + d[2];
-              var e = d[2]
-                ? [d[1], d[2]]
-                : [navigator.appName, navigator.appVersion, "-?"];
-              return (
-                null != (b = c.match(/version\/(\d+)/i)) &&
-                  e.splice(1, 1, b[1]),
-                e.join(" ").toLowerCase()
-              );
-            }),
-            (a.getDeviceModel = function () {
-              return "unknown";
-            }),
-            (a.getDeviceManufacturer = function () {
-              return "unknown";
-            }),
-            (a.matchItem = function (a, b) {
-              var d,
-                e,
-                f,
-                g,
-                h,
-                i = new c("unknown", "0.0.0"),
-                j = 0,
-                k = 0;
-              for (j = 0; j < b.length; j += 1)
-                if (((d = new RegExp(b[j].value, "i")), d.test(a))) {
-                  if (
-                    ((e = new RegExp(b[j].version + "[- /:;]([\\d._]+)", "i")),
-                    (f = a.match(e)),
-                    (h = ""),
-                    f && f[1] && (g = f[1]),
-                    g)
-                  ) {
-                    var l = g.split(/[._]+/);
-                    for (k = 0; k < Math.min(l.length, 3); k += 1)
-                      h += l[k] + (k < Math.min(l.length, 3) - 1 ? "." : "");
-                  } else h = "0.0.0";
-                  return ((i.name = b[j].name), (i.version = h), i);
-                }
-              return i;
-            }),
-            (a.sdkWrapperVersion = "javascript 3.1.2"),
-            (a.osVersionPair = a.matchItem(
-              [
-                navigator.platform,
-                navigator.userAgent,
-                navigator.appVersion,
-                navigator.vendor,
-              ].join(" "),
-              [
-                new b("windows_phone", "Windows Phone", "OS"),
-                new b("windows", "Win", "NT"),
-                new b("ios", "iPhone", "OS"),
-                new b("ios", "iPad", "OS"),
-                new b("ios", "iPod", "OS"),
-                new b("android", "Android", "Android"),
-                new b("blackBerry", "BlackBerry", "/"),
-                new b("mac_osx", "Mac", "OS X"),
-                new b("tizen", "Tizen", "Tizen"),
-                new b("linux", "Linux", "rv"),
-              ],
-            )),
-            (a.buildPlatform = a.runtimePlatformToString()),
-            (a.deviceModel = a.getDeviceModel()),
-            (a.deviceManufacturer = a.getDeviceManufacturer()),
-            (a.osVersion = a.getOSVersionString()),
-            (a.browserVersion = a.getBrowserVersionString()),
-            (a.maxSafeInteger = Math.pow(2, 53) - 1),
-            a
-          );
-        })();
-        a.GADevice = d;
-      })(a.device || (a.device = {}));
-    })(f || (f = {}));
-    var f;
-    !(function (a) {
-      !(function (a) {
-        var b = (function () {
-          function a(b) {
-            ((this.deadline = b),
-              (this.ignore = !1),
-              (this.async = !1),
-              (this.running = !1),
-              (this.id = ++a.idCounter));
-          }
-          return ((a.idCounter = 0), a);
-        })();
-        a.TimedBlock = b;
-      })(a.threading || (a.threading = {}));
-    })(f || (f = {}));
-    var f;
-    !(function (a) {
-      !(function (a) {
-        var b = (function () {
-          function a(a) {
-            ((this.comparer = a),
-              (this._subQueues = {}),
-              (this._sortedKeys = []));
-          }
-          return (
-            (a.prototype.enqueue = function (a, b) {
-              (-1 === this._sortedKeys.indexOf(a) && this.addQueueOfPriority(a),
-                this._subQueues[a].push(b));
-            }),
-            (a.prototype.addQueueOfPriority = function (a) {
-              var b = this;
-              (this._sortedKeys.push(a),
-                this._sortedKeys.sort(function (a, c) {
-                  return b.comparer.compare(a, c);
-                }),
-                (this._subQueues[a] = []));
-            }),
-            (a.prototype.peek = function () {
-              if (this.hasItems())
-                return this._subQueues[this._sortedKeys[0]][0];
-              throw new Error("The queue is empty");
-            }),
-            (a.prototype.hasItems = function () {
-              return this._sortedKeys.length > 0;
-            }),
-            (a.prototype.dequeue = function () {
-              if (this.hasItems()) return this.dequeueFromHighPriorityQueue();
-              throw new Error("The queue is empty");
-            }),
-            (a.prototype.dequeueFromHighPriorityQueue = function () {
-              var a = this._sortedKeys[0],
-                b = this._subQueues[a].shift();
-              return (
-                0 === this._subQueues[a].length &&
-                  (this._sortedKeys.shift(), delete this._subQueues[a]),
-                b
-              );
-            }),
-            a
-          );
-        })();
-        a.PriorityQueue = b;
-      })(a.threading || (a.threading = {}));
-    })(f || (f = {}));
-    var f;
-    !(function (a) {
-      !(function (b) {
-        var c,
-          d = a.logging.GALogger;
-        !(function (a) {
-          ((a[(a.Equal = 0)] = "Equal"),
-            (a[(a.LessOrEqual = 1)] = "LessOrEqual"),
-            (a[(a.NotEqual = 2)] = "NotEqual"));
-        })((c = b.EGAStoreArgsOperator || (b.EGAStoreArgsOperator = {})));
-        var e;
-        !(function (a) {
-          ((a[(a.Events = 0)] = "Events"),
-            (a[(a.Sessions = 1)] = "Sessions"),
-            (a[(a.Progression = 2)] = "Progression"));
-        })((e = b.EGAStore || (b.EGAStore = {})));
-        var f = (function () {
-          function a() {
-            ((this.eventsStore = []),
-              (this.sessionsStore = []),
-              (this.progressionStore = []),
-              (this.storeItems = {}));
-            try {
-              "object" == typeof localStorage
-                ? (localStorage.setItem("testingLocalStorage", "yes"),
-                  localStorage.removeItem("testingLocalStorage"),
-                  (a.storageAvailable = !0))
-                : (a.storageAvailable = !1);
-            } catch (a) {}
-          }
-          return (
-            (a.isStorageAvailable = function () {
-              return a.storageAvailable;
-            }),
-            (a.isStoreTooLargeForEvents = function () {
-              return (
-                a.instance.eventsStore.length +
-                  a.instance.sessionsStore.length >
-                a.MaxNumberOfEntries
-              );
-            }),
-            (a.select = function (b, d, e, f) {
-              (void 0 === d && (d = []),
-                void 0 === e && (e = !1),
-                void 0 === f && (f = 0));
-              var g = a.getStore(b);
-              if (!g) return null;
-              for (var h = [], i = 0; i < g.length; ++i) {
-                for (var j = g[i], k = !0, l = 0; l < d.length; ++l) {
-                  var m = d[l];
-                  if (j[m[0]])
-                    switch (m[1]) {
-                      case c.Equal:
-                        k = j[m[0]] == m[2];
-                        break;
-                      case c.LessOrEqual:
-                        k = j[m[0]] <= m[2];
-                        break;
-                      case c.NotEqual:
-                        k = j[m[0]] != m[2];
-                        break;
-                      default:
-                        k = !1;
-                    }
-                  else k = !1;
-                  if (!k) break;
-                }
-                k && h.push(j);
-              }
-              return (
-                e &&
-                  h.sort(function (a, b) {
-                    return a.client_ts - b.client_ts;
-                  }),
-                f > 0 && h.length > f && (h = h.slice(0, f + 1)),
-                h
-              );
-            }),
-            (a.update = function (b, d, e) {
-              void 0 === e && (e = []);
-              var f = a.getStore(b);
-              if (!f) return !1;
-              for (var g = 0; g < f.length; ++g) {
-                for (var h = f[g], i = !0, j = 0; j < e.length; ++j) {
-                  var k = e[j];
-                  if (h[k[0]])
-                    switch (k[1]) {
-                      case c.Equal:
-                        i = h[k[0]] == k[2];
-                        break;
-                      case c.LessOrEqual:
-                        i = h[k[0]] <= k[2];
-                        break;
-                      case c.NotEqual:
-                        i = h[k[0]] != k[2];
-                        break;
-                      default:
-                        i = !1;
-                    }
-                  else i = !1;
-                  if (!i) break;
-                }
-                if (i)
-                  for (var j = 0; j < d.length; ++j) {
-                    var l = d[j];
-                    h[l[0]] = l[1];
-                  }
-              }
-              return !0;
-            }),
-            (a.delete = function (b, d) {
-              var e = a.getStore(b);
-              if (e)
-                for (var f = 0; f < e.length; ++f) {
-                  for (var g = e[f], h = !0, i = 0; i < d.length; ++i) {
-                    var j = d[i];
-                    if (g[j[0]])
-                      switch (j[1]) {
-                        case c.Equal:
-                          h = g[j[0]] == j[2];
-                          break;
-                        case c.LessOrEqual:
-                          h = g[j[0]] <= j[2];
-                          break;
-                        case c.NotEqual:
-                          h = g[j[0]] != j[2];
-                          break;
-                        default:
-                          h = !1;
-                      }
-                    else h = !1;
-                    if (!h) break;
-                  }
-                  h && (e.splice(f, 1), --f);
-                }
-            }),
-            (a.insert = function (b, c, d, e) {
-              (void 0 === d && (d = !1), void 0 === e && (e = null));
-              var f = a.getStore(b);
-              if (f)
-                if (d) {
-                  if (!e) return;
-                  for (var g = !1, h = 0; h < f.length; ++h) {
-                    var i = f[h];
-                    if (i[e] == c[e]) {
-                      for (var j in c) i[j] = c[j];
-                      g = !0;
-                      break;
-                    }
-                  }
-                  g || f.push(c);
-                } else f.push(c);
-            }),
-            (a.save = function () {
-              if (!a.isStorageAvailable())
-                return void d.w("Storage is not available, cannot save.");
-              (localStorage.setItem(
-                a.KeyPrefix + a.EventsStoreKey,
-                JSON.stringify(a.instance.eventsStore),
-              ),
-                localStorage.setItem(
-                  a.KeyPrefix + a.SessionsStoreKey,
-                  JSON.stringify(a.instance.sessionsStore),
-                ),
-                localStorage.setItem(
-                  a.KeyPrefix + a.ProgressionStoreKey,
-                  JSON.stringify(a.instance.progressionStore),
-                ),
-                localStorage.setItem(
-                  a.KeyPrefix + a.ItemsStoreKey,
-                  JSON.stringify(a.instance.storeItems),
-                ));
-            }),
-            (a.load = function () {
-              if (!a.isStorageAvailable())
-                return void d.w("Storage is not available, cannot load.");
-              try {
-                ((a.instance.eventsStore = JSON.parse(
-                  localStorage.getItem(a.KeyPrefix + a.EventsStoreKey),
-                )),
-                  a.instance.eventsStore || (a.instance.eventsStore = []));
-              } catch (b) {
-                (d.w("Load failed for 'events' store. Using empty store."),
-                  (a.instance.eventsStore = []));
-              }
-              try {
-                ((a.instance.sessionsStore = JSON.parse(
-                  localStorage.getItem(a.KeyPrefix + a.SessionsStoreKey),
-                )),
-                  a.instance.sessionsStore || (a.instance.sessionsStore = []));
-              } catch (b) {
-                (d.w("Load failed for 'sessions' store. Using empty store."),
-                  (a.instance.sessionsStore = []));
-              }
-              try {
-                ((a.instance.progressionStore = JSON.parse(
-                  localStorage.getItem(a.KeyPrefix + a.ProgressionStoreKey),
-                )),
-                  a.instance.progressionStore ||
-                    (a.instance.progressionStore = []));
-              } catch (b) {
-                (d.w("Load failed for 'progression' store. Using empty store."),
-                  (a.instance.progressionStore = []));
-              }
-              try {
-                ((a.instance.storeItems = JSON.parse(
-                  localStorage.getItem(a.KeyPrefix + a.ItemsStoreKey),
-                )),
-                  a.instance.storeItems || (a.instance.storeItems = {}));
-              } catch (b) {
-                (d.w("Load failed for 'items' store. Using empty store."),
-                  (a.instance.progressionStore = []));
-              }
-            }),
-            (a.setItem = function (b, c) {
-              var d = a.KeyPrefix + b;
-              c
-                ? (a.instance.storeItems[d] = c)
-                : d in a.instance.storeItems && delete a.instance.storeItems[d];
-            }),
-            (a.getItem = function (b) {
-              var c = a.KeyPrefix + b;
-              return c in a.instance.storeItems
-                ? a.instance.storeItems[c]
-                : null;
-            }),
-            (a.getStore = function (b) {
-              switch (b) {
-                case e.Events:
-                  return a.instance.eventsStore;
-                case e.Sessions:
-                  return a.instance.sessionsStore;
-                case e.Progression:
-                  return a.instance.progressionStore;
-                default:
-                  return (
-                    d.w("GAStore.getStore(): Cannot find store: " + b),
-                    null
-                  );
-              }
-            }),
-            (a.instance = new a()),
-            (a.MaxNumberOfEntries = 2e3),
-            (a.KeyPrefix = "GA::"),
-            (a.EventsStoreKey = "ga_event"),
-            (a.SessionsStoreKey = "ga_session"),
-            (a.ProgressionStoreKey = "ga_progression"),
-            (a.ItemsStoreKey = "ga_items"),
-            a
-          );
-        })();
-        b.GAStore = f;
-      })(a.store || (a.store = {}));
-    })(f || (f = {}));
-    var f;
-    !(function (a) {
-      !(function (b) {
-        var c = a.validators.GAValidator,
-          d = a.utilities.GAUtilities,
-          e = a.logging.GALogger,
-          f = a.store.GAStore,
-          g = a.device.GADevice,
-          h = a.store.EGAStore,
-          i = a.store.EGAStoreArgsOperator,
-          j = (function () {
-            function b() {
-              ((this.availableCustomDimensions01 = []),
-                (this.availableCustomDimensions02 = []),
-                (this.availableCustomDimensions03 = []),
-                (this.availableResourceCurrencies = []),
-                (this.availableResourceItemTypes = []),
-                (this.configurations = {}),
-                (this.commandCenterListeners = []),
-                (this.sdkConfigDefault = {}),
-                (this.sdkConfig = {}),
-                (this.progressionTries = {}),
-                (this._isEventSubmissionEnabled = !0));
-            }
-            return (
-              (b.setUserId = function (a) {
-                ((b.instance.userId = a), b.cacheIdentifier());
-              }),
-              (b.getIdentifier = function () {
-                return b.instance.identifier;
-              }),
-              (b.isInitialized = function () {
-                return b.instance.initialized;
-              }),
-              (b.setInitialized = function (a) {
-                b.instance.initialized = a;
-              }),
-              (b.getSessionStart = function () {
-                return b.instance.sessionStart;
-              }),
-              (b.getSessionNum = function () {
-                return b.instance.sessionNum;
-              }),
-              (b.getTransactionNum = function () {
-                return b.instance.transactionNum;
-              }),
-              (b.getSessionId = function () {
-                return b.instance.sessionId;
-              }),
-              (b.getCurrentCustomDimension01 = function () {
-                return b.instance.currentCustomDimension01;
-              }),
-              (b.getCurrentCustomDimension02 = function () {
-                return b.instance.currentCustomDimension02;
-              }),
-              (b.getCurrentCustomDimension03 = function () {
-                return b.instance.currentCustomDimension03;
-              }),
-              (b.getGameKey = function () {
-                return b.instance.gameKey;
-              }),
-              (b.getGameSecret = function () {
-                return b.instance.gameSecret;
-              }),
-              (b.getAvailableCustomDimensions01 = function () {
-                return b.instance.availableCustomDimensions01;
-              }),
-              (b.setAvailableCustomDimensions01 = function (a) {
-                c.validateCustomDimensions(a) &&
-                  ((b.instance.availableCustomDimensions01 = a),
-                  b.validateAndFixCurrentDimensions(),
-                  e.i(
-                    "Set available custom01 dimension values: (" +
-                      d.joinStringArray(a, ", ") +
-                      ")",
-                  ));
-              }),
-              (b.getAvailableCustomDimensions02 = function () {
-                return b.instance.availableCustomDimensions02;
-              }),
-              (b.setAvailableCustomDimensions02 = function (a) {
-                c.validateCustomDimensions(a) &&
-                  ((b.instance.availableCustomDimensions02 = a),
-                  b.validateAndFixCurrentDimensions(),
-                  e.i(
-                    "Set available custom02 dimension values: (" +
-                      d.joinStringArray(a, ", ") +
-                      ")",
-                  ));
-              }),
-              (b.getAvailableCustomDimensions03 = function () {
-                return b.instance.availableCustomDimensions03;
-              }),
-              (b.setAvailableCustomDimensions03 = function (a) {
-                c.validateCustomDimensions(a) &&
-                  ((b.instance.availableCustomDimensions03 = a),
-                  b.validateAndFixCurrentDimensions(),
-                  e.i(
-                    "Set available custom03 dimension values: (" +
-                      d.joinStringArray(a, ", ") +
-                      ")",
-                  ));
-              }),
-              (b.getAvailableResourceCurrencies = function () {
-                return b.instance.availableResourceCurrencies;
-              }),
-              (b.setAvailableResourceCurrencies = function (a) {
-                c.validateResourceCurrencies(a) &&
-                  ((b.instance.availableResourceCurrencies = a),
-                  e.i(
-                    "Set available resource currencies: (" +
-                      d.joinStringArray(a, ", ") +
-                      ")",
-                  ));
-              }),
-              (b.getAvailableResourceItemTypes = function () {
-                return b.instance.availableResourceItemTypes;
-              }),
-              (b.setAvailableResourceItemTypes = function (a) {
-                c.validateResourceItemTypes(a) &&
-                  ((b.instance.availableResourceItemTypes = a),
-                  e.i(
-                    "Set available resource item types: (" +
-                      d.joinStringArray(a, ", ") +
-                      ")",
-                  ));
-              }),
-              (b.getBuild = function () {
-                return b.instance.build;
-              }),
-              (b.setBuild = function (a) {
-                ((b.instance.build = a), e.i("Set build version: " + a));
-              }),
-              (b.getUseManualSessionHandling = function () {
-                return b.instance.useManualSessionHandling;
-              }),
-              (b.isEventSubmissionEnabled = function () {
-                return b.instance._isEventSubmissionEnabled;
-              }),
-              (b.prototype.setDefaultId = function (a) {
-                ((this.defaultUserId = a || ""), b.cacheIdentifier());
-              }),
-              (b.getDefaultId = function () {
-                return b.instance.defaultUserId;
-              }),
-              (b.getSdkConfig = function () {
-                var a,
-                  c = 0;
-                for (var d in b.instance.sdkConfig) (0 === c && (a = d), ++c);
-                if (a && c > 0) return b.instance.sdkConfig;
-                var a,
-                  c = 0;
-                for (var d in b.instance.sdkConfigCached)
-                  (0 === c && (a = d), ++c);
-                return a && c > 0
-                  ? b.instance.sdkConfigCached
-                  : b.instance.sdkConfigDefault;
-              }),
-              (b.isEnabled = function () {
-                var a = b.getSdkConfig();
-                return (
-                  (!a.enabled || "false" != a.enabled) &&
-                  !!b.instance.initAuthorized
-                );
-              }),
-              (b.setCustomDimension01 = function (a) {
-                ((b.instance.currentCustomDimension01 = a),
-                  f.setItem(b.Dimension01Key, a),
-                  e.i("Set custom01 dimension value: " + a));
-              }),
-              (b.setCustomDimension02 = function (a) {
-                ((b.instance.currentCustomDimension02 = a),
-                  f.setItem(b.Dimension02Key, a),
-                  e.i("Set custom02 dimension value: " + a));
-              }),
-              (b.setCustomDimension03 = function (a) {
-                ((b.instance.currentCustomDimension03 = a),
-                  f.setItem(b.Dimension03Key, a),
-                  e.i("Set custom03 dimension value: " + a));
-              }),
-              (b.setFacebookId = function (a) {
-                ((b.instance.facebookId = a),
-                  f.setItem(b.FacebookIdKey, a),
-                  e.i("Set facebook id: " + a));
-              }),
-              (b.setGender = function (c) {
-                ((b.instance.gender = isNaN(Number(a.EGAGender[c]))
-                  ? a.EGAGender[c].toString().toLowerCase()
-                  : a.EGAGender[a.EGAGender[c]].toString().toLowerCase()),
-                  f.setItem(b.GenderKey, b.instance.gender),
-                  e.i("Set gender: " + b.instance.gender));
-              }),
-              (b.setBirthYear = function (a) {
-                ((b.instance.birthYear = a),
-                  f.setItem(b.BirthYearKey, a.toString()),
-                  e.i("Set birth year: " + a));
-              }),
-              (b.incrementSessionNum = function () {
-                var a = b.getSessionNum() + 1;
-                b.instance.sessionNum = a;
-              }),
-              (b.incrementTransactionNum = function () {
-                var a = b.getTransactionNum() + 1;
-                b.instance.transactionNum = a;
-              }),
-              (b.incrementProgressionTries = function (a) {
-                var c = b.getProgressionTries(a) + 1;
-                b.instance.progressionTries[a] = c;
-                var d = {};
-                ((d.progression = a),
-                  (d.tries = c),
-                  f.insert(h.Progression, d, !0, "progression"));
-              }),
-              (b.getProgressionTries = function (a) {
-                return a in b.instance.progressionTries
-                  ? b.instance.progressionTries[a]
-                  : 0;
-              }),
-              (b.clearProgressionTries = function (a) {
-                a in b.instance.progressionTries &&
-                  delete b.instance.progressionTries[a];
-                var c = [];
-                (c.push(["progression", i.Equal, a]),
-                  f.delete(h.Progression, c));
-              }),
-              (b.setKeys = function (a, c) {
-                ((b.instance.gameKey = a), (b.instance.gameSecret = c));
-              }),
-              (b.setManualSessionHandling = function (a) {
-                ((b.instance.useManualSessionHandling = a),
-                  e.i("Use manual session handling: " + a));
-              }),
-              (b.setEnabledEventSubmission = function (a) {
-                b.instance._isEventSubmissionEnabled = a;
-              }),
-              (b.getEventAnnotations = function () {
-                var a = {};
-                ((a.v = 2),
-                  (a.user_id = b.instance.identifier),
-                  (a.client_ts = b.getClientTsAdjusted()),
-                  (a.sdk_version = g.getRelevantSdkVersion()),
-                  (a.os_version = g.osVersion),
-                  (a.manufacturer = g.deviceManufacturer),
-                  (a.device = g.deviceModel),
-                  (a.browser_version = g.browserVersion),
-                  (a.platform = g.buildPlatform),
-                  (a.session_id = b.instance.sessionId),
-                  (a[b.SessionNumKey] = b.instance.sessionNum));
-                var d = g.getConnectionType();
-                return (
-                  c.validateConnectionType(d) && (a.connection_type = d),
-                  g.gameEngineVersion &&
-                    (a.engine_version = g.gameEngineVersion),
-                  b.instance.build && (a.build = b.instance.build),
-                  b.instance.facebookId &&
-                    (a[b.FacebookIdKey] = b.instance.facebookId),
-                  b.instance.gender && (a[b.GenderKey] = b.instance.gender),
-                  0 != b.instance.birthYear &&
-                    (a[b.BirthYearKey] = b.instance.birthYear),
-                  a
-                );
-              }),
-              (b.getSdkErrorEventAnnotations = function () {
-                var a = {};
-                ((a.v = 2),
-                  (a.category = b.CategorySdkError),
-                  (a.sdk_version = g.getRelevantSdkVersion()),
-                  (a.os_version = g.osVersion),
-                  (a.manufacturer = g.deviceManufacturer),
-                  (a.device = g.deviceModel),
-                  (a.platform = g.buildPlatform));
-                var d = g.getConnectionType();
-                return (
-                  c.validateConnectionType(d) && (a.connection_type = d),
-                  g.gameEngineVersion &&
-                    (a.engine_version = g.gameEngineVersion),
-                  a
-                );
-              }),
-              (b.getInitAnnotations = function () {
-                var a = {};
-                return (
-                  (a.user_id = b.getIdentifier()),
-                  (a.sdk_version = g.getRelevantSdkVersion()),
-                  (a.os_version = g.osVersion),
-                  (a.platform = g.buildPlatform),
-                  a
-                );
-              }),
-              (b.getClientTsAdjusted = function () {
-                var a = d.timeIntervalSince1970(),
-                  e = a + b.instance.clientServerTimeOffset;
-                return c.validateClientTs(e) ? e : a;
-              }),
-              (b.sessionIsStarted = function () {
-                return 0 != b.instance.sessionStart;
-              }),
-              (b.cacheIdentifier = function () {
-                b.instance.userId
-                  ? (b.instance.identifier = b.instance.userId)
-                  : b.instance.defaultUserId &&
-                    (b.instance.identifier = b.instance.defaultUserId);
-              }),
-              (b.ensurePersistedStates = function () {
-                f.isStorageAvailable() && f.load();
-                var a = b.instance;
-                (a.setDefaultId(
-                  null != f.getItem(b.DefaultUserIdKey)
-                    ? f.getItem(b.DefaultUserIdKey)
-                    : d.createGuid(),
-                ),
-                  (a.sessionNum =
-                    null != f.getItem(b.SessionNumKey)
-                      ? Number(f.getItem(b.SessionNumKey))
-                      : 0),
-                  (a.transactionNum =
-                    null != f.getItem(b.TransactionNumKey)
-                      ? Number(f.getItem(b.TransactionNumKey))
-                      : 0),
-                  a.facebookId
-                    ? f.setItem(b.FacebookIdKey, a.facebookId)
-                    : ((a.facebookId =
-                        null != f.getItem(b.FacebookIdKey)
-                          ? f.getItem(b.FacebookIdKey)
-                          : ""),
-                      a.facebookId),
-                  a.gender
-                    ? f.setItem(b.GenderKey, a.gender)
-                    : ((a.gender =
-                        null != f.getItem(b.GenderKey)
-                          ? f.getItem(b.GenderKey)
-                          : ""),
-                      a.gender),
-                  a.birthYear && 0 != a.birthYear
-                    ? f.setItem(b.BirthYearKey, a.birthYear.toString())
-                    : ((a.birthYear =
-                        null != f.getItem(b.BirthYearKey)
-                          ? Number(f.getItem(b.BirthYearKey))
-                          : 0),
-                      a.birthYear),
-                  a.currentCustomDimension01
-                    ? f.setItem(b.Dimension01Key, a.currentCustomDimension01)
-                    : ((a.currentCustomDimension01 =
-                        null != f.getItem(b.Dimension01Key)
-                          ? f.getItem(b.Dimension01Key)
-                          : ""),
-                      a.currentCustomDimension01),
-                  a.currentCustomDimension02
-                    ? f.setItem(b.Dimension02Key, a.currentCustomDimension02)
-                    : ((a.currentCustomDimension02 =
-                        null != f.getItem(b.Dimension02Key)
-                          ? f.getItem(b.Dimension02Key)
-                          : ""),
-                      a.currentCustomDimension02),
-                  a.currentCustomDimension03
-                    ? f.setItem(b.Dimension03Key, a.currentCustomDimension03)
-                    : ((a.currentCustomDimension03 =
-                        null != f.getItem(b.Dimension03Key)
-                          ? f.getItem(b.Dimension03Key)
-                          : ""),
-                      a.currentCustomDimension03));
-                var c =
-                  null != f.getItem(b.SdkConfigCachedKey)
-                    ? f.getItem(b.SdkConfigCachedKey)
-                    : "";
-                if (c) {
-                  var e = JSON.parse(d.decode64(c));
-                  e && (a.sdkConfigCached = e);
-                }
-                var g = f.select(h.Progression);
-                if (g)
-                  for (var i = 0; i < g.length; ++i) {
-                    var j = g[i];
-                    j && (a.progressionTries[j.progression] = j.tries);
-                  }
-              }),
-              (b.calculateServerTimeOffset = function (a) {
-                return a - d.timeIntervalSince1970();
-              }),
-              (b.validateAndCleanCustomFields = function (a) {
-                var c = {};
-                if (a) {
-                  var f = 0;
-                  for (var g in a) {
-                    var h = a[g];
-                    if (g && h)
-                      if (f < b.MAX_CUSTOM_FIELDS_COUNT) {
-                        var i = new RegExp(
-                          "^[a-zA-Z0-9_]{1," +
-                            b.MAX_CUSTOM_FIELDS_KEY_LENGTH +
-                            "}$",
-                        );
-                        if (d.stringMatch(g, i)) {
-                          var j = typeof h;
-                          if ("string" === j || h instanceof String) {
-                            var k = h;
-                            k.length <=
-                              b.MAX_CUSTOM_FIELDS_VALUE_STRING_LENGTH &&
-                            k.length > 0
-                              ? ((c[g] = k), ++f)
-                              : e.w(
-                                  "validateAndCleanCustomFields: entry with key=" +
-                                    g +
-                                    ", value=" +
-                                    h +
-                                    " has been omitted because its value is an empty string or exceeds the max number of characters (" +
-                                    b.MAX_CUSTOM_FIELDS_VALUE_STRING_LENGTH +
-                                    ")",
-                                );
-                          } else if ("number" === j || h instanceof Number) {
-                            var l = h;
-                            ((c[g] = l), ++f);
-                          } else
-                            e.w(
-                              "validateAndCleanCustomFields: entry with key=" +
-                                g +
-                                ", value=" +
-                                h +
-                                " has been omitted because its value is not a string or number",
-                            );
-                        } else
-                          e.w(
-                            "validateAndCleanCustomFields: entry with key=" +
-                              g +
-                              ", value=" +
-                              h +
-                              " has been omitted because its key contains illegal character, is empty or exceeds the max number of characters (" +
-                              b.MAX_CUSTOM_FIELDS_KEY_LENGTH +
-                              ")",
-                          );
-                      } else
-                        e.w(
-                          "validateAndCleanCustomFields: entry with key=" +
-                            g +
-                            ", value=" +
-                            h +
-                            " has been omitted because it exceeds the max number of custom fields (" +
-                            b.MAX_CUSTOM_FIELDS_COUNT +
-                            ")",
-                        );
-                    else
-                      e.w(
-                        "validateAndCleanCustomFields: entry with key=" +
-                          g +
-                          ", value=" +
-                          h +
-                          " has been omitted because its key or value is null",
-                      );
-                  }
-                }
-                return c;
-              }),
-              (b.validateAndFixCurrentDimensions = function () {
-                (c.validateDimension01(
-                  b.getCurrentCustomDimension01(),
-                  b.getAvailableCustomDimensions01(),
-                ) || b.setCustomDimension01(""),
-                  c.validateDimension02(
-                    b.getCurrentCustomDimension02(),
-                    b.getAvailableCustomDimensions02(),
-                  ) || b.setCustomDimension02(""),
-                  c.validateDimension03(
-                    b.getCurrentCustomDimension03(),
-                    b.getAvailableCustomDimensions03(),
-                  ) || b.setCustomDimension03(""));
-              }),
-              (b.getConfigurationStringValue = function (a, c) {
-                return b.instance.configurations[a]
-                  ? b.instance.configurations[a].toString()
-                  : c;
-              }),
-              (b.isCommandCenterReady = function () {
-                return b.instance.commandCenterIsReady;
-              }),
-              (b.addCommandCenterListener = function (a) {
-                b.instance.commandCenterListeners.indexOf(a) < 0 &&
-                  b.instance.commandCenterListeners.push(a);
-              }),
-              (b.removeCommandCenterListener = function (a) {
-                var c = b.instance.commandCenterListeners.indexOf(a);
-                c > -1 && b.instance.commandCenterListeners.splice(c, 1);
-              }),
-              (b.getConfigurationsContentAsString = function () {
-                return JSON.stringify(b.instance.configurations);
-              }),
-              (b.populateConfigurations = function (a) {
-                var c = a.configurations;
-                if (c)
-                  for (var d = 0; d < c.length; ++d) {
-                    var e = c[d];
-                    if (e) {
-                      var f = e.key,
-                        g = e.value,
-                        h = e.start ? e.start : Number.MIN_VALUE,
-                        i = e.end ? e.end : Number.MAX_VALUE,
-                        j = b.getClientTsAdjusted();
-                      f &&
-                        g &&
-                        j > h &&
-                        j < i &&
-                        (b.instance.configurations[f] = g);
-                    }
-                  }
-                b.instance.commandCenterIsReady = !0;
-                for (
-                  var k = b.instance.commandCenterListeners, d = 0;
-                  d < k.length;
-                  ++d
-                )
-                  k[d] && k[d].onCommandCenterUpdated();
-              }),
-              (b.CategorySdkError = "sdk_error"),
-              (b.MAX_CUSTOM_FIELDS_COUNT = 50),
-              (b.MAX_CUSTOM_FIELDS_KEY_LENGTH = 64),
-              (b.MAX_CUSTOM_FIELDS_VALUE_STRING_LENGTH = 256),
-              (b.instance = new b()),
-              (b.DefaultUserIdKey = "default_user_id"),
-              (b.SessionNumKey = "session_num"),
-              (b.TransactionNumKey = "transaction_num"),
-              (b.FacebookIdKey = "facebook_id"),
-              (b.GenderKey = "gender"),
-              (b.BirthYearKey = "birth_year"),
-              (b.Dimension01Key = "dimension01"),
-              (b.Dimension02Key = "dimension02"),
-              (b.Dimension03Key = "dimension03"),
-              (b.SdkConfigCachedKey = "sdk_config_cached"),
-              b
-            );
-          })();
-        b.GAState = j;
-      })(a.state || (a.state = {}));
-    })(f || (f = {}));
-    var f;
-    !(function (a) {
-      !(function (b) {
-        var c = a.utilities.GAUtilities,
-          d = a.logging.GALogger,
-          e = (function () {
-            function a() {}
-            return (
-              (a.execute = function (b, e, f, g) {
-                if (
-                  (a.countMap[e] || (a.countMap[e] = 0),
-                  !(a.countMap[e] >= a.MaxCount))
-                ) {
-                  var h = c.getHmac(g, f),
-                    i = new XMLHttpRequest();
-                  ((i.onreadystatechange = function () {
-                    if (4 === i.readyState) {
-                      if (!i.responseText) return;
-                      if (200 != i.status)
-                        return void d.w(
-                          "sdk error failed. response code not 200. status code: " +
-                            i.status +
-                            ", description: " +
-                            i.statusText +
-                            ", body: " +
-                            i.responseText,
-                        );
-                      a.countMap[e] = a.countMap[e] + 1;
-                    }
-                  }),
-                    i.open("POST", b, !0),
-                    i.setRequestHeader("Content-Type", "application/json"),
-                    i.setRequestHeader("Authorization", h));
-                  try {
-                    i.send(f);
-                  } catch (a) {
-                    console.error(a);
-                  }
-                }
-              }),
-              (a.MaxCount = 10),
-              (a.countMap = {}),
-              a
-            );
-          })();
-        b.SdkErrorTask = e;
-      })(a.tasks || (a.tasks = {}));
-    })(f || (f = {}));
-    var f;
-    !(function (a) {
-      !(function (b) {
-        var c = a.state.GAState,
-          d = a.logging.GALogger,
-          e = a.utilities.GAUtilities,
-          f = a.validators.GAValidator,
-          g = a.tasks.SdkErrorTask,
-          h = (function () {
-            function a() {
-              ((this.protocol = "https"),
-                (this.hostName = "api.gameanalytics.com"),
-                (this.version = "v2"),
-                (this.baseUrl =
-                  this.protocol + "://" + this.hostName + "/" + this.version),
-                (this.initializeUrlPath = "init"),
-                (this.eventsUrlPath = "events"),
-                (this.useGzip = !1));
-            }
-            return (
-              (a.prototype.requestInit = function (d) {
-                var e = c.getGameKey(),
-                  f = this.baseUrl + "/" + e + "/" + this.initializeUrlPath;
-                f =
-                  "https://rubick.gameanalytics.com/v2/command_center?game_key=" +
-                  e +
-                  "&interval_seconds=1000000";
-                var g = c.getInitAnnotations(),
-                  h = JSON.stringify(g);
-                if (!h)
-                  return void d(b.EGAHTTPApiResponse.JsonEncodeFailed, null);
-                var i = this.createPayloadData(h, this.useGzip),
-                  j = [];
-                (j.push(h),
-                  a.sendRequest(
-                    f,
-                    i,
-                    j,
-                    this.useGzip,
-                    a.initRequestCallback,
-                    d,
-                  ));
-              }),
-              (a.prototype.sendEventsInArray = function (d, e, f) {
-                if (0 != d.length) {
-                  var g = c.getGameKey(),
-                    h = this.baseUrl + "/" + g + "/" + this.eventsUrlPath,
-                    i = JSON.stringify(d);
-                  if (!i)
-                    return void f(
-                      b.EGAHTTPApiResponse.JsonEncodeFailed,
-                      null,
-                      e,
-                      d.length,
-                    );
-                  var j = this.createPayloadData(i, this.useGzip),
-                    k = [];
-                  (k.push(i),
-                    k.push(e),
-                    k.push(d.length.toString()),
-                    a.sendRequest(
-                      h,
-                      j,
-                      k,
-                      this.useGzip,
-                      a.sendEventInArrayRequestCallback,
-                      f,
-                    ));
-                }
-              }),
-              (a.prototype.sendSdkErrorEvent = function (b) {
-                if (c.isEventSubmissionEnabled()) {
-                  var e = c.getGameKey(),
-                    h = c.getGameSecret();
-                  if (f.validateSdkErrorEvent(e, h, b)) {
-                    var i = this.baseUrl + "/" + e + "/" + this.eventsUrlPath,
-                      j = "",
-                      k = c.getSdkErrorEventAnnotations(),
-                      l = a.sdkErrorTypeToString(b);
-                    k.type = l;
-                    var m = [];
-                    if ((m.push(k), !(j = JSON.stringify(m))))
-                      return void d.w(
-                        "sendSdkErrorEvent: JSON encoding failed.",
-                      );
-                    g.execute(i, b, j, h);
-                  }
-                }
-              }),
-              (a.sendEventInArrayRequestCallback = function (c, d, e, f) {
-                void 0 === f && (f = null);
-                var g = (f[0], f[1], f[2]),
-                  h = parseInt(f[3]),
-                  i = "",
-                  j = 0;
-                ((i = c.responseText), (j = c.status));
-                var k = a.instance.processRequestResponse(
-                  j,
-                  c.statusText,
-                  i,
-                  "Events",
-                );
-                if (
-                  k != b.EGAHTTPApiResponse.Ok &&
-                  k != b.EGAHTTPApiResponse.BadRequest
-                )
-                  return void e(k, null, g, h);
-                var l = i ? JSON.parse(i) : {};
-                if (null == l)
-                  return void e(
-                    b.EGAHTTPApiResponse.JsonDecodeFailed,
-                    null,
-                    g,
-                    h,
-                  );
-                (b.EGAHTTPApiResponse.BadRequest, e(k, l, g, h));
-              }),
-              (a.sendRequest = function (a, b, d, f, g, h) {
-                var i = new XMLHttpRequest(),
-                  j = c.getGameSecret(),
-                  k = e.getHmac(j, b),
-                  l = [];
-                l.push(k);
-                for (var m in d) l.push(d[m]);
-                if (
-                  ((i.onreadystatechange = function () {
-                    4 === i.readyState && g(i, a, h, l);
-                  }),
-                  i.open("POST", a, !0),
-                  i.setRequestHeader("Content-Type", "text/plain"),
-                  i.setRequestHeader("Authorization", k),
-                  f)
-                )
-                  throw new Error("gzip not supported");
-                try {
-                  i.send(b);
-                } catch (a) {
-                  console.error(a.stack);
-                }
-              }),
-              (a.initRequestCallback = function (c, d, e, g) {
-                void 0 === g && (g = null);
-                var h = (g[0], g[1], ""),
-                  i = 0;
-                ((h = c.responseText), (i = c.status));
-                var j = h ? JSON.parse(h) : {},
-                  k = a.instance.processRequestResponse(
-                    i,
-                    c.statusText,
-                    h,
-                    "Init",
-                  );
-                if (
-                  k != b.EGAHTTPApiResponse.Ok &&
-                  k != b.EGAHTTPApiResponse.BadRequest
-                )
-                  return void e(k, null, "", 0);
-                if (null == j)
-                  return void e(
-                    b.EGAHTTPApiResponse.JsonDecodeFailed,
-                    null,
-                    "",
-                    0,
-                  );
-                if (k === b.EGAHTTPApiResponse.BadRequest)
-                  return void e(k, null, "", 0);
-                var l = f.validateAndCleanInitRequestResponse(j);
-                if (!l)
-                  return void e(b.EGAHTTPApiResponse.BadResponse, null, "", 0);
-                e(b.EGAHTTPApiResponse.Ok, l, "", 0);
-              }),
-              (a.prototype.createPayloadData = function (a, b) {
-                if (b) throw new Error("gzip not supported");
-                return a;
-              }),
-              (a.prototype.processRequestResponse = function (a, c, d, e) {
-                return d
-                  ? 200 === a
-                    ? b.EGAHTTPApiResponse.Ok
-                    : 0 === a || 401 === a
-                      ? b.EGAHTTPApiResponse.Unauthorized
-                      : 400 === a
-                        ? b.EGAHTTPApiResponse.BadRequest
-                        : 500 === a
-                          ? b.EGAHTTPApiResponse.InternalServerError
-                          : b.EGAHTTPApiResponse.UnknownResponseCode
-                  : b.EGAHTTPApiResponse.NoResponse;
-              }),
-              (a.sdkErrorTypeToString = function (a) {
-                switch (a) {
-                  case b.EGASdkErrorType.Rejected:
-                    return "rejected";
-                  default:
-                    return "";
-                }
-              }),
-              (a.instance = new a()),
-              a
-            );
-          })();
-        b.GAHTTPApi = h;
-      })(a.http || (a.http = {}));
-    })(f || (f = {}));
-    var f;
-    !(function (a) {
-      !(function (b) {
-        var c = a.store.GAStore,
-          d = a.store.EGAStore,
-          e = a.store.EGAStoreArgsOperator,
-          f = a.state.GAState,
-          g = a.logging.GALogger,
-          h = a.utilities.GAUtilities,
-          i = a.http.EGAHTTPApiResponse,
-          j = a.http.GAHTTPApi,
-          k = a.validators.GAValidator,
-          l = a.http.EGASdkErrorType,
-          m = (function () {
-            function b() {}
-            return (
-              (b.addSessionStartEvent = function () {
-                if (f.isEventSubmissionEnabled()) {
-                  var a = {};
-                  ((a.category = b.CategorySessionStart),
-                    f.incrementSessionNum(),
-                    c.setItem(f.SessionNumKey, f.getSessionNum().toString()),
-                    b.addDimensionsToEvent(a),
-                    b.addEventToStore(a),
-                    g.i("Add SESSION START event"),
-                    b.processEvents(b.CategorySessionStart, !1));
-                }
-              }),
-              (b.addSessionEndEvent = function () {
-                if (f.isEventSubmissionEnabled()) {
-                  var a = f.getSessionStart(),
-                    c = f.getClientTsAdjusted(),
-                    d = c - a;
-                  d < 0 &&
-                    (g.w(
-                      "Session length was calculated to be less then 0. Should not be possible. Resetting to 0.",
-                    ),
-                    (d = 0));
-                  var e = {};
-                  ((e.category = b.CategorySessionEnd),
-                    (e.length = d),
-                    b.addDimensionsToEvent(e),
-                    b.addEventToStore(e),
-                    g.i("Add SESSION END event."),
-                    b.processEvents("", !1));
-                }
-              }),
-              (b.addBusinessEvent = function (a, d, e, h, i, m) {
-                if (
-                  (void 0 === i && (i = null), f.isEventSubmissionEnabled())
-                ) {
-                  if (!k.validateBusinessEvent(a, d, i, e, h))
-                    return void j.instance.sendSdkErrorEvent(l.Rejected);
-                  var n = {};
-                  (f.incrementTransactionNum(),
-                    c.setItem(
-                      f.TransactionNumKey,
-                      f.getTransactionNum().toString(),
-                    ),
-                    (n.event_id = e + ":" + h),
-                    (n.category = b.CategoryBusiness),
-                    (n.currency = a),
-                    (n.amount = d),
-                    (n[f.TransactionNumKey] = f.getTransactionNum()),
-                    i && (n.cart_type = i),
-                    b.addDimensionsToEvent(n),
-                    b.addFieldsToEvent(n, f.validateAndCleanCustomFields(m)),
-                    g.i(
-                      "Add BUSINESS event: {currency:" +
-                        a +
-                        ", amount:" +
-                        d +
-                        ", itemType:" +
-                        e +
-                        ", itemId:" +
-                        h +
-                        ", cartType:" +
-                        i +
-                        "}",
-                    ),
-                    b.addEventToStore(n));
-                }
-              }),
-              (b.addResourceEvent = function (c, d, e, h, i, m) {
-                if (f.isEventSubmissionEnabled()) {
-                  if (
-                    !k.validateResourceEvent(
-                      c,
-                      d,
-                      e,
-                      h,
-                      i,
-                      f.getAvailableResourceCurrencies(),
-                      f.getAvailableResourceItemTypes(),
-                    )
-                  )
-                    return void j.instance.sendSdkErrorEvent(l.Rejected);
-                  c === a.EGAResourceFlowType.Sink && (e *= -1);
-                  var n = {},
-                    o = b.resourceFlowTypeToString(c);
-                  ((n.event_id = o + ":" + d + ":" + h + ":" + i),
-                    (n.category = b.CategoryResource),
-                    (n.amount = e),
-                    b.addDimensionsToEvent(n),
-                    b.addFieldsToEvent(n, f.validateAndCleanCustomFields(m)),
-                    g.i(
-                      "Add RESOURCE event: {currency:" +
-                        d +
-                        ", amount:" +
-                        e +
-                        ", itemType:" +
-                        h +
-                        ", itemId:" +
-                        i +
-                        "}",
-                    ),
-                    b.addEventToStore(n));
-                }
-              }),
-              (b.addProgressionEvent = function (c, d, e, h, i, m, n) {
-                if (f.isEventSubmissionEnabled()) {
-                  var o = b.progressionStatusToString(c);
-                  if (!k.validateProgressionEvent(c, d, e, h))
-                    return void j.instance.sendSdkErrorEvent(l.Rejected);
-                  var p,
-                    q = {};
-                  ((p = e ? (h ? d + ":" + e + ":" + h : d + ":" + e) : d),
-                    (q.category = b.CategoryProgression),
-                    (q.event_id = o + ":" + p));
-                  var r = 0;
-                  (m && c != a.EGAProgressionStatus.Start && (q.score = i),
-                    c === a.EGAProgressionStatus.Fail &&
-                      f.incrementProgressionTries(p),
-                    c === a.EGAProgressionStatus.Complete &&
-                      (f.incrementProgressionTries(p),
-                      (r = f.getProgressionTries(p)),
-                      (q.attempt_num = r),
-                      f.clearProgressionTries(p)),
-                    b.addDimensionsToEvent(q),
-                    b.addFieldsToEvent(q, f.validateAndCleanCustomFields(n)),
-                    g.i(
-                      "Add PROGRESSION event: {status:" +
-                        o +
-                        ", progression01:" +
-                        d +
-                        ", progression02:" +
-                        e +
-                        ", progression03:" +
-                        h +
-                        ", score:" +
-                        i +
-                        ", attempt:" +
-                        r +
-                        "}",
-                    ),
-                    b.addEventToStore(q));
-                }
-              }),
-              (b.addDesignEvent = function (a, c, d, e) {
-                if (f.isEventSubmissionEnabled()) {
-                  if (!k.validateDesignEvent(a, c))
-                    return void j.instance.sendSdkErrorEvent(l.Rejected);
-                  var h = {};
-                  ((h.category = b.CategoryDesign),
-                    (h.event_id = a),
-                    d && (h.value = c),
-                    b.addDimensionsToEvent(h),
-                    b.addFieldsToEvent(h, f.validateAndCleanCustomFields(e)),
-                    g.i(
-                      "Add DESIGN event: {eventId:" + a + ", value:" + c + "}",
-                    ),
-                    b.addEventToStore(h));
-                }
-              }),
-              (b.addErrorEvent = function (a, c, d) {
-                if (f.isEventSubmissionEnabled()) {
-                  var e = b.errorSeverityToString(a);
-                  if (!k.validateErrorEvent(a, c))
-                    return void j.instance.sendSdkErrorEvent(l.Rejected);
-                  var h = {};
-                  ((h.category = b.CategoryError),
-                    (h.severity = e),
-                    (h.message = c),
-                    b.addDimensionsToEvent(h),
-                    b.addFieldsToEvent(h, f.validateAndCleanCustomFields(d)),
-                    g.i(
-                      "Add ERROR event: {severity:" +
-                        e +
-                        ", message:" +
-                        c +
-                        "}",
-                    ),
-                    b.addEventToStore(h));
-                }
-              }),
-              (b.processEvents = function (a, i) {
-                if (f.isEventSubmissionEnabled())
-                  try {
-                    var k = h.createGuid();
-                    i && (b.cleanupEvents(), b.fixMissingSessionEndEvents());
-                    var l = [];
-                    l.push(["status", e.Equal, "new"]);
-                    var m = [];
-                    (m.push(["status", e.Equal, "new"]),
-                      a &&
-                        (l.push(["category", e.Equal, a]),
-                        m.push(["category", e.Equal, a])));
-                    var n = [];
-                    n.push(["status", k]);
-                    var o = c.select(d.Events, l);
-                    if (!o || 0 == o.length)
-                      return (
-                        g.i("Event queue: No events to send"),
-                        void b.updateSessionStore()
-                      );
-                    if (o.length > b.MaxEventCount) {
-                      if (!(o = c.select(d.Events, l, !0, b.MaxEventCount)))
-                        return;
-                      var p = o[o.length - 1],
-                        q = p.client_ts;
-                      if (
-                        (l.push(["client_ts", e.LessOrEqual, q]),
-                        !(o = c.select(d.Events, l)))
-                      )
-                        return;
-                      m.push(["client_ts", e.LessOrEqual, q]);
-                    }
-                    if (
-                      (g.i("Event queue: Sending " + o.length + " events."),
-                      !c.update(d.Events, n, m))
-                    )
-                      return;
-                    for (var r = [], s = 0; s < o.length; ++s) {
-                      var t = o[s],
-                        u = JSON.parse(h.decode64(t.event));
-                      0 != u.length && r.push(u);
-                    }
-                    j.instance.sendEventsInArray(r, k, b.processEventsCallback);
-                  } catch (a) {
-                    g.e("Error during ProcessEvents(): " + a.stack);
-                  }
-              }),
-              (b.processEventsCallback = function (a, b, f, h) {
-                var j = [];
-                if ((j.push(["status", e.Equal, f]), a === i.Ok))
-                  (c.delete(d.Events, j),
-                    g.i("Event queue: " + h + " events sent."));
-                else if (a === i.NoResponse) {
-                  var k = [];
-                  (k.push(["status", "new"]),
-                    g.w(
-                      "Event queue: Failed to send events to collector - Retrying next time",
-                    ),
-                    c.update(d.Events, k, j));
-                } else {
-                  if (b) {
-                    var l,
-                      m = 0;
-                    for (var n in b) (0 == m && (l = b[n]), ++m);
-                    a === i.BadRequest && l.constructor === Array
-                      ? g.w(
-                          "Event queue: " +
-                            h +
-                            " events sent. " +
-                            m +
-                            " events failed GA server validation.",
-                        )
-                      : g.w("Event queue: Failed to send events.");
-                  } else g.w("Event queue: Failed to send events.");
-                  c.delete(d.Events, j);
-                }
-              }),
-              (b.cleanupEvents = function () {
-                c.update(d.Events, [["status", "new"]]);
-              }),
-              (b.fixMissingSessionEndEvents = function () {
-                if (f.isEventSubmissionEnabled()) {
-                  var a = [];
-                  a.push(["session_id", e.NotEqual, f.getSessionId()]);
-                  var i = c.select(d.Sessions, a);
-                  if (i && 0 != i.length) {
-                    g.i(
-                      i.length +
-                        " session(s) located with missing session_end event.",
-                    );
-                    for (var j = 0; j < i.length; ++j) {
-                      var k = JSON.parse(h.decode64(i[j].event)),
-                        l = k.client_ts,
-                        m = i[j].timestamp,
-                        n = l - m;
-                      ((n = Math.max(0, n)),
-                        (k.category = b.CategorySessionEnd),
-                        (k.length = n),
-                        b.addEventToStore(k));
-                    }
-                  }
-                }
-              }),
-              (b.addEventToStore = function (a) {
-                if (f.isEventSubmissionEnabled()) {
-                  if (!f.isInitialized())
-                    return void g.w(
-                      "Could not add event: SDK is not initialized",
-                    );
-                  try {
-                    if (
-                      c.isStoreTooLargeForEvents() &&
-                      !h.stringMatch(
-                        a.category,
-                        /^(user|session_end|business)$/,
-                      )
-                    )
-                      return void g.w(
-                        "Database too large. Event has been blocked.",
-                      );
-                    var i = f.getEventAnnotations(),
-                      j = h.encode64(JSON.stringify(i));
-                    for (var k in a) i[k] = a[k];
-                    var l = JSON.stringify(i);
-                    g.ii("Event added to queue: " + l);
-                    var m = {};
-                    ((m.status = "new"),
-                      (m.category = i.category),
-                      (m.session_id = i.session_id),
-                      (m.client_ts = i.client_ts),
-                      (m.event = h.encode64(JSON.stringify(i))),
-                      c.insert(d.Events, m),
-                      a.category == b.CategorySessionEnd
-                        ? c.delete(d.Sessions, [
-                            ["session_id", e.Equal, i.session_id],
-                          ])
-                        : ((m = {}),
-                          (m.session_id = i.session_id),
-                          (m.timestamp = f.getSessionStart()),
-                          (m.event = j),
-                          c.insert(d.Sessions, m, !0, "session_id")),
-                      c.isStorageAvailable() && c.save());
-                  } catch (k) {
-                    (g.e("addEventToStore: error"), g.e(k.stack));
-                  }
-                }
-              }),
-              (b.updateSessionStore = function () {
-                if (f.sessionIsStarted()) {
-                  var a = {};
-                  ((a.session_id = f.instance.sessionId),
-                    (a.timestamp = f.getSessionStart()),
-                    (a.event = h.encode64(
-                      JSON.stringify(f.getEventAnnotations()),
-                    )),
-                    c.insert(d.Sessions, a, !0, "session_id"),
-                    c.isStorageAvailable() && c.save());
-                }
-              }),
-              (b.addDimensionsToEvent = function (a) {
-                a &&
-                  (f.getCurrentCustomDimension01() &&
-                    (a.custom_01 = f.getCurrentCustomDimension01()),
-                  f.getCurrentCustomDimension02() &&
-                    (a.custom_02 = f.getCurrentCustomDimension02()),
-                  f.getCurrentCustomDimension03() &&
-                    (a.custom_03 = f.getCurrentCustomDimension03()));
-              }),
-              (b.addFieldsToEvent = function (a, b) {
-                a && b && Object.keys(b).length > 0 && (a.custom_fields = b);
-              }),
-              (b.resourceFlowTypeToString = function (b) {
-                return b == a.EGAResourceFlowType.Source ||
-                  b == a.EGAResourceFlowType[a.EGAResourceFlowType.Source]
-                  ? "Source"
-                  : b == a.EGAResourceFlowType.Sink ||
-                      b == a.EGAResourceFlowType[a.EGAResourceFlowType.Sink]
-                    ? "Sink"
-                    : "";
-              }),
-              (b.progressionStatusToString = function (b) {
-                return b == a.EGAProgressionStatus.Start ||
-                  b == a.EGAProgressionStatus[a.EGAProgressionStatus.Start]
-                  ? "Start"
-                  : b == a.EGAProgressionStatus.Complete ||
-                      b ==
-                        a.EGAProgressionStatus[a.EGAProgressionStatus.Complete]
-                    ? "Complete"
-                    : b == a.EGAProgressionStatus.Fail ||
-                        b == a.EGAProgressionStatus[a.EGAProgressionStatus.Fail]
-                      ? "Fail"
-                      : "";
-              }),
-              (b.errorSeverityToString = function (b) {
-                return b == a.EGAErrorSeverity.Debug ||
-                  b == a.EGAErrorSeverity[a.EGAErrorSeverity.Debug]
-                  ? "debug"
-                  : b == a.EGAErrorSeverity.Info ||
-                      b == a.EGAErrorSeverity[a.EGAErrorSeverity.Info]
-                    ? "info"
-                    : b == a.EGAErrorSeverity.Warning ||
-                        b == a.EGAErrorSeverity[a.EGAErrorSeverity.Warning]
-                      ? "warning"
-                      : b == a.EGAErrorSeverity.Error ||
-                          b == a.EGAErrorSeverity[a.EGAErrorSeverity.Error]
-                        ? "error"
-                        : b == a.EGAErrorSeverity.Critical ||
-                            b == a.EGAErrorSeverity[a.EGAErrorSeverity.Critical]
-                          ? "critical"
-                          : "";
-              }),
-              (b.instance = new b()),
-              (b.CategorySessionStart = "user"),
-              (b.CategorySessionEnd = "session_end"),
-              (b.CategoryDesign = "design"),
-              (b.CategoryBusiness = "business"),
-              (b.CategoryProgression = "progression"),
-              (b.CategoryResource = "resource"),
-              (b.CategoryError = "error"),
-              (b.MaxEventCount = 500),
-              b
-            );
-          })();
-        b.GAEvents = m;
-      })(a.events || (a.events = {}));
-    })(f || (f = {}));
-    var f;
-    !(function (a) {
-      !(function (b) {
-        var c = a.logging.GALogger,
-          d = a.state.GAState,
-          e = a.events.GAEvents,
-          f = (function () {
-            function a() {
-              ((this.blocks = new b.PriorityQueue({
-                compare: function (a, b) {
-                  return a - b;
-                },
-              })),
-                (this.id2TimedBlockMap = {}),
-                a.startThread());
-            }
-            return (
-              (a.createTimedBlock = function (a) {
-                void 0 === a && (a = 0);
-                var c = new Date();
-                return (c.setSeconds(c.getSeconds() + a), new b.TimedBlock(c));
-              }),
-              (a.performTaskOnGAThread = function (c, d) {
-                void 0 === d && (d = 0);
-                var e = new Date();
-                e.setSeconds(e.getSeconds() + d);
-                var f = new b.TimedBlock(e);
-                ((f.block = c),
-                  (a.instance.id2TimedBlockMap[f.id] = f),
-                  a.instance.addTimedBlock(f));
-              }),
-              (a.performTimedBlockOnGAThread = function (b) {
-                ((a.instance.id2TimedBlockMap[b.id] = b),
-                  a.instance.addTimedBlock(b));
-              }),
-              (a.scheduleTimer = function (c, d) {
-                var e = new Date();
-                e.setSeconds(e.getSeconds() + c);
-                var f = new b.TimedBlock(e);
-                return (
-                  (f.block = d),
-                  (a.instance.id2TimedBlockMap[f.id] = f),
-                  a.instance.addTimedBlock(f),
-                  f.id
-                );
-              }),
-              (a.getTimedBlockById = function (b) {
-                return b in a.instance.id2TimedBlockMap
-                  ? a.instance.id2TimedBlockMap[b]
-                  : null;
-              }),
-              (a.ensureEventQueueIsRunning = function () {
-                ((a.instance.keepRunning = !0),
-                  a.instance.isRunning ||
-                    ((a.instance.isRunning = !0),
-                    a.scheduleTimer(
-                      a.ProcessEventsIntervalInSeconds,
-                      a.processEventQueue,
-                    )));
-              }),
-              (a.endSessionAndStopQueue = function () {
-                d.isInitialized() &&
-                  (c.i("Ending session."),
-                  a.stopEventQueue(),
-                  d.isEnabled() &&
-                    d.sessionIsStarted() &&
-                    (e.addSessionEndEvent(), (d.instance.sessionStart = 0)));
-              }),
-              (a.stopEventQueue = function () {
-                a.instance.keepRunning = !1;
-              }),
-              (a.ignoreTimer = function (b) {
-                b in a.instance.id2TimedBlockMap &&
-                  (a.instance.id2TimedBlockMap[b].ignore = !0);
-              }),
-              (a.setEventProcessInterval = function (b) {
-                b > 0 && (a.ProcessEventsIntervalInSeconds = b);
-              }),
-              (a.prototype.addTimedBlock = function (a) {
-                this.blocks.enqueue(a.deadline.getTime(), a);
-              }),
-              (a.run = function () {
-                clearTimeout(a.runTimeoutId);
-                try {
-                  for (var b; (b = a.getNextBlock()); )
-                    if (!b.ignore)
-                      if (b.async) {
-                        if (!b.running) {
-                          ((b.running = !0), b.block());
-                          break;
-                        }
-                      } else b.block();
-                  return void (a.runTimeoutId = setTimeout(
-                    a.run,
-                    a.ThreadWaitTimeInMs,
-                  ));
-                } catch (a) {
-                  (c.e("Error on GA thread"), c.e(a.stack));
-                }
-              }),
-              (a.startThread = function () {
-                a.runTimeoutId = setTimeout(a.run, 0);
-              }),
-              (a.getNextBlock = function () {
-                var b = new Date();
-                return a.instance.blocks.hasItems() &&
-                  a.instance.blocks.peek().deadline.getTime() <= b.getTime()
-                  ? a.instance.blocks.peek().async &&
-                    a.instance.blocks.peek().running
-                    ? a.instance.blocks.peek()
-                    : a.instance.blocks.dequeue()
-                  : null;
-              }),
-              (a.processEventQueue = function () {
-                (e.processEvents("", !0),
-                  a.instance.keepRunning
-                    ? a.scheduleTimer(
-                        a.ProcessEventsIntervalInSeconds,
-                        a.processEventQueue,
-                      )
-                    : (a.instance.isRunning = !1));
-              }),
-              (a.instance = new a()),
-              (a.ThreadWaitTimeInMs = 1e3),
-              (a.ProcessEventsIntervalInSeconds = 8),
-              a
-            );
-          })();
-        b.GAThreading = f;
-      })(a.threading || (a.threading = {}));
-    })(f || (f = {}));
-    var f;
-    (!(function (a) {
-      var b = a.threading.GAThreading,
-        c = a.logging.GALogger,
-        d = a.store.GAStore,
-        e = a.state.GAState,
-        f = a.http.GAHTTPApi,
-        g = a.device.GADevice,
-        h = a.validators.GAValidator,
-        i = a.http.EGAHTTPApiResponse,
-        j = a.utilities.GAUtilities,
-        k = a.events.GAEvents,
-        l = (function () {
-          function l() {}
-          return (
-            (l.init = function () {
-              if (
-                (g.touch(),
-                (l.methodMap.configureAvailableCustomDimensions01 =
-                  l.configureAvailableCustomDimensions01),
-                (l.methodMap.configureAvailableCustomDimensions02 =
-                  l.configureAvailableCustomDimensions02),
-                (l.methodMap.configureAvailableCustomDimensions03 =
-                  l.configureAvailableCustomDimensions03),
-                (l.methodMap.configureAvailableResourceCurrencies =
-                  l.configureAvailableResourceCurrencies),
-                (l.methodMap.configureAvailableResourceItemTypes =
-                  l.configureAvailableResourceItemTypes),
-                (l.methodMap.configureBuild = l.configureBuild),
-                (l.methodMap.configureSdkGameEngineVersion =
-                  l.configureSdkGameEngineVersion),
-                (l.methodMap.configureGameEngineVersion =
-                  l.configureGameEngineVersion),
-                (l.methodMap.configureUserId = l.configureUserId),
-                (l.methodMap.initialize = l.initialize),
-                (l.methodMap.addBusinessEvent = l.addBusinessEvent),
-                (l.methodMap.addResourceEvent = l.addResourceEvent),
-                (l.methodMap.addProgressionEvent = l.addProgressionEvent),
-                (l.methodMap.addDesignEvent = l.addDesignEvent),
-                (l.methodMap.addErrorEvent = l.addErrorEvent),
-                (l.methodMap.addErrorEvent = l.addErrorEvent),
-                (l.methodMap.setEnabledInfoLog = l.setEnabledInfoLog),
-                (l.methodMap.setEnabledVerboseLog = l.setEnabledVerboseLog),
-                (l.methodMap.setEnabledManualSessionHandling =
-                  l.setEnabledManualSessionHandling),
-                (l.methodMap.setEnabledEventSubmission =
-                  l.setEnabledEventSubmission),
-                (l.methodMap.setCustomDimension01 = l.setCustomDimension01),
-                (l.methodMap.setCustomDimension02 = l.setCustomDimension02),
-                (l.methodMap.setCustomDimension03 = l.setCustomDimension03),
-                (l.methodMap.setFacebookId = l.setFacebookId),
-                (l.methodMap.setGender = l.setGender),
-                (l.methodMap.setBirthYear = l.setBirthYear),
-                (l.methodMap.setEventProcessInterval =
-                  l.setEventProcessInterval),
-                (l.methodMap.startSession = l.startSession),
-                (l.methodMap.endSession = l.endSession),
-                (l.methodMap.onStop = l.onStop),
-                (l.methodMap.onResume = l.onResume),
-                (l.methodMap.addCommandCenterListener =
-                  l.addCommandCenterListener),
-                (l.methodMap.removeCommandCenterListener =
-                  l.removeCommandCenterListener),
-                (l.methodMap.getCommandCenterValueAsString =
-                  l.getCommandCenterValueAsString),
-                (l.methodMap.isCommandCenterReady = l.isCommandCenterReady),
-                (l.methodMap.getConfigurationsContentAsString =
-                  l.getConfigurationsContentAsString),
-                "undefined" != typeof window &&
-                  void 0 !== window.GameAnalytics &&
-                  void 0 !== window.GameAnalytics.q)
-              ) {
-                var a = window.GameAnalytics.q;
-                for (var b in a) l.gaCommand.apply(null, a[b]);
-              }
-            }),
-            (l.gaCommand = function () {
-              for (var b = [], c = 0; c < arguments.length; c++)
-                b[c] = arguments[c];
-              b.length > 0 &&
-                b[0] in a.GameAnalytics.methodMap &&
-                (b.length > 1
-                  ? a.GameAnalytics.methodMap[b[0]].apply(
-                      null,
-                      Array.prototype.slice.call(b, 1),
-                    )
-                  : a.GameAnalytics.methodMap[b[0]]());
-            }),
-            (l.configureAvailableCustomDimensions01 = function (a) {
-              (void 0 === a && (a = []),
-                b.performTaskOnGAThread(function () {
-                  if (l.isSdkReady(!0, !1))
-                    return void c.w(
-                      "Available custom dimensions must be set before SDK is initialized",
-                    );
-                  e.setAvailableCustomDimensions01(a);
-                }));
-            }),
-            (l.configureAvailableCustomDimensions02 = function (a) {
-              (void 0 === a && (a = []),
-                b.performTaskOnGAThread(function () {
-                  if (l.isSdkReady(!0, !1))
-                    return void c.w(
-                      "Available custom dimensions must be set before SDK is initialized",
-                    );
-                  e.setAvailableCustomDimensions02(a);
-                }));
-            }),
-            (l.configureAvailableCustomDimensions03 = function (a) {
-              (void 0 === a && (a = []),
-                b.performTaskOnGAThread(function () {
-                  if (l.isSdkReady(!0, !1))
-                    return void c.w(
-                      "Available custom dimensions must be set before SDK is initialized",
-                    );
-                  e.setAvailableCustomDimensions03(a);
-                }));
-            }),
-            (l.configureAvailableResourceCurrencies = function (a) {
-              (void 0 === a && (a = []),
-                b.performTaskOnGAThread(function () {
-                  if (l.isSdkReady(!0, !1))
-                    return void c.w(
-                      "Available resource currencies must be set before SDK is initialized",
-                    );
-                  e.setAvailableResourceCurrencies(a);
-                }));
-            }),
-            (l.configureAvailableResourceItemTypes = function (a) {
-              (void 0 === a && (a = []),
-                b.performTaskOnGAThread(function () {
-                  if (l.isSdkReady(!0, !1))
-                    return void c.w(
-                      "Available resource item types must be set before SDK is initialized",
-                    );
-                  e.setAvailableResourceItemTypes(a);
-                }));
-            }),
-            (l.configureBuild = function (a) {
-              (void 0 === a && (a = ""),
-                b.performTaskOnGAThread(function () {
-                  return l.isSdkReady(!0, !1)
-                    ? void c.w(
-                        "Build version must be set before SDK is initialized.",
-                      )
-                    : h.validateBuild(a)
-                      ? void e.setBuild(a)
-                      : void c.i(
-                          "Validation fail - configure build: Cannot be null, empty or above 32 length. String: " +
-                            a,
-                        );
-                }));
-            }),
-            (l.configureSdkGameEngineVersion = function (a) {
-              (void 0 === a && (a = ""),
-                b.performTaskOnGAThread(function () {
-                  if (!l.isSdkReady(!0, !1))
-                    return h.validateSdkWrapperVersion(a)
-                      ? void (g.sdkGameEngineVersion = a)
-                      : void c.i(
-                          "Validation fail - configure sdk version: Sdk version not supported. String: " +
-                            a,
-                        );
-                }));
-            }),
-            (l.configureGameEngineVersion = function (a) {
-              (void 0 === a && (a = ""),
-                b.performTaskOnGAThread(function () {
-                  if (!l.isSdkReady(!0, !1))
-                    return h.validateEngineVersion(a)
-                      ? void (g.gameEngineVersion = a)
-                      : void c.i(
-                          "Validation fail - configure game engine version: Game engine version not supported. String: " +
-                            a,
-                        );
-                }));
-            }),
-            (l.configureUserId = function (a) {
-              (void 0 === a && (a = ""),
-                b.performTaskOnGAThread(function () {
-                  return l.isSdkReady(!0, !1)
-                    ? void c.w(
-                        "A custom user id must be set before SDK is initialized.",
-                      )
-                    : h.validateUserId(a)
-                      ? void e.setUserId(a)
-                      : void c.i(
-                          "Validation fail - configure user_id: Cannot be null, empty or above 64 length. Will use default user_id method. Used string: " +
-                            a,
-                        );
-                }));
-            }),
-            (l.initialize = function (a, d) {
-              (void 0 === a && (a = ""),
-                void 0 === d && (d = ""),
-                g.updateConnectionType());
-              var f = b.createTimedBlock();
-              ((f.async = !0),
-                (l.initTimedBlockId = f.id),
-                (f.block = function () {
-                  return l.isSdkReady(!0, !1)
-                    ? void c.w(
-                        "SDK already initialized. Can only be called once.",
-                      )
-                    : h.validateKeys(a, d)
-                      ? (e.setKeys(a, d), void l.internalInitialize())
-                      : void c.w(
-                          "SDK failed initialize. Game key or secret key is invalid. Can only contain characters A-z 0-9, gameKey is 32 length, gameSecret is 40 length. Failed keys - gameKey: " +
-                            a +
-                            ", secretKey: " +
-                            d,
-                        );
-                }),
-                b.performTimedBlockOnGAThread(f));
-            }),
-            (l.addBusinessEvent = function (a, c, d, e, f) {
-              (void 0 === a && (a = ""),
-                void 0 === c && (c = 0),
-                void 0 === d && (d = ""),
-                void 0 === e && (e = ""),
-                void 0 === f && (f = ""),
-                g.updateConnectionType(),
-                b.performTaskOnGAThread(function () {
-                  l.isSdkReady(!0, !0, "Could not add business event") &&
-                    k.addBusinessEvent(a, c, d, e, f, {});
-                }));
-            }),
-            (l.addResourceEvent = function (c, d, e, f, h) {
-              (void 0 === c && (c = a.EGAResourceFlowType.Undefined),
-                void 0 === d && (d = ""),
-                void 0 === e && (e = 0),
-                void 0 === f && (f = ""),
-                void 0 === h && (h = ""),
-                g.updateConnectionType(),
-                b.performTaskOnGAThread(function () {
-                  l.isSdkReady(!0, !0, "Could not add resource event") &&
-                    k.addResourceEvent(c, d, e, f, h, {});
-                }));
-            }),
-            (l.addProgressionEvent = function (c, d, e, f, h) {
-              (void 0 === c && (c = a.EGAProgressionStatus.Undefined),
-                void 0 === d && (d = ""),
-                void 0 === e && (e = ""),
-                void 0 === f && (f = ""),
-                g.updateConnectionType(),
-                b.performTaskOnGAThread(function () {
-                  if (l.isSdkReady(!0, !0, "Could not add progression event")) {
-                    var a = "number" == typeof h;
-                    k.addProgressionEvent(c, d, e, f, a ? h : 0, a, {});
-                  }
-                }));
-            }),
-            (l.addDesignEvent = function (a, c) {
-              (g.updateConnectionType(),
-                b.performTaskOnGAThread(function () {
-                  if (l.isSdkReady(!0, !0, "Could not add design event")) {
-                    var b = "number" == typeof c;
-                    k.addDesignEvent(a, b ? c : 0, b, {});
-                  }
-                }));
-            }),
-            (l.addErrorEvent = function (c, d) {
-              (void 0 === c && (c = a.EGAErrorSeverity.Undefined),
-                void 0 === d && (d = ""),
-                g.updateConnectionType(),
-                b.performTaskOnGAThread(function () {
-                  l.isSdkReady(!0, !0, "Could not add error event") &&
-                    k.addErrorEvent(c, d, {});
-                }));
-            }),
-            (l.setEnabledInfoLog = function (a) {
-              (void 0 === a && (a = !1),
-                b.performTaskOnGAThread(function () {
-                  a
-                    ? (c.setInfoLog(a), c.i("Info logging enabled"))
-                    : (c.i("Info logging disabled"), c.setInfoLog(a));
-                }));
-            }),
-            (l.setEnabledVerboseLog = function (a) {
-              (void 0 === a && (a = !1),
-                b.performTaskOnGAThread(function () {
-                  a
-                    ? (c.setVerboseLog(a), c.i("Verbose logging enabled"))
-                    : (c.i("Verbose logging disabled"), c.setVerboseLog(a));
-                }));
-            }),
-            (l.setEnabledManualSessionHandling = function (a) {
-              (void 0 === a && (a = !1),
-                b.performTaskOnGAThread(function () {
-                  e.setManualSessionHandling(a);
-                }));
-            }),
-            (l.setEnabledEventSubmission = function (a) {
-              (void 0 === a && (a = !1),
-                b.performTaskOnGAThread(function () {
-                  a
-                    ? (e.setEnabledEventSubmission(a),
-                      c.i("Event submission enabled"))
-                    : (c.i("Event submission disabled"),
-                      e.setEnabledEventSubmission(a));
-                }));
-            }),
-            (l.setCustomDimension01 = function (a) {
-              (void 0 === a && (a = ""),
-                b.performTaskOnGAThread(function () {
-                  if (
-                    !h.validateDimension01(
-                      a,
-                      e.getAvailableCustomDimensions01(),
-                    )
-                  )
-                    return void c.w(
-                      "Could not set custom01 dimension value to '" +
-                        a +
-                        "'. Value not found in available custom01 dimension values",
-                    );
-                  e.setCustomDimension01(a);
-                }));
-            }),
-            (l.setCustomDimension02 = function (a) {
-              (void 0 === a && (a = ""),
-                b.performTaskOnGAThread(function () {
-                  if (
-                    !h.validateDimension02(
-                      a,
-                      e.getAvailableCustomDimensions02(),
-                    )
-                  )
-                    return void c.w(
-                      "Could not set custom02 dimension value to '" +
-                        a +
-                        "'. Value not found in available custom02 dimension values",
-                    );
-                  e.setCustomDimension02(a);
-                }));
-            }),
-            (l.setCustomDimension03 = function (a) {
-              (void 0 === a && (a = ""),
-                b.performTaskOnGAThread(function () {
-                  if (
-                    !h.validateDimension03(
-                      a,
-                      e.getAvailableCustomDimensions03(),
-                    )
-                  )
-                    return void c.w(
-                      "Could not set custom03 dimension value to '" +
-                        a +
-                        "'. Value not found in available custom03 dimension values",
-                    );
-                  e.setCustomDimension03(a);
-                }));
-            }),
-            (l.setFacebookId = function (a) {
-              (void 0 === a && (a = ""),
-                b.performTaskOnGAThread(function () {
-                  h.validateFacebookId(a) && e.setFacebookId(a);
-                }));
-            }),
-            (l.setGender = function (c) {
-              (void 0 === c && (c = a.EGAGender.Undefined),
-                b.performTaskOnGAThread(function () {
-                  h.validateGender(c) && e.setGender(c);
-                }));
-            }),
-            (l.setBirthYear = function (a) {
-              (void 0 === a && (a = 0),
-                b.performTaskOnGAThread(function () {
-                  h.validateBirthyear(a) && e.setBirthYear(a);
-                }));
-            }),
-            (l.setEventProcessInterval = function (a) {
-              b.performTaskOnGAThread(function () {
-                b.setEventProcessInterval(a);
-              });
-            }),
-            (l.startSession = function () {
-              if (e.isInitialized()) {
-                var a = b.createTimedBlock();
-                ((a.async = !0),
-                  (l.initTimedBlockId = a.id),
-                  (a.block = function () {
-                    (e.isEnabled() &&
-                      e.sessionIsStarted() &&
-                      b.endSessionAndStopQueue(),
-                      l.resumeSessionAndStartQueue());
-                  }),
-                  b.performTimedBlockOnGAThread(a));
-              }
-            }),
-            (l.endSession = function () {
-              l.onStop();
-            }),
-            (l.onStop = function () {
-              b.performTaskOnGAThread(function () {
-                try {
-                  b.endSessionAndStopQueue();
-                } catch (a) {}
-              });
-            }),
-            (l.onResume = function () {
-              var a = b.createTimedBlock();
-              ((a.async = !0),
-                (l.initTimedBlockId = a.id),
-                (a.block = function () {
-                  l.resumeSessionAndStartQueue();
-                }),
-                b.performTimedBlockOnGAThread(a));
-            }),
-            (l.getCommandCenterValueAsString = function (a, b) {
-              return (
-                void 0 === b && (b = null),
-                e.getConfigurationStringValue(a, b)
-              );
-            }),
-            (l.isCommandCenterReady = function () {
-              return e.isCommandCenterReady();
-            }),
-            (l.addCommandCenterListener = function (a) {
-              e.addCommandCenterListener(a);
-            }),
-            (l.removeCommandCenterListener = function (a) {
-              e.removeCommandCenterListener(a);
-            }),
-            (l.getConfigurationsContentAsString = function () {
-              return e.getConfigurationsContentAsString();
-            }),
-            (l.internalInitialize = function () {
-              (e.ensurePersistedStates(),
-                d.setItem(e.DefaultUserIdKey, e.getDefaultId()),
-                e.setInitialized(!0),
-                l.newSession(),
-                e.isEnabled() && b.ensureEventQueueIsRunning());
-            }),
-            (l.newSession = function () {
-              (c.i("Starting a new session."),
-                e.validateAndFixCurrentDimensions(),
-                f.instance.requestInit(l.startNewSessionCallback));
-            }),
-            (l.startNewSessionCallback = function (a, f) {
-              if (a === i.Ok && f) {
-                var g = 0;
-                if (f.server_ts) {
-                  var h = f.server_ts;
-                  g = e.calculateServerTimeOffset(h);
-                }
-                ((f.time_offset = g),
-                  d.setItem(
-                    e.SdkConfigCachedKey,
-                    j.encode64(JSON.stringify(f)),
-                  ),
-                  (e.instance.sdkConfigCached = f),
-                  (e.instance.sdkConfig = f),
-                  (e.instance.initAuthorized = !0));
-              } else
-                a == i.Unauthorized
-                  ? (c.w("Initialize SDK failed - Unauthorized"),
-                    (e.instance.initAuthorized = !1))
-                  : (a === i.NoResponse || a === i.RequestTimeout
-                      ? c.i(
-                          "Init call (session start) failed - no response. Could be offline or timeout.",
-                        )
-                      : a === i.BadResponse ||
-                          a === i.JsonEncodeFailed ||
-                          a === i.JsonDecodeFailed
-                        ? c.i(
-                            "Init call (session start) failed - bad response. Could be bad response from proxy or GA servers.",
-                          )
-                        : (a !== i.BadRequest && a !== i.UnknownResponseCode) ||
-                          c.i(
-                            "Init call (session start) failed - bad request or unknown response.",
-                          ),
-                    null == e.instance.sdkConfig
-                      ? null != e.instance.sdkConfigCached
-                        ? (c.i(
-                            "Init call (session start) failed - using cached init values.",
-                          ),
-                          (e.instance.sdkConfig = e.instance.sdkConfigCached))
-                        : (c.i(
-                            "Init call (session start) failed - using default init values.",
-                          ),
-                          (e.instance.sdkConfig = e.instance.sdkConfigDefault))
-                      : c.i(
-                          "Init call (session start) failed - using cached init values.",
-                        ),
-                    (e.instance.initAuthorized = !0));
-              if (
-                ((e.instance.clientServerTimeOffset = e.getSdkConfig()
-                  .time_offset
-                  ? e.getSdkConfig().time_offset
-                  : 0),
-                e.populateConfigurations(e.getSdkConfig()),
-                !e.isEnabled())
-              )
-                return (
-                  c.w("Could not start session: SDK is disabled."),
-                  void b.stopEventQueue()
-                );
-              b.ensureEventQueueIsRunning();
-              var m = j.createGuid();
-              ((e.instance.sessionId = m),
-                (e.instance.sessionStart = e.getClientTsAdjusted()),
-                k.addSessionStartEvent());
-              var n = b.getTimedBlockById(l.initTimedBlockId);
-              (null != n && (n.running = !1), (l.initTimedBlockId = -1));
-            }),
-            (l.resumeSessionAndStartQueue = function () {
-              e.isInitialized() &&
-                (c.i("Resuming session."),
-                e.sessionIsStarted() || l.newSession());
-            }),
-            (l.isSdkReady = function (a, b, d) {
-              return (
-                void 0 === b && (b = !0),
-                void 0 === d && (d = ""),
-                d && (d += ": "),
-                a && !e.isInitialized()
-                  ? (b && c.w(d + "SDK is not initialized"), !1)
-                  : a && !e.isEnabled()
-                    ? (b && c.w(d + "SDK is disabled"), !1)
-                    : !(a && !e.sessionIsStarted()) ||
-                      (b && c.w(d + "Session has not started yet"), !1)
-              );
-            }),
-            (l.initTimedBlockId = -1),
-            (l.methodMap = {}),
-            l
-          );
-        })();
-      a.GameAnalytics = l;
-    })(f || (f = {})),
-      f.GameAnalytics.init());
-    var g = (f.GameAnalytics.gaCommand, f),
-      h = (function () {
-        function a() {}
-        return (
-          (a.prototype.loadScript = function (a) {}),
-          (a.prototype.create = function (a) {
-            var b = a.gameKey,
-              c = a.gameSecret,
-              d = a.version;
-            (g.GameAnalytics.initialize(b, c),
-              g.GameAnalytics.configureBuild(d),
-              g.GameAnalytics.startSession(),
-              window.addEventListener("beforeunload", function () {
-                g.GameAnalytics.endSession();
-              }));
-          }),
-          (a.prototype.sendScreenView = function (a) {}),
-          (a.prototype.sendGenericEvent = function (a, b, c) {}),
-          (a.prototype.sendEvent = function (a, b) {}),
-          (a.prototype.sendCustomEvent = function (a, b) {}),
-          (a.prototype.addProgressionEvent = function (a, b, c, d, e) {
-            g.GameAnalytics.addProgressionEvent(a, b, c, d, e);
-          }),
-          (a.prototype.addDesignEvent = function (a, b) {
-            g.GameAnalytics.addDesignEvent(a, b);
-          }),
-          a
-        );
-      })(),
-      i = (function () {
-        function a() {}
-        return (
-          (a.getReferrer = function (a) {
-            return -1 !== a.indexOf("?ref=")
-              ? a.substr(a.indexOf("?ref=") + 5)
-              : a;
-          }),
-          a
-        );
-      })(),
-      j = (function () {
-        function a() {
-          ((this.fbrqId = "UA-60359297-50"), (this.googleID = "none"));
-        }
-        return (
-          (a.prototype.loadScript = function (a) {
-            var b = document.createElement("script"),
-              c = "https://www.googletagmanager.com/gtag/js?id=".concat(a);
-            (b.setAttribute("src", c),
-              (b.async = !0),
-              (b.onload = function () {
-                (window.hasOwnProperty("dataLayer") &&
-                  (window.dataLayer = window.dataLayer || []),
-                  (gtag = function () {
-                    window.hasOwnProperty("dataLayer") &&
-                      window.dataLayer.push(arguments);
-                  }));
-              }),
-              document.head.appendChild(b));
-          }),
-          (a.prototype.create = function (a) {
-            var b = a.gameTitle,
-              c = a.googleID,
-              d = a.version;
-            this.googleID = c;
-            var e = 100;
-            if (
-              (a.sampleRate && (e = a.sampleRate),
-              "undefined" != typeof gtag || "function" == typeof gtag)
-            ) {
-              var f = i.getReferrer(decodeURIComponent(document.referrer));
-              (gtag("js", new Date()),
-                gtag("set", "user_properties", {
-                  app_name: b,
-                  app_version: d,
-                  referrer: f,
-                }),
-                gtag("config", this.googleID, { sample_rate: e }));
-            }
-          }),
-          (a.prototype.sendScreenView = function (a) {
-            ("undefined" == typeof gtag && "function" != typeof gtag) ||
-              (gtag("event", "screen_view", { screen_name: a }),
-              gtag("event", "screen_view", {
-                send_to: this.googleID,
-                screen_name: a,
-              }));
-          }),
-          (a.prototype.sendGenericEvent = function (a, b, c, d) {
-            ("undefined" == typeof gtag && "function" != typeof gtag) ||
-              gtag("event", b, {
-                send_to: this.googleID,
-                event_category: a,
-                event_label: c,
-                event_value: d,
-              });
-          }),
-          (a.prototype.sendEvent = function (a, b) {
-            if ("undefined" != typeof gtag || "function" == typeof gtag) {
-              var c = Object.assign(b, { send_to: this.googleID });
-              gtag("event", a, c);
-            }
-          }),
-          (a.prototype.sendCustomEvent = function (a, b) {}),
-          (a.prototype.addProgressionEvent = function (a, b, c, d, e) {}),
-          (a.prototype.addDesignEvent = function (a, b) {}),
-          (a.GAMeasurementId = "none"),
-          a
-        );
-      })(),
-      k = (function (a) {
-        function c() {
-          var b = a.call(this) || this;
-          return (b.providers.push(new j()), b.providers.push(new h()), b);
-        }
-        return (b(c, a), c);
-      })(d);
-    ((a.CompleteAnalyticsProvider = k),
-      Object.defineProperty(a, "__esModule", { value: !0 }));
-  }),
-  (function (a, b) {
-    "object" == typeof exports && "undefined" != typeof module
-      ? b(exports)
-      : "function" == typeof define && define.amd
-        ? define("h5SansAnalytics", ["exports"], b)
-        : b((a.h5SansAnalytics = a.h5SansAnalytics || {}));
-  })(this, function (a) {
-    "use strict";
-    function b(a, b) {
-      function d() {
-        this.constructor = a;
-      }
-      (c(a, b),
-        (a.prototype =
-          null === b
-            ? Object.create(b)
-            : ((d.prototype = b.prototype), new d())));
+    function c(b) {
+      var c = a.match(b);
+      return (c && c.length > 1 && c[2]) || "";
     }
-    var c = function (a, b) {
-        return (c =
-          Object.setPrototypeOf ||
-          ({ __proto__: [] } instanceof Array &&
-            function (a, b) {
-              a.__proto__ = b;
-            }) ||
-          function (a, b) {
-            for (var c in b) b.hasOwnProperty(c) && (a[c] = b[c]);
-          })(a, b);
-      },
-      d = (function () {
-        function a() {
-          this.providers = [];
-        }
-        return (
-          (a.prototype.loadScript = function (a) {
-            this.providers.forEach(function (b) {
-              return b.loadScript(a);
-            });
-          }),
-          (a.prototype.create = function (a) {
-            this.providers.forEach(function (b) {
-              return b.create(a);
-            });
-          }),
-          (a.prototype.sendScreenView = function (a) {
-            this.providers.forEach(function (b) {
-              return b.sendScreenView(a);
-            });
-          }),
-          (a.prototype.sendEvent = function (a, b) {
-            this.providers.forEach(function (c) {
-              return c.sendEvent(a, b);
-            });
-          }),
-          (a.prototype.sendCustomEvent = function (a, b) {
-            this.providers.forEach(function (c) {
-              return c.sendCustomEvent(a, b);
-            });
-          }),
-          (a.prototype.sendGenericEvent = function (a, b, c) {
-            this.providers.forEach(function (d) {
-              return d.sendGenericEvent(a, b, c);
-            });
-          }),
-          (a.prototype.addProgressionEvent = function (a, b, c, d, e) {
-            this.providers.forEach(function (f) {
-              return f.addProgressionEvent(a, b, c, d, e);
-            });
-          }),
-          (a.prototype.addDesignEvent = function (a, b) {
-            this.providers.forEach(function (c) {
-              return c.addDesignEvent(a, b);
-            });
-          }),
-          a
-        );
-      })(),
-      e = (function (a) {
-        function c() {
-          return a.call(this) || this;
-        }
-        return (b(c, a), c);
-      })(d);
-    ((a.DummyAnalyticsProvider = e),
-      Object.defineProperty(a, "__esModule", { value: !0 }));
-  }));
-var DummyProvider = (function () {
-  function a() {
-    this.adsEnabled = !1;
-  }
-  return (
-    (a.prototype.setManager = function (a) {
-      ((this.adManager = a), (this.adsEnabled = !0));
-    }),
-    (a.prototype.showAd = function (a) {
-      var b = this;
-      (void 0 === a && (a = h5ads.AdType.interstitial),
-        console.log(
-          "[Dummy]: Ad type requested = ",
-          a === h5ads.AdType.interstitial ? "interstitial" : "rewarded",
-        ));
-      var c = Math.floor(2 * Math.random());
-      (console.log("[Dummy]:Ad Available =>", 0 === c),
-        1 === c
-          ? (console.log("[Dummy]:AD ERROR / UNAVAILABLE"),
-            setTimeout(function () {
-              (console.log("[Dummy]: Resuming game"), b.resumeGameplay());
-            }, 200))
-          : (a === h5ads.AdType.rewarded &&
-              setTimeout(function () {
-                (console.log("[Dummy]: Reward Claimed for rewarded ad"),
-                  b.adManager.emit(h5ads.AdEvents.AD_REWARDED));
-              }, 100),
-            setTimeout(function () {
-              (console.log("[Dummy]: Finished watching ad"),
-                console.log("[Dummy]: Resuming game"),
-                b.resumeGameplay());
-            }, 200)));
-    }),
-    (a.prototype.resumeGameplay = function () {
-      this.adManager.emit(h5ads.AdEvents.CONTENT_RESUMED);
-    }),
-    (a.prototype.preloadAd = function (a) {
-      void 0 === a && (a = h5ads.AdType.interstitial);
-    }),
-    (a.prototype.destroyAd = function () {}),
-    (a.prototype.hideAd = function () {}),
-    (a.prototype.adAvailable = function (a) {
-      return !0;
-    }),
-    a
-  );
-})();
-(define("DummyProvider", function () {}),
-  function () {
-    var a = function (a, b) {
-        return function () {
-          return a.apply(b, arguments);
-        };
-      },
-      b = function (a, b) {
-        function d() {
-          this.constructor = a;
-        }
-        for (var e in b) c.call(b, e) && (a[e] = b[e]);
-        return (
-          (d.prototype = b.prototype),
-          (a.prototype = new d()),
-          (a.__super__ = b.prototype),
-          a
-        );
-      },
-      c = {}.hasOwnProperty;
-    define("Analytics/AnalyticsManager", [
-      "require",
-      "Phaser",
-      "h5Analytics",
-      "h5SansAnalytics",
-      "DummyProvider",
-    ], function (c) {
-      var d, e, f;
-      return (
-        (d = c("Phaser")),
-        (e = c("h5Analytics")),
-        (f = c("h5SansAnalytics")),
-        c("DummyProvider"),
-        (function (c) {
-          function d() {
-            return (
-              (this.sendScreenView = a(this.sendScreenView, this)),
-              (this.addProgressionEvent = a(this.addProgressionEvent, this)),
-              (this.addDesignEvent = a(this.addDesignEvent, this)),
-              (this.create = a(this.create, this)),
-              (this.load = a(this.load, this)),
-              d.__super__.constructor.apply(this, arguments)
-            );
-          }
-          return (
-            b(d, c),
-            (d.prototype.load = function (a) {
-              return (
-                (this.game = a),
-                (window.h5Analytics = e),
-                (window.h5SansAnalytics = f),
-                (this.analyticsProvider =
-                  new h5Analytics.CompleteAnalyticsProvider()),
-                this.analyticsProvider.loadScript()
-              );
-            }),
-            (d.prototype.create = function (a) {
-              return this.analyticsProvider.create(a);
-            }),
-            (d.prototype.addDesignEvent = function (a, b) {
-              return this.analyticsProvider.addDesignEvent(a, b);
-            }),
-            (d.prototype.addProgressionEvent = function (a, b, c, d) {
-              return this.analyticsProvider.addProgressionEvent(a, b, c, d);
-            }),
-            (d.prototype.sendScreenView = function (a) {
-              return this.analyticsProvider.sendScreenView(a);
-            }),
-            d
-          );
-        })(d.Signal)
-      );
-    });
-  }.call(this),
-  (function (a, b, c) {
-    "undefined" != typeof module && module.exports
-      ? (module.exports = c())
-      : "function" == typeof define && define.amd
-        ? define("bowser", c)
-        : (a.bowser = c());
-  })(this, 0, function () {
-    function a(a) {
-      function b(b) {
-        var c = a.match(b);
-        return (c && c.length > 1 && c[1]) || "";
-      }
-      function c(b) {
-        var c = a.match(b);
-        return (c && c.length > 1 && c[2]) || "";
-      }
-      var e,
-        f = b(/(ipod|iphone|ipad)/i).toLowerCase(),
-        h = /like android/i.test(a),
-        i = !h && /android/i.test(a),
-        j = /nexus\s*[0-6]\s*/i.test(a),
-        k = !j && /nexus\s*[0-9]+/i.test(a),
-        l = /CrOS/.test(a),
-        m = /silk/i.test(a),
-        n = /sailfish/i.test(a),
-        o = /tizen/i.test(a),
-        p = /(web|hpw)(o|0)s/i.test(a),
-        q = /windows phone/i.test(a),
-        r = (/SamsungBrowser/i.test(a), !q && /windows/i.test(a)),
-        s = !f && !m && /macintosh/i.test(a),
-        t = !i && !n && !o && !p && /linux/i.test(a),
-        u = c(/edg([ea]|ios)\/(\d+(\.\d+)?)/i),
-        v = b(/version\/(\d+(\.\d+)?)/i),
-        w = /tablet/i.test(a) && !/tablet pc/i.test(a),
-        x = !w && /[^-]mobi/i.test(a),
-        y = /xbox/i.test(a);
-      (/opera/i.test(a)
+    var e,
+      f = b(/(ipod|iphone|ipad)/i).toLowerCase(),
+      h = /like android/i.test(a),
+      i = !h && /android/i.test(a),
+      j = /nexus\s*[0-6]\s*/i.test(a),
+      k = !j && /nexus\s*[0-9]+/i.test(a),
+      l = /CrOS/.test(a),
+      m = /silk/i.test(a),
+      n = /sailfish/i.test(a),
+      o = /tizen/i.test(a),
+      p = /(web|hpw)(o|0)s/i.test(a),
+      q = /windows phone/i.test(a),
+      r = (/SamsungBrowser/i.test(a), !q && /windows/i.test(a)),
+      s = !f && !m && /macintosh/i.test(a),
+      t = !i && !n && !o && !p && /linux/i.test(a),
+      u = c(/edg([ea]|ios)\/(\d+(\.\d+)?)/i),
+      v = b(/version\/(\d+(\.\d+)?)/i),
+      w = /tablet/i.test(a) && !/tablet pc/i.test(a),
+      x = !w && /[^-]mobi/i.test(a),
+      y = /xbox/i.test(a);
+    (/opera/i.test(a)
+      ? (e = {
+          name: "Opera",
+          opera: g,
+          version: v || b(/(?:opera|opr|opios)[\s\/](\d+(\.\d+)?)/i),
+        })
+      : /opr\/|opios/i.test(a)
         ? (e = {
             name: "Opera",
             opera: g,
-            version: v || b(/(?:opera|opr|opios)[\s\/](\d+(\.\d+)?)/i),
+            version: b(/(?:opr|opios)[\s\/](\d+(\.\d+)?)/i) || v,
           })
-        : /opr\/|opios/i.test(a)
+        : /SamsungBrowser/i.test(a)
           ? (e = {
-              name: "Opera",
-              opera: g,
-              version: b(/(?:opr|opios)[\s\/](\d+(\.\d+)?)/i) || v,
+              name: "Samsung Internet for Android",
+              samsungBrowser: g,
+              version: v || b(/(?:SamsungBrowser)[\s\/](\d+(\.\d+)?)/i),
             })
-          : /SamsungBrowser/i.test(a)
+          : /Whale/i.test(a)
             ? (e = {
-                name: "Samsung Internet for Android",
-                samsungBrowser: g,
-                version: v || b(/(?:SamsungBrowser)[\s\/](\d+(\.\d+)?)/i),
+                name: "NAVER Whale browser",
+                whale: g,
+                version: b(/(?:whale)[\s\/](\d+(?:\.\d+)+)/i),
               })
-            : /Whale/i.test(a)
+            : /MZBrowser/i.test(a)
               ? (e = {
-                  name: "NAVER Whale browser",
-                  whale: g,
-                  version: b(/(?:whale)[\s\/](\d+(?:\.\d+)+)/i),
+                  name: "MZ Browser",
+                  mzbrowser: g,
+                  version: b(/(?:MZBrowser)[\s\/](\d+(?:\.\d+)+)/i),
                 })
-              : /MZBrowser/i.test(a)
+              : /coast/i.test(a)
                 ? (e = {
-                    name: "MZ Browser",
-                    mzbrowser: g,
-                    version: b(/(?:MZBrowser)[\s\/](\d+(?:\.\d+)+)/i),
+                    name: "Opera Coast",
+                    coast: g,
+                    version: v || b(/(?:coast)[\s\/](\d+(\.\d+)?)/i),
                   })
-                : /coast/i.test(a)
+                : /focus/i.test(a)
                   ? (e = {
-                      name: "Opera Coast",
-                      coast: g,
-                      version: v || b(/(?:coast)[\s\/](\d+(\.\d+)?)/i),
+                      name: "Focus",
+                      focus: g,
+                      version: b(/(?:focus)[\s\/](\d+(?:\.\d+)+)/i),
                     })
-                  : /focus/i.test(a)
+                  : /yabrowser/i.test(a)
                     ? (e = {
-                        name: "Focus",
-                        focus: g,
-                        version: b(/(?:focus)[\s\/](\d+(?:\.\d+)+)/i),
+                        name: "Yandex Browser",
+                        yandexbrowser: g,
+                        version: v || b(/(?:yabrowser)[\s\/](\d+(\.\d+)?)/i),
                       })
-                    : /yabrowser/i.test(a)
+                    : /ucbrowser/i.test(a)
                       ? (e = {
-                          name: "Yandex Browser",
-                          yandexbrowser: g,
-                          version: v || b(/(?:yabrowser)[\s\/](\d+(\.\d+)?)/i),
+                          name: "UC Browser",
+                          ucbrowser: g,
+                          version: b(/(?:ucbrowser)[\s\/](\d+(?:\.\d+)+)/i),
                         })
-                      : /ucbrowser/i.test(a)
+                      : /mxios/i.test(a)
                         ? (e = {
-                            name: "UC Browser",
-                            ucbrowser: g,
-                            version: b(/(?:ucbrowser)[\s\/](\d+(?:\.\d+)+)/i),
+                            name: "Maxthon",
+                            maxthon: g,
+                            version: b(/(?:mxios)[\s\/](\d+(?:\.\d+)+)/i),
                           })
-                        : /mxios/i.test(a)
+                        : /epiphany/i.test(a)
                           ? (e = {
-                              name: "Maxthon",
-                              maxthon: g,
-                              version: b(/(?:mxios)[\s\/](\d+(?:\.\d+)+)/i),
+                              name: "Epiphany",
+                              epiphany: g,
+                              version: b(/(?:epiphany)[\s\/](\d+(?:\.\d+)+)/i),
                             })
-                          : /epiphany/i.test(a)
+                          : /puffin/i.test(a)
                             ? (e = {
-                                name: "Epiphany",
-                                epiphany: g,
-                                version: b(
-                                  /(?:epiphany)[\s\/](\d+(?:\.\d+)+)/i,
-                                ),
+                                name: "Puffin",
+                                puffin: g,
+                                version: b(/(?:puffin)[\s\/](\d+(?:\.\d+)?)/i),
                               })
-                            : /puffin/i.test(a)
+                            : /sleipnir/i.test(a)
                               ? (e = {
-                                  name: "Puffin",
-                                  puffin: g,
+                                  name: "Sleipnir",
+                                  sleipnir: g,
                                   version: b(
-                                    /(?:puffin)[\s\/](\d+(?:\.\d+)?)/i,
+                                    /(?:sleipnir)[\s\/](\d+(?:\.\d+)+)/i,
                                   ),
                                 })
-                              : /sleipnir/i.test(a)
+                              : /k-meleon/i.test(a)
                                 ? (e = {
-                                    name: "Sleipnir",
-                                    sleipnir: g,
+                                    name: "K-Meleon",
+                                    kMeleon: g,
                                     version: b(
-                                      /(?:sleipnir)[\s\/](\d+(?:\.\d+)+)/i,
+                                      /(?:k-meleon)[\s\/](\d+(?:\.\d+)+)/i,
                                     ),
                                   })
-                                : /k-meleon/i.test(a)
-                                  ? (e = {
-                                      name: "K-Meleon",
-                                      kMeleon: g,
-                                      version: b(
-                                        /(?:k-meleon)[\s\/](\d+(?:\.\d+)+)/i,
-                                      ),
-                                    })
-                                  : q
-                                    ? ((e = {
-                                        name: "Windows Phone",
-                                        osname: "Windows Phone",
-                                        windowsphone: g,
-                                      }),
-                                      u
-                                        ? ((e.msedge = g), (e.version = u))
-                                        : ((e.msie = g),
-                                          (e.version = b(
-                                            /iemobile\/(\d+(\.\d+)?)/i,
-                                          ))))
-                                    : /msie|trident/i.test(a)
+                                : q
+                                  ? ((e = {
+                                      name: "Windows Phone",
+                                      osname: "Windows Phone",
+                                      windowsphone: g,
+                                    }),
+                                    u
+                                      ? ((e.msedge = g), (e.version = u))
+                                      : ((e.msie = g),
+                                        (e.version = b(
+                                          /iemobile\/(\d+(\.\d+)?)/i,
+                                        ))))
+                                  : /msie|trident/i.test(a)
+                                    ? (e = {
+                                        name: "Internet Explorer",
+                                        msie: g,
+                                        version: b(
+                                          /(?:msie |rv:)(\d+(\.\d+)?)/i,
+                                        ),
+                                      })
+                                    : l
                                       ? (e = {
-                                          name: "Internet Explorer",
-                                          msie: g,
+                                          name: "Chrome",
+                                          osname: "Chrome OS",
+                                          chromeos: g,
+                                          chromeBook: g,
+                                          chrome: g,
                                           version: b(
-                                            /(?:msie |rv:)(\d+(\.\d+)?)/i,
+                                            /(?:chrome|crios|crmo)\/(\d+(\.\d+)?)/i,
                                           ),
                                         })
-                                      : l
+                                      : /edg([ea]|ios)/i.test(a)
                                         ? (e = {
-                                            name: "Chrome",
-                                            osname: "Chrome OS",
-                                            chromeos: g,
-                                            chromeBook: g,
-                                            chrome: g,
-                                            version: b(
-                                              /(?:chrome|crios|crmo)\/(\d+(\.\d+)?)/i,
-                                            ),
+                                            name: "Microsoft Edge",
+                                            msedge: g,
+                                            version: u,
                                           })
-                                        : /edg([ea]|ios)/i.test(a)
+                                        : /vivaldi/i.test(a)
                                           ? (e = {
-                                              name: "Microsoft Edge",
-                                              msedge: g,
-                                              version: u,
+                                              name: "Vivaldi",
+                                              vivaldi: g,
+                                              version:
+                                                b(/vivaldi\/(\d+(\.\d+)?)/i) ||
+                                                v,
                                             })
-                                          : /vivaldi/i.test(a)
+                                          : n
                                             ? (e = {
-                                                name: "Vivaldi",
-                                                vivaldi: g,
-                                                version:
-                                                  b(
-                                                    /vivaldi\/(\d+(\.\d+)?)/i,
-                                                  ) || v,
+                                                name: "Sailfish",
+                                                osname: "Sailfish OS",
+                                                sailfish: g,
+                                                version: b(
+                                                  /sailfish\s?browser\/(\d+(\.\d+)?)/i,
+                                                ),
                                               })
-                                            : n
+                                            : /seamonkey\//i.test(a)
                                               ? (e = {
-                                                  name: "Sailfish",
-                                                  osname: "Sailfish OS",
-                                                  sailfish: g,
+                                                  name: "SeaMonkey",
+                                                  seamonkey: g,
                                                   version: b(
-                                                    /sailfish\s?browser\/(\d+(\.\d+)?)/i,
+                                                    /seamonkey\/(\d+(\.\d+)?)/i,
                                                   ),
                                                 })
-                                              : /seamonkey\//i.test(a)
-                                                ? (e = {
-                                                    name: "SeaMonkey",
-                                                    seamonkey: g,
+                                              : /firefox|iceweasel|fxios/i.test(
+                                                    a,
+                                                  )
+                                                ? ((e = {
+                                                    name: "Firefox",
+                                                    firefox: g,
                                                     version: b(
-                                                      /seamonkey\/(\d+(\.\d+)?)/i,
+                                                      /(?:firefox|iceweasel|fxios)[ \/](\d+(\.\d+)?)/i,
                                                     ),
-                                                  })
-                                                : /firefox|iceweasel|fxios/i.test(
-                                                      a,
-                                                    )
-                                                  ? ((e = {
-                                                      name: "Firefox",
-                                                      firefox: g,
-                                                      version: b(
-                                                        /(?:firefox|iceweasel|fxios)[ \/](\d+(\.\d+)?)/i,
-                                                      ),
-                                                    }),
-                                                    /\((mobile|tablet);[^\)]*rv:[\d\.]+\)/i.test(
-                                                      a,
-                                                    ) &&
-                                                      ((e.firefoxos = g),
-                                                      (e.osname =
-                                                        "Firefox OS")))
-                                                  : m
+                                                  }),
+                                                  /\((mobile|tablet);[^\)]*rv:[\d\.]+\)/i.test(
+                                                    a,
+                                                  ) &&
+                                                    ((e.firefoxos = g),
+                                                    (e.osname = "Firefox OS")))
+                                                : m
+                                                  ? (e = {
+                                                      name: "Amazon Silk",
+                                                      silk: g,
+                                                      version:
+                                                        b(
+                                                          /silk\/(\d+(\.\d+)?)/i,
+                                                        ),
+                                                    })
+                                                  : /phantom/i.test(a)
                                                     ? (e = {
-                                                        name: "Amazon Silk",
-                                                        silk: g,
-                                                        version:
-                                                          b(
-                                                            /silk\/(\d+(\.\d+)?)/i,
-                                                          ),
+                                                        name: "PhantomJS",
+                                                        phantom: g,
+                                                        version: b(
+                                                          /phantomjs\/(\d+(\.\d+)?)/i,
+                                                        ),
                                                       })
-                                                    : /phantom/i.test(a)
+                                                    : /slimerjs/i.test(a)
                                                       ? (e = {
-                                                          name: "PhantomJS",
-                                                          phantom: g,
+                                                          name: "SlimerJS",
+                                                          slimer: g,
                                                           version: b(
-                                                            /phantomjs\/(\d+(\.\d+)?)/i,
+                                                            /slimerjs\/(\d+(\.\d+)?)/i,
                                                           ),
                                                         })
-                                                      : /slimerjs/i.test(a)
+                                                      : /blackberry|\bbb\d+/i.test(
+                                                            a,
+                                                          ) ||
+                                                          /rim\stablet/i.test(a)
                                                         ? (e = {
-                                                            name: "SlimerJS",
-                                                            slimer: g,
-                                                            version: b(
-                                                              /slimerjs\/(\d+(\.\d+)?)/i,
-                                                            ),
+                                                            name: "BlackBerry",
+                                                            osname:
+                                                              "BlackBerry OS",
+                                                            blackberry: g,
+                                                            version:
+                                                              v ||
+                                                              b(
+                                                                /blackberry[\d]+\/(\d+(\.\d+)?)/i,
+                                                              ),
                                                           })
-                                                        : /blackberry|\bbb\d+/i.test(
-                                                              a,
-                                                            ) ||
-                                                            /rim\stablet/i.test(
-                                                              a,
-                                                            )
-                                                          ? (e = {
-                                                              name: "BlackBerry",
-                                                              osname:
-                                                                "BlackBerry OS",
-                                                              blackberry: g,
+                                                        : p
+                                                          ? ((e = {
+                                                              name: "WebOS",
+                                                              osname: "WebOS",
+                                                              webos: g,
                                                               version:
                                                                 v ||
                                                                 b(
-                                                                  /blackberry[\d]+\/(\d+(\.\d+)?)/i,
+                                                                  /w(?:eb)?osbrowser\/(\d+(\.\d+)?)/i,
                                                                 ),
-                                                            })
-                                                          : p
-                                                            ? ((e = {
-                                                                name: "WebOS",
-                                                                osname: "WebOS",
-                                                                webos: g,
-                                                                version:
-                                                                  v ||
-                                                                  b(
-                                                                    /w(?:eb)?osbrowser\/(\d+(\.\d+)?)/i,
-                                                                  ),
-                                                              }),
-                                                              /touchpad\//i.test(
-                                                                a,
-                                                              ) &&
-                                                                (e.touchpad =
-                                                                  g))
-                                                            : /bada/i.test(a)
+                                                            }),
+                                                            /touchpad\//i.test(
+                                                              a,
+                                                            ) &&
+                                                              (e.touchpad = g))
+                                                          : /bada/i.test(a)
+                                                            ? (e = {
+                                                                name: "Bada",
+                                                                osname: "Bada",
+                                                                bada: g,
+                                                                version: b(
+                                                                  /dolfin\/(\d+(\.\d+)?)/i,
+                                                                ),
+                                                              })
+                                                            : o
                                                               ? (e = {
-                                                                  name: "Bada",
+                                                                  name: "Tizen",
                                                                   osname:
-                                                                    "Bada",
-                                                                  bada: g,
-                                                                  version: b(
-                                                                    /dolfin\/(\d+(\.\d+)?)/i,
-                                                                  ),
+                                                                    "Tizen",
+                                                                  tizen: g,
+                                                                  version:
+                                                                    b(
+                                                                      /(?:tizen\s?)?browser\/(\d+(\.\d+)?)/i,
+                                                                    ) || v,
                                                                 })
-                                                              : o
+                                                              : /qupzilla/i.test(
+                                                                    a,
+                                                                  )
                                                                 ? (e = {
-                                                                    name: "Tizen",
-                                                                    osname:
-                                                                      "Tizen",
-                                                                    tizen: g,
+                                                                    name: "QupZilla",
+                                                                    qupzilla: g,
                                                                     version:
                                                                       b(
-                                                                        /(?:tizen\s?)?browser\/(\d+(\.\d+)?)/i,
+                                                                        /(?:qupzilla)[\s\/](\d+(?:\.\d+)+)/i,
                                                                       ) || v,
                                                                   })
-                                                                : /qupzilla/i.test(
+                                                                : /chromium/i.test(
                                                                       a,
                                                                     )
                                                                   ? (e = {
-                                                                      name: "QupZilla",
-                                                                      qupzilla:
+                                                                      name: "Chromium",
+                                                                      chromium:
                                                                         g,
                                                                       version:
                                                                         b(
-                                                                          /(?:qupzilla)[\s\/](\d+(?:\.\d+)+)/i,
+                                                                          /(?:chromium)[\s\/](\d+(?:\.\d+)?)/i,
                                                                         ) || v,
                                                                     })
-                                                                  : /chromium/i.test(
+                                                                  : /chrome|crios|crmo/i.test(
                                                                         a,
                                                                       )
                                                                     ? (e = {
-                                                                        name: "Chromium",
-                                                                        chromium:
+                                                                        name: "Chrome",
+                                                                        chrome:
                                                                           g,
                                                                         version:
                                                                           b(
-                                                                            /(?:chromium)[\s\/](\d+(?:\.\d+)?)/i,
-                                                                          ) ||
-                                                                          v,
+                                                                            /(?:chrome|crios|crmo)\/(\d+(\.\d+)?)/i,
+                                                                          ),
                                                                       })
-                                                                    : /chrome|crios|crmo/i.test(
-                                                                          a,
-                                                                        )
+                                                                    : i
                                                                       ? (e = {
-                                                                          name: "Chrome",
-                                                                          chrome:
-                                                                            g,
+                                                                          name: "Android",
                                                                           version:
-                                                                            b(
-                                                                              /(?:chrome|crios|crmo)\/(\d+(\.\d+)?)/i,
-                                                                            ),
+                                                                            v,
                                                                         })
-                                                                      : i
-                                                                        ? (e = {
-                                                                            name: "Android",
-                                                                            version:
-                                                                              v,
-                                                                          })
-                                                                        : /safari|applewebkit/i.test(
-                                                                              a,
-                                                                            )
+                                                                      : /safari|applewebkit/i.test(
+                                                                            a,
+                                                                          )
+                                                                        ? ((e =
+                                                                            {
+                                                                              name: "Safari",
+                                                                              safari:
+                                                                                g,
+                                                                            }),
+                                                                          v &&
+                                                                            (e.version =
+                                                                              v))
+                                                                        : f
                                                                           ? ((e =
                                                                               {
-                                                                                name: "Safari",
-                                                                                safari:
-                                                                                  g,
+                                                                                name:
+                                                                                  "iphone" ==
+                                                                                  f
+                                                                                    ? "iPhone"
+                                                                                    : "ipad" ==
+                                                                                        f
+                                                                                      ? "iPad"
+                                                                                      : "iPod",
                                                                               }),
                                                                             v &&
                                                                               (e.version =
                                                                                 v))
-                                                                          : f
-                                                                            ? ((e =
-                                                                                {
-                                                                                  name:
-                                                                                    "iphone" ==
-                                                                                    f
-                                                                                      ? "iPhone"
-                                                                                      : "ipad" ==
-                                                                                          f
-                                                                                        ? "iPad"
-                                                                                        : "iPod",
-                                                                                }),
-                                                                              v &&
-                                                                                (e.version =
-                                                                                  v))
-                                                                            : (e =
-                                                                                /googlebot/i.test(
-                                                                                  a,
-                                                                                )
-                                                                                  ? {
-                                                                                      name: "Googlebot",
-                                                                                      googlebot:
-                                                                                        g,
-                                                                                      version:
-                                                                                        b(
-                                                                                          /googlebot\/(\d+(\.\d+))/i,
-                                                                                        ) ||
-                                                                                        v,
-                                                                                    }
-                                                                                  : {
-                                                                                      name: b(
+                                                                          : (e =
+                                                                              /googlebot/i.test(
+                                                                                a,
+                                                                              )
+                                                                                ? {
+                                                                                    name: "Googlebot",
+                                                                                    googlebot:
+                                                                                      g,
+                                                                                    version:
+                                                                                      b(
+                                                                                        /googlebot\/(\d+(\.\d+))/i,
+                                                                                      ) ||
+                                                                                      v,
+                                                                                  }
+                                                                                : {
+                                                                                    name: b(
+                                                                                      /^(.*)\/(.*) /,
+                                                                                    ),
+                                                                                    version:
+                                                                                      c(
                                                                                         /^(.*)\/(.*) /,
                                                                                       ),
-                                                                                      version:
-                                                                                        c(
-                                                                                          /^(.*)\/(.*) /,
-                                                                                        ),
-                                                                                    }),
-        !e.msedge && /(apple)?webkit/i.test(a)
-          ? (/(apple)?webkit\/537\.36/i.test(a)
-              ? ((e.name = e.name || "Blink"), (e.blink = g))
-              : ((e.name = e.name || "Webkit"), (e.webkit = g)),
-            !e.version && v && (e.version = v))
-          : !e.opera &&
-            /gecko\//i.test(a) &&
-            ((e.name = e.name || "Gecko"),
-            (e.gecko = g),
-            (e.version = e.version || b(/gecko\/(\d+(\.\d+)?)/i))),
-        e.windowsphone || (!i && !e.silk)
-          ? !e.windowsphone && f
-            ? ((e[f] = g), (e.ios = g), (e.osname = "iOS"))
-            : s
-              ? ((e.mac = g), (e.osname = "macOS"))
-              : y
-                ? ((e.xbox = g), (e.osname = "Xbox"))
-                : r
-                  ? ((e.windows = g), (e.osname = "Windows"))
-                  : t && ((e.linux = g), (e.osname = "Linux"))
-          : ((e.android = g), (e.osname = "Android")));
-      var z = "";
-      (e.windows
-        ? (z = (function (a) {
-            switch (a) {
-              case "NT":
-                return "NT";
-              case "XP":
-                return "XP";
-              case "NT 5.0":
-                return "2000";
-              case "NT 5.1":
-                return "XP";
-              case "NT 5.2":
-                return "2003";
-              case "NT 6.0":
-                return "Vista";
-              case "NT 6.1":
-                return "7";
-              case "NT 6.2":
-                return "8";
-              case "NT 6.3":
-                return "8.1";
-              case "NT 10.0":
-                return "10";
-              default:
-                return;
-            }
-          })(b(/Windows ((NT|XP)( \d\d?.\d)?)/i)))
-        : e.windowsphone
-          ? (z = b(/windows phone (?:os)?\s?(\d+(\.\d+)*)/i))
-          : e.mac
-            ? ((z = b(/Mac OS X (\d+([_\.\s]\d+)*)/i)),
+                                                                                  }),
+      !e.msedge && /(apple)?webkit/i.test(a)
+        ? (/(apple)?webkit\/537\.36/i.test(a)
+            ? ((e.name = e.name || "Blink"), (e.blink = g))
+            : ((e.name = e.name || "Webkit"), (e.webkit = g)),
+          !e.version && v && (e.version = v))
+        : !e.opera &&
+          /gecko\//i.test(a) &&
+          ((e.name = e.name || "Gecko"),
+          (e.gecko = g),
+          (e.version = e.version || b(/gecko\/(\d+(\.\d+)?)/i))),
+      e.windowsphone || (!i && !e.silk)
+        ? !e.windowsphone && f
+          ? ((e[f] = g), (e.ios = g), (e.osname = "iOS"))
+          : s
+            ? ((e.mac = g), (e.osname = "macOS"))
+            : y
+              ? ((e.xbox = g), (e.osname = "Xbox"))
+              : r
+                ? ((e.windows = g), (e.osname = "Windows"))
+                : t && ((e.linux = g), (e.osname = "Linux"))
+        : ((e.android = g), (e.osname = "Android")));
+    var z = "";
+    (e.windows
+      ? (z = (function (a) {
+          switch (a) {
+            case "NT":
+              return "NT";
+            case "XP":
+              return "XP";
+            case "NT 5.0":
+              return "2000";
+            case "NT 5.1":
+              return "XP";
+            case "NT 5.2":
+              return "2003";
+            case "NT 6.0":
+              return "Vista";
+            case "NT 6.1":
+              return "7";
+            case "NT 6.2":
+              return "8";
+            case "NT 6.3":
+              return "8.1";
+            case "NT 10.0":
+              return "10";
+            default:
+              return;
+          }
+        })(b(/Windows ((NT|XP)( \d\d?.\d)?)/i)))
+      : e.windowsphone
+        ? (z = b(/windows phone (?:os)?\s?(\d+(\.\d+)*)/i))
+        : e.mac
+          ? ((z = b(/Mac OS X (\d+([_\.\s]\d+)*)/i)),
+            (z = z.replace(/[_\s]/g, ".")))
+          : f
+            ? ((z = b(/os (\d+([_\s]\d+)*) like mac os x/i)),
               (z = z.replace(/[_\s]/g, ".")))
-            : f
-              ? ((z = b(/os (\d+([_\s]\d+)*) like mac os x/i)),
-                (z = z.replace(/[_\s]/g, ".")))
-              : i
-                ? (z = b(/android[ \/-](\d+(\.\d+)*)/i))
-                : e.webos
-                  ? (z = b(/(?:web|hpw)os\/(\d+(\.\d+)*)/i))
-                  : e.blackberry
-                    ? (z = b(/rim\stablet\sos\s(\d+(\.\d+)*)/i))
-                    : e.bada
-                      ? (z = b(/bada\/(\d+(\.\d+)*)/i))
-                      : e.tizen && (z = b(/tizen[\/\s](\d+(\.\d+)*)/i)),
-        z && (e.osversion = z));
-      var A = !e.windows && z.split(".")[0];
-      return (
-        w || k || "ipad" == f || (i && (3 == A || (A >= 4 && !x))) || e.silk
-          ? (e.tablet = g)
-          : (x ||
-              "iphone" == f ||
-              "ipod" == f ||
-              i ||
-              j ||
-              e.blackberry ||
-              e.webos ||
-              e.bada) &&
-            (e.mobile = g),
-        e.msedge ||
-        (e.msie && e.version >= 10) ||
-        (e.yandexbrowser && e.version >= 15) ||
-        (e.vivaldi && e.version >= 1) ||
-        (e.chrome && e.version >= 20) ||
-        (e.samsungBrowser && e.version >= 4) ||
-        (e.whale && 1 === d([e.version, "1.0"])) ||
-        (e.mzbrowser && 1 === d([e.version, "6.0"])) ||
-        (e.focus && 1 === d([e.version, "1.0"])) ||
-        (e.firefox && e.version >= 20) ||
-        (e.safari && e.version >= 6) ||
-        (e.opera && e.version >= 10) ||
-        (e.ios && e.osversion && e.osversion.split(".")[0] >= 6) ||
-        (e.blackberry && e.version >= 10.1) ||
-        (e.chromium && e.version >= 20)
-          ? (e.a = g)
-          : (e.msie && e.version < 10) ||
-              (e.chrome && e.version < 20) ||
-              (e.firefox && e.version < 20) ||
-              (e.safari && e.version < 6) ||
-              (e.opera && e.version < 10) ||
-              (e.ios && e.osversion && e.osversion.split(".")[0] < 6) ||
-              (e.chromium && e.version < 20)
-            ? (e.c = g)
-            : (e.x = g),
-        e
-      );
-    }
-    function b(a) {
-      return a.split(".").length;
-    }
-    function c(a, b) {
-      var c,
-        d = [];
-      if (Array.prototype.map) return Array.prototype.map.call(a, b);
-      for (c = 0; c < a.length; c++) d.push(b(a[c]));
-      return d;
-    }
-    function d(a) {
-      for (
-        var d = Math.max(b(a[0]), b(a[1])),
-          e = c(a, function (a) {
-            var e = d - b(a);
-            return (
-              (a += new Array(e + 1).join(".0")),
-              c(a.split("."), function (a) {
-                return new Array(20 - a.length).join("0") + a;
-              }).reverse()
-            );
-          });
-        --d >= 0;
-      ) {
-        if (e[0][d] > e[1][d]) return 1;
-        if (e[0][d] !== e[1][d]) return -1;
-        if (0 === d) return 0;
-      }
-    }
-    function e(b, c, e) {
-      var f = h;
-      ("string" == typeof c && ((e = c), (c = void 0)),
-        void 0 === c && (c = !1),
-        e && (f = a(e)));
-      var g = "" + f.version;
-      for (var i in b)
-        if (b.hasOwnProperty(i) && f[i]) {
-          if ("string" != typeof b[i])
-            throw new Error(
-              "Browser version in the minVersion map should be a string: " +
-                i +
-                ": " +
-                String(b),
-            );
-          return d([g, b[i]]) < 0;
-        }
-      return c;
-    }
-    function f(a, b, c) {
-      return !e(a, b, c);
-    }
-    var g = !0,
-      h = a("undefined" != typeof navigator ? navigator.userAgent || "" : "");
+            : i
+              ? (z = b(/android[ \/-](\d+(\.\d+)*)/i))
+              : e.webos
+                ? (z = b(/(?:web|hpw)os\/(\d+(\.\d+)*)/i))
+                : e.blackberry
+                  ? (z = b(/rim\stablet\sos\s(\d+(\.\d+)*)/i))
+                  : e.bada
+                    ? (z = b(/bada\/(\d+(\.\d+)*)/i))
+                    : e.tizen && (z = b(/tizen[\/\s](\d+(\.\d+)*)/i)),
+      z && (e.osversion = z));
+    var A = !e.windows && z.split(".")[0];
     return (
-      (h.test = function (a) {
-        for (var b = 0; b < a.length; ++b) {
-          var c = a[b];
-          if ("string" == typeof c && c in h) return !0;
-        }
-        return !1;
-      }),
-      (h.isUnsupportedBrowser = e),
-      (h.compareVersions = d),
-      (h.check = f),
-      (h._detect = a),
-      (h.detect = a),
-      h
+      w || k || "ipad" == f || (i && (3 == A || (A >= 4 && !x))) || e.silk
+        ? (e.tablet = g)
+        : (x ||
+            "iphone" == f ||
+            "ipod" == f ||
+            i ||
+            j ||
+            e.blackberry ||
+            e.webos ||
+            e.bada) &&
+          (e.mobile = g),
+      e.msedge ||
+      (e.msie && e.version >= 10) ||
+      (e.yandexbrowser && e.version >= 15) ||
+      (e.vivaldi && e.version >= 1) ||
+      (e.chrome && e.version >= 20) ||
+      (e.samsungBrowser && e.version >= 4) ||
+      (e.whale && 1 === d([e.version, "1.0"])) ||
+      (e.mzbrowser && 1 === d([e.version, "6.0"])) ||
+      (e.focus && 1 === d([e.version, "1.0"])) ||
+      (e.firefox && e.version >= 20) ||
+      (e.safari && e.version >= 6) ||
+      (e.opera && e.version >= 10) ||
+      (e.ios && e.osversion && e.osversion.split(".")[0] >= 6) ||
+      (e.blackberry && e.version >= 10.1) ||
+      (e.chromium && e.version >= 20)
+        ? (e.a = g)
+        : (e.msie && e.version < 10) ||
+            (e.chrome && e.version < 20) ||
+            (e.firefox && e.version < 20) ||
+            (e.safari && e.version < 6) ||
+            (e.opera && e.version < 10) ||
+            (e.ios && e.osversion && e.osversion.split(".")[0] < 6) ||
+            (e.chromium && e.version < 20)
+          ? (e.c = g)
+          : (e.x = g),
+      e
     );
-  }),
-  define("bowser", function () {}));
+  }
+  function b(a) {
+    return a.split(".").length;
+  }
+  function c(a, b) {
+    var c,
+      d = [];
+    if (Array.prototype.map) return Array.prototype.map.call(a, b);
+    for (c = 0; c < a.length; c++) d.push(b(a[c]));
+    return d;
+  }
+  function d(a) {
+    for (
+      var d = Math.max(b(a[0]), b(a[1])),
+        e = c(a, function (a) {
+          var e = d - b(a);
+          return (
+            (a += new Array(e + 1).join(".0")),
+            c(a.split("."), function (a) {
+              return new Array(20 - a.length).join("0") + a;
+            }).reverse()
+          );
+        });
+      --d >= 0;
+    ) {
+      if (e[0][d] > e[1][d]) return 1;
+      if (e[0][d] !== e[1][d]) return -1;
+      if (0 === d) return 0;
+    }
+  }
+  function e(b, c, e) {
+    var f = h;
+    ("string" == typeof c && ((e = c), (c = void 0)),
+      void 0 === c && (c = !1),
+      e && (f = a(e)));
+    var g = "" + f.version;
+    for (var i in b)
+      if (b.hasOwnProperty(i) && f[i]) {
+        if ("string" != typeof b[i])
+          throw new Error(
+            "Browser version in the minVersion map should be a string: " +
+              i +
+              ": " +
+              String(b),
+          );
+        return d([g, b[i]]) < 0;
+      }
+    return c;
+  }
+  function f(a, b, c) {
+    return !e(a, b, c);
+  }
+  var g = !0,
+    h = a("undefined" != typeof navigator ? navigator.userAgent || "" : "");
+  return (
+    (h.test = function (a) {
+      for (var b = 0; b < a.length; ++b) {
+        var c = a[b];
+        if ("string" == typeof c && c in h) return !0;
+      }
+      return !1;
+    }),
+    (h.isUnsupportedBrowser = e),
+    (h.compareVersions = d),
+    (h.check = f),
+    (h._detect = a),
+    (h.detect = a),
+    h
+  );
+});
 var PhaserSuperStorage;
 !(function (a) {
   !(function (a) {
@@ -92590,14 +83968,11 @@ var __extends =
       "States/Level/Level",
       "utils/lang/Lang",
       "TouchManager",
-      "Ads/AdManager",
-      "Analytics/AnalyticsManager",
       "bowser",
       "jquery",
       "underscore",
       "superStorage",
       "cacheBuster",
-      "AzRTBHelper",
     ], function (a) {
       var b, c, d, e, f, g, h, i, j, k, l;
       return (
@@ -92607,14 +83982,11 @@ var __extends =
         a("States/Level/Level"),
         (f = a("utils/lang/Lang")),
         (i = a("TouchManager")),
-        (b = a("Ads/AdManager")),
-        (c = a("Analytics/AnalyticsManager")),
         (e = a("bowser")),
         a("jquery"),
         a("underscore"),
         a("superStorage"),
         a("cacheBuster"),
-        a("AzRTBHelper"),
         (k = { vibrate: !1, music: !0, fx: !0, controls: null }),
         (j = {
           width: window.innerWidth || $(window).width(),
@@ -92636,7 +84008,6 @@ var __extends =
           (console.log = (function (a) {
             return function () {};
           })()),
-        $.ajaxSetup({ data: { v: version } }),
         (l = new h.Game(j)),
         h.Device.whenReady(
           (function (a) {
@@ -92705,8 +84076,6 @@ var __extends =
                 l.state.add("boot", d),
                 (l.TouchManager = new i()),
                 l.TouchManager.start(l),
-                (l.AdManager = new b()),
-                (l.AnalyticsManager = new c()),
                 l.state.start("boot"),
                 (m = function (b) {
                   var c, d, e, f, g;
@@ -92875,23 +84244,9 @@ var __extends =
                     return (
                       (this.fading = !0),
                       (this.overlay = f = m({ showText: !0 })),
-                      r(
-                        f,
-                        (function (f) {
-                          return function () {
-                            return e
-                              ? f.game.AdManager.showAd(function () {
-                                  return f.game.state.actualFadeToState(
-                                    a,
-                                    b,
-                                    c,
-                                    d,
-                                  );
-                                }, a)
-                              : f.game.state.actualFadeToState(a, b, c, d);
-                          };
-                        })(this),
-                      )
+                      r(f, function () {
+                        l.state.actualFadeToState(a, b, c, d);
+                      })
                     );
                 }),
                 (_.deepObjectExtend = function (a, b) {
@@ -92958,49 +84313,7 @@ var __extends =
                 }),
                 (q = _.debounce(j, 200)),
                 $(window).on("resize", q),
-                q(),
-                (l.getStoreObjects = function () {
-                  var a, b, c, d, e, f, g, h;
-                  for (
-                    a = ["ios", "android", "microsoft"],
-                      e = [],
-                      g = [],
-                      l.bowser.windows
-                        ? (a.indexOf("android") >= 0 && g.push("android"),
-                          a.indexOf("ios") >= 0 && g.push("ios"))
-                        : l.bowser.windowsphone
-                          ? a.indexOf("microsoft") >= 0 && g.push("microsoft")
-                          : l.bowser.macos
-                            ? a.indexOf("ios") >= 0 && g.push("ios")
-                            : l.bowser.android
-                              ? a.indexOf("android") >= 0 && g.push("android")
-                              : l.bowser.ios
-                                ? a.indexOf("ios") >= 0 && g.push("ios")
-                                : (a.indexOf("microsoft") >= 0 &&
-                                    g.push("microsoft"),
-                                  a.indexOf("android") >= 0 &&
-                                    g.push("android"),
-                                  a.indexOf("ios") >= 0 && g.push("ios"));
-                    g.length > 2;
-                  )
-                    g.splice(Math.floor(Math.random() * g.length), 1);
-                  for (b = 0, d = g.length; b < d; b++)
-                    ((f = g[b]),
-                      "microsoft" === f
-                        ? ((c = "microsoft-store"),
-                          (h =
-                            "https://www.microsoft.com/store/apps/9NSP5N3B7Q32?cid=GDNetwork"))
-                        : "android" === f
-                          ? ((c = "android-store"),
-                            (h =
-                              "https://play.google.com/store/apps/details?id=com.osloalbet.fb&referrer=utm_source%3DGDNetwork"))
-                          : "ios" === f &&
-                            ((c = "ios-store"),
-                            (h =
-                              "https://itunes.apple.com/app/apple-store/id1446352801?pt=119475155&ct=GDNetwork&mt=8")),
-                      e.push({ image: c, url: h }));
-                  return e;
-                })
+                q()
               );
             };
           })(this),
@@ -93051,15 +84364,6 @@ var __extends =
         glowFilter: "../scripts/lib/GlowFilter",
         seedrandom: "../../../bower_components/seedrandom/seedrandom.min",
         bowser: "../../../bower_components/bowser/src/bowser",
-        h5Analytics:
-          "../../../node_modules/@azerion/h5-azerion-analytics/dist/h5-azerion-analytics.umd",
-        h5SansAnalytics:
-          "../../../node_modules/@azerion/h5-azerion-analytics/dist/h5-azerion-sans-analytics.umd",
-        DummyProvider:
-          "../../../node_modules/@azerion/h5-ad-providers/build/DummyProvider",
-        AzRTBHelper: "../scripts/lib/AzRTBHelper",
-        h5ads:
-          "../../../node_modules/@azerion/h5-ad-wrapper/dist/h5-ad-wrapper.umd",
         superStorage: "../scripts/lib/phaser-super-storage",
         cacheBuster: "../scripts/lib/phaser-cachebuster",
         "promise-polyfill":
