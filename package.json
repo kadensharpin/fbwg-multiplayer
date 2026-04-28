@@ -1,5 +1,16 @@
 {
-	"dependencies": {
-		"typescript": "^6.0.3"
-	}
+  "scripts": {
+    "build": "rm -rf dist/ && mkdir -p dist/ && tsc ; cp src/game.html src/game.js dist/ && cp -r assets/* dist/",
+    "dev": "cd dist/ && python3 -m http.server 8080 && cd -"
+  },
+  "dependencies": {
+    "@azerion/phaser": "2.6.15",
+    "backbone": "1.4.1",
+    "bowser": "1.9.4",
+    "hammerjs": "2.0.8"
+  },
+  "devDependencies": {
+    "@types/hammerjs": "^2.0.46",
+    "typescript": "^6.0.3"
+  }
 }
