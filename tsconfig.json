@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
     "rootDir": "./src",
-    "outDir": "./dist",
+    "outFile": "./dist/lib.js",
 
-    "module": "AMD",
+    "module": "amd",
     "ignoreDeprecations": "6.0",
     "target": "esnext",
     "types": [],
@@ -17,7 +17,7 @@
 
     "strict": true,
     // "verbatimModuleSyntax": true,
-    "isolatedModules": true,
+    // "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "skipLibCheck": true,

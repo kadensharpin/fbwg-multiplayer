@@ -7647,8 +7647,6 @@ declare module Phaser {
    *                                                       Thomas A. Edison
    */
   class Game {
-    settings: any;
-    currentSounds: any;
     /**
      * This is where the magic happens. The Game object is the heart of your game,
      * providing quick access to common functions and handling the boot process.

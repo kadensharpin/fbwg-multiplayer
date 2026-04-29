@@ -1,6 +1,6 @@
 /// <amd-module name="TouchManager" />
 
-import { Game, Signal, Sprite } from "@azerion/phaser";
+import { Game, Point, Signal, Sprite } from "@azerion/phaser";
 import Hammer from "hammerjs";
 
 type Handler<Sprite, Callback> = {
@@ -9,21 +9,27 @@ type Handler<Sprite, Callback> = {
 };
 
 type Events = {
-  tap?: Handler<Sprite | null, (ev: HammerInput) => void>[];
-  pan?: Handler<Sprite | null, (ev: HammerInput) => void>[];
-  swipe?: Handler<Sprite | null, (ev: HammerInput) => void>[];
-  panstart?: Handler<Sprite | null, (ev: HammerInput) => void>[];
+  tap?: Handler<PIXI.DisplayObject | null, (ev: HammerInput) => void>[];
+  pan?: Handler<PIXI.DisplayObject | null, (ev: HammerInput) => void>[];
+  swipe?: Handler<PIXI.DisplayObject | null, (ev: HammerInput) => void>[];
+  panstart?: Handler<PIXI.DisplayObject | null, (ev: HammerInput) => void>[];
 
   panmove?: Handler<null, (ev: HammerInput) => void>[];
   panend?: Handler<null, (ev: HammerInput) => void>[];
   pinch?: Handler<null, (ev: HammerInput) => void>[];
   pinchend?: Handler<null, (ev: HammerInput) => void>[];
 
-  touchstart?: Handler<Sprite, (ev: TouchEvent) => void>[];
-  touchend?: Handler<Sprite, (ev: TouchEvent, hitSprite: boolean) => void>[];
+  touchstart?: Handler<PIXI.DisplayObject, (ev: TouchEvent) => void>[];
+  touchend?: Handler<
+    PIXI.DisplayObject,
+    (ev: TouchEvent, hitSprite: boolean) => void
+  >[];
 
-  mousedown?: Handler<Sprite, (ev: MouseEvent) => void>[];
-  mouseup?: Handler<Sprite, (ev: MouseEvent, hitSprite: boolean) => void>[];
+  mousedown?: Handler<PIXI.DisplayObject, (ev: MouseEvent) => void>[];
+  mouseup?: Handler<
+    PIXI.DisplayObject,
+    (ev: MouseEvent, hitSprite: boolean) => void
+  >[];
 };
 
 export = TouchManager;
@@ -107,7 +113,7 @@ class TouchManager extends Signal {
               this.game.input.hitTest(
                 handler.sprite,
                 event.center as any,
-                new Phaser.Point(),
+                new Point(),
               ))
           ) {
             handler.callback(event);
@@ -128,7 +134,7 @@ class TouchManager extends Signal {
             this.game.input.hitTest(
               handler.sprite,
               ev.center as any,
-              new Phaser.Point(),
+              new Point(),
             ))
         )
           handler.callback(ev);
@@ -146,7 +152,7 @@ class TouchManager extends Signal {
             this.game.input.hitTest(
               handler.sprite,
               ev.center as any,
-              new Phaser.Point(),
+              new Point(),
             ))
         )
           handler.callback(ev);
@@ -211,11 +217,7 @@ class TouchManager extends Signal {
             if (!handler?.sprite) continue;
             if (
               handler.sprite.visible &&
-              this.game.input.hitTest(
-                handler.sprite,
-                pos as any,
-                new Phaser.Point(),
-              )
+              this.game.input.hitTest(handler.sprite, pos as any, new Point())
             ) {
               handler.callback(ev);
               handler.sprite.touchId = touch.identifier;
@@ -239,7 +241,7 @@ class TouchManager extends Signal {
               const hitSprite = this.game.input.hitTest(
                 handler.sprite,
                 pos as any,
-                new Phaser.Point(),
+                new Point(),
               );
               handler.callback(ev, hitSprite);
             }
@@ -261,7 +263,7 @@ class TouchManager extends Signal {
               const hitSprite = this.game.input.hitTest(
                 handler.sprite,
                 pos as any,
-                new Phaser.Point(),
+                new Point(),
               );
               handler.callback(ev, hitSprite);
             }
@@ -282,11 +284,7 @@ class TouchManager extends Signal {
           const handler = handlers[i];
           if (!handler?.sprite || !handler.sprite.visible) continue;
           if (
-            this.game.input.hitTest(
-              handler.sprite,
-              pos as any,
-              new Phaser.Point(),
-            )
+            this.game.input.hitTest(handler.sprite, pos as any, new Point())
           ) {
             handler.callback(ev);
             handler.sprite.mousedowned = true;
@@ -306,7 +304,7 @@ class TouchManager extends Signal {
             const hitSprite = this.game.input.hitTest(
               handler.sprite,
               pos as any,
-              new Phaser.Point(),
+              new Point(),
             );
             handler.callback(ev, hitSprite);
           }
@@ -317,15 +315,17 @@ class TouchManager extends Signal {
   update() {}
 }
 
-declare module "@azerion/phaser" {
-  interface Sprite {
-    /**
-     * Used by the {@link TouchManager}
-     */
-    mousedowned?: boolean;
-    /**
-     * Used by the {@link TouchManager}
-     */
-    touchId?: number | null;
+declare global {
+  namespace PIXI {
+    interface DisplayObject {
+      /**
+       * Used by the {@link TouchManager}
+       */
+      mousedowned?: boolean;
+      /**
+       * Used by the {@link TouchManager}
+       */
+      touchId?: number | null;
+    }
   }
 }
