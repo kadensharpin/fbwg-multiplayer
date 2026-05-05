@@ -7,9 +7,10 @@ import {
   RenderTexture,
   Sprite,
 } from "@azerion/phaser";
+import { Sounds } from "../../utils/sound/sounds";
 
 class Button extends Sprite {
-  private readonly soundId: string;
+  private readonly soundId: keyof Sounds | null;
   private readonly id: number;
   private disabled: boolean = false;
 
@@ -24,14 +25,12 @@ class Button extends Sprite {
     game: Game,
     x: number,
     y: number,
-    key: string | RenderTexture | BitmapData | PIXI.Texture,
-    textureId: [string, string] | string,
+    textureFile: string | RenderTexture | BitmapData | PIXI.Texture,
+    textureId: [string, string] | string | null,
     onClick: ((self: Button) => void) | null | undefined,
-    soundId: string,
+    soundId: keyof Sounds | null,
   ) {
-    textureId != null
-      ? super(game, x, y, key, "_default0000")
-      : super(game, x, y, key);
+    super(game, x, y, textureFile, "_default0000");
     this.destroy = this.destroy.bind(this);
     this.disable = this.disable.bind(this);
     this.enable = this.enable.bind(this);
@@ -43,7 +42,7 @@ class Button extends Sprite {
       this.upFrameName = textureId = textureId[0];
     }
     if (textureId) {
-      this.sprite = game.make.sprite(0, 0, key, textureId);
+      this.sprite = game.make.sprite(0, 0, textureFile, textureId);
       this.sprite.anchor.set(0.5);
       this.addChild(this.sprite);
     }
@@ -60,7 +59,7 @@ class Button extends Sprite {
           if (this.game.settings.vibrate && navigator.vibrate)
             navigator.vibrate(50);
           if (this.game.settings.fx && this.soundId)
-            this.game.currentSounds[this.soundId].play();
+            this.game.currentSounds[this.soundId]?.play();
           onClick(this);
         }
         this.setUp();
@@ -70,7 +69,7 @@ class Button extends Sprite {
       game.TouchManager.register(this, "mouseup", (ev, clicked) => {
         if (clicked && this.isDown && onClick) {
           if (this.game.settings.fx && this.soundId)
-            this.game.currentSounds[this.soundId].play();
+            this.game.currentSounds[this.soundId]?.play();
           onClick(this);
         }
         this.setUp();

@@ -12,7 +12,7 @@ class GoldButton extends Button {
     onClick: (self: Button) => void,
     fontSize: number,
   ) {
-    super(game, x, y, "MenuAssets", "", onClick, "pusher");
+    super(game, x, y, "MenuAssets", null, onClick, "pusher");
     if (!fontSize) fontSize = 28;
     this.anchor.set(0.5);
     this.label = game.make.bitmapText(

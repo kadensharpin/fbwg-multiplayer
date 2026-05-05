@@ -11,6 +11,9 @@ importers:
       '@azerion/phaser':
         specifier: 2.6.15
         version: 2.6.15
+      '@types/backbone':
+        specifier: 1.4.1
+        version: 1.4.1
       backbone:
         specifier: 1.4.1
         version: 1.4.1
@@ -26,10 +29,19 @@ importers:
       i18next-browser-languagedetector:
         specifier: ^8.2.1
         version: 8.2.1
+      seedrandom:
+        specifier: ^3.0.5
+        version: 3.0.5
+      underscore:
+        specifier: 1.9.2
+        version: 1.9.2
     devDependencies:
       '@types/hammerjs':
         specifier: ^2.0.46
         version: 2.0.46
+      '@types/underscore':
+        specifier: 1.9.2
+        version: 1.9.2
       typescript:
         specifier: ^6.0.3
         version: 6.0.3
@@ -43,8 +55,17 @@ packages:
     resolution: {integrity: sha512-JiDShH45zKHWyGe4ZNVRrCjBz8Nh9TMmZG1kh4QTK8hCBTWBi8Da+i7s1fJw7/lYpM4ccepSNfqzZ/QvABBi5g==}
     engines: {node: '>=6.9.0'}
 
+  '@types/backbone@1.4.1':
+    resolution: {integrity: sha512-KYfGuQy4d2vvYXbn0uHFZ6brFLndatTMomxBlljpbWf4kFpA3BG/6LA3ec+J9iredrX6eAVI7sm9SVAvwiIM6g==}
+
   '@types/hammerjs@2.0.46':
     resolution: {integrity: sha512-ynRvcq6wvqexJ9brDMS4BnBLzmr0e14d6ZJTEShTBWKymQiHwlAyGu0ZPEFI2Fh1U53F7tN9ufClWM5KvqkKOw==}
+
+  '@types/jquery@4.0.0':
+    resolution: {integrity: sha512-Z+to+A2VkaHq1DfI2oSwsoCdhCHMpTSgjWzNcbNlRGYzksDBpPUgEcAL+RQjOBJRaLoEAOHXxqDGBVP+BblBwg==}
+
+  '@types/underscore@1.9.2':
+    resolution: {integrity: sha512-KgOKTAD+9X+qvZnB5S1+onqKc4E+PZ+T6CM/NA5ohRPLHJXb+yCJMVf8pWOnvuBuKFNUAJW8N97IA6lba6mZGg==}
 
   backbone@1.4.1:
     resolution: {integrity: sha512-ADy1ztN074YkWbHi8ojJVFe3vAanO/lrzMGZWUClIP7oDD/Pjy2vrASraUP+2EVCfIiTtCW4FChVow01XneivA==}
@@ -67,13 +88,16 @@ packages:
       typescript:
         optional: true
 
+  seedrandom@3.0.5:
+    resolution: {integrity: sha512-8OwmbklUNzwezjGInmZ+2clQmExQPvomqjL7LFqOYqtmuxRgQYqOD3mHaU+MvZn5FLUeVxVfQjwLZW/n/JFuqg==}
+
   typescript@6.0.3:
     resolution: {integrity: sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw==}
     engines: {node: '>=14.17'}
     hasBin: true
 
-  underscore@1.13.8:
-    resolution: {integrity: sha512-DXtD3ZtEQzc7M8m4cXotyHR+FAS18C64asBYY5vqZexfYryNNnDc02W4hKg3rdQuqOYas1jkseX0+nZXjTXnvQ==}
+  underscore@1.9.2:
+    resolution: {integrity: sha512-D39qtimx0c1fI3ya1Lnhk3E9nONswSKhnffBI0gME9C99fYOkNi04xs8K6pePLhvl1frbDemkaBQ5ikWllR2HQ==}
 
 snapshots:
 
@@ -81,11 +105,20 @@ snapshots:
 
   '@babel/runtime@7.29.2': {}
 
+  '@types/backbone@1.4.1':
+    dependencies:
+      '@types/jquery': 4.0.0
+      '@types/underscore': 1.9.2
+
   '@types/hammerjs@2.0.46': {}
+
+  '@types/jquery@4.0.0': {}
+
+  '@types/underscore@1.9.2': {}
 
   backbone@1.4.1:
     dependencies:
-      underscore: 1.13.8
+      underscore: 1.9.2
 
   bowser@1.9.4: {}
 
@@ -99,6 +132,8 @@ snapshots:
     optionalDependencies:
       typescript: 6.0.3
 
+  seedrandom@3.0.5: {}
+
   typescript@6.0.3: {}
 
-  underscore@1.13.8: {}
+  underscore@1.9.2: {}

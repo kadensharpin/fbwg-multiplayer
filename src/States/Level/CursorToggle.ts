@@ -1,14 +1,14 @@
 /// <amd-module name="States/Level/CursorToggle" />
 
 import { Game, Signal } from "@azerion/phaser";
-import { Character } from "../../character";
+import { Characters } from "../../character";
 import Button from "../Common/Button";
 
 class CursorToggle extends Button {
   onChange: Signal;
   vtheta: number;
   atheta: number;
-  current!: Character;
+  current!: Characters;
   constructor(game: Game) {
     super(
       game,
@@ -17,7 +17,7 @@ class CursorToggle extends Button {
       "PopupAssets",
       "CursorToggle0000",
       () => this.clicked(),
-      "",
+      null,
     );
 
     this.setChar = this.setChar.bind(this);
@@ -81,7 +81,7 @@ class CursorToggle extends Button {
       this.game.level.sounds.charToggle2.play();
     }
   }
-  setChar(newCharacter: Character, ev?: HammerInput) {
+  setChar(newCharacter: Characters, ev?: HammerInput) {
     if (this.current === newCharacter) return;
     if (
       ev &&

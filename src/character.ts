@@ -1,1 +1,1 @@
-export type Character = "wg" | "fb";
+export type Characters = "wg" | "fb";

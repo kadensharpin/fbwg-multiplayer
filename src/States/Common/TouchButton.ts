@@ -24,7 +24,7 @@ class TouchButton extends Button {
           : type === "left"
             ? "FingerRingLeft0000"
             : "";
-    super(game, x, y, "PopupAssets", textureId, onClick, "");
+    super(game, x, y, "PopupAssets", textureId, onClick, null);
 
     this.onUp = this.onUp.bind(this);
     this.onDown = this.onDown.bind(this);

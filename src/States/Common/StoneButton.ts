@@ -26,7 +26,7 @@ class StoneButton extends Button {
     if (game.lang.getLanguage() !== "en") {
       this.label.y = -this.label.height / 2;
     } else {
-      this.label.y = -this.label.height / 5;
+      this.label.y = -this.label.height / 3;
     }
     if (this.label.textWidth > 0.65 * this.sprite!.width) {
       this.sprite!.width = this.label.textWidth / 0.65;
