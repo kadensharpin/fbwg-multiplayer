@@ -11,9 +11,9 @@ importers:
       '@azerion/phaser':
         specifier: 2.6.15
         version: 2.6.15
-      '@types/backbone':
-        specifier: 1.4.1
-        version: 1.4.1
+      '@azerion/phaser-super-storage':
+        specifier: 1.0.4
+        version: 1.0.4
       backbone:
         specifier: 1.4.1
         version: 1.4.1
@@ -36,6 +36,9 @@ importers:
         specifier: 1.9.2
         version: 1.9.2
     devDependencies:
+      '@types/backbone':
+        specifier: 1.4.1
+        version: 1.4.1
       '@types/hammerjs':
         specifier: ^2.0.46
         version: 2.0.46
@@ -47,6 +50,9 @@ importers:
         version: 6.0.3
 
 packages:
+
+  '@azerion/phaser-super-storage@1.0.4':
+    resolution: {integrity: sha512-HozMJAzX+48QAdxgVi3zWCpyzttHOciqxXA0Nd34SYGUrZGXNjwOutcS9K0f/hEu1417dOS83X7/XATCa8hakA==}
 
   '@azerion/phaser@2.6.15':
     resolution: {integrity: sha512-ipYqi9Yc3AETW2QQYoe7tyezS1KO5MFOe21ia7Ji7TPW0HzF/lEdk1sEWKocoIaM0KyqoTjDmxANierIdF1YGA==}
@@ -100,6 +106,8 @@ packages:
     resolution: {integrity: sha512-D39qtimx0c1fI3ya1Lnhk3E9nONswSKhnffBI0gME9C99fYOkNi04xs8K6pePLhvl1frbDemkaBQ5ikWllR2HQ==}
 
 snapshots:
+
+  '@azerion/phaser-super-storage@1.0.4': {}
 
   '@azerion/phaser@2.6.15': {}
 
