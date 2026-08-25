@@ -23,4279 +23,215 @@ function extend(SubClass, SuperClass) {
   );
 }
 ((function () {
-  define("States/Level/Devices/BackgroundCover", ["Phaser"], function (Phaser) {
-    function BackgroundCover(a, b) {
-      (BackgroundCover.__super__.constructor.call(
-        this,
-        a,
-        b.x,
-        b.y,
-        "MechAssets",
-        "BackgroundCover0000",
-      ),
-        (this.options = b),
-        (this.width = b.width),
-        (this.height = b.height),
-        a.layers.background.addChild(this));
+  define("States/Level/Ground", [
+    "./Devices/Liquid",
+    "./Devices/Snow",
+    "outlineFilter",
+    "inlineFilter",
+    "shadowFilter",
+    "seedrandom",
+  ], function (
+    Liquid,
+    Snow,
+    OutlineFilter,
+    InlineFilter,
+    ShadowFilter,
+    seedrandom,
+  ) {
+    "use strict";
+    function Ground(b, c, d) {
+      ((this.CreateLiquid = this.CreateLiquid.bind(this)),
+        (this.CreateSnow = this.CreateSnow.bind(this)),
+        (this.CreateSnows = this.CreateSnows.bind(this)),
+        (this.createGroundFixture = this.createGroundFixture.bind(this)),
+        (this.destroy = this.destroy.bind(this)),
+        (this.drawForeground = this.drawForeground.bind(this)),
+        (this.decorate = this.decorate.bind(this)),
+        (this.getNaviesPoints = this.getNaviesPoints.bind(this)),
+        (this.getTileAt = this.getTileAt.bind(this)),
+        (this.drawTile = this.drawTile.bind(this)));
+      ((this.options = _.extend(this.options, d)),
+        Ground.__super__.constructor.call(this, b),
+        this.game.physics.box2d.enable(this),
+        (this.body.mass = 0),
+        this.body.clearFixtures(),
+        (this.mapData = c),
+        (this.options.width = this.mapData.width * this.mapData.tileWidth),
+        (this.options.height = this.mapData.height * this.mapData.tileHeight),
+        this.convertTilemap(this.mapData),
+        this.CreateSnows(this.mapData),
+        (Phaser.Physics.Box2D.worldBoundsFilterCategory = 65535),
+        this.game.physics.box2d.setBounds(
+          -100,
+          -100,
+          this.options.width + 200,
+          this.options.height + 200,
+          true,
+          true,
+          true,
+          true,
+          65535,
+          65535,
+        ),
+        this.drawForeground(),
+        this.applyFilter());
     }
-    extend(BackgroundCover, Phaser.Sprite);
-    return BackgroundCover;
-  });
-}).call(this),
-  function () {
-    define("States/Level/Devices/Device", ["Phaser"], function () {
-      "use strict";
-      function Device(b, c) {
-        ((this.sounds = this.sounds.bind(this)),
-          (this.ocupy = this.ocupy.bind(this)),
-          (this.ocupyTile = this.ocupyTile.bind(this)),
-          (this.checkState = this.checkState.bind(this)),
-          (this.updateState = this.updateState.bind(this)),
-          (this._updateState = this._updateState.bind(this)),
-          (this.updateLight = this.updateLight.bind(this)),
-          (this.setupLight = this.setupLight.bind(this)),
-          (this.getColor = this.getColor.bind(this)),
-          (this.registerDevice = this.registerDevice.bind(this)),
-          (this.pxm = this.pxm.bind(this)),
-          (this.mpx = this.mpx.bind(this)));
-        var e, f, g, h, i;
-        ((this.lights = []),
-          (g = {}),
-          _.deepObjectExtend(g, this._defaults),
-          c.properties || (c.properties = {}),
-          _.deepObjectExtend(g, c),
-          _.deepObjectExtend(g, this.options),
-          (this.options = g),
-          null == this.options.layer && (this.options.layer = "overGround"),
-          (e = this.options).rotation || (e.rotation = 0),
-          (this.options.rotation = (Math.PI * this.options.rotation) / 180),
-          (this.options.width = b.physics.box2d.pxm(this.options.width)),
-          (this.options.height = b.physics.box2d.pxm(this.options.height)),
-          (h = this.options.x),
-          (i = this.options.y),
-          (this.state =
-            null != this.options.properties
-              ? +this.options.properties.initialState || 0
-              : 0),
-          Device.__super__.constructor.call(this, b),
-          null != this.options.atlasName &&
-            null != this.options.frameName &&
-            ((this.sprite = this.game.make.resSprite(
-              h,
-              i,
-              this.options.atlasName,
-              this.options.frameName,
-            )),
-            this.game.layers[this.options.layer].addChild(this.sprite),
-            this.sprite.anchor.set(0.5)),
-          null != this.sprite && (this.sprite.autoCull = true),
-          this.sprite &&
-            true === this.options.enableBody &&
-            (this.game.physics.box2d.enable(this.sprite),
-            this.sprite.body.clearFixtures(),
-            this.sprite.body.data.SetAngle((Math.PI * c.rotation) / 180 || 0),
-            (this.body = this.sprite.body)),
-          null != this.options.lightAtlas &&
-            null != this.options.lightFrame &&
-            ((f = this.create(
-              0,
-              0,
-              this.options.lightAtlas,
-              this.options.lightFrame + "_on0000",
-            )),
-            null != this.sprite && this.sprite.addChild(f),
-            f.anchor.set(0.5),
-            (f.offFrameName = this.options.lightFrame + "_off0000"),
-            (f.onFrameName = this.options.lightFrame + "_on0000"),
-            (f.frameName = f.offFrameName),
-            this.lights.push(f)),
-          _.defer(
-            (function (a) {
-              return function () {
-                return a.updateLight(a.state);
-              };
-            })(this),
-          ));
-      }
-      extend(Device, Phaser.Group);
-      Device.prototype._defaults = {
-        atlasName: null,
-        frameName: null,
-        lightAtlas: null,
-        lightFrame: null,
-      };
-      Device.prototype.mpx = function (a) {
-        return this.game.physics.box2d.mpx(-1 * a);
-      };
-      Device.prototype.pxm = function (a) {
-        return this.game.physics.box2d.pxm(-1 * a);
-      };
-      Device.prototype.registerDevice = function () {
-        if (
-          (this.game.MechManager.registerDevice(this), this.lights.length > 0)
-        )
-          return this.setupLight();
-      };
-      Device.prototype.getColor = function () {
-        var a;
-        return (
-          (a = Number(String(this.options.properties.group)[0])),
-          Device.groupColors[a] || "#ffffff"
-        );
-      };
-      Device.prototype.setupLight = function () {
-        var a, b, c, d, e;
-        for (e = this.lights, b = 0, d = e.length; b < d; b++)
-          ((c = e[b]),
-            (a = this.getColor()),
-            (c.offTint = Phaser.Color.hexToColor(a).color),
-            (c.onTint = Phaser.Color.hexToColor(a).color),
-            (c.tint = c.offTint));
-      };
-      Device.prototype.updateLight = function (a) {
-        var b, c, d, e, f;
-        if (0 !== this.lights.length) {
-          for (e = this.lights, f = [], b = 0, d = e.length; b < d; b++)
-            ((c = e[b]),
-              null != c.onFrameName && a
-                ? ((c.frameName = c.onFrameName), f.push((c.tint = c.onTint)))
-                : null == c.offFrameName || a
-                  ? f.push(void 0)
-                  : ((c.frameName = c.offFrameName),
-                    f.push((c.tint = c.offTint))));
-          return f;
-        }
-      };
-      Device.prototype.update = function () {
-        return this.checkState();
-      };
-      Device.prototype._updateState = function () {
-        return (this.updateLight(this.state), this.updateState());
-      };
-      Device.prototype.updateState = function () {};
-      Device.prototype.checkState = function () {};
-      Device.prototype.ocupyTile = function (a, b, c) {
-        if (null != a[Math.floor(c)] && null != a[Math.floor(c)][Math.floor(b)])
-          return (a[Math.floor(c)][Math.floor(b)].ocupied = true);
-      };
-      Device.prototype.ocupy = function (a, b) {
-        return false;
-      };
-      Device.prototype.sounds = function () {
-        return [];
-      };
-      Device.groupColors = {
-        1: "#ff0000",
-        2: "#00cc00",
-        3: "#0D3EFF",
-        4: "#ffff00",
-        5: "#EC0EF1",
-        6: "#57beff",
-        7: "#9933FF",
-      };
-      return Device;
-    });
-  }.call(this),
-  function () {
-    define("States/Level/Devices/BoxedDevice", ["./Device"], function (Device) {
-      "use strict";
-      function BoxedDevice(b, c) {
-        this.ocupy = this.ocupy.bind(this);
-        var e;
-        ((this._defaults.enableBody = true),
-          (e = new box2d.b2Vec2(
-            b.physics.box2d.mpx(this.boxSize.x / 2),
-            b.physics.box2d.mpx(this.boxSize.y / 2),
-          )),
-          (e = e.SelfRotateRadians((-Math.PI * c.rotation) / 180 || 0)),
-          (c.x = c.x + e.x),
-          (c.y = c.y - e.y),
-          BoxedDevice.__super__.constructor.call(this, b, c));
-      }
-      extend(BoxedDevice, Device);
-      BoxedDevice.prototype.boxSize = { x: 2, y: 2 };
-      BoxedDevice.prototype.ocupy = function (a) {
-        var b, c;
-        return (
-          (b = this.options.x / 32),
-          (c = this.options.y / 32),
-          this.ocupyTile(a, b, c),
-          this.ocupyTile(a, b - 1, c - 1),
-          this.ocupyTile(a, b - 1, c),
-          this.ocupyTile(a, b, c - 1)
-        );
-      };
-      return BoxedDevice;
-    });
-  }.call(this),
-  function () {
-    define("States/Level/Devices/Ball", ["./BoxedDevice"], function (
-      BoxedDevice,
-    ) {
-      "use strict";
-      function Ball(a, b) {
-        var d, e, f, g;
-        return (
-          (b.x -= a.physics.box2d.mpx(0.5)),
-          (b.y += a.physics.box2d.mpx(0.65)),
-          Ball.__super__.constructor.call(this, a, b),
-          (g = new box2d.b2CircleShape(this.radius)),
-          (f = new box2d.b2FixtureDef()),
-          (f.shape = g),
-          (f.friction = 0.2),
-          (f.restitution = 0.1),
-          (f.density = 2.3),
-          (f.filter.categoryBits = 17),
-          (e = this.body.data.CreateFixture(f)),
-          (e.id = this.body.world.getNextFixtureId()),
-          null != this.options.properties &&
-            null != this.options.properties.linearDamping &&
-            this.body.data.SetLinearDamping(
-              this.options.properties.linearDamping,
-            ),
-          null != this.options.properties &&
-            null != this.options.properties.angularDamping &&
-            this.body.data.SetAngularDamping(
-              this.options.properties.angularDamping,
-            ),
-          (d = new box2d.b2CircleShape(0.1)),
-          d.m_p.SetXY(0, 0),
-          (f = new box2d.b2FixtureDef()),
-          (f.shape = d),
-          (f.filter.categoryBits = 4096),
-          (f.filter.maskBits = 4096),
-          (f.friction = 0.5),
-          (f.density = 0),
-          (f.userData = { "portal-sensor": true }),
-          (e = this.body.data.CreateFixture(f)),
-          (e.id = this.body.world.getNextFixtureId()),
-          this
-        );
-      }
-      extend(Ball, BoxedDevice);
-      Ball.prototype.options = {
-        boxWidth: 1.8,
-        boxHeight: 1.8,
-        atlasName: "MechAssets",
-        frameName: "ball0000",
-      };
-      Ball.prototype.radius = 0.4;
-      return Ball;
-    });
-  }.call(this),
-  function () {
-    define("States/Level/Devices/Beamer", ["./BoxedDevice"], function (
-      BoxedDevice,
-    ) {
-      "use strict";
-      function Beamer(b, c) {
-        ((this.drawDarkMask = this.drawDarkMask.bind(this)),
-          (this.drawBeam = this.drawBeam.bind(this)),
-          (this.update = this.update.bind(this)),
-          (this.getColor = this.getColor.bind(this)));
-        var e, f, g, h, i;
-        return (
-          (this.state = 1),
-          Beamer.__super__.constructor.call(this, b, c),
-          (this.body.mass = 0),
-          (i = []),
-          i.push(new box2d.b2Vec2(0, -this.options.pusherWidth / 2 - 0.6)),
-          i.push(new box2d.b2Vec2(0, this.options.pusherWidth / 2 + 0.6)),
-          i.push(
-            new box2d.b2Vec2(
-              -this.options.pusherHeight,
-              this.options.pusherWidth / 2,
-            ),
-          ),
-          i.push(
-            new box2d.b2Vec2(
-              -this.options.pusherHeight,
-              -this.options.pusherWidth / 2,
-            ),
-          ),
-          (h = new box2d.b2PolygonShape()),
-          h.Set(i),
-          (f = new box2d.b2FixtureDef()),
-          (f.shape = h),
-          (f.friction = 0.7),
-          (f.restitution = 0),
-          (f.density = 0),
-          (f.filter.categoryBits = 1),
-          (f.filter.maskBits = 65535),
-          (e = this.body.data.CreateFixture(f)),
-          (e.id = this.body.world.getNextFixtureId()),
-          (g = this.game.make.sprite(
-            0,
-            0,
-            "MechAssets",
-            "beamer_light_off0000",
-          )),
-          g.anchor.set(0.5),
-          this.sprite.addChild(g),
-          (g.offFrameName = "beamer_light_off0000"),
-          (g.onFrameName = "beamer_light_on0000"),
-          this.lights.push(g),
-          this.registerDevice(),
-          (this.graphics = this.game.make.graphics(0, 0)),
-          this.game.layers.lights.addChild(this.graphics),
-          this.game.layers.dust.sources.push(this),
-          (this.graphicsColor = Phaser.Color.hexToColor(this.getColor()).color),
-          this
-        );
-      }
-      extend(Beamer, BoxedDevice);
-      Beamer.prototype.options = {
-        pusherWidth: 0.8,
-        pusherHeight: 0.4,
-        atlasName: "MechAssets",
-        frameName: "beamer0000",
-        layer: "overGround",
-      };
-      Beamer.prototype.getColor = function () {
-        switch (this.options.properties.color) {
-          case "blue":
-            return "#AAEAFF";
-          case "red":
-            return "#FF4D00";
-          default:
-            return "#ffff88";
-        }
-      };
-      Beamer.prototype.update = function () {
-        var a, b, c, d, e, f, g, h, i, j, k, l;
-        if (((this.dirty = false), 1 !== this.state))
-          return (
-            null !== this.points && (this.dirty = true),
-            (this.points = null),
-            this.graphics.clear()
+    extend(Ground, Phaser.Sprite);
+    Ground.prototype.filterPadding = 10;
+    Ground.prototype.options = {
+      tileWidth: 32,
+      tileHeight: 32,
+      key: "map",
+    };
+    Ground.prototype.getTileRight = function (a, b, c) {
+      return null != a.data[c] && null != a.data[c][b + 1]
+        ? a.data[c][b + 1]
+        : null;
+    };
+    Ground.prototype.getTileLeft = function (a, b, c) {
+      return null != a.data[c] && null != a.data[c][b - 1]
+        ? a.data[c][b - 1]
+        : null;
+    };
+    Ground.prototype.getTileUp = function (a, b, c) {
+      return null != a.data[c - 1] && null != a.data[c - 1][b]
+        ? a.data[c - 1][b]
+        : null;
+    };
+    Ground.prototype.getTileDown = function (a, b, c) {
+      return null != a.data[c + 1] && null != a.data[c + 1][b]
+        ? a.data[c + 1][b]
+        : null;
+    };
+    Ground.prototype.drawTile = function (a, b, c, d) {
+      var e, f, g, h;
+      return (
+        10 === d && (d = 0),
+        11 === d && (d = 1),
+        12 === d && (d = 2),
+        55 === d && (d = 5),
+        0 === d
+          ? ((h = Math.floor(4 * Math.random())), (g = "MaskBox0000" + h))
+          : (g = "MaskBox" + d + "0000"),
+        (e = this.game.cache.getFrameByName("GroundAssets", g)),
+        (f = this.game.cache.getImage("GroundAssets")),
+        (b = b - (e.width - 32) / 2 + 32),
+        (c = c - (e.height - 32) / 2 + 32),
+        a.drawImage(f, e.x, e.y, e.width, e.height, b, c, e.width, e.height)
+      );
+    };
+    Ground.prototype.getTileAt = function (a, b) {
+      return this.mapData.layers[0].data[b][a];
+    };
+    Ground.prototype.convertTilemap = function (a) {
+      var b,
+        c,
+        d,
+        e,
+        f,
+        g,
+        h,
+        i,
+        j,
+        k,
+        l,
+        m,
+        n,
+        o,
+        p,
+        q,
+        r,
+        s,
+        t,
+        u,
+        v,
+        w,
+        x,
+        y,
+        z,
+        A,
+        B,
+        C;
+      for (
+        m = 0,
+          this.map = a,
+          A = 0,
+          v = 0,
+          w = 0,
+          C = 0,
+          this.h = h = a.height,
+          this.w = z = a.width,
+          this.groundBody = c = this.body,
+          this.groundBody.data.m_userData = "ground",
+          this.game.level.groundBody = this.groundBody.data,
+          n = this.game.add.bitmapData(
+            this.options.width + 64,
+            this.options.height + 64,
           );
-        for (
-          a = new box2d.b2RayCastCallback(),
-            a.ReportFixture = function (a, b, c, d) {
-              if (null == a.m_userData || null == a.m_userData.lightProperties)
-                return ((this.contact = { point: b.Clone(), normal: null }), d);
-              if ("transparent" !== a.m_userData.lightProperties.type)
-                return "normal" === a.m_userData.lightProperties.type
-                  ? ((this.contact = { point: b.Clone(), normal: null }),
-                    a.m_userData.lightProperties.sensor &&
-                      (this.contact.sensor = a),
-                    d)
-                  : "mirror" === a.m_userData.lightProperties.type
-                    ? ((this.contact = {
-                        point: b.Clone(),
-                        normal: c.Clone(),
-                      }),
-                      a.m_userData.lightProperties.sensor &&
-                        (this.contact.sensor = a),
-                      d)
-                    : "portal" === a.m_userData.lightProperties.type
-                      ? 1 === a.m_userData.device.state
-                        ? ((this.contact = {
-                            point: a.m_userData.lightProperties.getPoint(b, c),
-                            output: a.m_userData.lightProperties.getOutput,
-                            skipPoint: b.Clone(),
-                          }),
-                          d)
-                        : void 0
-                      : void (
-                          a.m_userData.lightProperties.sensor &&
-                          (this.contact.sensor = a)
+        C < h;
+      ) {
+        for (A = 0, B = 0; B < z; )
+          ((x = a.layers[m].data[C][B]),
+            x &&
+              x.index > -1 &&
+              ((d = B * this.options.tileWidth),
+              (e = C * this.options.tileHeight),
+              0 === x.properties.type
+                ? (0 === A && ((v = B * x.width), (w = C * x.height), (A = 1)),
+                  (r = this.getTileRight(a.layers[m], B, C)),
+                  r && 0 === r.properties.type
+                    ? ((A += 1), this.drawTile(n.ctx, d, e, x.properties.type))
+                    : ((t = new box2d.b2PolygonShape()),
+                      (y = []),
+                      (u = this.groundBody.world.pxm(c.world.mpx(1) * A)),
+                      (s = this.groundBody.world.pxm(c.world.mpx(1))),
+                      y.push(new box2d.b2Vec2(0, 0)),
+                      y.push(new box2d.b2Vec2(-u, 0)),
+                      y.push(new box2d.b2Vec2(-u, -s)),
+                      y.push(new box2d.b2Vec2(0, -s)),
+                      _.each(y, function (a) {
+                        return (
+                          (a.x -= c.world.pxm(v)),
+                          (a.y -= c.world.pxm(w))
                         );
-            },
-            a.point = new box2d.b2Vec2(
-              this.pxm(this.options.x),
-              this.pxm(this.options.y),
-            ),
-            c = new box2d.b2Vec2(-1, 0),
-            c = c.SelfRotateRadians(this.options.rotation || 0),
-            a.dir = c,
-            j = [],
-            j.push({ point: a.point.Clone() });
-          null != a.dir && j.length < 12;
-        )
-          ((h = a.point.Clone()),
-            (i = a.point.Clone().SelfAdd(a.dir.Clone().SelfMul(50))),
-            (a.contact = null),
-            this.body.world.world.RayCast(a, h, i),
-            null != a.contact &&
-              ((a.point = a.contact.point),
-              null != a.contact.sensor &&
-                ((a.contact.sensor.m_userData.lightProperties.iluminated =
-                  this.options.properties.color),
-                (a.contact.sensor.m_userData.lightProperties.lightAt =
-                  a.contact.point)),
-              a.contact.skipPoint
-                ? (j.push({
-                    type: "line",
-                    point: a.contact.skipPoint.Clone(),
-                  }),
-                  j.push({ type: "move", point: a.point.Clone() }))
-                : j.push({ type: "line", point: a.point.Clone() }),
-              null != a.contact.output
-                ? (a.dir = a.contact.output(a.dir))
-                : null != a.contact.normal
-                  ? ((b = h.Clone().SelfSub(i).SelfNormalize()),
-                    (f = a.contact.normal.Clone().SelfCrossVS(1)),
-                    (a.dir = b
-                      .Clone()
-                      .SelfSub(f.Clone().SelfMul(2 * b.Clone().Dot(f)))))
-                  : (a.dir = null)));
-        if (
-          ((l = [30, 10, 2]), (g = [0.05, 0.3, 1]), !_.isEqual(this.points, j))
-        ) {
-          for (
-            this.graphics.clear(),
-              this.dirty = true,
-              this.points = j,
-              this.graphics.blendMode = PIXI.blendModes.LIGHTEN,
-              k = [],
-              d = e = 1;
-            e <= 2;
-            d = ++e
-          )
-            (this.graphics.lineStyle(l[d], this.graphicsColor, g[d]),
-              k.push(this.drawBeam(this.graphics, j)));
-          return k;
-        }
-      };
-      Beamer.prototype.drawBeam = function (a, b, c) {
-        var d, e, f, g, h;
-        for (
-          null == c && (c = { x: 0, y: 0 }),
-            a.moveTo(
-              this.mpx(b[0].point.x) + c.x,
-              this.mpx(b[0].point.y) + c.y,
-            ),
-            h = [],
-            d = e = 0,
-            f = b.length;
-          e < f;
-          d = ++e
-        )
-          ((g = b[d]),
-            d > 0
-              ? "line" === g.type
-                ? (a.lineTo(
-                    this.mpx(g.point.x) + c.x,
-                    this.mpx(g.point.y) + c.y,
-                  ),
-                  h.push(
-                    a.moveTo(
-                      this.mpx(g.point.x) + c.x,
-                      this.mpx(g.point.y) + c.y,
-                    ),
-                  ))
-                : "move" === g.type
-                  ? h.push(
-                      a.moveTo(
-                        this.mpx(g.point.x) + c.x,
-                        this.mpx(g.point.y) + c.y,
-                      ),
-                    )
-                  : h.push(void 0)
-              : h.push(void 0));
-        return h;
-      };
-      Beamer.prototype.drawDarkMask = function (a) {
-        var b, c;
-        if (1 === this.state && null != this.points)
-          return (
-            (a.ctx.globalCompositeOperation = "lighter"),
-            a.ctx.beginPath(),
-            (a.ctx.lineCap = "round"),
-            (a.ctx.strokeStyle = "rgba(255,255,255,0.8)"),
-            (a.ctx.lineWidth = 25),
-            this.drawBeam(a.ctx, this.points, a.offset),
-            a.ctx.stroke(),
-            a.ctx.closePath(),
-            (c = {
-              x: this.sprite.x + a.offset.x,
-              y: this.sprite.y + a.offset.y,
-            }),
-            (b = a.ctx.createRadialGradient(c.x, c.y, 30, c.x, c.y, 90)),
-            b.addColorStop(0, "rgba(255,255,255,1)"),
-            b.addColorStop(0.5, "rgba(255,255,255,0.3)"),
-            b.addColorStop(1, "transparent"),
-            a.circle(c.x, c.y, 90, b)
-          );
-      };
-      return Beamer;
-    });
-  }.call(this),
-  function () {
-    define("States/Level/Devices/BoxPrototype", ["./BoxedDevice"], function (
-      BoxedDevice,
-    ) {
-      "use strict";
-      function BoxPrototype(a, b) {
-        var d, e, f, g, h, i, j, k, l;
-        return (
-          BoxPrototype.__super__.constructor.call(this, a, b),
-          null != this.options.properties.boxSize &&
-            ((this.options.boxWidth = this.options.properties.boxSize),
-            (this.options.boxWidth = this.options.properties.boxSize)),
-          (this.sprite.cacheAsBitmap = true),
-          (g = 0.1),
-          (k = new box2d.b2PolygonShape()),
-          (l = []),
-          l.push(
-            new box2d.b2Vec2(
-              -this.options.boxWidth / 2 + g,
-              -this.options.boxHeight / 2,
-            ),
-          ),
-          l.push(
-            new box2d.b2Vec2(
-              this.options.boxWidth / 2 - g,
-              -this.options.boxHeight / 2,
-            ),
-          ),
-          l.push(
-            new box2d.b2Vec2(
-              this.options.boxWidth / 2,
-              -this.options.boxHeight / 2 + g,
-            ),
-          ),
-          l.push(
-            new box2d.b2Vec2(
-              this.options.boxWidth / 2,
-              +this.options.boxHeight / 2 - g,
-            ),
-          ),
-          l.push(
-            new box2d.b2Vec2(
-              this.options.boxWidth / 2 - g,
-              +this.options.boxHeight / 2,
-            ),
-          ),
-          l.push(
-            new box2d.b2Vec2(
-              -this.options.boxWidth / 2 + g,
-              +this.options.boxHeight / 2,
-            ),
-          ),
-          l.push(
-            new box2d.b2Vec2(
-              -this.options.boxWidth / 2,
-              +this.options.boxHeight / 2 - g,
-            ),
-          ),
-          l.push(
-            new box2d.b2Vec2(
-              -this.options.boxWidth / 2,
-              -this.options.boxHeight / 2 + g,
-            ),
-          ),
-          k.Set(l.reverse()),
-          (i = new box2d.b2FixtureDef()),
-          (i.shape = k),
-          (i.friction =
-            null != this.options.properties.friction
-              ? this.options.properties.friction
-              : 0.4),
-          (i.restitution = 0),
-          (i.density = this.options.density),
-          (h = this.body.data.CreateFixture(i)),
-          (h.id = this.body.world.getNextFixtureId()),
-          (this.boxFixture = h),
-          (j = (function (a) {
-            return function (b, c) {
-              var d;
-              return (
-                (d = new box2d.b2CircleShape(b)),
-                d.m_p.SetXY(c[0], c[1]),
-                (i = new box2d.b2FixtureDef()),
-                (i.shape = d),
-                (i.filter.categoryBits = 17),
-                (i.filter.maskBits = 4097),
-                (i.friction = a.options.circleFriction),
-                (i.density = 0),
-                (i.userData = { lightProperties: { type: "transparent" } }),
-                (h = a.body.data.CreateFixture(i)),
-                (h.id = a.body.world.getNextFixtureId()),
-                h
-              );
-            };
-          })(this)),
-          (d = g),
-          (f = this.options.boxWidth / 2 - 0.6 * g),
-          j(d, [-f, -f]),
-          j(d, [f, -f]),
-          j(d, [-f, f]),
-          j(d, [f, f]),
-          (e = new box2d.b2CircleShape(0.1)),
-          e.m_p.SetXY(0, 0),
-          (i = new box2d.b2FixtureDef()),
-          (i.shape = e),
-          (i.filter.categoryBits = 4096),
-          (i.filter.maskBits = 4096),
-          (i.friction = 0.5),
-          (i.density = 0),
-          (i.userData = {
-            "portal-sensor": true,
-            lightProperties: { type: "transparent" },
-          }),
-          (h = this.body.data.CreateFixture(i)),
-          (h.id = this.body.world.getNextFixtureId()),
-          this.body.data.SetLinearDamping(1),
-          this.body.data.SetAngularDamping(20),
-          this
-        );
-      }
-      extend(BoxPrototype, BoxedDevice);
-      BoxPrototype.prototype.options = {
-        boxWidth: 1.77,
-        boxHeight: 1.77,
-        atlasName: "MechAssets",
-        frameName: "movingbox0000",
-        layer: "overGround",
-        density: 0.45,
-        circleFriction: 0.1,
-      };
-      return BoxPrototype;
-    });
-  }.call(this),
-  function () {
-    define("States/Level/Devices/Box", [
-      "./BoxedDevice",
-      "./BoxPrototype",
-    ], function (BoxedDevice, BoxPrototype) {
-      "use strict";
-      function Box(a, b) {
-        return (Box.__super__.constructor.call(this, a, b), this);
-      }
-      extend(Box, BoxPrototype);
-      return Box;
-    });
-  }.call(this),
-  function () {
-    define("States/Level/Devices/BoxHeavy", [
-      "./BoxedDevice",
-      "./BoxPrototype",
-    ], function (BoxedDevice, BoxPrototype) {
-      "use strict";
-      function BoxHeavy(a, b) {
-        return (
-          (b.frameName = "movingbox20000"),
-          (b.density = 0.8),
-          (b.circleFriction = 0.05),
-          BoxHeavy.__super__.constructor.call(this, a, b),
-          this
-        );
-      }
-      extend(BoxHeavy, BoxPrototype);
-      return BoxHeavy;
-    });
-  }.call(this),
-  function () {
-    define("States/Level/Devices/BoxMirror", [
-      "./BoxedDevice",
-      "./BoxPrototype",
-    ], function (BoxedDevice, BoxPrototype) {
-      "use strict";
-      function BoxMirror(a, b) {
-        var d, e, f;
-        return (
-          (b.mirrorWidth = 2),
-          (b.mirrorHeight = 0.05),
-          (b.frameName = "BoxMirror0000"),
-          BoxMirror.__super__.constructor.call(this, a, b),
-          (this.boxFixture.m_userData = {
-            lightProperties: { type: "transparent" },
-          }),
-          (f = new box2d.b2PolygonShape()),
-          f.SetAsOrientedBox(
-            this.options.mirrorWidth / 2,
-            this.options.mirrorHeight / 2,
-            new box2d.b2Vec2(0, 0),
-            Math.PI / 4,
-          ),
-          (e = new box2d.b2FixtureDef()),
-          (e.shape = f),
-          (e.friction = 0),
-          (e.restitution = 0),
-          (e.density = 0),
-          (e.userData = { lightProperties: { type: "mirror" } }),
-          (d = this.body.data.CreateFixture(e)),
-          (d.id = this.body.world.getNextFixtureId()),
-          this
-        );
-      }
-      extend(BoxMirror, BoxPrototype);
-      return BoxMirror;
-    });
-  }.call(this),
-  function () {
-    define("States/Level/Devices/Diamond", ["Phaser"], function () {
-      "use strict";
-      function Diamond(b, c, e, f) {
-        this.grabbed = this.grabbed.bind(this);
-        var g, h, i;
-        return (
-          (c += b.physics.box2d.mpx(1)),
-          (e -= b.physics.box2d.mpx(1)),
-          Diamond.__super__.constructor.call(
-            this,
-            b,
-            c,
-            e,
-            "CharAssets",
-            "_default0000",
-          ),
-          this.game.physics.box2d.enable(this),
-          (this.sprite = b.make.sprite(
-            0,
-            0,
-            "CharAssets",
-            "diamond_" + f + "0000",
-          )),
-          this.sprite.anchor.set(0.5),
-          this.addChild(this.sprite),
-          (this.signal = new Phaser.Signal()),
-          this.body.clearFixtures(),
-          (this.body.mass = 0),
-          (i = new box2d.b2PolygonShape()),
-          i.SetAsOrientedBox(
-            this.options.width / 2,
-            this.options.height / 2,
-            new box2d.b2Vec2(0, 0),
-            0,
-          ),
-          (h = new box2d.b2FixtureDef()),
-          (h.shape = i),
-          (h.friction = 0.7),
-          (h.restitution = 0),
-          (h.density = 0),
-          (h.userData = "diamond-" + f),
-          (h.isSensor = true),
-          (h.userData = { lightProperties: { type: "transparent" } }),
-          (this.data.char = f),
-          (g = this.body.data.CreateFixture(h)),
-          (g.id = this.body.world.getNextFixtureId()),
-          this.game.layers.underGround.addChild(this),
-          this.body.setFixtureContactCallback(
-            g,
-            (function (a) {
-              return function (b, c, d, e, f, g) {
-                if (
-                  null != c.sprite.character &&
-                  c.sprite.character.data.char &&
-                  ("silver" === a.data.char ||
-                    "fbwg" === a.data.char ||
-                    c.sprite.character.data.char === a.data.char) &&
-                  f
-                )
-                  return (
-                    console.log("Grabbed!"),
-                    a.grabbed(c.sprite.character),
-                    a.signal.dispatch()
-                  );
-              };
-            })(this),
-            this,
-          ),
-          (this.sprite.y = -5),
-          _.delay(
-            (function (a) {
-              return function () {
-                var b;
-                return (
-                  (b = a.game.add
-                    .tween(a.sprite)
-                    .to({ y: 5 }, 2e3, Phaser.Easing.Sinusoidal.InOut, true)),
-                  b.yoyo(true).loop()
-                );
-              };
-            })(this),
-            2e3 * Math.random(),
-          ),
-          this
-        );
-      }
-      extend(Diamond, Phaser.Sprite);
-      Diamond.prototype.options = { width: 0.7, height: 0.7 };
-      Diamond.prototype.grabbed = function (a) {
-        return (
-          this.game.level.sounds.diamond.play(),
-          "silver" === this.data.char
-            ? a.data.silverDiamond++
-            : a.data.diamonds++,
-          this.destroy()
-        );
-      };
-      return Diamond;
-    });
-  }.call(this),
-  function () {
-    define("States/Level/Devices/Door", ["Phaser"], function () {
-      "use strict";
-      function Door(b, c, e, f) {
-        this.update = this.update.bind(this);
-        var g, h, i, j;
-        return (
-          Door.__super__.constructor.call(this, b),
-          (c += this.game.physics.box2d.mpx(1)),
-          (this.pos = { x: c, y: e }),
-          (i = "fb" === f ? "FinishBoy" : "FinishGirl"),
-          (this.sprite = this.game.make.sprite(
-            c,
-            e + 4,
-            "TempleAssets",
-            i + "0000",
-          )),
-          this.sprite.scale.set(0.8),
-          this.sprite.animations.add(
-            "open",
-            Phaser.Animation.generateFrameNames(i, 0, 21, "", 4),
-            10,
-            false,
-          ),
-          this.game.physics.box2d.enable(this.sprite),
-          (this.body = this.sprite.body),
-          (this.sprite.anchor.y = 0.99),
-          this.game.layers.background.addChild(this.sprite),
-          (this.signal = new Phaser.Signal()),
-          this.body.clearFixtures(),
-          this.body.data.SetType(box2d.b2BodyType.b2_staticBody),
-          (j = new box2d.b2PolygonShape()),
-          j.SetAsOrientedBox(
-            this.game.physics.box2d.pxm(this.options.width / 2),
-            this.game.physics.box2d.pxm(this.options.height / 2),
-            new box2d.b2Vec2(0, 0),
-            0,
-          ),
-          (h = new box2d.b2FixtureDef()),
-          (h.shape = j),
-          (h.friction = 0.7),
-          (h.restitution = 0),
-          (h.density = 0),
-          (h.userData = "door-" + f),
-          (h.isSensor = true),
-          (this.data = { char: f }),
-          (g = this.body.data.CreateFixture(h)),
-          (g.id = this.body.world.getNextFixtureId()),
-          this.body.setFixtureContactCallback(
-            g,
-            (function (a) {
-              return function (b, c, d, e, f, g) {
-                if (
-                  null != c.sprite.character &&
-                  c.sprite.character.data.char === a.data.char
-                )
-                  return (a.isOpen = !!f);
-              };
-            })(this),
-            this,
-          ),
-          (this.currentFrac = this.sprite.animations.currentFrame.index),
-          this
-        );
-      }
-      extend(Door, Phaser.Group);
-      Door.prototype.options = { width: 64, height: 8 };
-      Door.prototype.update = function () {
-        var a, b, c;
-        return (
-          (a = this.sprite.animations._outputFrames.indexOf(
-            this.sprite.animations.currentFrame.index,
-          )),
-          (this.isUp = 21 === a),
-          (b = Math.min(0.04, this.game.time.elapsed / 1e3)),
-          (c = 25 * b),
-          this.isOpen
-            ? (a < 21 &&
-                ((this.currentFrac += c),
-                (this.sprite.animations.frame = Math.round(this.currentFrac)),
-                (null != this.sound && this.sound.isPlaying) ||
-                  (this.sound = this.game.level.sounds.door.playInstance())),
-              21 === a &&
-                (this.signal.dispatch(),
-                null != this.sound &&
-                  (this.sound.stopInstance(), (this.sound = null))))
-            : this.isOpen ||
-              (a > 0 &&
-                ((this.currentFrac -= c),
-                (this.sprite.animations.frame = Math.round(this.currentFrac)),
-                (null != this.sound && this.sound.isPlaying) ||
-                  (this.sound = this.game.level.sounds.door.playInstance())),
-              0 === a &&
-                (null != this.sound &&
-                  (this.sound.stopInstance(), (this.sound = null)),
-                this.signal.dispatch())),
-          this.isUp
-        );
-      };
-      return Door;
-    });
-  }.call(this),
-  function () {
-    define("States/Level/Devices/Hanging", ["./Device"], function (Device) {
-      "use strict";
-      function Hanging(b, c) {
-        this.update = this.update.bind(this);
-        var e, f, g, h, i, j, k, l, m, n, o, p, q, r;
-        return (
-          Hanging.__super__.constructor.call(this, b, c),
-          (this.barWidth =
-            this.options.properties.barWidth || this.options.barWidth),
-          (this.anchor = new box2d.b2Vec2(
-            this.options.polyline[0][0] + this.options.x,
-            this.options.polyline[0][1] + this.options.y,
-          )),
-          (this.pos = {
-            x: this.options.polyline[1][0] + this.options.x,
-            y: this.options.polyline[1][1] + this.options.y,
-          }),
-          (this.rope = this.game.make.tileSprite(
-            this.anchor.x,
-            this.anchor.y,
-            this.options.polyline[0][1] - this.options.polyline[1][1],
-            20,
-            "MechAssets",
-            "pulley_rope0000",
-          )),
-          this.rope.anchor.set(0, 0.5),
-          this.game.layers.underGround.addChild(this.rope),
-          (this.platform = p = this.game.make.sprite(this.pos.x, this.pos.y)),
-          (h = this.game.make.sprite(
-            0,
-            0,
-            "MechAssets",
-            "hanging_platform0000",
-          )),
-          h.anchor.set(0.5),
-          (h.width = 1.15 * this.mpx(this.barWidth)),
-          this.platform.addChild(h),
-          (g = this.game.make.sprite(
-            this.anchor.x,
-            this.anchor.y,
-            "MechAssets",
-            "hanging_anchor0000",
-          )),
-          (i = this.game.make.sprite(0, 0, "MechAssets", "hanging_base0000")),
-          i.anchor.set(0.5),
-          this.game.physics.box2d.enable(p, false),
-          this.game.physics.box2d.enable(g),
-          (g.body.data.m_fixtureList.m_filter.categoryBits = 0),
-          this.platform.addChild(i),
-          this.game.layers.underGround.addChild(this.platform),
-          this.game.layers.underGround.addChild(g),
-          p.body.data.SetLinearDamping(0.4),
-          p.body.data.SetAngularDamping(0.3),
-          (j = this.platform.body),
-          j.clearFixtures(),
-          (r = []),
-          (m = this.barWidth / 2),
-          (n = m + 0.1),
-          r.push(new box2d.b2Vec2(m, 0.12)),
-          r.push(new box2d.b2Vec2(-m, 0.12)),
-          r.push(new box2d.b2Vec2(-n, 0)),
-          r.push(new box2d.b2Vec2(-m, -0.12)),
-          r.push(new box2d.b2Vec2(m, -0.12)),
-          r.push(new box2d.b2Vec2(n, 0)),
-          (q = new box2d.b2PolygonShape()),
-          q.Set(r),
-          (l = new box2d.b2FixtureDef()),
-          (l.shape = q),
-          (l.friction = 0.4),
-          (l.restitution = 0),
-          (l.density = this.options.properties.density || 2.5),
-          (l.filter.categoryBits = 65535),
-          (l.filter.maskBits = 65535),
-          (k = j.data.CreateFixture(l)),
-          (k.id = j.world.getNextFixtureId()),
-          (o = new box2d.b2DistanceJointDef()),
-          (e = { x: this.pxm(this.anchor.x), y: this.pxm(this.anchor.y) }),
-          (f = { x: this.pxm(this.pos.x), y: this.pxm(this.pos.y) }),
-          o.Initialize(g.body.data, p.body.data, e, f),
-          (this.joint = this.game.physics.box2d.world.CreateJoint(o)),
-          (o = new box2d.b2RevoluteJointDef()),
-          o.Initialize(g.body.data, p.body.data, f),
-          (o.lowerAngle = (-0.85 * Math.PI) / 2),
-          (o.upperAngle = (0.85 * Math.PI) / 2),
-          this.options.properties.fullRotation || (o.enableLimit = true),
-          (this.joint = this.game.physics.box2d.world.CreateJoint(o)),
-          (o = new box2d.b2RevoluteJointDef()),
-          o.Initialize(g.body.data, this.game.level.groundBody, e),
-          (this.joint = this.game.physics.box2d.world.CreateJoint(o)),
-          this
-        );
-      }
-      extend(Hanging, Device);
-      Hanging.prototype.options = { barWidth: 3.2 };
-      Hanging.prototype.baseHeight = 60;
-      Hanging.prototype.update = function () {
-        var a, b;
-        return (
-          (b = new box2d.b2Vec2(
-            this.platform.position.x,
-            this.platform.position.y,
-          )),
-          (a = b.Clone().SelfSub(this.anchor)),
-          (this.rope.rotation = Math.atan2(-a.y, -a.x))
-        );
-      };
-      return Hanging;
-    });
-  }.call(this),
-  function () {
-    define("States/Level/Devices/InfiniteMirror", ["./BoxedDevice"], function (
-      BoxedDevice,
-    ) {
-      "use strict";
-      function InfiniteMirror(b, c) {
-        this.updateState = this.updateState.bind(this);
-        var e, f, g, h, i, j, k, l, m, n, o;
-        return (
-          InfiniteMirror.__super__.constructor.call(this, b, c),
-          (f = this.game.make.sprite(
-            this.options.x,
-            this.options.y,
-            "MechAssets",
-            "rotmirror_circle0000",
-          )),
-          f.anchor.set(0.5),
-          this.game.layers.underGround.addChild(f),
-          (k = this.game.make.sprite(
-            this.options.x,
-            this.options.y,
-            "MechAssets",
-            "infinitemirror0000",
-          )),
-          k.anchor.set(0.5),
-          this.game.physics.box2d.enable(k),
-          (this.body = k.body),
-          (l = this.game.make.sprite(
-            0,
-            0,
-            "MechAssets",
-            "infinitemirror_light_off0000",
-          )),
-          l.anchor.set(0.5),
-          k.addChild(l),
-          (l.offFrameName = "infinitemirror_light_off0000"),
-          (l.onFrameName = "infinitemirror_light_off0000"),
-          this.lights.push(l),
-          this.game.layers.overGround.addChild(k),
-          this.body.clearFixtures(),
-          (o = new box2d.b2PolygonShape()),
-          o.SetAsOrientedBox(
-            this.options.boxWidth / 2,
-            this.options.boxHeight / 2,
-            new box2d.b2Vec2(0, 0),
-            0,
-          ),
-          (m = new box2d.b2PolygonShape()),
-          m.SetAsOrientedBox(
-            this.options.mirrorWidth / 2,
-            this.options.mirrorHeight / 2,
-            new box2d.b2Vec2(0, 0),
-            Math.PI / 4,
-          ),
-          (i = new box2d.b2FixtureDef()),
-          (i.shape = m),
-          (i.friction = 0.7),
-          (i.restitution = 0),
-          (i.density = 0.2),
-          (i.userData = { lightProperties: { type: "mirror" } }),
-          (h = this.body.data.CreateFixture(i)),
-          (h.id = this.body.world.getNextFixtureId()),
-          this.body.data.SetAngle(this.options.rotation),
-          (e = new box2d.b2CircleShape(0.3)),
-          (e.m_p = new box2d.b2Vec2(1.1, 1.1)),
-          (i = new box2d.b2FixtureDef()),
-          (i.shape = e),
-          (h = this.body.data.CreateFixture(i)),
-          (e = new box2d.b2CircleShape(0.3)),
-          (e.m_p = new box2d.b2Vec2(-1.1, -1.1)),
-          (i = new box2d.b2FixtureDef()),
-          (i.shape = e),
-          (h = this.body.data.CreateFixture(i)),
-          (j = new box2d.b2RevoluteJointDef()),
-          (n = this.body.data.GetWorldCenter()),
-          (g = new box2d.b2Vec2(n.x, n.y)),
-          j.Initialize(this.body.data, this.game.level.groundBody, g),
-          (j.enableLimit = true),
-          (j.maxMotorTorque = 500),
-          (j.motorSpeed = 0),
-          (j.enableMotor = true),
-          (this.joint = this.game.physics.box2d.world.CreateJoint(j)),
-          this.registerDevice(),
-          this
-        );
-      }
-      extend(InfiniteMirror, BoxedDevice);
-      InfiniteMirror.prototype.options = {
-        atlasName: null,
-        frameName: null,
-        lightAtlas: null,
-        lightFrame: null,
-        boxWidth: 1.8,
-        boxHeight: 1.8,
-        mirrorWidth: 3,
-        mirrorHeight: 0.1,
-      };
-      InfiniteMirror.prototype.updateState = function () {
-        return this.joint.SetLimits(this.state, this.state);
-      };
-      return InfiniteMirror;
-    });
-  }.call(this),
-  function () {
-    define("States/Level/Devices/Lever", ["./BoxedDevice"], function (
-      BoxedDevice,
-    ) {
-      "use strict";
-      function Lever(b, c) {
-        ((this.drawDarkMask = this.drawDarkMask.bind(this)),
-          (this.checkState = this.checkState.bind(this)),
-          (this.sounds = this.sounds.bind(this)));
-        var e, f, g, h, i, j, k, l, m, n;
-        return (
-          Lever.__super__.constructor.call(this, b, c),
-          (m = this.game.make.resSprite(
-            this.options.x,
-            this.options.y,
-            "MechAssets",
-            "lever_stick0000",
-          )),
-          m.anchor.set(0.5),
-          this.game.physics.box2d.enable(m),
-          (this.body = m.body),
-          (n = this.game.make.resSprite(
-            0,
-            0,
-            "MechAssets",
-            "lever_stick_light_off0000",
-          )),
-          n.anchor.set(0.5),
-          m.addChild(n),
-          (n.offFrameName = "lever_stick_light_off0000"),
-          (n.onFrameName = "lever_stick_light_on0000"),
-          this.lights.push(n),
-          this.game.layers.overGround.addChild(m),
-          (this.base = e =
-            this.game.make.resSprite(
-              this.options.x,
-              this.options.y,
-              "MechAssets",
-              "lever_base0000",
-            )),
-          e.anchor.set(0.5),
-          (f = this.game.make.resSprite(
-            0,
-            0,
-            "MechAssets",
-            "lever_base_light_off0000",
-          )),
-          f.anchor.set(0.5),
-          e.addChild(f),
-          (f.offFrameName = "lever_base_light_off0000"),
-          (f.onFrameName = "lever_base_light_on0000"),
-          this.lights.push(f),
-          this.game.layers.overGround.addChild(e),
-          this.body.clearFixtures(),
-          (l = new box2d.b2PolygonShape()),
-          l.SetAsOrientedBox(0.15, 0.7, new box2d.b2Vec2(0, 0.55), 0),
-          (i = new box2d.b2FixtureDef()),
-          (i.shape = l),
-          (i.friction = 0.7),
-          (i.restitution = 0),
-          (i.density = 1.6),
-          (i.filter.categoryBits = 1),
-          (i.filter.maskBits = 61695),
-          (h = m.body.data.CreateFixture(i)),
-          (h.id = m.body.world.getNextFixtureId()),
-          (j = new box2d.b2RevoluteJointDef()),
-          (k = this.body.data.GetWorldCenter()),
-          (g = new box2d.b2Vec2(k.x, k.y - 0.7)),
-          j.Initialize(this.body.data, this.game.level.groundBody, g),
-          (j.lowerAngle = -0.2 * Math.PI),
-          (j.upperAngle = 0.2 * Math.PI),
-          (j.enableLimit = true),
-          (j.maxMotorTorque = 10),
-          (j.motorSpeed = 0),
-          (j.enableMotor = true),
-          (this.joint = this.game.physics.box2d.world.CreateJoint(j)),
-          -1 === this.options.properties.startPos
-            ? this.body.data.SetAngle(this.joint.GetLowerLimit())
-            : this.body.data.SetAngle(this.joint.GetUpperLimit()),
-          (this.signal = new Phaser.Signal()),
-          this.registerDevice(),
-          this
-        );
-      }
-      extend(Lever, BoxedDevice);
-      Lever.prototype.options = { atlasName: null, frameName: null };
-      Lever.prototype.sounds = function () {
-        return "lever";
-      };
-      Lever.prototype.checkState = function () {
-        return 0 === this.state &&
-          this.joint.GetJointAngleRadians() * this.options.properties.onis < 0
-          ? ((this.state = 1),
-            this.joint.SetMotorSpeed(-4 * this.options.properties.onis),
-            this.game.level.sounds.lever.play(),
-            this.signal.dispatch(this))
-          : 1 === this.state &&
-              this.joint.GetJointAngleRadians() * this.options.properties.onis >
-                0
-            ? ((this.state = 0),
-              this.joint.SetMotorSpeed(4 * this.options.properties.onis),
-              this.game.level.sounds.lever.play(),
-              this.signal.dispatch(this))
-            : void 0;
-      };
-      Lever.prototype.drawDarkMask = function (a) {
-        var b, c, d;
-        if (1 === this.state)
-          return (
-            (a.ctx.globalCompositeOperation = "lighter"),
-            (d = {
-              x: this.base.x + a.offset.x,
-              y: this.base.y + a.offset.y,
-            }),
-            (b = new box2d.b2Vec2(0, this.mpx(-1.1))),
-            b.SelfRotateRadians(this.joint.GetJointAngleRadians()),
-            b.SelfAdd(new box2d.b2Vec2(0, this.mpx(1.8))),
-            (c = a.ctx.createRadialGradient(
-              d.x + b.x,
-              d.y + b.y,
-              10,
-              d.x + b.x,
-              d.y + b.y,
-              50,
-            )),
-            c.addColorStop(0, "rgba(255,255,255,1)"),
-            c.addColorStop(0.7, "rgba(255,255,255,0.1)"),
-            c.addColorStop(1, "rgba(255,255,255,0)"),
-            a.circle(d.x + b.x, d.y + b.y, 60, c)
-          );
-      };
-      return Lever;
-    });
-  }.call(this),
-  function () {
-    define("States/Level/Devices/LightPusher", ["./BoxedDevice"], function (
-      BoxedDevice,
-    ) {
-      "use strict";
-      function LightPusher(b, c) {
-        ((this.checkState = this.checkState.bind(this)),
-          (this.sounds = this.sounds.bind(this)));
-        var e, f, g, h, i;
-        return (
-          LightPusher.__super__.constructor.call(this, b, c),
-          (this.body.mass = 0),
-          (f = new box2d.b2PolygonShape()),
-          f.SetAsOrientedBox(
-            this.options.sensorWidth / 2,
-            this.options.pusherHeight / 2,
-            new box2d.b2Vec2(0, 0),
-            0,
-          ),
-          (e = new box2d.b2FixtureDef()),
-          (e.shape = f),
-          (e.friction = 0.7),
-          (e.restitution = 0),
-          (e.density = 0),
-          (e.isSensor = true),
-          (e.userData = {
-            lightProperties: { type: "normal", sensor: true },
-          }),
-          (this.sensorFixture = g = this.body.data.CreateFixture(e)),
-          (g.id = this.body.world.getNextFixtureId()),
-          (i = []),
-          i.push(new box2d.b2Vec2(-this.options.pusherWidth / 2 - 0.5, 0)),
-          i.push(new box2d.b2Vec2(this.options.pusherWidth / 2 + 0.5, 0)),
-          i.push(
-            new box2d.b2Vec2(
-              this.options.pusherWidth / 2,
-              this.options.pusherHeight - 0.1,
-            ),
-          ),
-          i.push(
-            new box2d.b2Vec2(
-              -this.options.pusherWidth / 2,
-              this.options.pusherHeight - 0.1,
-            ),
-          ),
-          (h = new box2d.b2PolygonShape()),
-          h.Set(i),
-          (e = new box2d.b2FixtureDef()),
-          (e.shape = h),
-          (e.friction = 0.7),
-          (e.restitution = 0),
-          (e.density = 0),
-          (e.isSensor = false),
-          (e.userData = { lightProperties: { type: "transparent" } }),
-          this.body.data.CreateFixture(e),
-          (g.id = this.body.world.getNextFixtureId()),
-          (this.signal = new Phaser.Signal()),
-          this.registerDevice(),
-          this
-        );
-      }
-      extend(LightPusher, BoxedDevice);
-      LightPusher.prototype.options = {
-        pusherWidth: 1,
-        pusherHeight: 0.4,
-        sensorWidth: 1.5,
-        atlasName: "MechAssets",
-        frameName: "lightpusher_base0000",
-        lightAtlas: "MechAssets",
-        lightFrame: "lightpusher_light",
-      };
-      LightPusher.prototype.sounds = function () {
-        return "lightPusher";
-      };
-      LightPusher.prototype.checkState = function () {
-        return (
-          0 === this.state &&
-          this.sensorFixture.m_userData.lightProperties.iluminated ===
-            this.options.properties.color
-            ? ((this.state = 1),
-              this.game.level.sounds.lightPusher.play(),
-              this.signal.dispatch(this))
-            : 1 === this.state &&
-              this.sensorFixture.m_userData.lightProperties.iluminated !==
-                this.options.properties.color &&
-              ((this.state = 0), this.signal.dispatch(this)),
-          (this.sensorFixture.m_userData.lightProperties.iluminated = null)
-        );
-      };
-      return LightPusher;
-    });
-  }.call(this),
-  function () {
-    define("States/Level/Devices/Liquid", ["Phaser"], function () {
-      "use strict";
-      function Liquid(b, c, e, f) {
-        ((this.melt = this.melt.bind(this)),
-          (this.freeze = this.freeze.bind(this)),
-          (this.initialFreeze = this.initialFreeze.bind(this)),
-          (this.shouldMelt = this.shouldMelt.bind(this)),
-          (this.shouldFreeze = this.shouldFreeze.bind(this)),
-          (this.update = this.update.bind(this)),
-          (this.createIceGraphics = this.createIceGraphics.bind(this)),
-          (this.createLiquidGraphics = this.createLiquidGraphics.bind(this)));
-        var g, h, i, j, k, l;
-        return (
-          55 === f.type && ((f.type = 5), (f.startFrozen = true)),
-          (this.options = f),
-          (this.options.x = c),
-          (this.options.y = e),
-          Liquid.__super__.constructor.call(
-            this,
-            b,
-            c,
-            e,
-            "GroundAssets",
-            "_default0000",
-          ),
-          this.game.layers.liquids.addChild(this),
-          this.game.physics.box2d.enable(this),
-          this.body.clearFixtures(),
-          (this.body.mass = 0),
-          this.body.data.SetPosition(new box2d.b2Vec2(-c, -e)),
-          (j = new box2d.b2PolygonShape()),
-          (l = []),
-          (k = f.width),
-          (i = 1),
-          l.push(new box2d.b2Vec2(0, -0.15)),
-          l.push(new box2d.b2Vec2(-k, -0.15)),
-          l.push(new box2d.b2Vec2(-k, -i / 2)),
-          l.push(new box2d.b2Vec2(0, -i / 2)),
-          j.Set(l),
-          (h = new box2d.b2FixtureDef()),
-          (h.shape = j),
-          (h.filter.categoryBits = 1),
-          (h.filter.maskBits = 61695),
-          (h.friction = 0.7),
-          (h.isSensor = true),
-          (h.userData = {
-            type: "liquid",
-            liquidType: f.type,
-            lightProperties: { type: "normal", sensor: true },
-          }),
-          (g = this.sensorFixture = this.body.data.CreateFixture(h)),
-          (g.id = this.body.world.getNextFixtureId()),
-          (j = new box2d.b2PolygonShape()),
-          (l = []),
-          (k = f.width),
-          (i = 1),
-          l.push(new box2d.b2Vec2(0, 0)),
-          l.push(new box2d.b2Vec2(-k, 0)),
-          l.push(new box2d.b2Vec2(-k, -i / 2)),
-          l.push(new box2d.b2Vec2(0, -i / 2)),
-          j.Set(l),
-          (h = new box2d.b2FixtureDef()),
-          (h.shape = j),
-          (h.filter.categoryBits = 1),
-          (h.filter.maskBits = 0),
-          (h.friction = 0),
-          (h.userData = {
-            type: "ice",
-            liquidType: f.type,
-            lightProperties: { type: "transparent" },
-          }),
-          (g = this.iceFixture = this.body.data.CreateFixture(h)),
-          (g.id = this.body.world.getNextFixtureId()),
-          this.body.setFixtureContactCallback(
-            this.iceFixture,
-            (function (a) {
-              return function (a, b, c, d, e, f) {
-                var g;
-                if (null != b.sprite.character || null != a.sprite.character)
-                  return (
-                    (g = b.sprite.character || a.sprite.character),
-                    e
-                      ? (g.snowCount || (g.snowCount = 0), (g.snowCount += 1))
-                      : (g.snowCount || (g.snowCount = 0), (g.snowCount -= 1)),
-                    g.setOnIce(0 !== g.snowCount)
-                  );
-              };
-            })(),
-          ),
-          (j = new box2d.b2PolygonShape()),
-          (l = []),
-          (k = f.width),
-          (i = 0.18),
-          l.push(new box2d.b2Vec2(0, -i)),
-          l.push(new box2d.b2Vec2(-k, -i)),
-          l.push(new box2d.b2Vec2(-k, -1)),
-          l.push(new box2d.b2Vec2(0, -1)),
-          j.Set(l),
-          (h = new box2d.b2FixtureDef()),
-          (h.shape = j),
-          (h.filter.categoryBits = 1),
-          (h.filter.maskBits = 4369),
-          (h.friction = 0.7),
-          (h.isSensor = true),
-          (h.userData = {
-            type: "liquid_death",
-            liquidType: f.type,
-            lightProperties: { type: "transparent" },
-          }),
-          (g = this.killFixture = this.body.data.CreateFixture(h)),
-          (g.id = this.body.world.getNextFixtureId()),
-          (this.liquidGraphics = this.game.make.group()),
-          (this.liquidGraphics.position.y = 2),
-          this.createLiquidGraphics(),
-          this.addChild(this.liquidGraphics),
-          5 === f.type &&
-            ((this.iceGraphics = this.game.make.group()),
-            (this.iceGraphics.position.y = 4),
-            this.createIceGraphics(),
-            this.addChild(this.iceGraphics),
-            (this.iceGraphics.visible = false)),
-          (this.nearBodies = {}),
-          (this.frozenBodies = {}),
-          this.body.setFixtureContactCallback(
-            this.sensorFixture,
-            (function (a) {
-              return function (b, c, d, e, f, g) {
-                var h;
-                return f || null == a.nearBodies[c.id]
-                  ? f && null == a.nearBodies[c.id]
-                    ? ((h = { body: c }), (a.nearBodies[c.id] = h))
-                    : void 0
-                  : delete a.nearBodies[c.id];
-              };
-            })(this),
-            this,
-          ),
-          f.startFrozen && _.delay(this.initialFreeze, 10),
-          this
-        );
-      }
-      extend(Liquid, Phaser.Sprite);
-      Liquid.prototype.createLiquidGraphics = function () {
-        var a, b, c, d, e, f, g;
-        if (
-          (5 === this.options.type
-            ? (a = "WaterBox")
-            : 6 === this.options.type
-              ? (a = "FireBox")
-              : 7 === this.options.type && (a = "GreenBox"),
-          (d = this.game.make.sprite(0, 0, "GroundAssets")),
-          d.anchor.set(0.5),
-          d.animations.add(
-            "loop",
-            Phaser.Animation.generateFrameNames(a + "Left", 0, 14, "", 4),
-            30,
-            true,
-          ),
-          this.liquidGraphics.addChild(d),
-          (d.x = this.body.world.mpx(0.5)),
-          (d.y = this.body.world.mpx(0.5)),
-          d.animations.play("loop"),
-          this.options.width > 2)
-        )
-          for (
-            b = c = 1, f = this.options.width - 2;
-            1 <= f ? c <= f : c >= f;
-            b = 1 <= f ? ++c : --c
-          )
-            ((e = this.game.make.sprite(0, 0, "GroundAssets")),
-              e.anchor.set(0.5),
-              e.animations.add(
-                "loop",
-                Phaser.Animation.generateFrameNames(a, 0, 14, "", 4),
-                30,
-                true,
-              ),
-              this.liquidGraphics.addChild(e),
-              (e.x = this.body.world.mpx(b + 0.5)),
-              (e.y = this.body.world.mpx(0.5)),
-              e.animations.play("loop"));
-        return (
-          (g = this.game.make.sprite(0, 0, "GroundAssets")),
-          g.anchor.set(0.5),
-          g.animations.add(
-            "loop",
-            Phaser.Animation.generateFrameNames(a + "Right", 0, 14, "", 4),
-            30,
-            true,
-          ),
-          this.liquidGraphics.addChild(g),
-          (g.x = this.body.world.mpx(this.options.width - 0.5)),
-          (g.y = this.body.world.mpx(0.5)),
-          g.animations.play("loop")
-        );
-      };
-      Liquid.prototype.createIceGraphics = function () {
-        var a, b, c, d, e, f, g;
-        for (
-          a = "IceBox",
-            d = this.game.make.sprite(0, 0, "GroundAssets", a + "Left0000"),
-            d.anchor.set(0.5),
-            this.iceGraphics.addChild(d),
-            d.x = this.body.world.mpx(0.5),
-            d.y = this.body.world.mpx(0.5),
-            b = c = 1,
-            f = this.options.width - 2;
-          1 <= f ? c <= f : c >= f;
-          b = 1 <= f ? ++c : --c
-        )
-          ((e = this.game.make.sprite(0, 0, "GroundAssets", a + "0000")),
-            e.anchor.set(0.5),
-            this.iceGraphics.addChild(e),
-            (e.x = this.body.world.mpx(b + 0.5)),
-            (e.y = this.body.world.mpx(0.5)));
-        return (
-          (g = this.game.make.sprite(0, 0, "GroundAssets", a + "Right0000")),
-          g.anchor.set(0.5),
-          this.iceGraphics.addChild(g),
-          (g.x = this.body.world.mpx(this.options.width - 0.5)),
-          (g.y = this.body.world.mpx(0.5))
-        );
-      };
-      Liquid.prototype.update = function () {
-        if (!this.game.physics.box2d.paused) {
-          if (!this.ready) return void (this.ready = true);
-          if (
-            null != this.sensorFixture.m_userData.lightProperties.iluminated
-          ) {
-            if (
-              "blue" ===
-                this.sensorFixture.m_userData.lightProperties.iluminated &&
-              5 === this.options.type
-            )
-              return this.shouldFreeze();
-            if (
-              "red" ===
-                this.sensorFixture.m_userData.lightProperties.iluminated &&
-              5 === this.options.type
-            )
-              return this.shouldMelt();
-          }
-        }
-      };
-      Liquid.prototype.shouldFreeze = function () {
-        if (!this.frozen)
-          return (this.freeze(), this.game.level.sounds.freeze.play());
-      };
-      Liquid.prototype.shouldMelt = function () {
-        if (this.frozen)
-          return (this.game.level.sounds.melt.play(), this.melt());
-      };
-      Liquid.prototype.initialFreeze = function () {
-        var a, b, c;
-        ((this.game.physics.box2d.paused = false),
-          this.game.physics.box2d.update(),
-          (this.game.physics.box2d.paused = true),
-          (this.frozen = true),
-          this.iceFixture.SetFilterData({ maskBits: 16, categoryBits: 1 }),
-          (c = this.nearBodies));
-        for (a in c)
-          ((b = c[a]),
-            "pers" === b.body.data.m_userData
-              ? (b.body.data.SetPosition(
-                  b.body.data.GetPosition().SelfAdd(new box2d.b2Vec2(0, 0.5)),
-                ),
-                b.body.data.SetAwake(true))
-              : ((this.frozenBodies[a] = b), (b.body.static = true)));
-        return (
-          this.iceFixture.Refilter(),
-          (this.sensorFixture.m_userData.lightProperties.type = "mirror"),
-          (this.iceGraphics.visible = true),
-          (this.liquidGraphics.visible = false)
-        );
-      };
-      Liquid.prototype.freeze = function () {
-        var a, b, c, d, e, f, g, h, i, j, k, l, m, n;
-        ((b = 800),
-          console.log("freezing"),
-          (this.frozen = true),
-          this.iceFixture.SetFilterData({ maskBits: 16, categoryBits: 1 }),
-          (h = this.nearBodies));
-        for (d in h)
-          ((e = h[d]),
-            "pers" === e.body.data.m_userData
-              ? (e.body.data.SetPosition(
-                  e.body.data.GetPosition().SelfAdd(new box2d.b2Vec2(0, 0.5)),
-                ),
-                e.body.data.SetAwake(true))
-              : ((this.frozenBodies[d] = e), (e.body.static = true)));
-        (this.iceFixture.Refilter(),
-          (this.sensorFixture.m_userData.lightProperties.type = "mirror"),
-          (this.iceGraphics.visible = true),
-          (c = this.game.make.graphics(0, 0)),
-          this.addChild(c),
-          (l = this.game.physics.box2d.mpx(this.options.width)),
-          c.beginFill(16777215),
-          c.drawRect(-10, -10, l + 20, 52),
-          (a = this.sensorFixture.m_userData.lightProperties.lightAt),
-          (n = this.game.physics.box2d.mpx(-a.x - this.options.x)),
-          (c.width = 0),
-          (c.x = n),
-          (i = this.game.add
-            .tween(c)
-            .to({ x: 0, width: l }, b, "Linear", true)
-            .onUpdateCallback(
-              (function (a) {
-                return function () {
-                  return a.frozen
-                    ? (a.iceGraphics.mask = c)
-                    : (c.visible = false);
-                };
-              })(this),
-            )),
-          (m = this.game.make.graphics(0, 0)),
-          this.addChild(m),
-          (m.width = l),
-          (m.x = 0),
-          (f = { val: l - n }),
-          (i = this.game.add
-            .tween(f)
-            .to({ val: 0 }, b, "Linear", true)
-            .onUpdateCallback(
-              (function (a) {
-                return function () {
-                  return a.frozen
-                    ? (m.clear(),
-                      m.beginFill(16777215),
-                      m.drawRect(l - f.val, -10, f.val, 52),
-                      (a.liquidGraphics.mask = m))
-                    : (m.visible = false);
-                };
-              })(this),
-            )),
-          (g = { val: n }),
-          (i = this.game.add
-            .tween(g)
-            .to({ val: 0 }, b, "Linear", true)
-            .onUpdateCallback(
-              (function (a) {
-                return function () {
-                  return a.frozen
-                    ? (m.beginFill(16777215),
-                      m.drawRect(0, -10, g.val, 52),
-                      (a.liquidGraphics.mask = m))
-                    : (m.visible = false);
-                };
-              })(this),
-            )),
-          (j = this.game.make.sprite(0, 0, "GroundAssets", "frost0000")),
-          (k = this.game.make.sprite(0, 0, "GroundAssets", "frost0000")),
-          j.anchor.set(0.5),
-          k.anchor.set(0.5),
-          j.animations.add(
-            "loop",
-            Phaser.Animation.generateFrameNames("frost", 0, 10, "", 4),
-            30,
-            true,
-          ),
-          k.animations.add(
-            "loop",
-            Phaser.Animation.generateFrameNames("frost", 0, 10, "", 4),
-            30,
-            true,
-          ),
-          j.animations.play("loop"),
-          k.animations.play("loop"),
-          this.addChild(j),
-          this.addChild(k),
-          (j.x = n),
-          (k.x = n),
-          (i = this.game.add.tween(j).to({ x: 10 }, b, "Linear", true)),
-          (i = this.game.add.tween(k).to({ x: l - 10 }, b, "Linear", true)),
-          i.onComplete.add(
-            (function (a) {
-              return function () {
-                return (
-                  a.frozen && (a.liquidGraphics.visible = false),
-                  m.destroy(),
-                  c.destroy(),
-                  j.destroy(),
-                  k.destroy()
-                );
-              };
-            })(this),
-          ));
-      };
-      Liquid.prototype.melt = function () {
-        var a, b, c, d, e, f, g, h, i, j, k, l, m, n;
-        ((e = 800),
-          console.log("melting"),
-          (this.frozen = false),
-          this.iceFixture.SetFilterData({ maskBits: 0, categoryBits: 1 }),
-          (i = this.frozenBodies));
-        for (c in i)
-          ((f = i[c]), (f.body.static = false), delete this.frozenBodies[c]);
-        return (
-          this.iceFixture.Refilter(),
-          (this.sensorFixture.m_userData.lightProperties.type = "normal"),
-          (this.liquidGraphics.visible = true),
-          (d = this.game.make.graphics(0, 0)),
-          this.addChild(d),
-          (m = this.game.physics.box2d.mpx(this.options.width)),
-          d.beginFill(16777215),
-          d.drawRect(0, -10, m, 52),
-          (a = this.sensorFixture.m_userData.lightProperties.lightAt),
-          (n = this.game.physics.box2d.mpx(-a.x - this.options.x)),
-          (d.width = 0),
-          (d.x = n),
-          (j = this.game.add
-            .tween(d)
-            .to({ x: 0, width: m }, e, "Linear", true)
-            .onUpdateCallback(
-              (function (a) {
-                return function () {
-                  return a.frozen
-                    ? (d.visible = false)
-                    : (a.liquidGraphics.mask = d);
-                };
-              })(this),
-            )),
-          (b = this.game.make.graphics(0, 0)),
-          this.addChild(b),
-          (b.width = m),
-          (b.x = 0),
-          (g = { val: m - n }),
-          (j = this.game.add
-            .tween(g)
-            .to({ val: 0 }, e, "Linear", true)
-            .onUpdateCallback(
-              (function (a) {
-                return function () {
-                  return a.frozen
-                    ? (b.visible = false)
-                    : (b.clear(),
-                      b.beginFill(16777215),
-                      b.drawRect(m - g.val - 10, -10, g.val + 20, 52));
-                };
-              })(this),
-            )),
-          (h = { val: n }),
-          (j = this.game.add
-            .tween(h)
-            .to({ val: 0 }, e, "Linear", true)
-            .onUpdateCallback(
-              (function (a) {
-                return function () {
-                  return a.frozen
-                    ? (b.visible = false)
-                    : (b.beginFill(16777215),
-                      b.drawRect(0, -10, h.val, 52),
-                      (a.iceGraphics.mask = b));
-                };
-              })(this),
-            )),
-          (k = this.game.make.sprite(0, 0, "GroundAssets", "vapor0000")),
-          (l = this.game.make.sprite(0, 0, "GroundAssets", "vapor0000")),
-          k.anchor.set(0.5),
-          l.anchor.set(0.5),
-          k.animations.add(
-            "loop",
-            Phaser.Animation.generateFrameNames("vapor", 0, 10, "", 4),
-            30,
-            true,
-          ),
-          l.animations.add(
-            "loop",
-            Phaser.Animation.generateFrameNames("vapor", 0, 10, "", 4),
-            30,
-            true,
-          ),
-          k.animations.play("loop"),
-          l.animations.play("loop"),
-          this.addChild(k),
-          this.addChild(l),
-          (k.x = n),
-          (l.x = n),
-          (j = this.game.add.tween(k).to({ x: 10 }, e, "Linear", true)),
-          (j = this.game.add.tween(l).to({ x: m - 10 }, e, "Linear", true)),
-          j.onComplete.add(
-            (function (a) {
-              return function () {
-                return (
-                  a.frozen || (a.iceGraphics.visible = false),
-                  d.destroy(),
-                  b.destroy(),
-                  k.destroy(),
-                  l.destroy()
-                );
-              };
-            })(this),
-          )
-        );
-      };
-      return Liquid;
-    });
-  }.call(this),
-  function () {
-    define("States/Level/Devices/MovingPlatform", ["./Device"], function (
-      Device,
-    ) {
-      "use strict";
-      function MovingPlatform(b, c) {
-        ((this.drawDarkMask = this.drawDarkMask.bind(this)),
-          (this.checkState = this.checkState.bind(this)),
-          (this.updateState = this.updateState.bind(this)),
-          (this.update = this.update.bind(this)),
-          (this.sounds = this.sounds.bind(this)));
-        var e, f, g, h, i, j, k, l, m, n, o;
-        (c.width < c.height
-          ? ((o = c.width),
-            (c.width = c.height),
-            (c.height = o),
-            (c.x = c.x + c.height / 2),
-            (c.y = c.y + c.width / 2),
-            (this.shapeRotation = n = -Math.PI / 2))
-          : ((c.x = c.x + c.width / 2),
-            (c.y = c.y + c.height / 2),
-            (this.shapeRotation = n = 0)),
-          (c.padding = {
-            x:
-              null != c.properties && null != c.properties.paddingX
-                ? c.properties.paddingX
-                : 0,
-            y:
-              null != c.properties && null != c.properties.paddingY
-                ? c.properties.paddingY
-                : 0.06,
-          }),
-          MovingPlatform.__super__.constructor.call(this, b, c),
-          (this.sprite = this.game.make.sprite(
-            this.options.x,
-            this.options.y,
-            "MechAssets",
-            "_default0000",
-          )),
-          this.game.physics.box2d.enable(this.sprite),
-          this.game.layers.underGround.addChild(this.sprite),
-          (this.body = this.sprite.body),
-          this.body.clearFixtures(),
-          this.body.data.SetAngle(this.options.rotation),
-          (l = new box2d.b2PolygonShape()),
-          l.SetAsOrientedBox(
-            this.options.width / 2 - this.options.padding.x,
-            this.options.height / 2 - this.options.padding.y,
-            new box2d.b2Vec2(0, 0),
-            n,
-          ),
-          (h = new box2d.b2FixtureDef()),
-          (h.shape = l),
-          (h.friction = 0.7),
-          (h.restitution = 0),
-          null != this.options.properties.dtheta
-            ? (h.density = 0.5)
-            : (h.density = 0),
-          (h.userData = { reflection: true }),
-          (h.filter.categoryBits = 256),
-          (h.filter.maskBits = 4369),
-          (g = this.body.data.CreateFixture(h)),
-          (g.id = this.body.world.getNextFixtureId()),
-          null != this.options.properties.dtheta
-            ? ((i = new box2d.b2RevoluteJointDef()),
-              (k = this.body.data.GetWorldCenter()),
-              (f = new box2d.b2Vec2(
-                k.x - (this.options.properties.offsetX || 0),
-                k.y - (this.options.properties.offsetY || 0),
-              )),
-              i.Initialize(this.body.data, this.game.level.groundBody, f),
-              this.options.properties.dtheta > 0
-                ? ((i.lowerAngle = 0),
-                  (i.upperAngle =
-                    (Math.PI * this.options.properties.dtheta) / 180))
-                : ((i.lowerAngle =
-                    (Math.PI * this.options.properties.dtheta) / 180),
-                  (i.upperAngle = 0)),
-              (i.enableLimit = true),
-              (i.maxMotorTorque = 200),
-              (i.enableMotor = true),
-              (this.joint = this.game.physics.box2d.world.CreateJoint(i)))
-            : ((e = new box2d.b2Vec2(
-                this.options.properties.dx,
-                this.options.properties.dy,
-              )),
-              (i = new box2d.b2PrismaticJointDef()),
-              i.Initialize(
-                this.body.data,
-                this.game.level.groundBody,
-                this.body.data.GetWorldCenter(),
-                e,
-              ),
-              (i.lowerTranslation = -e.Length()),
-              (i.upperTranslation = 0),
-              (i.enableLimit = true),
-              (i.motorSpeed = 0.5),
-              (i.maxMotorForce = 220),
-              (i.enableMotor = true),
-              (this.joint = this.game.physics.box2d.world.CreateJoint(i))),
-          (this.state = 0),
-          this.registerDevice(),
-          (this.shapeSprite = this.game.make.group(0, 0)),
-          (j = this.game.make.sprite(0, 0, "MechAssets", "BarCapLeft0000")),
-          j.anchor.set(0.5),
-          this.shapeSprite.addChild(j),
-          (j.x = this.mpx(this.options.width / 2 - 0.5)),
-          (j.y = this.mpx(this.options.height / 2 - 0.5)),
-          (m = this.game.make.sprite(0, 0, "MechAssets", "BarCapRight0000")),
-          m.anchor.set(0.5),
-          this.shapeSprite.addChild(m),
-          (m.x = -this.mpx(this.options.width / 2 - 0.5)),
-          (m.y = this.mpx(this.options.height / 2 - 0.5)),
-          (f = this.game.make.sprite(0, 0, "MechAssets", "BarCenter0000")),
-          f.anchor.set(0.5),
-          this.shapeSprite.addChild(f),
-          (f.x = 0),
-          (f.y = 0),
-          (f.scale.x = (this.options.width - 2) / 3),
-          (this.lights[0].scale.x = (this.options.width - 1) / 3),
-          this.shapeSprite.addChild(this.lights[0]),
-          (this.shapeSprite.rotation = n),
-          this.sprite.addChild(this.shapeSprite),
-          0 === n
-            ? ((this.sprite.scale.x = 1.05), (this.sprite.scale.y = 0.95))
-            : ((this.sprite.scale.y = 1.05), (this.sprite.scale.x = 0.95)));
-      }
-      extend(MovingPlatform, Device);
-      MovingPlatform.prototype.options = {
-        atlasName: null,
-        frameName: null,
-        lightAtlas: "MechAssets",
-        lightFrame: "moving_platform_light",
-        properties: { group: 0, dx: 4, dy: 0 },
-      };
-      MovingPlatform.prototype.sounds = function () {
-        return "platform";
-      };
-      MovingPlatform.prototype.update = function () {
-        return (
-          null != this.joint.GetJointAngleRadians &&
-            (this.joint.GetJointAngleRadians() < this.joint.GetLowerLimit() &&
-              this.body.data.SetAngle(-this.joint.GetLowerLimit()),
-            this.joint.GetJointAngleRadians() > this.joint.GetUpperLimit() &&
-              this.body.data.SetAngle(-this.joint.GetUpperLimit())),
-          MovingPlatform.__super__.update.apply(this, arguments)
-        );
-      };
-      MovingPlatform.prototype.updateState = function (a) {
-        var b;
-        if (
-          ((this.cacheAsBitmap = true),
-          (b =
-            null != this.joint.GetJointAngleRadians &&
-            this.options.properties.dtheta > 0
-              ? -2
-              : 2),
-          0 === this.state)
-        ) {
-          if (
-            (this.joint.SetMotorSpeed(b),
-            this.body.data.ApplyForce(
-              new box2d.b2Vec2(1, 0),
-              new box2d.b2Vec2(0, 0),
-            ),
-            null != this.sound &&
-              (this.sound.stopInstance(), (this.sound = null)),
-            !a)
-          )
-            return (this.sound =
-              this.game.level.sounds.platform.playInstance());
-        } else if (
-          (this.joint.SetMotorSpeed(-b),
-          this.body.data.ApplyForce(
-            new box2d.b2Vec2(1, 0),
-            new box2d.b2Vec2(0, 0),
-          ),
-          null != this.sound &&
-            (this.sound.stopInstance(), (this.sound = null)),
-          !a)
-        )
-          return (this.sound = this.game.level.sounds.platform.playInstance());
-      };
-      MovingPlatform.prototype.checkState = function () {
-        var a, b, c;
-        return (
-          (a = (function (a) {
-            return function () {
-              return null != a.joint.GetJointTranslation
-                ? a.joint.GetJointTranslation()
-                : a.options.properties.dtheta > 0
-                  ? -a.joint.GetJointAngleRadians()
-                  : a.joint.GetJointAngleRadians();
-            };
-          })(this)),
-          (c = (function (a) {
-            return function () {
-              return null != a.joint.GetJointTranslation
-                ? a.joint.m_upperTranslation
-                : a.options.properties.dtheta > 0
-                  ? -a.joint.GetLowerLimit()
-                  : a.joint.GetUpperLimit();
-            };
-          })(this)),
-          (b = (function (a) {
-            return function () {
-              return null != a.joint.GetJointTranslation
-                ? a.joint.m_lowerTranslation
-                : a.options.properties.dtheta > 0
-                  ? -a.joint.GetUpperLimit()
-                  : a.joint.GetLowerLimit();
-            };
-          })(this)),
-          null != this.sound && 0 === this.state && a() >= c()
-            ? (this.sound.stopInstance(), (this.sound = null))
-            : null != this.sound && 1 === this.state && a() <= b()
-              ? (this.sound.stopInstance(), (this.sound = null))
-              : void 0
-        );
-      };
-      MovingPlatform.prototype.drawDarkMask = function (a) {
-        var b, c, d, e;
-        if (1 === this.state)
-          return (
-            (a.ctx.globalCompositeOperation = "lighter"),
-            (e = {
-              x: this.sprite.x + a.offset.x,
-              y: this.sprite.y + a.offset.y,
-            }),
-            (b = new box2d.b2Vec2(36, 0).SelfRotateRadians(this.shapeRotation)),
-            (c = new box2d.b2Vec2(-36, 0).SelfRotateRadians(
-              this.shapeRotation,
-            )),
-            (d = a.ctx.createRadialGradient(
-              e.x + b.x,
-              e.y + b.y,
-              20,
-              e.x + b.x,
-              e.y + b.y,
-              160,
-            )),
-            d.addColorStop(0, "rgba(255,255,255,0.9)"),
-            d.addColorStop(0.5, "rgba(255,255,255,0.2)"),
-            d.addColorStop(1, "transparent"),
-            a.circle(e.x + b.x, e.y + b.y, 160, d),
-            (d = a.ctx.createRadialGradient(
-              e.x + c.x,
-              e.y + c.y,
-              20,
-              e.x + c.x,
-              e.y + c.y,
-              160,
-            )),
-            d.addColorStop(0, "rgba(255,255,255,0.9)"),
-            d.addColorStop(0.5, "rgba(255,255,255,0.2)"),
-            d.addColorStop(1, "transparent"),
-            a.circle(e.x + c.x, e.y + c.y, 180, d)
-          );
-      };
-      return MovingPlatform;
-    });
-  }.call(this),
-  function () {
-    define("States/Level/Devices/Portal", ["./BoxedDevice"], function (
-      BoxedDevice,
-    ) {
-      "use strict";
-      function Portal(b, c) {
-        ((this.drawDarkMask = this.drawDarkMask.bind(this)),
-          (this.ocupy = this.ocupy.bind(this)),
-          (this.createFakeBlock = this.createFakeBlock.bind(this)),
-          (this.debugVector = this.debugVector.bind(this)),
-          (this.destroy = this.destroy.bind(this)),
-          (this.update = this.update.bind(this)),
-          (this.updateState = this.updateState.bind(this)),
-          (this.transport = this.transport.bind(this)),
-          (this.removeMask = this.removeMask.bind(this)),
-          (this.createMask = this.createMask.bind(this)),
-          (this.sounds = this.sounds.bind(this)));
-        var e, f, g, h, i, j, k, l, m, n;
-        (c.rotation || (c.rotation = 0),
-          Portal.__super__.constructor.call(this, b, c),
-          (this.center = g =
-            this.game.make.sprite(
-              this.options.x,
-              this.options.y,
-              "MechAssets",
-            )),
-          g.animations.add(
-            "loop",
-            Phaser.Animation.generateFrameNames("portal_center", 0, 39, "", 4),
-            30,
-            true,
-          ),
-          g.animations.play("loop"),
-          g.anchor.set(0.5),
-          this.game.physics.box2d.enable(g),
-          (this.body = g.body),
-          this.game.layers.liquids.addChild(g),
-          (this.glowLeft = j =
-            this.game.make.sprite(
-              this.options.x,
-              this.options.y,
-              "MechAssets",
-            )),
-          j.animations.add(
-            "loop",
-            Phaser.Animation.generateFrameNames("portal_glow", 0, 29, "", 4),
-            30,
-            true,
-          ),
-          j.animations.play("loop"),
-          j.anchor.set(0.5),
-          (j.scale.x = -1),
-          (j.rotation = this.options.rotation || 0),
-          (j.alpha = 0),
-          (j.tint = 0),
-          this.game.layers.liquids.addChild(j),
-          (this.glowRight = k =
-            this.game.make.sprite(
-              this.options.x,
-              this.options.y,
-              "MechAssets",
-            )),
-          k.animations.add(
-            "loop",
-            Phaser.Animation.generateFrameNames("portal_glow", 0, 29, "", 4),
-            30,
-            true,
-          ),
-          k.animations.play("loop"),
-          k.anchor.set(0.5),
-          (k.rotation = this.options.rotation || 0),
-          (k.alpha = 0),
-          this.game.layers.liquids.addChild(k),
-          (e = this.game.make.sprite(
-            this.options.x,
-            this.options.y,
-            "MechAssets",
-            "portal0000",
-          )),
-          e.anchor.set(0.5),
-          (e.rotation = this.options.rotation || 0),
-          (f = this.game.make.sprite(
-            0,
-            0,
-            "MechAssets",
-            "portal_light_off0000",
-          )),
-          f.anchor.set(0.5),
-          e.addChild(f),
-          (f.offFrameName = "portal_light_off0000"),
-          (f.onFrameName = "portal_light_on0000"),
-          this.lights.push(f),
-          this.game.layers.liquids.addChild(e),
-          this.options.properties.inverted &&
-            ((g.scale.x = -1),
-            (e.scale.x = -1),
-            (j.scale.x = 1),
-            (k.scale.x = -1)),
-          this.body.clearFixtures(),
-          (this.body.mass = 0),
-          this.body.data.SetAngle(this.options.rotation),
-          (m = new box2d.b2PolygonShape()),
-          m.SetAsOrientedBox(
-            this.options.sensorWidth,
-            this.options.sensorHeigh,
-            new box2d.b2Vec2(0, 0),
-            0,
-          ),
-          (i = new box2d.b2FixtureDef()),
-          (i.shape = m),
-          (i.density = 0),
-          (i.isSensor = true),
-          (i.filter.maskBits = 4096),
-          (i.filter.categoryBits = 4096),
-          (i.userData = { lightProperties: { type: "transparent" } }),
-          (this.sensorFixture = n = this.body.data.CreateFixture(i)),
-          (n.id = this.body.world.getNextFixtureId()),
-          (l = new box2d.b2PolygonShape()),
-          l.SetAsOrientedBox(
-            this.options.lightSensorWidth,
-            this.options.sensorHeigh,
-            new box2d.b2Vec2(0, 0),
-            0,
-          ),
-          (i = new box2d.b2FixtureDef()),
-          (i.shape = l),
-          (i.density = 0),
-          (i.isSensor = false),
-          (i.filter.maskBits = 4096),
-          (i.filter.categoryBits = 4096),
-          (i.userData = {
-            lightProperties: {
-              type: "portal",
-              getOutput: (function (a) {
-                return function (b) {
-                  var c, d;
-                  return (
-                    (d = b),
-                    (c =
-                      (a.other.options.rotation || 0) -
-                      (a.options.rotation || 0)),
-                    a.other.options.properties.inverted ===
-                    a.options.properties.inverted
-                      ? d.SelfRotateRadians(c + Math.PI)
-                      : d.SelfRotateRadians(c),
-                    d
-                  );
-                };
-              })(this),
-              getPoint: (function (a) {
-                return function (b, c) {
-                  var d, e;
-                  return (
-                    (c = new box2d.b2Vec2(0, 1).SelfRotateRadians(
-                      a.options.rotation || 0,
-                    )),
-                    (e = b.Clone().SelfSub(a.body.data.GetPosition())),
-                    a.other.options.properties.inverted !==
-                      a.options.properties.inverted &&
-                      (e = c
-                        .Clone()
-                        .SelfMul((2 * e.Dot(c)) / c.Length())
-                        .SelfSub(e)),
-                    (d =
-                      (a.other.options.rotation || 0) -
-                      (a.options.rotation || 0)),
-                    e.SelfRotateRadians(d),
-                    a.other.body.data.GetPosition().SelfAdd(e)
-                  );
-                };
-              })(this),
-            },
-            device: this,
-          }),
-          (h = this.body.data.CreateFixture(i)),
-          (h.id = this.body.world.getNextFixtureId()),
-          (this.eventHorizon = h),
-          this.registerDevice(),
-          (this.nearBodies = {}),
-          this.body.setFixtureContactCallback(
-            n,
-            (function (a) {
-              return function (b, c, d, e, f, g) {
-                var h, i;
-                if (e.m_userData["portal-sensor"])
-                  return f || null == a.nearBodies[c.id]
-                    ? 1 === a.state && f && null == a.nearBodies[c.id]
-                      ? (console.log("add", c.id),
-                        (h = a.body.data.GetLocalPoint(
-                          c.data.GetPosition(),
-                          new box2d.b2Vec2(),
-                        ).x),
-                        (i = { body: c, dist: null }),
-                        (c.side = h / Math.abs(h)),
-                        a.createMask(i),
-                        (a.nearBodies[c.id] = i))
-                      : void 0
-                    : (console.log("remove", c.id),
-                      (i = a.nearBodies[c.id]),
-                      a.removeMask(i),
-                      delete a.nearBodies[c.id]);
-              };
-            })(this),
-            this,
-          ),
-          this.body.setFixtureContactCallback(
-            this.eventHorizon,
-            (function (a) {
-              return function (b, c, d, e, f, g) {
-                var h, i;
-                if (f)
-                  return (
-                    (h = a.body.data.GetLocalPoint(
-                      c.data.GetPosition(),
-                      new box2d.b2Vec2(),
-                    ).x),
-                    (i =
-                      (h > 0 && !a.options.properties.inverted) ||
-                      (h < 0 && a.options.properties.inverted)
-                        ? 1
-                        : -1),
-                    a.transporting || (a.transporting = []),
-                    !c.lastTransport ||
-                    new Date().getTime() - c.lastTransport > 200
-                      ? ((c.lastTransport = new Date().getTime()),
-                        a.transporting.push({
-                          body: c,
-                          vel: c.data.GetLinearVelocity().Clone(),
-                          side: i,
-                        }))
-                      : console.log("prevented transport...")
-                  );
-              };
-            })(this),
-            this,
-          ),
-          this.options.properties.inverted
-            ? (this.normal = new box2d.b2Vec2(1, 0))
-            : (this.normal = new box2d.b2Vec2(-1, 0)),
-          this.normal.SelfRotateRadians(this.options.rotation || 0));
-      }
-      extend(Portal, BoxedDevice);
-      Portal.prototype.options = {
-        sensorWidth: 2,
-        sensorHeigh: 1.5,
-        lightSensorWidth: 0.1,
-      };
-      Portal.prototype.boxSize = { x: 2, y: 3 };
-      Portal.prototype.sounds = function () {
-        return ["portalOpen", "portalLoop", "portalClose", "portalTransport"];
-      };
-      Portal.prototype.createMask = function (a) {
-        var b, c, d, e, f;
-        return (
-          (c = this.mpx(3 * this.options.sensorHeigh)),
-          (d = this.game.make.graphics(0, 0)),
-          this.game.level.root.addChild(d),
-          d.beginFill(16777215),
-          (f = new box2d.b2Vec2(-1, 0).SelfRotateRadians(
-            this.options.rotation || 0,
-          )),
-          (b = a.body.data
-            .GetPosition()
-            .Clone()
-            .SelfSub(this.body.data.GetPosition())),
-          (e = f.Dot(b) < 0 ? this.mpx(5) : -this.mpx(5)),
-          d.drawRect(0, -c, e, 2 * c),
-          (d.x = this.options.x),
-          (d.y = this.options.y),
-          (d.angle = (180 * this.options.rotation) / Math.PI || 0),
-          (a.mask = d),
-          (a.body.sprite.mask = d)
-        );
-      };
-      Portal.prototype.removeMask = function (a) {
-        return ((a.body.sprite.mask = null), a.mask.destroy());
-      };
-      Portal.prototype.transport = function (a) {
-        var b, c, d, e, f, g;
-        return (
-          (c = a.body),
-          (e = new box2d.b2Vec2(0, 1).SelfRotateRadians(
-            this.options.rotation || 0,
-          )),
-          (d = c.data
-            .GetPosition()
-            .Clone()
-            .SelfSub(this.body.data.GetPosition())),
-          this.other.options.properties.inverted !==
-            this.options.properties.inverted &&
-            (d = e
-              .Clone()
-              .SelfMul((2 * d.Dot(e)) / e.Length())
-              .SelfSub(d)),
-          (b =
-            (this.other.options.rotation || 0) - (this.options.rotation || 0)),
-          d.SelfRotateRadians(b),
-          c.data.SetPosition(this.other.body.data.GetPosition().SelfAdd(d)),
-          this.other.options.properties.inverted ===
-          this.options.properties.inverted
-            ? ((g = a.vel.Clone().SelfRotateRadians(-b)),
-              (g = e
-                .Clone()
-                .SelfMul((2 * g.Dot(e)) / e.Length())
-                .SelfSub(g)))
-            : (g = a.vel.Clone().SelfRotateRadians(b)),
-          c.data.SetLinearVelocity(g),
-          g.Length() < 10 &&
-            ((f = this.other.normal.Clone()),
-            1 === a.side && f.SelfMul(-1),
-            c.data.SetLinearVelocity(
-              g.SelfNormalize().SelfMul(10 / c.data.GetMass()),
-            )),
-          this.game.physics.update(),
-          this.game.level.sounds.portalTransport.play(),
-          this.sensorFixture.Refilter(),
-          this.eventHorizon.Refilter()
-        );
-      };
-      Portal.prototype.updateState = function (a) {
-        if (
-          (1 !== this.state || this.center.visible
-            ? 0 === this.state &&
-              this.center.visible &&
-              ((this.center.visible = false),
-              this.eventHorizon.SetFilterData({
-                maskBits: 0,
-                categoryBits: 0,
-              }),
-              this.sensorFixture.SetFilterData({
-                maskBits: 0,
-                categoryBits: 0,
-              }),
-              null != this.sound &&
-                (this.sound.stopInstance(), (this.sound = null)),
-              a || this.game.level.sounds.portalClose.play())
-            : ((this.center.visible = true),
-              this.eventHorizon.SetFilterData({
-                maskBits: 4096,
-                categoryBits: 4096,
-              }),
-              this.sensorFixture.SetFilterData({
-                maskBits: 4096,
-                categoryBits: 4096,
-              }),
-              this.game.level.sounds.portalOpen.play(),
-              (this.game.level.sounds.portalLoop.loop = true),
-              a ||
-                ((this.sound =
-                  this.game.level.sounds.portalLoop.playInstance()),
-                (this.sound.volume = 0.3))),
-          this.sensorFixture.Refilter(),
-          null != this.fakeWallFixture)
-        )
-          return (
-            1 === this.state
-              ? this.fakeWallFixture.SetFilterData({
-                  maskBits: 0,
-                  categoryBits: 0,
-                })
-              : this.fakeWallFixture.SetFilterData({
-                  maskBits: 4369,
-                  categoryBits: 1,
-                }),
-            this.fakeWallFixture.Refilter()
-          );
-      };
-      Portal.prototype.update = function () {
-        var a, b, c, d, e, f, g, h;
-        if (1 === this.state && Object.keys(this.nearBodies).length > 0) {
-          ((d = 1 / 0), (e = 1 / 0), (h = this.nearBodies));
-          for (c in h)
-            ((f = h[c]),
-              (a = this.body.data.GetLocalPoint(
-                f.body.data.GetPosition(),
-                new box2d.b2Vec2(),
-              )),
-              (b = a.x),
-              f.body.side &&
-                f.body.side !== b / Math.abs(b) &&
-                (console.log("side violation!", f.body),
-                f.body.data.SetPosition(
-                  f.body.data.GetPosition().SelfAdd(a.Clone().SelfMul(-2)),
-                )),
-              this.options.properties.inverted && (b *= -1),
-              b > 0 ? (d = Math.min(d, b)) : (e = Math.min(e, -b)));
-          (d < 1 / 0 &&
-            (this.glowLeft.alpha = this.other.glowLeft.alpha =
-              Math.min(1, (2 - d) / 2 + 0.3)),
-            e < 1 / 0 &&
-              (this.glowRight.alpha = this.other.glowRight.alpha =
-                Math.min(1, (2 - e) / 2 + 0.3)),
-            null != this.sound &&
-              (this.sound.volume =
-                0.3 + Math.max(this.glowRight.alpha, this.glowLeft.alpha)));
-        } else
-          null == this.transporting &&
-            null == this.other.transporting &&
-            null == this.receiving &&
-            null == this.other.receiving &&
-            (0 === this.state ||
-              (0 === Object.keys(this.nearBodies).length &&
-                0 === Object.keys(this.other.nearBodies).length)) &&
-            (this.glowRight.alpha =
-              this.other.glowRight.alpha =
-              this.glowLeft.alpha =
-              this.other.glowLeft.alpha =
-                0);
-        if (1 === this.state && null != this.transporting) {
-          for (; (g = this.transporting.shift()); ) this.transport(g);
-          ((this.other.receiving = true), (this.transporting = null));
-        }
-        this.receiving = null;
-      };
-      Portal.prototype.destroy = function () {
-        return (
-          null != this.sound && this.sound.stopInstance(),
-          Portal.__super__.destroy.apply(this, arguments)
-        );
-      };
-      Portal.prototype.debugVector = function (a, b) {
-        return (
-          this.debugger.lineStyle(2, b, 1),
-          this.debugger.moveTo(0, 0),
-          this.debugger.lineTo(this.mpx(a.x), this.mpx(a.y))
-        );
-      };
-      Portal.prototype.createFakeBlock = function (a) {
-        var b, c, d, e;
-        return (
-          (e = this.game.make.sprite(0, 0, "MechAssets", "_default0000")),
-          this.game.physics.box2d.enable(e),
-          (b = e.body),
-          b.clearFixtures(),
-          (a.center.y -= 0.5 * Math.cos(this.options.rotation)),
-          (a.center.x += 0.5 * Math.sin(this.options.rotation)),
-          (d = new box2d.b2PolygonShape()),
-          d.SetAsOrientedBox(a.width, a.height, a.center, a.rotation),
-          (c = new box2d.b2FixtureDef()),
-          (c.shape = d),
-          (this.fakeWallFixture = b.data.CreateFixture(c)),
-          (b.mass = 0)
-        );
-      };
-      Portal.prototype.ocupy = function (a) {
-        var b, c;
-        return (
-          (b = this.options.x / 32),
-          (c = this.options.y / 32),
-          this.ocupyTile(a, b, c + 2),
-          this.ocupyTile(a, b - 1, c - 2),
-          this.ocupyTile(a, b - 1, c + 2),
-          this.ocupyTile(a, b, c - 2)
-        );
-      };
-      Portal.prototype.drawDarkMask = function (a) {
-        var b, c, d, e;
-        if (1 === this.state)
-          return (
-            (a.ctx.globalCompositeOperation = "lighter"),
-            (e = {
-              x: this.center.x + a.offset.x,
-              y: this.center.y + a.offset.y,
-            }),
-            (b = new box2d.b2Vec2(0, 36).SelfRotateRadians(
-              this.options.rotation,
-            )),
-            (c = new box2d.b2Vec2(0, -36).SelfRotateRadians(
-              this.options.rotation,
-            )),
-            (d = a.ctx.createRadialGradient(
-              e.x + b.x,
-              e.y + b.y,
-              20,
-              e.x + b.x,
-              e.y + b.y,
-              90,
-            )),
-            d.addColorStop(0, "rgba(255,255,255,1)"),
-            d.addColorStop(0.5, "rgba(255,255,255,0.3)"),
-            d.addColorStop(1, "transparent"),
-            a.circle(e.x + b.x, e.y + b.y, 90, d),
-            (d = a.ctx.createRadialGradient(
-              e.x + c.x,
-              e.y + c.y,
-              20,
-              e.x + c.x,
-              e.y + c.y,
-              90,
-            )),
-            d.addColorStop(0, "rgba(255,255,255,1)"),
-            d.addColorStop(0.5, "rgba(255,255,255,0.3)"),
-            d.addColorStop(1, "transparent"),
-            a.circle(e.x + c.x, e.y + c.y, 90, d)
-          );
-      };
-      return Portal;
-    });
-  }.call(this),
-  function () {
-    define("States/Level/Devices/Pulley", ["./Device"], function (Device) {
-      "use strict";
-      function Pulley(b, c) {
-        this.update = this.update.bind(this);
-        var e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y;
-        for (
-          Pulley.__super__.constructor.call(this, b, c),
-            this.barWidth =
-              this.options.properties.barWidth || this.options.barWidth,
-            this.barHeight =
-              this.options.properties.barHeight || this.options.barHeight,
-            this.anchor1 = new box2d.b2Vec2(
-              this.options.polyline[1][0] + this.options.x,
-              this.options.polyline[1][1] + this.options.y - this.mpx(2),
-            ),
-            this.anchor2 = new box2d.b2Vec2(
-              this.options.polyline[2][0] + this.options.x,
-              this.options.polyline[2][1] + this.options.y - this.mpx(2),
-            ),
-            q = {
-              x: this.options.polyline[0][0] + this.options.x,
-              y: this.options.polyline[0][1] + this.options.y,
-            },
-            r = {
-              x: this.options.polyline[3][0] + this.options.x,
-              y: this.options.polyline[3][1] + this.options.y,
-            },
-            this.ropeLeft = this.game.make.tileSprite(
-              q.x,
-              q.y,
-              200,
-              20,
-              "MechAssets",
-              "pulley_rope0000",
-            ),
-            this.ropeCenter = this.game.make.tileSprite(
-              this.anchor1.x,
-              this.anchor1.y,
-              200,
-              20,
-              "MechAssets",
-              "pulley_rope0000",
-            ),
-            this.ropeRight = this.game.make.tileSprite(
-              r.x,
-              r.y,
-              200,
-              20,
-              "MechAssets",
-              "pulley_rope0000",
-            ),
-            this.ropeLeft.anchor.set(0, 0.5),
-            this.ropeCenter.anchor.set(0, 0.5),
-            this.ropeRight.anchor.set(0, 0.5),
-            this.game.layers.underGround.addChild(this.ropeLeft),
-            this.game.layers.underGround.addChild(this.ropeCenter),
-            this.game.layers.underGround.addChild(this.ropeRight),
-            this.platform1 = s =
-              this.game.make.sprite(q.x, q.y, "MechAssets", "_default0000"),
-            this.platform2 = t =
-              this.game.make.sprite(r.x, r.y, "MechAssets", "_default0000"),
-            this.game.physics.box2d.enable(s),
-            this.game.physics.box2d.enable(t),
-            this.plat1 = this.game.make.sprite(
-              0,
-              0,
-              "MechAssets",
-              "pulley_platform0000",
-            ),
-            this.plat2 = this.game.make.sprite(
-              0,
-              0,
-              "MechAssets",
-              "pulley_platform0000",
-            ),
-            this.plat1.anchor.set(0.5),
-            this.plat2.anchor.set(0.5),
-            this.plat1.width = 1.3 * this.mpx(this.barWidth),
-            this.plat2.width = 1.3 * this.mpx(this.barWidth),
-            this.base1 = this.game.make.sprite(
-              0,
-              0,
-              "MechAssets",
-              "pulley_base0000",
-            ),
-            this.base2 = this.game.make.sprite(
-              0,
-              0,
-              "MechAssets",
-              "pulley_base0000",
-            ),
-            this.base1.anchor.set(0.5),
-            this.base2.anchor.set(0.5),
-            this.platform1.addChild(this.base1),
-            this.platform2.addChild(this.base2),
-            this.platform1.addChild(this.plat1),
-            this.platform2.addChild(this.plat2),
-            this.game.layers.underGround.addChild(this.platform1),
-            this.game.layers.underGround.addChild(this.platform2),
-            s.body.data.SetFixedRotation(true),
-            t.body.data.SetFixedRotation(true),
-            s.body.data.m_userData = "reactable",
-            t.body.data.m_userData = "reactable",
-            s.body.data.SetLinearDamping(0.1),
-            t.body.data.SetLinearDamping(0.1),
-            v = [this.platform1.body, this.platform2.body],
-            n = 0,
-            p = v.length;
-          n < p;
-          n++
-        )
-          ((h = v[n]),
-            h.clearFixtures(),
-            (l = this.barWidth / 2),
-            (k = this.barHeight / 2),
-            (m = l + 0.1),
-            (y = []),
-            y.push(new box2d.b2Vec2(l, k)),
-            y.push(new box2d.b2Vec2(-l, k)),
-            y.push(new box2d.b2Vec2(-m, 0)),
-            y.push(new box2d.b2Vec2(-l, -k)),
-            y.push(new box2d.b2Vec2(l, -k)),
-            y.push(new box2d.b2Vec2(m, 0)),
-            (u = new box2d.b2PolygonShape()),
-            u.Set(y),
-            (j = new box2d.b2FixtureDef()),
-            (j.shape = u),
-            (j.friction = 0.4),
-            (j.restitution = 0),
-            (j.density = 3),
-            (i = h.data.CreateFixture(j)),
-            (i.id = h.world.getNextFixtureId()),
-            this.options.properties.prismatic &&
-              ((g = new box2d.b2Vec2(0, 1)),
-              (x = new box2d.b2BodyDef()),
-              (x.density = 0),
-              (w = new box2d.b2Body(x)),
-              (o = new box2d.b2PrismaticJointDef()),
-              o.Initialize(h.data, w, h.data.GetWorldCenter(), g),
-              (this.joint = this.game.physics.box2d.world.CreateJoint(o))));
-        return (
-          (this.wheel1 = this.game.make.sprite(
-            this.anchor1.x + 10,
-            this.anchor1.y + 10 - this.baseHeight,
-            "MechAssets",
-            "pulley_anchor0000",
-          )),
-          (this.wheel2 = this.game.make.sprite(
-            this.anchor2.x - 10,
-            this.anchor2.y + 10 - this.baseHeight,
-            "MechAssets",
-            "pulley_anchor0000",
-          )),
-          this.wheel1.anchor.set(0.5),
-          this.wheel2.anchor.set(0.5),
-          this.game.layers.underGround.addChild(this.wheel1),
-          this.game.layers.underGround.addChild(this.wheel2),
-          (o = new box2d.b2PulleyJointDef()),
-          (e = { x: this.pxm(this.anchor1.x), y: this.pxm(this.anchor1.y) }),
-          (f = { x: this.pxm(this.anchor2.x), y: this.pxm(this.anchor2.y) }),
-          o.Initialize(
-            s.body.data,
-            t.body.data,
-            e,
-            f,
-            s.body.data.GetWorldCenter(),
-            t.body.data.GetWorldCenter(),
-            1,
-          ),
-          (this.joint = this.game.physics.box2d.world.CreateJoint(o)),
-          this
-        );
-      }
-      extend(Pulley, Device);
-      Pulley.prototype.baseHeight = 60;
-      Pulley.prototype.options = { barWidth: 2.7, barHeight: 0.24 };
-      Pulley.prototype.lastp1 = { x: 0, y: 0 };
-      Pulley.prototype.update = function () {
-        var a, b, c, d, e, f, g;
-        return (
-          (f = new box2d.b2Vec2(
-            this.platform1.position.x,
-            this.platform1.position.y - this.baseHeight,
-          )),
-          (a = new box2d.b2Vec2(
-            this.anchor1.x,
-            this.anchor1.y - this.baseHeight,
-          )),
-          (g = new box2d.b2Vec2(
-            this.platform2.position.x,
-            this.platform2.position.y - this.baseHeight,
-          )),
-          (b = new box2d.b2Vec2(
-            this.anchor2.x,
-            this.anchor2.y - this.baseHeight,
-          )),
-          Math.round(1 * this.lastp1.x) !== Math.round(1 * f.x) ||
-          Math.round(1 * this.lastp1.y) !== Math.round(1 * f.y) ||
-          Math.round(1 * this.lastp2.x) !== Math.round(1 * g.x) ||
-          Math.round(1 * this.lastp2.y) !== Math.round(1 * g.y)
-            ? ((this.cacheAsBitmap = false),
-              (this.lastp1 = f.Clone()),
-              (this.lastp2 = g.Clone()),
-              (d = f.Clone().SelfSub(a)),
-              (c = a.Clone().SelfSub(b)),
-              (e = b.Clone().SelfSub(g)),
-              (this.ropeLeft.position = { x: a.x, y: a.y }),
-              (this.ropeLeft.width = d.Length()),
-              (this.ropeLeft.height = 20),
-              (this.ropeLeft.rotation = Math.atan2(-d.y, -d.x) + Math.PI),
-              (this.ropeLeft.tilePosition.x = d.Length()),
-              (this.ropeCenter.position = { x: a.x, y: a.y }),
-              (this.ropeCenter.width = c.Length()),
-              (this.ropeCenter.height = 20),
-              (this.ropeCenter.rotation = Math.atan2(-c.y, -c.x)),
-              (this.ropeCenter.tilePosition.x = e.Length()),
-              (this.ropeRight.position = { x: b.x, y: b.y }),
-              (this.ropeRight.width = e.Length()),
-              (this.ropeRight.height = 20),
-              (this.ropeRight.rotation = Math.atan2(-e.y, -e.x)),
-              (this.ropeRight.tilePosition.x = e.Length()),
-              (this.wheel1.rotation = e.Length() / Math.PI / 10),
-              (this.wheel2.rotation = e.Length() / Math.PI / 10))
-            : this.cacheAsBitmap
-              ? void 0
-              : (this.cacheAsBitmap = true)
-        );
-      };
-      return Pulley;
-    });
-  }.call(this),
-  function () {
-    define("States/Level/Devices/Pusher", ["./BoxedDevice"], function (
-      BoxedDevice,
-    ) {
-      "use strict";
-      function Pusher(b, c) {
-        ((this.ocupy = this.ocupy.bind(this)),
-          (this.checkState = this.checkState.bind(this)),
-          (this.doRegister = this.doRegister.bind(this)),
-          (this.sounds = this.sounds.bind(this)));
-        var e, f, g, h, i, j, k, l, m, n, o;
-        return (
-          Pusher.__super__.constructor.call(this, b, c),
-          (g = this.game.make.sprite(
-            this.options.x,
-            this.options.y,
-            "MechAssets",
-            "_default0000",
-          )),
-          this.game.physics.box2d.enable(g),
-          (h = this.game.make.resSprite(
-            0,
-            0,
-            "MechAssets",
-            "pusher_block0000",
-          )),
-          h.anchor.set(0.5),
-          g.addChild(h),
-          (j = this.game.make.resSprite(
-            0,
-            0,
-            "MechAssets",
-            "pusher_block_light0000",
-          )),
-          j.anchor.set(0.5),
-          g.addChild(j),
-          (this.button = g),
-          this.game.layers.underGround.addChild(g),
-          (this.base = f =
-            this.game.make.sprite(
-              this.options.x,
-              this.options.y + this.mpx(0.5),
-              "MechAssets",
-              "_default0000",
-            )),
-          this.game.layers.overGround.addChild(f),
-          this.lights.push(j),
-          g.body.clearFixtures(),
-          g.body.data.SetAngle((Math.PI * c.rotation) / 180 || 0),
-          (i = g.body),
-          (o = []),
-          o.push(new box2d.b2Vec2(-this.options.pusherWidth / 2 - 0.5, 0)),
-          o.push(new box2d.b2Vec2(this.options.pusherWidth / 2 + 0.5, 0)),
-          o.push(
-            new box2d.b2Vec2(
-              this.options.pusherWidth / 2,
-              this.options.pusherHeight,
-            ),
-          ),
-          o.push(
-            new box2d.b2Vec2(
-              -this.options.pusherWidth / 2,
-              this.options.pusherHeight,
-            ),
-          ),
-          (n = new box2d.b2PolygonShape()),
-          n.Set(o),
-          (k = new box2d.b2FixtureDef()),
-          (k.shape = n),
-          (k.friction = 0.7),
-          (k.restitution = 0),
-          (k.density = 0.1),
-          (k.userData = "pusher"),
-          (k.filter.categoryBits = 1),
-          (k.filter.maskBits = 61695),
-          (m = i.data.CreateFixture(k)),
-          (m.id = i.world.getNextFixtureId()),
-          (e = new box2d.b2Vec2(0, 1)),
-          (l = new box2d.b2PrismaticJointDef()),
-          l.Initialize(
-            i.data,
-            this.game.level.groundBody,
-            i.data.GetWorldCenter(),
-            e,
-          ),
-          (l.upperTranslation = 0.7),
-          (l.lowerTranslation = 0),
-          (l.enableLimit = true),
-          (l.motorSpeed = -15),
-          (l.maxMotorForce = 5),
-          (l.enableMotor = true),
-          (this.joint = this.game.physics.box2d.world.CreateJoint(l)),
-          (this.signal = new Phaser.Signal()),
-          this.doRegister(),
-          this
-        );
-      }
-      extend(Pusher, BoxedDevice);
-      Pusher.prototype.options = {
-        pusherWidth: 1,
-        pusherHeight: 0.6,
-        atlasName: null,
-        frameName: null,
-      };
-      Pusher.prototype.sounds = function () {
-        return "pusher";
-      };
-      Pusher.prototype.doRegister = function () {
-        return this.registerDevice();
-      };
-      Pusher.prototype.checkState = function () {
-        return 0 === this.state && this.joint.GetJointTranslation() > 0.2
-          ? ((this.state = 1),
-            this.game.level.sounds.pusher.play(),
-            this.signal.dispatch(this))
-          : 1 === this.state && this.joint.GetJointTranslation() <= 0.2
-            ? ((this.state = 0),
-              this.game.level.sounds.pusher.play(),
-              this.signal.dispatch(this))
-            : void 0;
-      };
-      Pusher.prototype.ocupy = function () {};
-      return Pusher;
-    });
-  }.call(this),
-  function () {
-    define("States/Level/Devices/Roman", ["./BoxedDevice"], function (
-      BoxedDevice,
-    ) {
-      "use strict";
-      function Roman(a, b) {
-        var d, e, f, g, h, i, j, k, l, m, n, o, p, q;
-        return (
-          Roman.__super__.constructor.call(this, a, b),
-          this.options.polygon[0][0] === this.options.polygon[1][0]
-            ? ((m =
-                2 *
-                this.pxm(
-                  this.options.polygon[2][0] - this.options.polygon[1][0],
-                )),
-              (k = this.pxm(
-                this.options.polygon[1][1] - this.options.polygon[0][1],
-              )),
-              (f = 0.6),
-              (d = -Math.atan(k / (m / 2))))
-            : ((m =
-                2 *
-                this.pxm(
-                  this.options.polygon[1][0] - this.options.polygon[0][0],
-                )),
-              (k = this.pxm(
-                this.options.polygon[1][1] - this.options.polygon[0][1],
-              )),
-              (f = 0.6),
-              (d = Math.atan(k / (m / 2)))),
-          (h = {
-            x: this.options.polygon[1][0] + this.options.x + this.mpx(1),
-            y: this.options.polygon[1][1] + this.options.y - this.mpx(1),
-          }),
-          (e = this.game.make.tileSprite(
-            h.x,
-            h.y,
-            this.mpx(m),
-            30,
-            "MechAssets",
-            "roman_bar0000",
-          )),
-          this.game.physics.box2d.enable(e),
-          (i = this.game.make.sprite(
-            this.mpx(m / 2),
-            0,
-            "MechAssets",
-            "roman_end0000",
-          )),
-          i.anchor.set(0.05, 0.5),
-          e.addChild(i),
-          (i = this.game.make.sprite(
-            -this.mpx(m / 2),
-            0,
-            "MechAssets",
-            "roman_end0000",
-          )),
-          (i.scale.x = -1),
-          i.anchor.set(0.05, 0.5),
-          e.addChild(i),
-          (o = this.game.make.sprite(
-            h.x,
-            h.y,
-            "MechAssets",
-            "roman_center0000",
-          )),
-          o.anchor.set(0.5, 0.5),
-          e.body.clearFixtures(),
-          (q = []),
-          q.push(new box2d.b2Vec2(-m / 2, -f / 2)),
-          q.push(new box2d.b2Vec2(m / 2, -f / 2)),
-          q.push(new box2d.b2Vec2(m / 2 - 2, f / 2)),
-          q.push(new box2d.b2Vec2(-m / 2 + 2, f / 2)),
-          (p = new box2d.b2PolygonShape()),
-          p.Set(q),
-          (j = new box2d.b2FixtureDef()),
-          (j.shape = p),
-          (j.friction = 0.7),
-          (j.restitution = 0),
-          (j.density = 0.1),
-          (j.filter.categoryBits = 1),
-          (j.filter.maskBits = 65535),
-          e.body.data.CreateFixture(j),
-          e.body.data.SetAngle(d || 0),
-          (g = this.game.make.sprite(
-            h.x,
-            h.y - this.mpx(k),
-            "MechAssets",
-            "roman_base0000",
-          )),
-          this.game.physics.box2d.enable(g),
-          g.height / (2 * this.mpx(k)),
-          (g.height = -2 * this.mpx(k)),
-          this.game.layers.overGround.addChild(g),
-          this.game.layers.overGround.addChild(e),
-          this.game.layers.overChars.addChild(o),
-          g.body.clearFixtures(),
-          g.body.data.SetAngle((Math.PI * b.rotation) / 180 || 0),
-          (g.body.mass = 0),
-          g.body,
-          (q = []),
-          q.push(new box2d.b2Vec2(-1, 0)),
-          q.push(new box2d.b2Vec2(0, k)),
-          q.push(new box2d.b2Vec2(1, 0)),
-          (p = new box2d.b2PolygonShape()),
-          p.Set(q),
-          (j = new box2d.b2FixtureDef()),
-          (j.shape = p),
-          (j.friction = 0.7),
-          (j.restitution = 0),
-          (j.density = 0.1),
-          (j.filter.categoryBits = 1),
-          (j.filter.maskBits = 65535),
-          g.body.data.CreateFixture(j),
-          (l = new box2d.b2RevoluteJointDef()),
-          (n = e.body.data.GetWorldCenter()),
-          (h = new box2d.b2Vec2(n.x, n.y)),
-          l.Initialize(e.body.data, g.body.data, h),
-          (this.joint = this.game.physics.box2d.world.CreateJoint(l)),
-          this
-        );
-      }
-      extend(Roman, BoxedDevice);
-      Roman.prototype.options = { atlasName: null, frameName: null };
-      return Roman;
-    });
-  }.call(this),
-  function () {
-    define("States/Level/Devices/RotMirror", ["./BoxedDevice"], function (
-      BoxedDevice,
-    ) {
-      "use strict";
-      function RotMirror(b, c) {
-        ((this.drawDarkMask = this.drawDarkMask.bind(this)),
-          (this.checkState = this.checkState.bind(this)),
-          (this.updateState = this.updateState.bind(this)),
-          (this.update = this.update.bind(this)),
-          (this.sounds = this.sounds.bind(this)));
-        var e, f, g, h, i, j, k, l, m, n, o;
-        for (
-          RotMirror.__super__.constructor.call(this, b, c),
-            this.base = f =
-              this.game.make.resSprite(
-                this.options.x,
-                this.options.y,
-                "MechAssets",
-                "rotmirror_circle0000",
-              ),
-            f.anchor.set(0.5),
-            this.game.layers.underGround.addChild(f),
-            k = this.game.make.resSprite(
-              this.options.x,
-              this.options.y,
-              "MechAssets",
-              "rotmirror0000",
-            ),
-            k.anchor.set(0.5),
-            this.game.physics.box2d.enable(k),
-            this.body = k.body,
-            l = this.game.make.resSprite(
-              0,
-              0,
-              "MechAssets",
-              "rotmirror_light_off0000",
-            ),
-            l.anchor.set(0.5),
-            k.addChild(l),
-            l.offFrameName = "rotmirror_light_off0000",
-            l.onFrameName = "rotmirror_light_on0000",
-            this.lights.push(l),
-            this.options.properties.bringToBack
-              ? this.game.layers.underGround.addChild(k)
-              : this.game.layers.overGround.addChild(k),
-            this.body.clearFixtures(),
-            o = new box2d.b2PolygonShape(),
-            o.SetAsOrientedBox(
-              this.options.boxWidth / 2,
-              this.options.boxHeight / 2,
-              new box2d.b2Vec2(0, 0),
-              0,
-            ),
-            i = new box2d.b2FixtureDef(),
-            i.shape = o,
-            i.friction = 0.7,
-            i.restitution = 0,
-            i.density = 1,
-            i.userData = { lightProperties: { type: "transparent" } },
-            h = this.body.data.CreateFixture(i),
-            h.id = this.body.world.getNextFixtureId(),
-            m = new box2d.b2PolygonShape(),
-            m.SetAsOrientedBox(
-              this.options.mirrorWidth / 2,
-              this.options.mirrorHeight / 2,
-              new box2d.b2Vec2(0, 0),
-              Math.PI / 4,
-            ),
-            i = new box2d.b2FixtureDef(),
-            i.shape = m,
-            i.friction = 0.7,
-            i.restitution = 0,
-            i.density = 0.2,
-            i.userData = { lightProperties: { type: "mirror" } },
-            h = this.body.data.CreateFixture(i),
-            h.id = this.body.world.getNextFixtureId(),
-            e = new box2d.b2CircleShape(0.25),
-            e.m_p = new box2d.b2Vec2(
-              this.options.boxWidth / 2 - 0.25,
-              this.options.boxWidth / 2 - 0.25,
-            ),
-            i = new box2d.b2FixtureDef(),
-            i.shape = e,
-            h = this.body.data.CreateFixture(i),
-            e = new box2d.b2CircleShape(0.25),
-            e.m_p = new box2d.b2Vec2(
-              -this.options.boxWidth / 2 + 0.25,
-              -this.options.boxWidth / 2 + 0.25,
-            ),
-            i = new box2d.b2FixtureDef(),
-            i.shape = e,
-            h = this.body.data.CreateFixture(i),
-            j = new box2d.b2RevoluteJointDef(),
-            n = this.body.data.GetWorldCenter(),
-            g = new box2d.b2Vec2(n.x, n.y),
-            j.Initialize(this.body.data, this.game.level.groundBody, g);
-          this.options.rotation < 0;
-        )
-          this.options.rotation += 2 * Math.PI;
-        return (
-          1 === this.options.properties.dir
-            ? ((j.lowerAngle = -this.options.rotation),
-              (j.upperAngle = -this.options.rotation + Math.PI / 2))
-            : ((j.lowerAngle = -this.options.rotation - Math.PI / 2),
-              (j.upperAngle = -this.options.rotation)),
-          (j.enableLimit = true),
-          (j.maxMotorTorque = 100),
-          (j.enableMotor = true),
-          (this.joint = this.game.physics.box2d.world.CreateJoint(j)),
-          1 === this.options.properties.dir
-            ? this.body.data.SetAngle(-this.joint.GetLowerLimit())
-            : this.body.data.SetAngle(-this.joint.GetUpperLimit()),
-          this.registerDevice(),
-          this
-        );
-      }
-      extend(RotMirror, BoxedDevice);
-      RotMirror.prototype.options = {
-        atlasName: null,
-        frameName: null,
-        lightAtlas: null,
-        lightFrame: null,
-        boxWidth: 1.8,
-        boxHeight: 1.8,
-        mirrorWidth: 2,
-        mirrorHeight: 0.1,
-      };
-      RotMirror.prototype.sounds = function () {
-        return ["platform"];
-      };
-      RotMirror.prototype.update = function () {
-        return (
-          this.joint.GetJointAngleRadians() < this.joint.GetLowerLimit() &&
-            this.body.data.SetAngle(-this.joint.GetLowerLimit()),
-          this.joint.GetJointAngleRadians() > this.joint.GetUpperLimit() &&
-            this.body.data.SetAngle(-this.joint.GetUpperLimit()),
-          RotMirror.__super__.update.apply(this, arguments)
-        );
-      };
-      RotMirror.prototype.updateState = function (a) {
-        if (0 === this.state) {
-          if (
-            (this.joint.SetMotorSpeed(-1.5 * this.options.properties.dir),
-            null != this.sound && this.sound.stopInstance(),
-            !a)
-          )
-            return (this.sound =
-              this.game.level.sounds.platform.playInstance());
-        } else if (
-          (this.joint.SetMotorSpeed(1.5 * this.options.properties.dir),
-          null != this.sound && this.sound.stopInstance(),
-          !a)
-        )
-          return (this.sound = this.game.level.sounds.platform.playInstance());
-      };
-      RotMirror.prototype.checkState = function () {
-        var a, b, c;
-        return (
-          (a = (function (a) {
-            return function () {
-              return a.options.properties.dir > 0
-                ? -a.joint.GetJointAngleRadians()
-                : a.joint.GetJointAngleRadians();
-            };
-          })(this)),
-          (c = (function (a) {
-            return function () {
-              return a.options.properties.dir > 0
-                ? -a.joint.GetLowerLimit()
-                : a.joint.GetUpperLimit();
-            };
-          })(this)),
-          (b = (function (a) {
-            return function () {
-              return a.options.properties.dir > 0
-                ? -a.joint.GetUpperLimit()
-                : a.joint.GetLowerLimit();
-            };
-          })(this)),
-          null != this.sound && 0 === this.state && a() >= c()
-            ? (this.game.level.sounds.platform.stopInstance(),
-              (this.sound = null))
-            : null != this.sound && 1 === this.state && a() <= b()
-              ? (this.game.level.sounds.platform.stopInstance(),
-                (this.sound = null))
-              : void 0
-        );
-      };
-      RotMirror.prototype.drawDarkMask = function (a) {
-        var b, c;
-        if (1 === this.state)
-          return (
-            (c = {
-              x: this.base.x + a.offset.x,
-              y: this.base.y + a.offset.y,
-            }),
-            (a.ctx.globalCompositeOperation = "lighter"),
-            (b = a.ctx.createRadialGradient(c.x, c.y, 20, c.x, c.y, 160)),
-            b.addColorStop(0, "rgba(255,255,255,1)"),
-            b.addColorStop(0.5, "rgba(255,255,255,0.3)"),
-            b.addColorStop(1, "transparent"),
-            a.circle(c.x, c.y, 160, b)
-          );
-      };
-      return RotMirror;
-    });
-  }.call(this),
-  function () {
-    define("States/Level/Devices/Slider", ["./Device"], function (Device) {
-      "use strict";
-      function Slider(b, c) {
-        ((this.checkState = this.checkState.bind(this)),
-          (this.sounds = this.sounds.bind(this)));
-        var e, f, g, h, i, j, k, l, m, n, o, p;
-        return (
-          Slider.__super__.constructor.call(this, b, c),
-          (o += this.game.physics.box2d.mpx(1)),
-          (p -= this.game.physics.box2d.mpx(1)),
-          (n = this.options.polyline[1][0] - this.options.polyline[0][0]),
-          (this._width = n),
-          (l = { x: this.options.x + n / 2, y: this.options.y }),
-          (g = this.game.make.sprite(l.x, l.y, "MechAssets", "_default0000")),
-          this.game.physics.box2d.enable(g),
-          (h = this.game.make.sprite(0, 0, "MechAssets", "SliderDot0000")),
-          h.anchor.set(0.5),
-          g.addChild(h),
-          (i = this.game.make.sprite(
-            0,
-            0,
-            "MechAssets",
-            "slider_light_off0000",
-          )),
-          i.anchor.set(0.5),
-          g.addChild(i),
-          this.game.layers.overChars.addChild(g),
-          this.lights.push(i),
-          (m = this.game.make.sprite(
-            l.x,
-            l.y,
-            "MechAssets",
-            "SliderTrack0000",
-          )),
-          m.anchor.set(0.5),
-          (m.width = n),
-          this.game.layers.underGround.addChild(m),
-          g.body.clearFixtures(),
-          (f = new box2d.b2CircleShape(0.3)),
-          f.m_p.SetXY(0, 0),
-          (j = new box2d.b2FixtureDef()),
-          (j.shape = f),
-          (j.friction = 0),
-          g.body.data.CreateFixture(j),
-          (e = new box2d.b2Vec2(-1, 0)),
-          (k = new box2d.b2PrismaticJointDef()),
-          k.Initialize(
-            g.body.data,
-            this.game.level.groundBody,
-            g.body.data.GetWorldCenter(),
-            e,
-          ),
-          (k.upperTranslation = -this.pxm(n / 2)),
-          (k.lowerTranslation = this.pxm(n / 2)),
-          (k.enableLimit = true),
-          (k.motorSpeed = 0),
-          (k.maxMotorForce = 20),
-          (k.enableMotor = true),
-          (this.joint = this.game.physics.box2d.world.CreateJoint(k)),
-          g.body.data.SetLinearDamping(1),
-          (this.signal = new Phaser.Signal()),
-          this.registerDevice(),
-          this
-        );
-      }
-      extend(Slider, Device);
-      Slider.prototype.options = { properties: { group: 0 } };
-      Slider.prototype.sounds = function () {
-        return "slider";
-      };
-      Slider.prototype.checkState = function () {
-        if (this.joint.GetJointTranslation() !== this.state)
-          return (
-            (this.sound && this.sound.isPlaying) ||
-              (this.sound = this.game.level.sounds.slider.play()),
-            (this.state =
-              (Math.PI *
-                this.joint.GetJointTranslation() *
-                (this.options.properties.max || 1)) /
-              this.pxm(-this._width)),
-            this.signal.dispatch(this)
-          );
-      };
-      return Slider;
-    });
-  }.call(this),
-  function () {
-    define("States/Level/Devices/Snow", ["Phaser"], function () {
-      "use strict";
-      function Snow(b, c, e) {
-        ((this.drawTile = this.drawTile.bind(this)),
-          (this.createSnowGraphics = this.createSnowGraphics.bind(this)));
-        var f, g, h, i, j, k, l, m;
-        return (
-          (this.ground = c),
-          (this.options = {}),
-          (this.options.data = e),
-          "SW" === e.dir
-            ? ((i = e.length * Math.sqrt(2)),
-              (this.options.y = e.x + e.length / 2),
-              (this.options.x = e.y + e.length / 2))
-            : "SE" === e.dir
-              ? ((i = e.length * Math.sqrt(2)),
-                (this.options.y = e.x + e.length / 2),
-                (this.options.x = e.y - e.length / 2 + 1))
-              : "WE" === e.dir &&
-                ((i = e.length),
-                (this.options.y = e.x),
-                (this.options.x = e.y + e.length / 2)),
-          Snow.__super__.constructor.call(
-            this,
-            b,
-            this.options.x,
-            this.options.y,
-          ),
-          this.game.add.existing(this),
-          this.game.layers.liquids.addChild(this),
-          this.game.physics.box2d.enable(this),
-          this.body.clearFixtures(),
-          (this.body.mass = 0),
-          this.body.data.SetPosition(
-            new box2d.b2Vec2(-this.options.x, -this.options.y),
-          ),
-          "SW" === e.dir
-            ? (f = Math.PI / 4)
-            : "SE" === e.dir
-              ? (f = -Math.PI / 4)
-              : "WE" === e.dir && (f = 0),
-          this.body.data.SetAngle(f),
-          (k = new box2d.b2PolygonShape()),
-          (m = []),
-          (l = i - 0.1),
-          (j = 0.4),
-          m.push(new box2d.b2Vec2(-l / 2 + 0, 0.01)),
-          m.push(new box2d.b2Vec2(l / 2 - 0, 0.01)),
-          m.push(new box2d.b2Vec2(l / 2 - 0.3, 0 - j + 0.01)),
-          m.push(new box2d.b2Vec2(-l / 2 + 0.3, 0 - j + 0.01)),
-          k.Set(m),
-          (h = new box2d.b2FixtureDef()),
-          (h.shape = k),
-          (h.filter.categoryBits = 1),
-          (h.filter.maskBits = 16),
-          (h.friction = 1),
-          (h.userData = { type: "ice" }),
-          (g = this.iceFixture = this.body.data.CreateFixture(h)),
-          (g.id = this.body.world.getNextFixtureId()),
-          this.body.setFixtureContactCallback(
-            this.iceFixture,
-            (function (a) {
-              return function (a, b, c, d, e, f) {
-                var g;
-                if (
-                  (null != b.sprite.character && "feet" === d.m_userData) ||
-                  (null != a.sprite.character && "feet" === c.m_userData)
-                )
-                  return (
-                    (g = b.sprite.character || a.sprite.character),
-                    e
-                      ? (g.snowCount || (g.snowCount = 0), (g.snowCount += 1))
-                      : (g.snowCount || (g.snowCount = 0), (g.snowCount -= 1)),
-                    g.setOnIce(0 !== g.snowCount)
-                  );
-              };
-            })(),
-          ),
-          this.createSnowGraphics(),
-          this
-        );
-      }
-      extend(Snow, Phaser.Sprite);
-      Snow.prototype.createSnowGraphics = function () {
-        var a, b, c, d, e, f, g, h;
-        for (
-          d = [], e = a = 0, c = this.options.data.length - 1;
-          0 <= c ? a <= c : a >= c;
-          e = 0 <= c ? ++a : --a
-        )
-          ((b = 1),
-            "SW" === this.options.data.dir
-              ? ((g =
-                  this.game.physics.box2d.mpx(1) *
-                  (this.options.x - this.options.data.length / 2 + e * b)),
-                (h =
-                  this.game.physics.box2d.mpx(1) *
-                  (this.options.y - this.options.data.length / 2 + e * b)),
-                (f = "SnowSlope0000"))
-              : "SE" === this.options.data.dir
-                ? ((g =
-                    this.game.physics.box2d.mpx(1) *
-                    (this.options.x +
-                      this.options.data.length / 2 -
-                      1 -
-                      e * b)),
-                  (h =
-                    this.game.physics.box2d.mpx(1) *
-                    (this.options.y - this.options.data.length / 2 + e * b)),
-                  (f = "SnowSlope0001"))
-                : "WE" === this.options.data.dir &&
-                  ((g =
-                    this.game.physics.box2d.mpx(1) *
-                    (this.options.x - this.options.data.length / 2 + e)),
-                  (h = this.game.physics.box2d.mpx(1) * this.options.y),
-                  (f = "SnowFlat0000")),
-            d.push(this.drawTile(g, h, f)));
-        return d;
-      };
-      Snow.prototype.drawTile = function (a, b, c, d) {
-        var e, f;
-        return (
-          (e = this.game.cache.getFrameByName("GroundAssets", c)),
-          (f = this.game.cache.getImage("GroundAssets")),
-          (a = a - (e.width - 32) / 2 + 32),
-          (b = b - (e.height - 32) / 2 + 32),
-          this.ground.bmd.ctx.drawImage(
-            f,
-            e.x,
-            e.y,
-            e.width,
-            e.height,
-            a,
-            b,
-            e.width,
-            e.height,
-          )
-        );
-      };
-      return Snow;
-    });
-  }.call(this),
-  function () {
-    define("States/Level/Devices/TimedPusher", ["./Pusher"], function (Pusher) {
-      "use strict";
-      function TimedPusher(b, c) {
-        ((this.drawDarkMask = this.drawDarkMask.bind(this)),
-          (this.ocupy = this.ocupy.bind(this)),
-          (this.checkState = this.checkState.bind(this)),
-          (this.doRegister = this.doRegister.bind(this)),
-          (this.destroy = this.destroy.bind(this)),
-          (this.sounds = this.sounds.bind(this)));
-        var e, f, g;
-        (TimedPusher.__super__.constructor.call(this, b, c),
-          (f = this.game.make.sprite(
-            0,
-            0,
-            "MechAssets",
-            "timed_pusher_base0000",
-          )),
-          f.anchor.set(0.5),
-          this.base.addChild(f),
-          (g = this.game.make.sprite(
-            0,
-            0,
-            "MechAssets",
-            "timed_pusher_light_off0000",
-          )),
-          g.anchor.set(0.5),
-          this.base.addChild(g),
-          (g.offFrameName = "timed_pusher_light_off0000"),
-          (g.onFrameName = "timed_pusher_light_off0000"),
-          this.lights.push(g),
-          (this.baseLight = e =
-            this.game.make.sprite(
-              0,
-              0,
-              "MechAssets",
-              "timed_pusher_light_off0000",
-            )),
-          e.anchor.set(0.5),
-          this.base.addChild(e),
-          (e.offFrameName = "timed_pusher_light_off0000"),
-          (e.onFrameName = "timed_pusher_light_on0000"),
-          (e.cacheAsBitmap = true),
-          this.lights.push(e),
-          (this.clock = this.game.make.graphics(0, 27)),
-          (this.clock.cacheAsBitmap = true),
-          this.registerDevice(),
-          (this.downState = 0));
-      }
-      extend(TimedPusher, Pusher);
-      TimedPusher.prototype.timer = null;
-      TimedPusher.prototype.sounds = function () {
-        return ["pusher", "clock"];
-      };
-      TimedPusher.prototype.destroy = function () {
-        return (
-          null != this.sound && this.sound.stop(),
-          TimedPusher.__super__.destroy.apply(this, arguments)
-        );
-      };
-      TimedPusher.prototype.doRegister = function () {};
-      TimedPusher.prototype.checkState = function () {
-        var a, b, c, d, e, f, g, h;
-        if (
-          ((f = this.joint.GetJointTranslation()),
-          0 === this.downState && f > 0
-            ? ((this.downState = 1),
-              this.game.level.sounds.pusher.play(),
-              null != this.sound && this.sound.isPlaying && this.sound.stop())
-            : 1 === this.downState &&
-              f <= 0 &&
-              ((this.downState = 0),
-              this.game.level.sounds.pusher.play(),
-              null != this.sound && this.sound.isPlaying && this.sound.stop()),
-          f > 0
-            ? ((this.state = 1),
-              this.signal.dispatch(this),
-              null == this.timer &&
-                ((this.timer = this.game.time.create(true)),
-                this.timer.add(
-                  this.options.properties.time,
-                  (function (a) {
-                    return function () {
-                      return (
-                        (a.state = 0),
-                        a.game.level.sounds.pusher.play(),
-                        a.signal.dispatch(a),
-                        (a.timer = null)
-                      );
-                    };
-                  })(this),
-                )),
-              this.timer.stop(false),
-              this.timer.start())
-            : !this.timer &&
-              1 === this.state &&
-              f <= 0 &&
-              ((this.state = 0), this.signal.dispatch(this)),
-          1 === this.state)
-        ) {
-          if (
-            (null == this.baseLight.mask &&
-              (this.base.addChild(this.clock),
-              (this.baseLight.mask = this.clock)),
-            0 !== this.downState ||
-              (null != this.sound && this.sound.isPlaying) ||
-              ((d = 22796),
-              (this.sound = this.game.level.sounds.clock.play(
-                null,
-                (d - this.options.properties.time) / 1e3,
-              ))),
-            (a = 0),
-            (b = 0),
-            (g = 20),
-            (c = Math.max(
-              0,
-              Math.min(1, 1 - this.timer.ms / this.options.properties.time),
-            )),
-            (c = Math.ceil(12 * c) / 12),
-            (h = -2 * Math.PI * c - Math.PI / 2),
-            (e = -Math.PI / 2),
-            console.log(
-              "angling " +
-                this.timer.ms +
-                " " +
-                this.options.properties.time +
-                " " +
-                (1 - this.timer.ms / this.options.properties.time),
-            ),
-            this.lastDrawnAngle !== h)
-          )
-            return (
-              this.clock.clear(),
-              this.clock.beginFill(16777215, 1),
-              this.clock.moveTo(a, b),
-              this.clock.arc(a, b, g, h, e),
-              this.clock.lineTo(a, b),
-              (this.clock.cacheAsBitmap = true),
-              (this.lastDrawnAngle = h)
-            );
-        } else if (this.lastDrawnAngle)
-          return (
-            this.base.removeChild(this.clock),
-            (this.baseLight.mask = null),
-            (this.lastDrawnAngle = null)
-          );
-      };
-      TimedPusher.prototype.ocupy = function (a) {
-        var b, c;
-        return (
-          (b = this.options.x / 32),
-          (c = this.options.y / 32),
-          this.ocupyTile(a, b, c),
-          this.ocupyTile(a, b - 1, c),
-          this.ocupyTile(a, b - 2, c),
-          this.ocupyTile(a, b + 1, c),
-          this.ocupyTile(a, b, c - 1),
-          this.ocupyTile(a, b - 1, c - 1),
-          this.ocupyTile(a, b - 2, c - 1),
-          this.ocupyTile(a, b + 1, c - 1)
-        );
-      };
-      TimedPusher.prototype.drawDarkMask = function (a) {
-        var b, c;
-        if (1 === this.state)
-          return (
-            (a.ctx.globalCompositeOperation = "lighter"),
-            (c = {
-              x: this.options.x + a.offset.x,
-              y: this.options.y + a.offset.y + 12,
-            }),
-            (b = a.ctx.createRadialGradient(c.x, c.y, 20, c.x, c.y, 80)),
-            b.addColorStop(0, "rgba(255,255,255,1)"),
-            b.addColorStop(0.5, "rgba(255,255,255,0.2)"),
-            b.addColorStop(1, "transparent"),
-            a.circle(c.x, c.y, 90, b)
-          );
-      };
-      return TimedPusher;
-    });
-  }.call(this),
-  function () {
-    define("States/Level/Devices/Wind", ["./BoxedDevice"], function (
-      BoxedDevice,
-    ) {
-      "use strict";
-      function Wind(b, c) {
-        ((this.drawDarkMask = this.drawDarkMask.bind(this)),
-          (this.ocupy = this.ocupy.bind(this)),
-          (this.updateState = this.updateState.bind(this)),
-          (this.update = this.update.bind(this)),
-          (this.destroy = this.destroy.bind(this)),
-          (this.sounds = this.sounds.bind(this)));
-        var e, f, g, h, i, j, k, l;
-        (c.rotation || (c.rotation = 0),
-          (c.rotation += 90),
-          Wind.__super__.constructor.call(this, b, c),
-          this.sprite.anchor.set(0.5),
-          (i = new box2d.b2PolygonShape()),
-          this.options.properties.flat
-            ? i.SetAsOrientedBox(
-                this.options.boxWidth / 2,
-                this.options.boxHeight / 2,
-                new box2d.b2Vec2(0, 0.3),
-                0,
-              )
-            : ((j = []),
-              j.push(new box2d.b2Vec2(-this.options.boxWidth / 2 - 0.6, 0)),
-              j.push(new box2d.b2Vec2(this.options.boxWidth / 2 + 0.6, 0)),
-              j.push(
-                new box2d.b2Vec2(
-                  this.options.boxWidth / 2,
-                  this.options.boxHeight,
-                ),
-              ),
-              j.push(
-                new box2d.b2Vec2(
-                  -this.options.boxWidth / 2,
-                  this.options.boxHeight,
-                ),
-              ),
-              i.Set(j)),
-          (f = new box2d.b2FixtureDef()),
-          (f.shape = i),
-          (f.friction = 0.4),
-          (f.restitution = 0),
-          (f.density = 0.2),
-          (g = new box2d.b2Vec2(0, 0)),
-          (g = g.SelfRotateRadians(this.options.rotation || 0)),
-          (e = this.body.data.CreateFixture(f)),
-          (e.id = this.body.world.getNextFixtureId()),
-          (this.body.mass = 0),
-          (l =
-            null != this.options.properties.windWidth
-              ? this.options.properties.windWidth
-              : this.options.windWidth),
-          (h = new box2d.b2PolygonShape()),
-          h.SetAsOrientedBox(
-            l / 2,
-            this.options.properties.length / 2,
-            new box2d.b2Vec2(0, this.options.properties.length / 2 + 0.5),
-            0,
-          ),
-          (f = new box2d.b2FixtureDef()),
-          (f.shape = h),
-          (f.isSensor = true),
-          (f.userData = { lightProperties: { type: "transparent" } }),
-          (this.windSensor = this.body.data.CreateFixture(f)),
-          (this.windSensor.id = this.body.world.getNextFixtureId()),
-          (this.body.mass = 0),
-          (this.activeBodies = {}),
-          this.body.setFixtureContactCallback(
-            this.windSensor,
-            (function (a) {
-              return function (b, c, d, e, f, g) {
-                var h;
-                if (null != c.sprite.character) {
-                  if (!f && null != a.activeBodies[c.id])
-                    return delete a.activeBodies[c.id];
-                  if (f && null == a.activeBodies[c.id])
-                    return ((h = { body: c }), (a.activeBodies[c.id] = h));
-                }
-              };
-            })(this),
-          ),
-          this.sprite.animations.add(
-            "loop",
-            Phaser.Animation.generateFrameNames("wind_base", 0, 4, "", 4),
-            30,
-            true,
-          ),
-          (k = this.windEffect =
-            this.game.make.sprite(
-              this.options.x - b.physics.box2d.mpx(g.x),
-              this.options.y - b.physics.box2d.mpx(g.y),
-              "MechAssets",
-            )),
-          (k.anchor.y = 1),
-          (k.anchor.x = 0.5),
-          k.animations.add(
-            "loop",
-            Phaser.Animation.generateFrameNames("wind_effect", 0, 30, "", 4),
-            30,
-            true,
-          ),
-          k.animations.play("loop"),
-          k.animations.next(Math.floor(30 * Math.random())),
-          (k.height = b.physics.box2d.mpx(this.options.properties.length)),
-          (k.rotation = this.options.rotation || 0),
-          (k.visible = false),
-          this.game.layers.overChars.addChild(k),
-          this.registerDevice());
-      }
-      extend(Wind, BoxedDevice);
-      Wind.prototype.options = {
-        boxWidth: 2.5,
-        boxHeight: 0.6,
-        windWidth: 2.6,
-        windHeight: 10,
-        atlasName: "MechAssets",
-        frameName: "wind_base0000",
-        lightAtlas: "MechAssets",
-        lightFrame: "wind_base_light",
-        layer: "liquids",
-      };
-      Wind.prototype.boxSize = { x: -3, y: 2 };
-      Wind.prototype.sounds = function () {
-        return "wind";
-      };
-      Wind.prototype.destroy = function () {
-        return (
-          null != this.sound && this.sound.stopInstance(),
-          Wind.__super__.destroy.apply(this, arguments)
-        );
-      };
-      Wind.prototype.update = function () {
-        var a, b, c, d, e, f, g;
-        if (
-          1 ===
-          (this.options.properties.invertInput ? +!this.state : this.state)
-        ) {
-          ((e = this.activeBodies), (f = []));
-          for (c in e)
-            ((d = e[c]),
-              (b = new box2d.b2Vec2(0, 1)),
-              (b = b.SelfRotateRadians(this.options.rotation || 0)),
-              (a = d.body.data
-                .GetPosition()
-                .SelfSub(this.body.data.GetPosition())),
-              b
-                .SelfMul(1.2 + 0.2 * Math.sin(this.game.time.now / 1e3))
-                .SelfMul(100)
-                .SelfMul(1 - a.GetLength() / this.options.properties.length),
-              d.body.data.ApplyForce(b, new box2d.b2Vec2(0, 0)),
-              d.body.data.SetLinearVelocity(
-                d.body.data.GetLinearVelocity().SelfMul(0.975),
-              ),
-              (g = d.body.data.GetLinearVelocity().GetLength()),
-              f.push(
-                d.body.data.SetLinearVelocity(
-                  d.body.data
-                    .GetLinearVelocity()
-                    .SelfNormalize()
-                    .SelfMul(Math.min(g, 15)),
-                ),
-              ));
-          return f;
-        }
-      };
-      Wind.prototype.updateState = function () {
-        var a;
-        return (
-          this.running || (this.running = false),
-          (a = this.options.properties.invertInput ? +!this.state : this.state),
-          1 === a && false === this.windEffect.visible
-            ? ((this.windEffect.visible = true),
-              this.sprite.animations.play("loop"),
-              (this.running = true),
-              (this.game.level.sounds.wind.loop = true),
-              (this.sound = this.game.level.sounds.wind.playInstance()),
-              (this.sound.volume = 0.2))
-            : 0 === a && true === this.windEffect.visible
-              ? ((this.windEffect.visible = false),
-                null != this.sound &&
-                  (this.sound.stopInstance(), (this.sound = null)),
-                _.delay(
-                  (function (a) {
-                    return function () {
-                      return (
-                        a.sprite.animations.stop(),
-                        (a.sprite.frameName = "wind_base0000")
-                      );
-                    };
-                  })(this),
-                  400,
-                ))
-              : void 0
-        );
-      };
-      Wind.prototype.ocupy = function (a) {
-        var b, c;
-        return (
-          (b = this.options.x / 32),
-          (c = this.options.y / 32),
-          this.ocupyTile(a, b - 1, c),
-          this.ocupyTile(a, b - 1, c - 1),
-          this.ocupyTile(a, b, c),
-          this.ocupyTile(a, b, c - 1),
-          this.ocupyTile(a, b - 2, c),
-          this.ocupyTile(a, b - 2, c - 1)
-        );
-      };
-      Wind.prototype.drawDarkMask = function (a) {
-        var b, c, d, e;
-        if (1 === this.state)
-          return (
-            (a.ctx.globalCompositeOperation = "lighter"),
-            (e = {
-              x: this.sprite.x + a.offset.x,
-              y: this.sprite.y + a.offset.y,
-            }),
-            (b = new box2d.b2Vec2(36, 0).SelfRotateRadians(
-              this.options.rotation,
-            )),
-            (c = new box2d.b2Vec2(-36, 0).SelfRotateRadians(
-              this.options.rotation,
-            )),
-            (d = a.ctx.createRadialGradient(
-              e.x + b.x,
-              e.y + b.y,
-              20,
-              e.x + b.x,
-              e.y + b.y,
-              90,
-            )),
-            d.addColorStop(0, "rgba(255,255,255,1)"),
-            d.addColorStop(0.5, "rgba(255,255,255,0.3)"),
-            d.addColorStop(1, "transparent"),
-            a.circle(e.x + b.x, e.y + b.y, 90, d),
-            (d = a.ctx.createRadialGradient(
-              e.x + c.x,
-              e.y + c.y,
-              20,
-              e.x + c.x,
-              e.y + c.y,
-              90,
-            )),
-            d.addColorStop(0, "rgba(255,255,255,1)"),
-            d.addColorStop(0.5, "rgba(255,255,255,0.3)"),
-            d.addColorStop(1, "transparent"),
-            a.circle(e.x + c.x, e.y + c.y, 90, d)
-          );
-      };
-      return Wind;
-    });
-  }.call(this),
-  function () {
-    define("States/Level/Devices/Window", ["./Device"], function (Device) {
-      "use strict";
-      function Window(a, b) {
-        var d, e, f, g, h, i, j;
-        (b.width < b.height
-          ? ((j = b.width),
-            (b.width = b.height),
-            (b.height = j),
-            (b.x = b.x + b.height / 2),
-            (b.y = b.y + b.width / 2),
-            (b.rotation = -90))
-          : ((b.x = b.x + b.width / 2), (b.y = b.y + b.height / 2)),
-          Window.__super__.constructor.call(this, a, b),
-          (this.sprite = this.game.make.sprite(
-            this.options.x,
-            this.options.y,
-            "MechAssets",
-            "_default0000",
-          )),
-          this.game.physics.box2d.enable(this.sprite),
-          this.game.layers.overGround.addChild(this.sprite),
-          (this.body = this.sprite.body),
-          this.body.clearFixtures(),
-          this.body.data.SetAngle(this.options.rotation),
-          (this.body.static = true),
-          (h = new box2d.b2PolygonShape()),
-          h.SetAsOrientedBox(
-            this.options.width / 2,
-            this.options.height / 2,
-            new box2d.b2Vec2(0, 0),
-            0,
-          ),
-          (f = new box2d.b2FixtureDef()),
-          (f.shape = h),
-          (f.friction = 0.7),
-          (f.restitution = 0),
-          (f.density = 0),
-          (f.userData = f.userData =
-            { lightProperties: { type: "transparent" } }),
-          (f.filter.categoryBits = 1),
-          (f.filter.maskBits = 61695),
-          (e = this.body.data.CreateFixture(f)),
-          (e.id = this.body.world.getNextFixtureId()),
-          new box2d.b2Vec2(
-            this.options.properties.dx,
-            this.options.properties.dy,
-          ),
-          (this.state = 0),
-          this.registerDevice(),
-          (g = this.game.make.sprite(0, 0, "MechAssets", "WindowLeft0000")),
-          g.anchor.set(0.5),
-          this.sprite.addChild(g),
-          (g.x = this.mpx(this.options.width / 2 - 0.5)),
-          (g.y = this.mpx(this.options.height / 2 - 0.5)),
-          (i = this.game.make.sprite(0, 0, "MechAssets", "WindowRight0000")),
-          i.anchor.set(0.5),
-          this.sprite.addChild(i),
-          (i.x = -this.mpx(this.options.width / 2 - 0.5)),
-          (i.y = this.mpx(this.options.height / 2 - 0.5)),
-          (d = this.game.make.sprite(0, 0, "MechAssets", "WindowCenter0000")),
-          d.anchor.set(0.5),
-          this.sprite.addChild(d),
-          (d.x = 0),
-          (d.y = 0),
-          (d.scale.x = (this.options.width - 2) / 3),
-          (this.sprite.scale.x = 1.05),
-          (this.sprite.scale.y = 1.05));
-      }
-      extend(Window, Device);
-      Window.prototype.options = {
-        atlasName: null,
-        frameName: null,
-        lightAtlas: "MechAssets",
-        properties: { group: 0, dx: 4, dy: 0 },
-      };
-      return Window;
-    });
-  }.call(this),
-  function () {
-    define("States/Level/Devices/_define", [
-      "require",
-      "./BackgroundCover",
-      "./Ball",
-      "./Beamer",
-      "./Box",
-      "./BoxedDevice",
-      "./BoxHeavy",
-      "./BoxMirror",
-      "./BoxPrototype",
-      "./Device",
-      "./Diamond",
-      "./Door",
-      "./Hanging",
-      "./InfiniteMirror",
-      "./Lever",
-      "./LightPusher",
-      "./Liquid",
-      "./MovingPlatform",
-      "./Portal",
-      "./Pulley",
-      "./Pusher",
-      "./Roman",
-      "./RotMirror",
-      "./Slider",
-      "./Snow",
-      "./TimedPusher",
-      "./Wind",
-      "./Window",
-    ], function (require) {
-      "use strict";
-      window.Devices = {
-        BackgroundCover: require("./BackgroundCover"),
-        Ball: require("./Ball"),
-        Beamer: require("./Beamer"),
-        Box: require("./Box"),
-        BoxedDevice: require("./BoxedDevice"),
-        BoxHeavy: require("./BoxHeavy"),
-        BoxMirror: require("./BoxMirror"),
-        BoxPrototype: require("./BoxPrototype"),
-        Device: require("./Device"),
-        Diamond: require("./Diamond"),
-        Door: require("./Door"),
-        Hanging: require("./Hanging"),
-        InfiniteMirror: require("./InfiniteMirror"),
-        Lever: require("./Lever"),
-        LightPusher: require("./LightPusher"),
-        Liquid: require("./Liquid"),
-        MovingPlatform: require("./MovingPlatform"),
-        Portal: require("./Portal"),
-        Pulley: require("./Pulley"),
-        Pusher: require("./Pusher"),
-        Roman: require("./Roman"),
-        RotMirror: require("./RotMirror"),
-        Slider: require("./Slider"),
-        Snow: require("./Snow"),
-        TimedPusher: require("./TimedPusher"),
-        Wind: require("./Wind"),
-        Window: require("./Window"),
-      };
-      return window.Devices;
-    });
-  }.call(this),
-  function () {
-    define("States/Level/Ground", [
-      "./Devices/Liquid",
-      "./Devices/Snow",
-      "outlineFilter",
-      "inlineFilter",
-      "shadowFilter",
-      "seedrandom",
-    ], function (
-      Liquid,
-      Snow,
-      OutlineFilter,
-      InlineFilter,
-      ShadowFilter,
-      seedrandom,
-    ) {
-      "use strict";
-      function Ground(b, c, d) {
-        ((this.CreateLiquid = this.CreateLiquid.bind(this)),
-          (this.CreateSnow = this.CreateSnow.bind(this)),
-          (this.CreateSnows = this.CreateSnows.bind(this)),
-          (this.createGroundFixture = this.createGroundFixture.bind(this)),
-          (this.destroy = this.destroy.bind(this)),
-          (this.drawForeground = this.drawForeground.bind(this)),
-          (this.decorate = this.decorate.bind(this)),
-          (this.getNaviesPoints = this.getNaviesPoints.bind(this)),
-          (this.getTileAt = this.getTileAt.bind(this)),
-          (this.drawTile = this.drawTile.bind(this)));
-        ((this.options = _.extend(this.options, d)),
-          Ground.__super__.constructor.call(this, b),
-          this.game.physics.box2d.enable(this),
-          (this.body.mass = 0),
-          this.body.clearFixtures(),
-          (this.mapData = c),
-          (this.options.width = this.mapData.width * this.mapData.tileWidth),
-          (this.options.height = this.mapData.height * this.mapData.tileHeight),
-          this.convertTilemap(this.mapData),
-          this.CreateSnows(this.mapData),
-          (Phaser.Physics.Box2D.worldBoundsFilterCategory = 65535),
-          this.game.physics.box2d.setBounds(
-            -100,
-            -100,
-            this.options.width + 200,
-            this.options.height + 200,
-            true,
-            true,
-            true,
-            true,
-            65535,
-            65535,
-          ),
-          this.drawForeground(),
-          this.applyFilter());
-      }
-      extend(Ground, Phaser.Sprite);
-      Ground.prototype.filterPadding = 10;
-      Ground.prototype.options = {
-        tileWidth: 32,
-        tileHeight: 32,
-        key: "map",
-      };
-      Ground.prototype.getTileRight = function (a, b, c) {
-        return null != a.data[c] && null != a.data[c][b + 1]
-          ? a.data[c][b + 1]
-          : null;
-      };
-      Ground.prototype.getTileLeft = function (a, b, c) {
-        return null != a.data[c] && null != a.data[c][b - 1]
-          ? a.data[c][b - 1]
-          : null;
-      };
-      Ground.prototype.getTileUp = function (a, b, c) {
-        return null != a.data[c - 1] && null != a.data[c - 1][b]
-          ? a.data[c - 1][b]
-          : null;
-      };
-      Ground.prototype.getTileDown = function (a, b, c) {
-        return null != a.data[c + 1] && null != a.data[c + 1][b]
-          ? a.data[c + 1][b]
-          : null;
-      };
-      Ground.prototype.drawTile = function (a, b, c, d) {
-        var e, f, g, h;
-        return (
-          10 === d && (d = 0),
-          11 === d && (d = 1),
-          12 === d && (d = 2),
-          55 === d && (d = 5),
-          0 === d
-            ? ((h = Math.floor(4 * Math.random())), (g = "MaskBox0000" + h))
-            : (g = "MaskBox" + d + "0000"),
-          (e = this.game.cache.getFrameByName("GroundAssets", g)),
-          (f = this.game.cache.getImage("GroundAssets")),
-          (b = b - (e.width - 32) / 2 + 32),
-          (c = c - (e.height - 32) / 2 + 32),
-          a.drawImage(f, e.x, e.y, e.width, e.height, b, c, e.width, e.height)
-        );
-      };
-      Ground.prototype.getTileAt = function (a, b) {
-        return this.mapData.layers[0].data[b][a];
-      };
-      Ground.prototype.convertTilemap = function (a) {
-        var b,
-          c,
-          d,
-          e,
-          f,
-          g,
-          h,
-          i,
-          j,
-          k,
-          l,
-          m,
-          n,
-          o,
-          p,
-          q,
-          r,
-          s,
-          t,
-          u,
-          v,
-          w,
-          x,
-          y,
-          z,
-          A,
-          B,
-          C;
-        for (
-          m = 0,
-            this.map = a,
-            A = 0,
-            v = 0,
-            w = 0,
-            C = 0,
-            this.h = h = a.height,
-            this.w = z = a.width,
-            this.groundBody = c = this.body,
-            this.groundBody.data.m_userData = "ground",
-            this.game.level.groundBody = this.groundBody.data,
-            n = this.game.add.bitmapData(
-              this.options.width + 64,
-              this.options.height + 64,
-            );
-          C < h;
-        ) {
-          for (A = 0, B = 0; B < z; )
-            ((x = a.layers[m].data[C][B]),
-              x &&
-                x.index > -1 &&
-                ((d = B * this.options.tileWidth),
-                (e = C * this.options.tileHeight),
-                0 === x.properties.type
+                      }),
+                      t.Set(y),
+                      (A = 0),
+                      this.createGroundFixture(t),
+                      this.drawTile(n.ctx, d, e, x.properties.type)))
+                : 5 === x.properties.type ||
+                    6 === x.properties.type ||
+                    7 === x.properties.type ||
+                    55 === x.properties.type
                   ? (0 === A &&
                       ((v = B * x.width), (w = C * x.height), (A = 1)),
                     (r = this.getTileRight(a.layers[m], B, C)),
-                    r && 0 === r.properties.type
-                      ? ((A += 1),
-                        this.drawTile(n.ctx, d, e, x.properties.type))
-                      : ((t = new box2d.b2PolygonShape()),
+                    r && r.properties.type === x.properties.type
+                      ? (A > 1 && this.drawTile(n.ctx, d, e, x.properties.type),
+                        (A += 1))
+                      : ((t = this.createGroundShape(
+                          8,
+                          new box2d.b2Vec2(
+                            c.world.pxm(d) - A + 1,
+                            c.world.pxm(e),
+                          ),
+                        )),
+                        this.createGroundFixture(t),
+                        this.drawTile(n.ctx, d - c.world.mpx(A - 1), e, 8),
+                        (t = this.createGroundShape(
+                          9,
+                          new box2d.b2Vec2(c.world.pxm(d), c.world.pxm(e)),
+                        )),
+                        this.createGroundFixture(t),
+                        this.drawTile(n.ctx, d, e, 9),
+                        (t = new box2d.b2PolygonShape()),
                         (y = []),
                         (u = this.groundBody.world.pxm(c.world.mpx(1) * A)),
                         (s = this.groundBody.world.pxm(c.world.mpx(1))),
-                        y.push(new box2d.b2Vec2(0, 0)),
-                        y.push(new box2d.b2Vec2(-u, 0)),
-                        y.push(new box2d.b2Vec2(-u, -s)),
-                        y.push(new box2d.b2Vec2(0, -s)),
+                        y.push(new box2d.b2Vec2(-1, -s / 2 + 0.05)),
+                        y.push(new box2d.b2Vec2(1 - u, -s / 2 + 0.05)),
+                        y.push(new box2d.b2Vec2(1 - u, -s)),
+                        y.push(new box2d.b2Vec2(-1, -s)),
                         _.each(y, function (a) {
                           return (
                             (a.x -= c.world.pxm(v)),
@@ -4303,564 +239,514 @@ function extend(SubClass, SuperClass) {
                           );
                         }),
                         t.Set(y),
-                        (A = 0),
                         this.createGroundFixture(t),
-                        this.drawTile(n.ctx, d, e, x.properties.type)))
-                  : 5 === x.properties.type ||
-                      6 === x.properties.type ||
-                      7 === x.properties.type ||
-                      55 === x.properties.type
-                    ? (0 === A &&
-                        ((v = B * x.width), (w = C * x.height), (A = 1)),
-                      (r = this.getTileRight(a.layers[m], B, C)),
-                      r && r.properties.type === x.properties.type
-                        ? (A > 1 &&
-                            this.drawTile(n.ctx, d, e, x.properties.type),
-                          (A += 1))
-                        : ((t = this.createGroundShape(
-                            8,
-                            new box2d.b2Vec2(
-                              c.world.pxm(d) - A + 1,
-                              c.world.pxm(e),
-                            ),
-                          )),
-                          this.createGroundFixture(t),
-                          this.drawTile(n.ctx, d - c.world.mpx(A - 1), e, 8),
-                          (t = this.createGroundShape(
-                            9,
-                            new box2d.b2Vec2(c.world.pxm(d), c.world.pxm(e)),
-                          )),
-                          this.createGroundFixture(t),
-                          this.drawTile(n.ctx, d, e, 9),
-                          (t = new box2d.b2PolygonShape()),
-                          (y = []),
-                          (u = this.groundBody.world.pxm(c.world.mpx(1) * A)),
-                          (s = this.groundBody.world.pxm(c.world.mpx(1))),
-                          y.push(new box2d.b2Vec2(-1, -s / 2 + 0.05)),
-                          y.push(new box2d.b2Vec2(1 - u, -s / 2 + 0.05)),
-                          y.push(new box2d.b2Vec2(1 - u, -s)),
-                          y.push(new box2d.b2Vec2(-1, -s)),
-                          _.each(y, function (a) {
-                            return (
-                              (a.x -= c.world.pxm(v)),
-                              (a.y -= c.world.pxm(w))
-                            );
-                          }),
-                          t.Set(y),
-                          this.createGroundFixture(t),
-                          this.CreateLiquid(x.properties.type, B + 1, C, A),
-                          (A = 0)))
-                    : -1 === x.properties.type
-                      ? this.drawTile(n.ctx, d, e, 0)
-                      : ((t = this.createGroundShape(
-                          x.properties.type,
-                          new box2d.b2Vec2(c.world.pxm(d), c.world.pxm(e)),
-                        )),
-                        this.createGroundFixture(t),
-                        this.drawTile(n.ctx, d, e, x.properties.type))),
-              B++);
-          C++;
-        }
+                        this.CreateLiquid(x.properties.type, B + 1, C, A),
+                        (A = 0)))
+                  : -1 === x.properties.type
+                    ? this.drawTile(n.ctx, d, e, 0)
+                    : ((t = this.createGroundShape(
+                        x.properties.type,
+                        new box2d.b2Vec2(c.world.pxm(d), c.world.pxm(e)),
+                      )),
+                      this.createGroundFixture(t),
+                      this.drawTile(n.ctx, d, e, x.properties.type))),
+            B++);
+        C++;
+      }
+      for (
+        f = this.game.make.bitmapData(
+          this.options.width + 64,
+          this.options.height + 64,
+        ),
+          g = this.game.cache.getFrameByName("TempleAssets", "ForeGround0000"),
+          j = this.game.cache.getImage("TempleAssets"),
+          i = l = 0,
+          p = Math.ceil(this.options.width / 256);
+        0 <= p ? l <= p : l >= p;
+        i = 0 <= p ? ++l : --l
+      )
         for (
-          f = this.game.make.bitmapData(
-            this.options.width + 64,
-            this.options.height + 64,
-          ),
-            g = this.game.cache.getFrameByName(
-              "TempleAssets",
-              "ForeGround0000",
-            ),
-            j = this.game.cache.getImage("TempleAssets"),
-            i = l = 0,
-            p = Math.ceil(this.options.width / 256);
-          0 <= p ? l <= p : l >= p;
-          i = 0 <= p ? ++l : --l
+          k = o = 0, q = Math.ceil(this.options.height / 256);
+          0 <= q ? o <= q : o >= q;
+          k = 0 <= q ? ++o : --o
         )
-          for (
-            k = o = 0, q = Math.ceil(this.options.height / 256);
-            0 <= q ? o <= q : o >= q;
-            k = 0 <= q ? ++o : --o
-          )
-            ((B = 256 * i),
-              (C = 256 * k),
-              f.ctx.drawImage(
-                j,
-                g.x,
-                g.y,
-                g.width,
-                g.height,
-                B,
-                C,
-                g.width,
-                g.height,
-              ));
-        return (
-          (b = this.game.add.bitmapData(
-            this.options.width + 64,
-            this.options.height + 64,
-          )),
-          b.alphaMask(f, n),
-          (this.bmd = b),
-          (this.maskBmd = n),
-          (this.foregroundBmd = f),
-          c
-        );
-      };
-      Ground.prototype.getNaviesPoints = function () {
-        var a, b, c, d, f, g, h, i, j, k, l, m;
-        for (
-          i = this.map,
-            d = this.h,
-            m = this.w,
-            g = 0,
-            b = this.groundBody,
-            this.rng = seedrandom("ASDFA"),
-            (function (a) {
-              return function () {
-                return Math.round(3 * a.rng() + 3.5);
-              };
-            })(this),
-            j = (function (a) {
-              return function (a, b) {
-                return null != i.layers[g].data[a] &&
-                  null != i.layers[g].data[a][b]
-                  ? i.layers[g].data[a][b]
-                  : null;
-              };
-            })(),
-            l = [
-              { x: Math.floor(d / 4), y: Math.floor(d / 4) },
-              { x: Math.floor((3 * d) / 4), y: Math.floor(d / 4) },
-              { x: Math.floor(d / 4), y: Math.floor((3 * d) / 4) },
-              { x: Math.floor((3 * d) / 4), y: Math.floor(d / 4) },
-            ],
-            a = (function (a) {
-              return function (a) {
-                return a > 0 ? 1 : a < 0 ? -1 : 0;
-              };
-            })(),
-            f = 0,
-            h = l.length;
-          f < h;
-          f++
-        )
-          for (
-            k = l[f],
-              k.valid = false,
-              c = { x: a(Math.random() - 0.5), y: a(Math.random() - 0.5) };
-            k.x > 0 && k.x < m && k.y > 0 && k.y < d;
-          ) {
-            if (null == j(k.y, k.x).properties.type) {
-              k.valid = true;
-              break;
-            }
-            ((k.x += c.x), (k.y += c.y));
-          }
-        return (
-          (l = l.filter(function (a) {
-            return a.valid;
-          })),
-          _.each(l, function (a) {
-            return ((a.x *= b.world.mpx(1)), (a.y *= b.world.mpx(1)));
-          }),
-          l
-        );
-      };
-      Ground.prototype.decorate = function (a) {
-        var b,
-          c,
-          d,
-          f,
-          g,
-          h,
-          i,
-          j,
-          k,
-          l,
-          m,
-          n,
-          o,
-          p,
-          q,
-          r,
-          s,
-          t,
-          u,
-          v,
-          w,
-          x,
-          y,
-          z,
-          A,
-          B,
-          C,
-          D,
-          E,
-          F,
-          G,
-          H,
-          I,
-          J;
-        for (
-          s = this.map,
-            k = this.h,
-            H = this.w,
-            o = 0,
-            c = this.groundBody,
-            this.rng = seedrandom("ASDFA"),
-            z = (function (a) {
-              return function () {
-                return Math.round(3 * a.rng() + 3.5);
-              };
-            })(this),
-            n = 0,
-            q = a.length;
-          n < q;
-          n++
-        )
-          ((v = a[n]), null != v.ocupy && v.ocupy(s.layers[o].data));
-        for (
-          t = (function (a) {
+          ((B = 256 * i),
+            (C = 256 * k),
+            f.ctx.drawImage(
+              j,
+              g.x,
+              g.y,
+              g.width,
+              g.height,
+              B,
+              C,
+              g.width,
+              g.height,
+            ));
+      return (
+        (b = this.game.add.bitmapData(
+          this.options.width + 64,
+          this.options.height + 64,
+        )),
+        b.alphaMask(f, n),
+        (this.bmd = b),
+        (this.maskBmd = n),
+        (this.foregroundBmd = f),
+        c
+      );
+    };
+    Ground.prototype.getNaviesPoints = function () {
+      var a, b, c, d, f, g, h, i, j, k, l, m;
+      for (
+        i = this.map,
+          d = this.h,
+          m = this.w,
+          g = 0,
+          b = this.groundBody,
+          this.rng = seedrandom("ASDFA"),
+          (function (a) {
+            return function () {
+              return Math.round(3 * a.rng() + 3.5);
+            };
+          })(this),
+          j = (function (a) {
             return function (a, b) {
-              return null != s.layers[o].data[a] &&
-                null != s.layers[o].data[a][b]
-                ? s.layers[o].data[a][b]
+              return null != i.layers[g].data[a] &&
+                null != i.layers[g].data[a][b]
+                ? i.layers[g].data[a][b]
                 : null;
             };
           })(),
-            J = 1,
-            f = [],
-            g = new Phaser.RenderTexture(
-              this.game,
-              this.options.width + 64,
-              this.options.height + 64,
-              "decosTexture",
-              void 0,
-              1,
-            );
-          J < k;
+          l = [
+            { x: Math.floor(d / 4), y: Math.floor(d / 4) },
+            { x: Math.floor((3 * d) / 4), y: Math.floor(d / 4) },
+            { x: Math.floor(d / 4), y: Math.floor((3 * d) / 4) },
+            { x: Math.floor((3 * d) / 4), y: Math.floor(d / 4) },
+          ],
+          a = (function (a) {
+            return function (a) {
+              return a > 0 ? 1 : a < 0 ? -1 : 0;
+            };
+          })(),
+          f = 0,
+          h = l.length;
+        f < h;
+        f++
+      )
+        for (
+          k = l[f],
+            k.valid = false,
+            c = { x: a(Math.random() - 0.5), y: a(Math.random() - 0.5) };
+          k.x > 0 && k.x < m && k.y > 0 && k.y < d;
         ) {
-          for (0, I = 1; I < H - 1; ) {
-            for (F = s.layers[o].data[J][I], l = x = 0; x <= 6; l = ++x) {
-              for (j = null, m = y = 0; y <= 6; m = ++y)
-                if (
-                  ((h = Math.max(Math.min(I + l, H - 2), 0)),
-                  (i = Math.max(Math.min(J + m, k - 1), 0)),
-                  null != t(i, h).properties.type &&
-                    !t(i, h).ocupied &&
-                    f.indexOf(t(i, h)) < 0 &&
-                    f.indexOf(t(i - 1, h)) < 0 &&
-                    f.indexOf(t(i, h + 1)) < 0 &&
-                    f.indexOf(t(i - 1, h + 1)) < 0 &&
-                    f.indexOf(t(i, h - 1)) < 0 &&
-                    f.indexOf(t(i - 1, h - 1)) < 0)
-                ) {
-                  ((j = s.layers[o].data[i][h]), f.push(j));
-                  break;
-                }
-              if (null != j) break;
-            }
-            I += z();
+          if (null == j(k.y, k.x).properties.type) {
+            k.valid = true;
+            break;
           }
-          J += z();
+          ((k.x += c.x), (k.y += c.y));
         }
-        for (w = 0, l = E = 0, r = f.length; E < r; l = ++E)
-          ((d = f[l]),
-            (F = s.layers[o].data[d.y][d.x]),
-            (b = this.getTileUp(s.layers[o], d.x, d.y)),
-            (A = this.getTileRight(s.layers[o], d.x, d.y)),
-            (p = this.getTileLeft(s.layers[o], d.x, d.y)),
-            (G = null),
-            (B = 0),
-            (C = [1, 1]),
-            (u = 1),
-            0 === F.properties.type &&
-            null != b &&
-            null != b.properties.type &&
-            null != A &&
-            null != A.properties.type &&
-            null != p &&
-            null != p.properties.type
-              ? ((G = "O_" + ((w % 2) + 1)),
-                (B =
-                  "1" === w
-                    ? (Math.floor(3 * Math.random()) * Math.PI) / 2
-                    : 0))
-              : 0 !== F.properties.type ||
-                  (null != b && null != b.properties.type)
-                ? 0 === F.properties.type
-                  ? ((G = "X"),
-                    (B = (Math.floor(3 * Math.random()) * Math.PI) / 2))
-                  : 1 === F.properties.type
-                    ? (G = "A")
-                    : 2 === F.properties.type
-                      ? ((G = "A"), (C = [-1, 1]))
-                      : 3 === F.properties.type
-                        ? (G = "V")
-                        : 4 === F.properties.type && ((G = "V"), (C = [-1, 1]))
-                : ((G = "T_" + ((w % 3) + 1)),
-                  (u = 2 * Math.round(Math.random()) - 1)),
-            w++,
-            null != G &&
-              ((D = this.game.make.sprite(
-                (d.x + 0.5) * c.world.mpx(1),
-                (d.y + 0.5) * c.world.mpx(1),
-                "TempleAssets",
-                "decor_" + G + "0000",
-              )),
-              (D.rotation = B),
-              D.scale.set(u * C[0], C[1]),
-              D.anchor.set(0.5),
-              g.renderXY(D, D.x + 32, D.y + 32, false),
-              D.destroy()));
-        return (
-          this.game.cache.addRenderTexture("decosTexture", g),
-          (D = this.game.make.sprite(
-            -32,
-            -32,
-            this.game.cache.getRenderTexture("decosTexture").texture,
-          )),
-          this.game.layers.decorations.addChild(D),
-          (this.game.layers.decorations.cacheAsBitmap = true)
-        );
-      };
-      Ground.prototype.drawForeground = function () {
-        return (this.image = this.game.make.image(0, 0, this.bmd));
-      };
-      Ground.prototype.applyFilter = function () {
-        var a, b, c, d, e, f, g;
-        return (
-          (a = this.game.make.tileSprite(
-            0,
-            0,
-            this.options.width,
-            this.options.height,
-            "TempleAssets",
-            "BackGround0000",
-          )),
-          this.game.layers.background.addChild(a),
-          (a.cacheAsBitmap = true),
-          (g = this.options.width + 64),
-          (b = this.options.height + 64),
-          (c = new InlineFilter(this.game, g, b, 3, 16711680)),
-          c.init(),
-          (d = new OutlineFilter(this.game, g, b, 3.5, 0)),
-          d.init(),
-          (f = new ShadowFilter(this.game, g, b, 8, 0)),
-          f.init(),
-          (this.image.filters = [c, d, f]),
-          (e = new Phaser.RenderTexture(
+      return (
+        (l = l.filter(function (a) {
+          return a.valid;
+        })),
+        _.each(l, function (a) {
+          return ((a.x *= b.world.mpx(1)), (a.y *= b.world.mpx(1)));
+        }),
+        l
+      );
+    };
+    Ground.prototype.decorate = function (a) {
+      var b,
+        c,
+        d,
+        f,
+        g,
+        h,
+        i,
+        j,
+        k,
+        l,
+        m,
+        n,
+        o,
+        p,
+        q,
+        r,
+        s,
+        t,
+        u,
+        v,
+        w,
+        x,
+        y,
+        z,
+        A,
+        B,
+        C,
+        D,
+        E,
+        F,
+        G,
+        H,
+        I,
+        J;
+      for (
+        s = this.map,
+          k = this.h,
+          H = this.w,
+          o = 0,
+          c = this.groundBody,
+          this.rng = seedrandom("ASDFA"),
+          z = (function (a) {
+            return function () {
+              return Math.round(3 * a.rng() + 3.5);
+            };
+          })(this),
+          n = 0,
+          q = a.length;
+        n < q;
+        n++
+      )
+        ((v = a[n]), null != v.ocupy && v.ocupy(s.layers[o].data));
+      for (
+        t = (function (a) {
+          return function (a, b) {
+            return null != s.layers[o].data[a] && null != s.layers[o].data[a][b]
+              ? s.layers[o].data[a][b]
+              : null;
+          };
+        })(),
+          J = 1,
+          f = [],
+          g = new Phaser.RenderTexture(
             this.game,
-            g,
-            b,
-            "groundTexture",
+            this.options.width + 64,
+            this.options.height + 64,
+            "decosTexture",
             void 0,
             1,
-          )),
-          (this.game.renderer.renderSession.resolution = 1),
-          e.renderRawXY(this.image, 0, 0, true),
-          (this.game.renderer.renderSession.resolution = this.game.resolution),
-          this.game.cache.addRenderTexture("groundTexture", e),
-          (this.sprite = this.game.make.sprite(
-            -32,
-            -32,
-            this.game.cache.getRenderTexture("groundTexture").texture,
-          )),
-          this.game.layers.ground.addChild(this.sprite),
-          (this.sprite.cacheAsBitmap = true),
-          this.image.destroy(),
-          this.bmd.destroy(),
-          this.maskBmd.destroy(),
-          this.foregroundBmd.destroy()
-        );
-      };
-      Ground.prototype.destroy = function () {
-        return (
-          this.sprite.destroy(),
-          this.image.destroy(),
-          this.bmd.destroy(),
-          this.maskBmd.destroy(),
-          this.foregroundBmd.destroy(),
-          Ground.__super__.destroy.call(this)
-        );
-      };
-      Ground.prototype.createGroundFixture = function (a, b, c) {
-        var d, e;
-        return (
-          (e = new box2d.b2FixtureDef()),
-          (e.shape = a),
-          (e.filter.categoryBits = 1),
-          (e.filter.maskBits = 4369),
-          (e.friction = 0.8),
-          (e.isSensor = b),
-          (e.userData = c),
-          (d = this.groundBody.data.CreateFixture(e)),
-          (d.id = this.groundBody.world.getNextFixtureId())
-        );
-      };
-      Ground.prototype.createGroundShape = function (a, b) {
-        var c, d, e, f;
-        return (
-          (e = 1),
-          (d = 1),
-          (c = new box2d.b2PolygonShape()),
-          0 === a || 10 === a
+          );
+        J < k;
+      ) {
+        for (0, I = 1; I < H - 1; ) {
+          for (F = s.layers[o].data[J][I], l = x = 0; x <= 6; l = ++x) {
+            for (j = null, m = y = 0; y <= 6; m = ++y)
+              if (
+                ((h = Math.max(Math.min(I + l, H - 2), 0)),
+                (i = Math.max(Math.min(J + m, k - 1), 0)),
+                null != t(i, h).properties.type &&
+                  !t(i, h).occupied &&
+                  f.indexOf(t(i, h)) < 0 &&
+                  f.indexOf(t(i - 1, h)) < 0 &&
+                  f.indexOf(t(i, h + 1)) < 0 &&
+                  f.indexOf(t(i - 1, h + 1)) < 0 &&
+                  f.indexOf(t(i, h - 1)) < 0 &&
+                  f.indexOf(t(i - 1, h - 1)) < 0)
+              ) {
+                ((j = s.layers[o].data[i][h]), f.push(j));
+                break;
+              }
+            if (null != j) break;
+          }
+          I += z();
+        }
+        J += z();
+      }
+      for (w = 0, l = E = 0, r = f.length; E < r; l = ++E)
+        ((d = f[l]),
+          (F = s.layers[o].data[d.y][d.x]),
+          (b = this.getTileUp(s.layers[o], d.x, d.y)),
+          (A = this.getTileRight(s.layers[o], d.x, d.y)),
+          (p = this.getTileLeft(s.layers[o], d.x, d.y)),
+          (G = null),
+          (B = 0),
+          (C = [1, 1]),
+          (u = 1),
+          0 === F.properties.type &&
+          null != b &&
+          null != b.properties.type &&
+          null != A &&
+          null != A.properties.type &&
+          null != p &&
+          null != p.properties.type
+            ? ((G = "O_" + ((w % 2) + 1)),
+              (B =
+                "1" === w ? (Math.floor(3 * Math.random()) * Math.PI) / 2 : 0))
+            : 0 !== F.properties.type ||
+                (null != b && null != b.properties.type)
+              ? 0 === F.properties.type
+                ? ((G = "X"),
+                  (B = (Math.floor(3 * Math.random()) * Math.PI) / 2))
+                : 1 === F.properties.type
+                  ? (G = "A")
+                  : 2 === F.properties.type
+                    ? ((G = "A"), (C = [-1, 1]))
+                    : 3 === F.properties.type
+                      ? (G = "V")
+                      : 4 === F.properties.type && ((G = "V"), (C = [-1, 1]))
+              : ((G = "T_" + ((w % 3) + 1)),
+                (u = 2 * Math.round(Math.random()) - 1)),
+          w++,
+          null != G &&
+            ((D = this.game.make.sprite(
+              (d.x + 0.5) * c.world.mpx(1),
+              (d.y + 0.5) * c.world.mpx(1),
+              "TempleAssets",
+              "decor_" + G + "0000",
+            )),
+            (D.rotation = B),
+            D.scale.set(u * C[0], C[1]),
+            D.anchor.set(0.5),
+            g.renderXY(D, D.x + 32, D.y + 32, false),
+            D.destroy()));
+      return (
+        this.game.cache.addRenderTexture("decosTexture", g),
+        (D = this.game.make.sprite(
+          -32,
+          -32,
+          this.game.cache.getRenderTexture("decosTexture").texture,
+        )),
+        this.game.layers.decorations.addChild(D),
+        (this.game.layers.decorations.cacheAsBitmap = true)
+      );
+    };
+    Ground.prototype.drawForeground = function () {
+      return (this.image = this.game.make.image(0, 0, this.bmd));
+    };
+    Ground.prototype.applyFilter = function () {
+      var a, b, c, d, e, f, g;
+      return (
+        (a = this.game.make.tileSprite(
+          0,
+          0,
+          this.options.width,
+          this.options.height,
+          "TempleAssets",
+          "BackGround0000",
+        )),
+        this.game.layers.background.addChild(a),
+        (a.cacheAsBitmap = true),
+        (g = this.options.width + 64),
+        (b = this.options.height + 64),
+        (c = new InlineFilter(this.game, g, b, 3, 16711680)),
+        c.init(),
+        (d = new OutlineFilter(this.game, g, b, 3.5, 0)),
+        d.init(),
+        (f = new ShadowFilter(this.game, g, b, 8, 0)),
+        f.init(),
+        (this.image.filters = [c, d, f]),
+        (e = new Phaser.RenderTexture(
+          this.game,
+          g,
+          b,
+          "groundTexture",
+          void 0,
+          1,
+        )),
+        (this.game.renderer.renderSession.resolution = 1),
+        e.renderRawXY(this.image, 0, 0, true),
+        (this.game.renderer.renderSession.resolution = this.game.resolution),
+        this.game.cache.addRenderTexture("groundTexture", e),
+        (this.sprite = this.game.make.sprite(
+          -32,
+          -32,
+          this.game.cache.getRenderTexture("groundTexture").texture,
+        )),
+        this.game.layers.ground.addChild(this.sprite),
+        (this.sprite.cacheAsBitmap = true),
+        this.image.destroy(),
+        this.bmd.destroy(),
+        this.maskBmd.destroy(),
+        this.foregroundBmd.destroy()
+      );
+    };
+    Ground.prototype.destroy = function () {
+      return (
+        this.sprite.destroy(),
+        this.image.destroy(),
+        this.bmd.destroy(),
+        this.maskBmd.destroy(),
+        this.foregroundBmd.destroy(),
+        Ground.__super__.destroy.call(this)
+      );
+    };
+    Ground.prototype.createGroundFixture = function (a, b, c) {
+      var d, e;
+      return (
+        (e = new box2d.b2FixtureDef()),
+        (e.shape = a),
+        (e.filter.categoryBits = 1),
+        (e.filter.maskBits = 4369),
+        (e.friction = 0.8),
+        (e.isSensor = b),
+        (e.userData = c),
+        (d = this.groundBody.data.CreateFixture(e)),
+        (d.id = this.groundBody.world.getNextFixtureId())
+      );
+    };
+    Ground.prototype.createGroundShape = function (a, b) {
+      var c, d, e, f;
+      return (
+        (e = 1),
+        (d = 1),
+        (c = new box2d.b2PolygonShape()),
+        0 === a || 10 === a
+          ? ((f = []),
+            f.push(new box2d.b2Vec2(0, 0)),
+            f.push(new box2d.b2Vec2(-e, 0)),
+            f.push(new box2d.b2Vec2(-e, -d)),
+            f.push(new box2d.b2Vec2(0, -d)))
+          : 1 === a || -2 === a || 11 === a
             ? ((f = []),
-              f.push(new box2d.b2Vec2(0, 0)),
               f.push(new box2d.b2Vec2(-e, 0)),
               f.push(new box2d.b2Vec2(-e, -d)),
               f.push(new box2d.b2Vec2(0, -d)))
-            : 1 === a || -2 === a || 11 === a
+            : 2 === a || 12 === a
               ? ((f = []),
-                f.push(new box2d.b2Vec2(-e, 0)),
+                f.push(new box2d.b2Vec2(0, 0)),
                 f.push(new box2d.b2Vec2(-e, -d)),
                 f.push(new box2d.b2Vec2(0, -d)))
-              : 2 === a || 12 === a
+              : 3 === a
                 ? ((f = []),
                   f.push(new box2d.b2Vec2(0, 0)),
-                  f.push(new box2d.b2Vec2(-e, -d)),
-                  f.push(new box2d.b2Vec2(0, -d)))
-                : 3 === a
+                  f.push(new box2d.b2Vec2(-e, 0)),
+                  f.push(new box2d.b2Vec2(-e, -d)))
+                : 4 === a
                   ? ((f = []),
                     f.push(new box2d.b2Vec2(0, 0)),
                     f.push(new box2d.b2Vec2(-e, 0)),
-                    f.push(new box2d.b2Vec2(-e, -d)))
-                  : 4 === a
+                    f.push(new box2d.b2Vec2(0, -d)))
+                  : 5 === a || 6 === a || 7 === a
                     ? ((f = []),
-                      f.push(new box2d.b2Vec2(0, 0)),
-                      f.push(new box2d.b2Vec2(-e, 0)),
+                      f.push(new box2d.b2Vec2(0, -d / 2)),
+                      f.push(new box2d.b2Vec2(-e, -d / 2)),
+                      f.push(new box2d.b2Vec2(-e, -d)),
                       f.push(new box2d.b2Vec2(0, -d)))
-                    : 5 === a || 6 === a || 7 === a
+                    : 8 === a
                       ? ((f = []),
-                        f.push(new box2d.b2Vec2(0, -d / 2)),
-                        f.push(new box2d.b2Vec2(-e, -d / 2)),
-                        f.push(new box2d.b2Vec2(-e, -d)),
+                        f.push(new box2d.b2Vec2(0, 0)),
+                        f.push(new box2d.b2Vec2(-e - 0.3, -d / 2)),
+                        f.push(new box2d.b2Vec2(-e - 0.3, -d)),
                         f.push(new box2d.b2Vec2(0, -d)))
-                      : 8 === a
-                        ? ((f = []),
-                          f.push(new box2d.b2Vec2(0, 0)),
-                          f.push(new box2d.b2Vec2(-e - 0.3, -d / 2)),
-                          f.push(new box2d.b2Vec2(-e - 0.3, -d)),
-                          f.push(new box2d.b2Vec2(0, -d)))
-                        : 9 === a &&
-                          ((f = []),
-                          f.push(new box2d.b2Vec2(0.3, -d / 2)),
-                          f.push(new box2d.b2Vec2(-e, 0)),
-                          f.push(new box2d.b2Vec2(-e, -d)),
-                          f.push(new box2d.b2Vec2(0.3, -d))),
-          _.each(f, function (a) {
-            return ((a.x -= b.x), (a.y -= b.y));
-          }),
-          c.Set(f),
-          c
-        );
-      };
-      Ground.prototype.CreateSnows = function (a) {
-        var b,
-          c,
-          d,
-          e,
-          f,
-          g,
-          h,
-          i,
-          j,
-          k,
-          l,
-          m,
-          n,
-          o,
-          p,
-          q,
-          r,
-          s,
-          t,
-          u,
-          v,
-          w,
-          x,
-          y,
-          z;
+                      : 9 === a &&
+                        ((f = []),
+                        f.push(new box2d.b2Vec2(0.3, -d / 2)),
+                        f.push(new box2d.b2Vec2(-e, 0)),
+                        f.push(new box2d.b2Vec2(-e, -d)),
+                        f.push(new box2d.b2Vec2(0.3, -d))),
+        _.each(f, function (a) {
+          return ((a.x -= b.x), (a.y -= b.y));
+        }),
+        c.Set(f),
+        c
+      );
+    };
+    Ground.prototype.CreateSnows = function (a) {
+      var b,
+        c,
+        d,
+        e,
+        f,
+        g,
+        h,
+        i,
+        j,
+        k,
+        l,
+        m,
+        n,
+        o,
+        p,
+        q,
+        r,
+        s,
+        t,
+        u,
+        v,
+        w,
+        x,
+        y,
+        z;
+      for (
+        c = a.layers[0].data,
+          j = c.length,
+          i = c[0].length,
+          v = [],
+          console.log("WE"),
+          d = g = 0,
+          m = j;
+        0 <= m ? g <= m : g >= m;
+        d = 0 <= m ? ++g : --g
+      )
         for (
-          c = a.layers[0].data,
-            j = c.length,
-            i = c[0].length,
-            v = [],
-            console.log("WE"),
-            d = g = 0,
-            m = j;
-          0 <= m ? g <= m : g >= m;
-          d = 0 <= m ? ++g : --g
+          [], e = k = 0, n = i;
+          0 <= n ? k <= n : k >= n;
+          e = 0 <= n ? ++k : --k
         )
-          for (
-            [], e = k = 0, n = i;
-            0 <= n ? k <= n : k >= n;
-            e = 0 <= n ? ++k : --k
-          )
+          d >= 0 &&
+            e >= 0 &&
+            d < j &&
+            e < i &&
+            ((x = c[d][e]),
+            10 === x.properties.type
+              ? void 0 === u || null === u
+                ? (u = { x: d, y: e, length: 1, dir: "WE" })
+                : (u.length += 1)
+              : null != u && (v.push(u), (u = null)));
+      for (
+        console.log("SE"), f = l = 0, o = i + j;
+        0 <= o ? l <= o : l >= o;
+        f = 0 <= o ? ++l : --l
+      )
+        for (
+          [], d = w = 0, p = f;
+          0 <= p ? w <= p : w >= p;
+          d = 0 <= p ? ++w : --w
+        )
+          ((e = f - d),
             d >= 0 &&
               e >= 0 &&
               d < j &&
               e < i &&
               ((x = c[d][e]),
-              10 === x.properties.type
-                ? void 0 === u || null === u
-                  ? (u = { x: d, y: e, length: 1, dir: "WE" })
+              11 === x.properties.type
+                ? null == u
+                  ? (u = { x: d, y: e, length: 1, dir: "SE" })
                   : (u.length += 1)
-                : null != u && (v.push(u), (u = null)));
+                : null != u && (v.push(u), (u = null))));
+      for (
+        console.log("SW"), f = y = q = -Math.max(i, j), r = Math.max(i, j);
+        q <= r ? y <= r : y >= r;
+        f = q <= r ? ++y : --y
+      )
         for (
-          console.log("SE"), f = l = 0, o = i + j;
-          0 <= o ? l <= o : l >= o;
-          f = 0 <= o ? ++l : --l
+          [], d = z = 0, s = j;
+          0 <= s ? z <= s : z >= s;
+          d = 0 <= s ? ++z : --z
         )
-          for (
-            [], d = w = 0, p = f;
-            0 <= p ? w <= p : w >= p;
-            d = 0 <= p ? ++w : --w
-          )
-            ((e = f - d),
-              d >= 0 &&
-                e >= 0 &&
-                d < j &&
-                e < i &&
-                ((x = c[d][e]),
-                11 === x.properties.type
-                  ? null == u
-                    ? (u = { x: d, y: e, length: 1, dir: "SE" })
-                    : (u.length += 1)
-                  : null != u && (v.push(u), (u = null))));
-        for (
-          console.log("SW"), f = y = q = -Math.max(i, j), r = Math.max(i, j);
-          q <= r ? y <= r : y >= r;
-          f = q <= r ? ++y : --y
-        )
-          for (
-            [], d = z = 0, s = j;
-            0 <= s ? z <= s : z >= s;
-            d = 0 <= s ? ++z : --z
-          )
-            ((e = f + d),
-              d >= 0 &&
-                e >= 0 &&
-                d < j &&
-                e < i &&
-                ((x = c[d][e]),
-                12 === x.properties.type
-                  ? null == u
-                    ? (u = { x: d, y: e, length: 1, dir: "SW" })
-                    : (u.length += 1)
-                  : null != u && (v.push(u), (u = null))));
-        for (console.log(v), b = 0, h = v.length; b < h; b++)
-          ((t = v[b]), this.CreateSnow(this, t));
-      };
-      Ground.prototype.CreateSnow = function (a, b) {
-        return new Snow(this.game, a, b);
-      };
-      Ground.prototype.CreateLiquid = function (a, b, d, e) {
-        return new Liquid(this.game, b - e, d, { type: a, width: e });
-      };
-      return Ground;
-    });
-  }.call(this),
+          ((e = f + d),
+            d >= 0 &&
+              e >= 0 &&
+              d < j &&
+              e < i &&
+              ((x = c[d][e]),
+              12 === x.properties.type
+                ? null == u
+                  ? (u = { x: d, y: e, length: 1, dir: "SW" })
+                  : (u.length += 1)
+                : null != u && (v.push(u), (u = null))));
+      for (console.log(v), b = 0, h = v.length; b < h; b++)
+        ((t = v[b]), this.CreateSnow(this, t));
+    };
+    Ground.prototype.CreateSnow = function (a, b) {
+      return new Snow(this.game, a, b);
+    };
+    Ground.prototype.CreateLiquid = function (a, b, d, e) {
+      return new Liquid(this.game, b - e, d, { type: a, width: e });
+    };
+    return Ground;
+  });
+}).call(this),
   function () {
     define("States/Level/character", ["./CharCursors", "Phaser"], function (
       CharCursors,
@@ -5487,156 +1373,6 @@ function extend(SubClass, SuperClass) {
         );
       };
       return Character;
-    });
-  }.call(this),
-  function () {
-    define("States/Level/MechManager", [
-      "./Devices/Device",
-      "./Devices/_define",
-    ], function () {
-      "use strict";
-      function MechManager(b) {
-        ((this.deviceChanged = this.deviceChanged.bind(this)),
-          (this.resetStates = this.resetStates.bind(this)),
-          (this.connectToWall = this.connectToWall.bind(this)),
-          (this.registerDevice = this.registerDevice.bind(this)),
-          (this.game = b),
-          (this.deviceGroups = {}));
-      }
-      extend(MechManager, Object);
-      MechManager.prototype.registerDevice = function (a) {
-        var b, c;
-        if (
-          ((c = a.options.properties.group),
-          (b = this.deviceGroups)[c] || (b[c] = []),
-          this.deviceGroups[c].push(a),
-          null != a.signal)
-        )
-          return a.signal.add(this.deviceChanged);
-      };
-      MechManager.prototype.connectPortals = function () {
-        var a, b, c, d, e, f, g, h, i, j, k, l;
-        ((j = {}), (k = this.deviceGroups));
-        for (f in k)
-          for (d = k[f], e = 0, g = d.length; e < g; e++)
-            ((c = d[e]),
-              "portal" === c.options.type &&
-                (j[(h = c.options.properties.portalId)] || (j[h] = []),
-                j[c.options.properties.portalId].push(c)));
-        l = [];
-        for (f in j)
-          ((i = j[f]),
-            (i[0].other = i[1]),
-            (i[1].other = i[0]),
-            (a = i[0].options.properties).inverted || (a.inverted = false),
-            (b = i[1].options.properties).inverted || (b.inverted = false),
-            this.connectToWall(i[0]),
-            l.push(this.connectToWall(i[1])));
-        return l;
-      };
-      MechManager.prototype.connectToWall = function (a) {
-        var b, c, d, e, f, g, h;
-        if (
-          ((g = this.game.physics.box2d.pxm(a.options.x)),
-          (h = this.game.physics.box2d.pxm(a.options.y)),
-          (d = new box2d.b2Vec2(g, h)),
-          (c = d
-            .Clone()
-            .SelfAdd(
-              new box2d.b2Vec2(0.5, 0).SelfRotateRadians(a.options.rotation),
-            )),
-          (f = d
-            .Clone()
-            .SelfAdd(
-              new box2d.b2Vec2(-0.5, 0).SelfRotateRadians(a.options.rotation),
-            )),
-          -1 ===
-            this.game.level.ground.getTileAt(Math.floor(c.x), Math.floor(c.y))
-              .properties.type && (b = c),
-          -1 ===
-            this.game.level.ground.getTileAt(Math.floor(f.x), Math.floor(f.y))
-              .properties.type && (b = f),
-          null != b)
-        )
-          return (
-            b.SelfAdd(
-              new box2d.b2Vec2(0, -0.5).SelfRotateRadians(a.options.rotation),
-            ),
-            (e = {
-              center: { x: -b.x, y: -b.y },
-              rotation: a.options.rotation,
-              width: 0.5,
-              height: 1.5,
-            }),
-            a.createFakeBlock(e)
-          );
-      };
-      MechManager.prototype.resetStates = function () {
-        var a, b, c, d, e;
-        ((d = this.deviceGroups), (e = []));
-        for (c in d)
-          ((b = d[c]),
-            e.push(
-              (function () {
-                var c, d, e;
-                for (e = [], c = 0, d = b.length; c < d; c++)
-                  ((a = b[c]), e.push(a.updateState(true)));
-                return e;
-              })(),
-            ));
-        return e;
-      };
-      MechManager.prototype.deviceChanged = function (a) {
-        var b, c, d, e, f, g, h, i, j;
-        for (
-          console.log("--"),
-            g = a.state,
-            h = this.deviceGroups[a.options.properties.group],
-            c = 0,
-            e = h.length;
-          c < e;
-          c++
-        )
-          ((b = h[c]), null != b.signal && (g = g || b.state));
-        for (
-          i = this.deviceGroups[a.options.properties.group],
-            j = [],
-            d = 0,
-            f = i.length;
-          d < f;
-          d++
-        )
-          ((b = i[d]),
-            null == b.signal && (b.state = g),
-            j.push(b._updateState()));
-        return j;
-      };
-      MechManager.classNames = {
-        pusher: Devices.Pusher,
-        lever: Devices.Lever,
-        box: Devices.Box,
-        platform: Devices.MovingPlatform,
-        beamer: Devices.Beamer,
-        rotmirror: Devices.RotMirror,
-        lightpusher: Devices.LightPusher,
-        portal: Devices.Portal,
-        ball: Devices.Ball,
-        pulley: Devices.Pulley,
-        hanging: Devices.Hanging,
-        boxmirror: Devices.BoxMirror,
-        boxheavy: Devices.BoxHeavy,
-        infinitemirror: Devices.InfiniteMirror,
-        slider: Devices.Slider,
-        timedpusher: Devices.TimedPusher,
-        wind: Devices.Wind,
-        cover: Devices.BackgroundCover,
-        window: Devices.Window,
-        roman: Devices.Roman,
-      };
-      MechManager.className = function (a) {
-        return MechManager.classNames[a];
-      };
-      return MechManager;
     });
   }.call(this),
   function () {

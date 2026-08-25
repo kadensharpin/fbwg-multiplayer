@@ -3085,6 +3085,8 @@ declare module box2d {
         //  the definition is retained. This may cause the connected 
         //  bodies to cease colliding. 
         //  warning This function is locked during callbacks.
+        CreateJoint(def: b2RevoluteJointDef): b2RevoluteJoint;
+        CreateJoint(def: b2PrismaticJointDef): b2PrismaticJoint;
         CreateJoint(def: b2JointDef): b2Joint;
         //  Destroy a joint. This may cause the connected bodies to begin 
         //  colliding. 
@@ -3122,7 +3124,7 @@ declare module box2d {
         //  the starting point. 
         //   	  box2d.b2Vec2, box2d.b2Vec2, number)} callback a user
         //   	  implemented callback class.
-        RayCast(callback: (fixture: b2Fixture, vec1: b2Vec2, vec2: b2Vec2, points: number) => void | b2RayCastCallback, point1: b2Vec2, point2: b2Vec2): void;
+        RayCast(callback: ((fixture: b2Fixture, vec1: b2Vec2, vec2: b2Vec2, points: number) => void) | b2RayCastCallback, point1: b2Vec2, point2: b2Vec2): void;
         RayCastOne(point1: b2Vec2, point2: b2Vec2): b2Fixture;
         RayCastAll(point1: b2Vec2, point2: b2Vec2, out: Array<b2Fixture>): Array<b2Fixture>;
         DrawShape(fixture: b2Fixture, color: b2Color): void;

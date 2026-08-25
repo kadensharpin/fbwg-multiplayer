@@ -1,6 +1,6 @@
 /// <amd-module name="States/Level/EndMenu" />
 
-import { Game } from "@azerion/phaser";
+import { Animation, Game } from "@azerion/phaser";
 import StoneButton from "../Common/StoneButton";
 import FinishCounter from "./FinishCounter";
 import IngameMenu from "./IngameMenu";
@@ -69,19 +69,19 @@ class EndMenu extends IngameMenu {
     );
     sprite.animations.add(
       "to_1",
-      Phaser.Animation.generateFrameNames(texture, 1, 7, "", 4),
+      Animation.generateFrameNames(texture, 1, 7, "", 4),
       30,
       false,
     );
     sprite.animations.add(
       "to_2",
-      Phaser.Animation.generateFrameNames(texture, 8, 14, "", 4),
+      Animation.generateFrameNames(texture, 8, 14, "", 4),
       30,
       false,
     );
     sprite.animations.add(
       "to_3",
-      Phaser.Animation.generateFrameNames(texture, 15, 21, "", 4),
+      Animation.generateFrameNames(texture, 15, 21, "", 4),
       30,
       false,
     );

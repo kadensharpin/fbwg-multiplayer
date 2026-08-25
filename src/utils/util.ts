@@ -1,16 +1,15 @@
 import _ from "underscore";
 
 export function deepObjectExtend(target: any, source: any) {
-  for (const field in source) {
-    if (target[field] == null) continue;
-
+  for (const key in source) {
     if (
-      typeof target[field] === "object" &&
-      typeof source[field] === "object"
+      target[key] != null &&
+      typeof target[key] === "object" &&
+      typeof source[key] === "object"
     ) {
-      deepObjectExtend(target[field], source[field]);
-    } else {
-      target[field] = _.clone(source[field]);
+      deepObjectExtend(target[key], source[key]);
+    } else if (target[key] == null) {
+      target[key] = _.clone(source[key]);
     }
   }
   return target;

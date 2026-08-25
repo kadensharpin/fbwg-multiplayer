@@ -1312,7 +1312,7 @@ declare module Phaser {
       x: number,
       y: number,
       radius: number,
-      fillStyle?: string,
+      fillStyle?: string | CanvasGradient | CanvasPattern,
     ): Phaser.BitmapData;
 
     /**
@@ -16949,7 +16949,7 @@ declare module Phaser {
     /**
      * The Box2D Physics system.
      */
-    box2d: any;
+    box2d: Phaser.Physics.Box2D;
 
     /**
      * Clears down all active physics systems. This doesn't destroy them, it just clears them of objects and is called when the State changes.

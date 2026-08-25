@@ -1,6 +1,6 @@
 /// <amd-module name="States/Level/CursorToggle" />
 
-import { Game, Signal } from "@azerion/phaser";
+import { Game, Point, Signal } from "@azerion/phaser";
 import { Characters } from "../../character";
 import Button from "../Common/Button";
 
@@ -83,10 +83,7 @@ class CursorToggle extends Button {
   }
   setChar(newCharacter: Characters, ev?: HammerInput) {
     if (this.current === newCharacter) return;
-    if (
-      ev &&
-      !this.game.input.hitTest(this, ev.center as any, new Phaser.Point())
-    ) {
+    if (ev && !this.game.input.hitTest(this, ev.center as any, new Point())) {
       return;
     }
     this.current = newCharacter;
