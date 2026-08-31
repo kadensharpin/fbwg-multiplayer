@@ -1,7 +1,8 @@
 /// <amd-module name="States/Level/Devices/Liquid" />
 
 import { Animation, Game, Group, Physics, Sprite } from "@azerion/phaser";
-import { Character } from "../../../character";
+import { Fixture } from "utils/util";
+import { CharacterSprite } from "../character";
 
 type LiquidOptions = {
   width: number;
@@ -17,7 +18,11 @@ class Liquid extends Sprite {
   readonly options: LiquidOptions;
   readonly sensorFixture: box2d.b2Fixture;
   readonly iceFixture: box2d.b2Fixture;
-  readonly killFixture: box2d.b2Fixture;
+  readonly killFixture: Fixture<{
+    type: "liquid_death";
+    liquidType: 5 | 6 | 7 | 55;
+    lightProperties: { type: "transparent" };
+  }>;
   readonly liquidGraphics: Group;
   readonly iceGraphics?: Group;
   readonly nearBodies: Record<number, { body: Physics.Box2D.Body }>;
@@ -104,8 +109,8 @@ class Liquid extends Sprite {
         _fixture2: box2d.b2Fixture,
         begin: boolean,
       ) => {
-        const sprite1 = body1.sprite as Sprite & { character?: Character };
-        const sprite2 = body2.sprite as Sprite & { character?: Character };
+        const sprite1 = body1.sprite as CharacterSprite;
+        const sprite2 = body2.sprite as CharacterSprite;
         const character = sprite1.character || sprite2.character;
         if (!character) return;
 

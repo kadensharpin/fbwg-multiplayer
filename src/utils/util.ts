@@ -14,3 +14,7 @@ export function deepObjectExtend(target: any, source: any) {
   }
   return target;
 }
+
+export type Fixture<UserData> = Omit<box2d.b2Fixture, "m_userData"> & {
+  m_userData: UserData;
+};

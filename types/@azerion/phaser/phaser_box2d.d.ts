@@ -318,7 +318,18 @@ declare module Phaser {
                 //  Sets a callback to be fired any time a fixture in this Body begins or ends contact with a fixture in the given Body. 
                 setBodyContactCallback(object: Phaser.Sprite | Box2D.Body, callback: Function, callbackContext: any): void;
                 // Sets a callback to be fired any time the given fixture begins or ends contact something
-                setFixtureContactCallback(fixture: box2d.b2Fixture, callback: Function, callbackContext: any): void;
+                setFixtureContactCallback(
+                    fixture: box2d.b2Fixture,
+                    callback: (
+                        body1: Physics.Box2D.Body,
+                        body2: Physics.Box2D.Body,
+                        fixture1: box2d.b2Fixture,
+                        fixture2: box2d.b2Fixture,
+                        begin: boolean,
+                        contact: box2d.b2Contact
+                    ) => void,
+                    callbackContext?: any,
+                ): void;
                 // Sets a callback to be fired any time a fixture in this body begins contact with a fixture in another body that matches given category set.
                 setCategoryContactCallback(category: number, callback: Function, callbackContext: any) : void;
                 // Sets a callback to be fired when PreSolve is done for contacts between a fixture in this body and a fixture in the given Body.

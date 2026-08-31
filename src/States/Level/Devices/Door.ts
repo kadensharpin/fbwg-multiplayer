@@ -9,7 +9,7 @@ import {
   Sound,
   Sprite,
 } from "@azerion/phaser";
-import { Character, Characters } from "../../../character";
+import Character, { Characters } from "../character";
 
 class Door extends Group {
   readonly options = { width: 64, height: 8 };
