@@ -8,7 +8,7 @@ import {
   Sound,
   Sprite,
 } from "@azerion/phaser";
-import { Character } from "../../../character";
+import Character from "../character";
 import BoxedDevice, { BoxedDeviceOptions } from "./BoxedDevice";
 import { Cell } from "./Device";
 

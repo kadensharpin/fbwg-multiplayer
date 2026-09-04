@@ -308,9 +308,9 @@ class Character extends Group {
   }
 
   _doKill() {
-    this.game.level.sounds.death.play();
-    this.game.level.sounds.levelMusic.stop();
-    this.game.level.sounds.levelMusicOver.play();
+    this.game.level.sounds.death?.play();
+    this.game.level.sounds.levelMusic?.stop();
+    this.game.level.sounds.levelMusicOver?.play();
     const smokeSprite = this.game.make.sprite(
       0,
       -0.7 * this.game.physics.box2d.mpx(1),
@@ -412,7 +412,7 @@ class Character extends Group {
         (this.cursors.right.isDown || this.cursors.left.isDown) &&
         this.isOnLiquid
       ) {
-        if (!this.waterplaying) {
+        if (!this.waterplaying && this.game.level?.sounds.waterSteps) {
           this.waterplaying = true;
           this.game.level.sounds.waterSteps.loop = true;
           this.game.level.sounds.waterSteps.volume = 0.5;
@@ -420,20 +420,23 @@ class Character extends Group {
         }
       } else if (this.waterplaying === true) {
         this.waterplaying = false;
-        this.game.level.sounds.waterSteps.stop();
+        this.game.level.sounds.waterSteps?.stop();
       }
+      const iceSteps = ("iceSteps_" + this.data.char) as "iceSteps_fb";
       if (
         (this.cursors.right.isDown || this.cursors.left.isDown) &&
         this.isOnIce
       ) {
         if (!this.iceplaying) {
           this.iceplaying = true;
-          this.game.level.sounds["iceSteps_" + this.data.char].loop = true;
-          this.game.level.sounds["iceSteps_" + this.data.char].play();
+          if (this.game.level.sounds[iceSteps]) {
+            this.game.level.sounds[iceSteps].loop = true;
+            this.game.level.sounds[iceSteps].play();
+          }
         }
       } else if (this.iceplaying === true) {
         this.iceplaying = false;
-        this.game.level.sounds["iceSteps_" + this.data.char].stop();
+        this.game.level.sounds[iceSteps]?.stop();
       }
       let normalForce: box2d.b2Vec2 | null | undefined = null;
       if (this.feetSensor.contacts.length > 0) {
@@ -579,9 +582,9 @@ class Character extends Group {
         }
         this.prohibitJump = true;
         if (this.char === "wg") {
-          this.game.level.sounds.jump_wg.play();
+          this.game.level.sounds.jump_wg?.play();
         } else {
-          this.game.level.sounds.jump_fb.play();
+          this.game.level.sounds.jump_fb?.play();
         }
       }
       if (jumping) {
@@ -645,7 +648,6 @@ class Character extends Group {
       } else if (velocity.x > 4) {
         animationState = "jumping";
         headScaleX = -1;
-        headRotation = headRotation;
       } else if (velocity.x < -4) {
         animationState = "jumping";
         headScaleX = 1;
@@ -741,4 +743,5 @@ class Character extends Group {
   }
 }
 
+// @ts-ignore
 export = Character;

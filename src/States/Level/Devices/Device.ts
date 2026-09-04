@@ -205,4 +205,5 @@ class Device<Options extends DeviceOptions> extends Group {
   } as const;
 }
 
+// @ts-ignore
 export = Device;

@@ -35,4 +35,5 @@ class BoxedDevice<Options extends BoxedDeviceOptions> extends Device<Options> {
   }
 }
 
+// @ts-ignore
 export = BoxedDevice;

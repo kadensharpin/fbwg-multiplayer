@@ -86,7 +86,7 @@ class Diamond extends Sprite {
   }
 
   grabbed(character: Character) {
-    this.game.level.sounds.diamond.play();
+    this.game.level.sounds.diamond?.play();
     this.data.char === "silver"
       ? character.data.silverDiamond++
       : character.data.diamonds++;

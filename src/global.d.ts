@@ -1,11 +1,14 @@
 import bowser from "bowser";
 import { i18n } from "i18next";
+import PhaserSuperStorage from "phaser-super-storage";
 import ProgressModel from "./ProgressModel";
 import Beamer from "./States/Level/Devices/Beamer";
+import { Level } from "./States/Level/level";
 import { Temple } from "./temple";
 import type TouchManager from "./TouchManager";
 import Lang from "./utils/lang/Lang";
 import { Sounds } from "./utils/sound/sounds";
+import MechManager = require("./States/Level/MechManager");
 
 declare module "@azerion/phaser" {
   interface IGameConfig {
@@ -15,6 +18,7 @@ declare module "@azerion/phaser" {
   interface Game {
     bowser: bowser.IBowser;
     TouchManager: TouchManager;
+    MechManager: MechManager;
     lang: Lang;
     progress: ProgressModel;
     layers: {
@@ -34,6 +38,8 @@ declare module "@azerion/phaser" {
         alpha: number;
       };
     };
+    level: Level;
+    storage: PhaserSuperStorage.StoragePlugin;
     currentSounds: Sounds;
     menuMusic?: Sound | undefined | null;
     currentTemple: Temple;

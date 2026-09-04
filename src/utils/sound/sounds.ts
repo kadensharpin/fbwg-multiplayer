@@ -30,4 +30,5 @@ export type Sounds = {
 
   menuMusic?: Sound;
   pusher?: Sound;
+  lightPusher?: Sound;
 };

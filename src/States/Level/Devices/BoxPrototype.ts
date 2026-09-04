@@ -137,4 +137,5 @@ class BoxPrototype<
   }
 }
 
+// @ts-ignore
 export = BoxPrototype;

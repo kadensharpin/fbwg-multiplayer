@@ -30,7 +30,10 @@ class UIState extends State {
     this.game.currentSounds = sounds;
     this.game.sound.setDecodedCallback(
       Object.values(this.sounds),
-      () => (this.startMusic(), (this.started = true)),
+      () => {
+        this.startMusic();
+        this.started = true;
+      },
       this,
     );
     callback();

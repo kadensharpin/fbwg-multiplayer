@@ -90,7 +90,7 @@ class LightPusher extends BoxedDevice<LightPusherOptions> {
         this.options.properties.color
     ) {
       this.state = 1;
-      this.game.level.sounds.lightPusher.play();
+      this.game.level.sounds.lightPusher?.play();
       this.signal.dispatch(this);
     } else if (
       this.state === 1 &&

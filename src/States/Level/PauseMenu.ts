@@ -5,8 +5,7 @@ import Button from "States/Common/Button";
 import StoneButton from "../Common/StoneButton";
 import SettingsMenu from "../Settings/SettingsMenu";
 import IngameMenu from "./IngameMenu";
-
-type Level = never;
+import { Level } from "./level";
 
 class PauseMenu extends IngameMenu {
   isPressed = false;

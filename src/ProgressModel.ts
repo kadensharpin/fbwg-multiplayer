@@ -10,6 +10,7 @@ class ProgressModel extends Model {
   myKeys = [];
   firstComplete!: boolean;
   totalStars!: number;
+
   constructor(game: Game) {
     super();
     this.save = this.save.bind(this);
@@ -25,6 +26,7 @@ class ProgressModel extends Model {
     this.game = game;
     this.url = () => "";
   }
+
   fetch(): any {
     let keys = this.game.gameConfig.temples;
     if (!Array.isArray(keys)) keys = [keys];
@@ -91,6 +93,7 @@ class ProgressModel extends Model {
     }
     this.save();
   }
+
   setStates(temple: Temple) {
     const findLevel = (id: number) =>
       temple.levels.find((temple) => temple._id == id);
@@ -161,6 +164,7 @@ class ProgressModel extends Model {
       }
     }
   }
+
   update(endState: EndState) {
     const targetTime =
       this.game.settings.controls === "single"
@@ -186,27 +190,34 @@ class ProgressModel extends Model {
       this.process();
     }
   }
+
   setPlayed(level: LevelData) {
     if (level.played) return;
     level.played = true;
     this.process();
   }
-  betterThan(a: LevelResult, b: LevelResult) {
-    if (a.stars !== b.stars) return a.stars > b.stars;
-    if (a.diamonds !== b.diamonds) return a.diamonds > b.diamonds;
-    return a.time < b.time;
+
+  betterThan(thisResult: LevelResult, bestResult: LevelResult) {
+    if (thisResult.stars !== bestResult.stars)
+      return thisResult.stars > bestResult.stars;
+    if (thisResult.diamonds !== bestResult.diamonds)
+      return thisResult.diamonds > bestResult.diamonds;
+    return thisResult.time < bestResult.time;
   }
+
   erase() {
     this.game.storage.setNamespace("fb-" + this.game.gameConfig.id);
     this.game.storage.clear();
   }
+
   getStored() {
     this.game.storage.setNamespace("fb-" + this.game.gameConfig.id);
     return this.game.storage
       .getItem("progress")
-      .then((result) => JSON.parse(result))
-      .catch((err) => null);
+      .then(JSON.parse)
+      .catch(() => null);
   }
+
   save() {
     this.game.storage.setNamespace("fb-" + this.game.gameConfig.id);
     this.game.storage.setItem("progress", JSON.stringify(this.toJSON()));
