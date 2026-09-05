@@ -748,57 +748,6 @@ function extend(SubClass, SuperClass) {
   });
 }).call(this),
   function () {
-    define("States/Level/LevelUI", [
-      "../Common/Button",
-      "./Clock",
-      "../Common/MuteButton",
-      "Phaser",
-    ], function (Button, Clock, MuteButton) {
-      "use strict";
-      function LevelUI(b, e) {
-        ((this.pauseClicked = this.pauseClicked.bind(this)),
-          (this.show = this.show.bind(this)),
-          (this.layoutContent = this.layoutContent.bind(this)));
-        var g, h;
-        (LevelUI.__super__.constructor.call(this, b, 0, 0),
-          this.game.layers.ui.addChild(this),
-          (this.pauseButton = h =
-            new Button(
-              this.game,
-              this.game.realWidth / 2,
-              -this.game.realHeight / 2,
-              "PopupAssets",
-              "PauseButton0000",
-              this.pauseClicked,
-            )),
-          h.sprite.anchor.set(1, 0),
-          (h.hitArea = new PIXI.Circle(-h.width / 2, h.width / 2, 2 * h.width)),
-          this.addChild(h),
-          (this.clock = g = new Clock(this.game, 0, -this.game.realHeight / 2)),
-          g.anchor.set(0.5, 0.05),
-          this.addChild(g),
-          (this.visible = false));
-      }
-      extend(LevelUI, Phaser.Group);
-      LevelUI.prototype.layoutContent = function () {
-        return (
-          null != this.game &&
-            ((this.pauseButton.x = this.game.realWidth / 2),
-            (this.pauseButton.y = -this.game.realHeight / 2),
-            (this.clock.y = -this.game.realHeight / 2)),
-          (this.clock.x = 0)
-        );
-      };
-      LevelUI.prototype.show = function () {
-        return (this.visible = true);
-      };
-      LevelUI.prototype.pauseClicked = function () {
-        return (console.log("pause"), this.game.level.togglePause());
-      };
-      return LevelUI;
-    });
-  }.call(this),
-  function () {
     define("States/End", ["./Level/EndMenu", "./Level/GameOverMenu"], function (
       EndMenu,
       GameOverMenu,
