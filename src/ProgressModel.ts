@@ -240,10 +240,13 @@ class ProgressModel extends Model {
   }
 }
 
+// @ts-ignore
 export = ProgressModel;
 
-type EndState = {
+export type EndState = {
   success: boolean;
   data: LevelData;
   state: LevelResult;
+
+  retry(): void;
 };

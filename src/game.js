@@ -748,56 +748,6 @@ function extend(SubClass, SuperClass) {
   });
 }).call(this),
   function () {
-    define("States/End", ["./Level/EndMenu", "./Level/GameOverMenu"], function (
-      EndMenu,
-      GameOverMenu,
-    ) {
-      "use strict";
-      function End() {
-        return (
-          (this.shutdown = this.shutdown.bind(this)),
-          (this.pauseUpdate = this.pauseUpdate.bind(this)),
-          (this.layoutContent = this.layoutContent.bind(this)),
-          (this.create = this.create.bind(this)),
-          (this.init = this.init.bind(this)),
-          End.__super__.constructor.apply(this, arguments)
-        );
-      }
-      extend(End, Phaser.State);
-      End.prototype.init = function (a) {
-        return (this.levelState = a);
-      };
-      End.prototype.create = function () {
-        return this.levelState.success
-          ? (this.game.progress.update(this.levelState),
-            (this.menu = new EndMenu(this.game, this.levelState)),
-            this.menu.show())
-          : ((this.menu = new GameOverMenu(this.game, this.levelState)),
-            this.menu.show(),
-            (this.restartKey = this.game.input.keyboard.addKey(
-              Phaser.Keyboard.R,
-            )),
-            this.restartKey.onDown.add(this.levelState.retry));
-      };
-      End.prototype.layoutContent = function () {
-        if (null != this.menu.layoutContent) return this.menu.layoutContent();
-      };
-      End.prototype.pauseUpdate = function () {
-        return (this.menu.update(), this.game.tweens.update());
-      };
-      End.prototype.shutdown = function () {
-        return (
-          console.log(
-            "shuting down end, with levelstate ",
-            this.game.state.states.level,
-          ),
-          this.game.state.states.level.killAll()
-        );
-      };
-      return End;
-    });
-  }.call(this),
-  function () {
     var a = function (a, b) {
         return function () {
           return a.apply(b, arguments);
