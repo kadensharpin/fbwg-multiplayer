@@ -5,7 +5,7 @@ import StoneButton from "../Common/StoneButton";
 import IngameMenu from "../Level/IngameMenu";
 
 class BuyMenu extends IngameMenu {
-  private readonly onClose = new Signal();
+  readonly onClose = new Signal();
 
   constructor(game: Game, options: any) {
     super(game, options);

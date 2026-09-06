@@ -32,6 +32,7 @@ export type LevelData = {
   isNew: boolean;
   type?: LevelType;
   best?: LevelResult;
+  rewarded?: boolean;
 };
 
 export type LevelResult = {
