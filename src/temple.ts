@@ -3,7 +3,8 @@ type LevelType = "puzzle" | "speed" | "dark";
 export type Temple = {
   index: number;
   id: "forest";
-  label: "forest temple";
+  icon?: string;
+  label: "Forest Temple";
   color: "#5B4610";
   type: "tree";
   levels: LevelData[];

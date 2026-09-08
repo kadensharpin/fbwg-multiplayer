@@ -4114,7 +4114,7 @@ declare module Phaser {
      * The Rectangle can be located anywhere in the world and updated as often as you like. If you don't wish the Camera to be bound
      * at all then set this to null. The values can be anything and are in World coordinates, with 0,0 being the top-left of the world. The Rectangle in which the Camera is bounded. Set to null to allow for movement anywhere.
      */
-    bounds: Phaser.Rectangle;
+    bounds: Phaser.Rectangle | null;
 
     /**
      * Moving inside this Rectangle will not cause the camera to move.
@@ -4197,7 +4197,7 @@ declare module Phaser {
     /**
      * If the camera is tracking a Sprite, this is a reference to it, otherwise null.
      */
-    target: Phaser.Sprite;
+    target: Phaser.Sprite | null;
 
     /**
      * The total number of Sprites with `autoCull` set to `true` that are visible by this Camera.
@@ -26256,8 +26256,8 @@ declare module Phaser {
      * @param loop Loop when it finished playing?
      */
     restart(
-      marker: string,
-      position: number,
+      marker?: string,
+      position?: number,
       volume?: number,
       loop?: boolean,
     ): void;

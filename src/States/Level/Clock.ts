@@ -23,7 +23,7 @@ class Clock extends Sprite {
     this.text.x = -this.text.textWidth / 2;
     this.text.y = -this.height / 2 + this.text.textHeight + 20;
     this.addChild(this.text);
-    this.text.text = this.secondsToString(0);
+    this.text.text = Clock.secondsToString(0);
   }
 
   start() {
@@ -34,7 +34,7 @@ class Clock extends Sprite {
 
   update() {
     if (this.startTime != null && !this.stopped && this.pauseTime == null) {
-      this.text.text = this.secondsToString(this.getElapsedSeconds());
+      this.text.text = Clock.secondsToString(this.getElapsedSeconds());
       this.text.x = -this.text.textWidth / 2;
       this.text.y = -this.height / 2 + this.text.textHeight + 20;
     }
@@ -61,7 +61,7 @@ class Clock extends Sprite {
     return Math.round((this.game.time.now - this.startTime) / 1000);
   }
 
-  secondsToString(seconds: number) {
+  static secondsToString(seconds: number) {
     const pad = (n: number) => (n < 10 ? "0" : "") + n;
     const remainingSeconds = seconds % 60;
     const minutes = (seconds - remainingSeconds) / 60;

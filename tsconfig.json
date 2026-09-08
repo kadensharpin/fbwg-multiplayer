@@ -23,5 +23,6 @@
     "skipLibCheck": true,
 
     "typeRoots": ["./types"]
-  }
+  },
+  "exclude": ["dist"]
 }

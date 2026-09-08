@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "build": "rm -rf dist/ && mkdir -p dist/ && tsc ; cp -r src/game.html src/game.js src/ assets/* dist/",
+    "build": "rm -rf dist/ && mkdir -p dist/ && tsc ; cp -r src/game.html src/ assets/* dist/",
     "dev": "cd dist/ && python3 -m http.server 8080 && cd -"
   },
   "dependencies": {

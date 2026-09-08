@@ -4,15 +4,23 @@ import PhaserSuperStorage from "phaser-super-storage";
 import ProgressModel from "./ProgressModel";
 import Beamer from "./States/Level/Devices/Beamer";
 import { Level } from "./States/Level/level";
+import MechManager from "./States/Level/MechManager";
 import { Temple } from "./temple";
 import type TouchManager from "./TouchManager";
 import Lang from "./utils/lang/Lang";
 import { Sounds } from "./utils/sound/sounds";
-import MechManager = require("./States/Level/MechManager");
 
 declare module "@azerion/phaser" {
   interface IGameConfig {
+    showFps: boolean;
     devUnlock: boolean;
+    simulateCordova: boolean;
+    multiTexture: boolean;
+    log: boolean;
+  }
+
+  interface Camera {
+    _shake: { duration: number };
   }
 
   interface Game {
@@ -21,6 +29,7 @@ declare module "@azerion/phaser" {
     MechManager: MechManager;
     lang: Lang;
     progress: ProgressModel;
+    bounds: Rectangle;
     layers: {
       background: Group;
       tutorial: Group;
@@ -49,6 +58,7 @@ declare module "@azerion/phaser" {
       assets: string | string[];
       temples: string | string[];
       title: string;
+      target: null | "cordova";
     };
   }
 }

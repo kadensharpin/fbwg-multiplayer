@@ -1,6 +1,6 @@
 /// <amd-module name="TouchManager" />
 
-import { Game, Point, Signal, Sprite } from "@azerion/phaser";
+import { Game, Point, Signal } from "@azerion/phaser";
 import Hammer from "hammerjs";
 
 type Handler<Sprite, Callback> = {
@@ -76,7 +76,10 @@ class TouchManager extends Signal {
       callback,
     });
   }
-  unregister(sprite: Sprite | null, eventName: keyof Events) {
+  unregister<K extends keyof Events>(
+    sprite: (Events[K] & {})[number]["sprite"],
+    eventName: K,
+  ) {
     if (!this.events[eventName]) {
       console.warn("Unregistering non-existent event:", eventName);
       return;

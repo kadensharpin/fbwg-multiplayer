@@ -19,7 +19,7 @@ class Button extends Sprite {
   protected upFrameName?: string;
   protected customEvents: boolean = false;
   protected isDown: boolean = false;
-  protected label?: BitmapText;
+  label?: BitmapText;
 
   constructor(
     game: Game,

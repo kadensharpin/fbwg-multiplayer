@@ -1,3 +1,4 @@
+import { Game, Plugin, PluginManager } from "@azerion/phaser";
 import _ from "underscore";
 
 export function deepObjectExtend(target: any, source: any) {
@@ -13,6 +14,32 @@ export function deepObjectExtend(target: any, source: any) {
     }
   }
   return target;
+}
+
+export class CacheBuster extends Plugin {
+  static version = 1;
+
+  constructor(game: Game, manager: PluginManager) {
+    super(game, manager);
+
+    this.patchLoader();
+  }
+
+  patchLoader() {
+    Phaser.Loader.prototype.transformUrl = function (url: string, file?: any) {
+      if (!url) {
+        return "";
+      }
+      if (!url.startsWith("data:")) {
+        url += "?v=" + CacheBuster.version;
+      }
+      if (url.match(/^(?:blob:|data:|http:\/\/|https:\/\/|\/\/)/) || !file) {
+        return url;
+      } else {
+        return this.baseURL + file.path + url;
+      }
+    };
+  }
 }
 
 export type Fixture<UserData> = Omit<box2d.b2Fixture, "m_userData"> & {

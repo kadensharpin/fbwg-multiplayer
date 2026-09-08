@@ -162,7 +162,8 @@ export = SettingsMenu;
 
 declare module "@azerion/phaser" {
   interface Game {
-    saveSettings(): void;
+    loadSettings(): Promise<void>;
+    saveSettings(): Promise<void>;
     settingsSignal: Signal;
     settings: {
       controls: "keyboard" | "dual" | "single";
