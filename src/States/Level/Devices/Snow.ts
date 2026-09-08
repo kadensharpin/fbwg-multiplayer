@@ -2,7 +2,7 @@
 
 import { Game, Physics, Sprite } from "@azerion/phaser";
 import Character from "../character";
-import { Ground } from "../ground";
+import Ground from "../Ground";
 
 type SnowOptions = {
   x: number;

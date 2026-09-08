@@ -169,7 +169,9 @@ class Pulley extends Device<PulleyOptions> {
 
       if (this.options.properties.prismatic) {
         const axis = new box2d.b2Vec2(0, 1);
-        const bodyDef = new box2d.b2BodyDef();
+        const bodyDef = new box2d.b2BodyDef() as box2d.b2BodyDef & {
+          density: number;
+        };
         bodyDef.density = 0;
         const body = new box2d.b2Body(bodyDef, platformBody.world);
         const jointDef = new box2d.b2PrismaticJointDef();

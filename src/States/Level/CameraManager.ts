@@ -2,7 +2,7 @@
 
 import { Game, Graphics, Rectangle } from "@azerion/phaser";
 import _ from "underscore";
-import { Level } from "./level";
+import Level from "./Level";
 
 type Insets = { top: number; left: number; bottom: number; right: number };
 
@@ -107,25 +107,25 @@ class CameraManager {
           x:
             -this.level.root.x -
             this.game.realWidth / 2 +
-            input.center.x / this.pinchScale,
+            input.center.x / this.pinchScale!,
           y:
             -this.level.root.y -
             this.game.realHeight / 2 +
-            input.center.y / this.pinchScale,
+            input.center.y / this.pinchScale!,
         };
       }
       this.userScale = Math.min(
         this.maxScale,
-        Math.max(this.minScale, input.scale * this.pinchScale),
+        Math.max(this.minScale, input.scale * this.pinchScale!),
       );
       this.userCenter = new box2d.b2Vec2(
         this.pinchOrigin.x +
           this.pinchCenter.x * this.userScale -
-          this.pinchCenter.x * this.pinchScale -
+          this.pinchCenter.x * this.pinchScale! -
           input.deltaX / this.game.camera.scale.x,
         this.pinchOrigin.y +
           this.pinchCenter.y * this.userScale -
-          this.pinchCenter.y * this.pinchScale -
+          this.pinchCenter.y * this.pinchScale! -
           input.deltaY / this.game.camera.scale.y,
       );
     });

@@ -1,7 +1,7 @@
 /// <amd-module name="States/Level/Devices/BoxedDevice" />
 
-import { Game } from "@azerion/phaser";
-import Device, { Cell, DeviceOptions } from "./Device";
+import { Game, Tile } from "@azerion/phaser";
+import Device, { DeviceOptions } from "./Device";
 
 export type BoxedDeviceOptions = {
   boxSize?: { width: number; height: number };
@@ -25,7 +25,7 @@ class BoxedDevice<Options extends BoxedDeviceOptions> extends Device<Options> {
     this.ocupy = this.ocupy.bind(this);
   }
 
-  ocupy(tiles: Cell[][]) {
+  ocupy(tiles: Tile[][]) {
     const x = this.options.x / 32;
     const y = this.options.y / 32;
     this.ocupyTile(tiles, x, y);

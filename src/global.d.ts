@@ -23,6 +23,10 @@ declare module "@azerion/phaser" {
     _shake: { duration: number };
   }
 
+  interface Tile {
+    occupied: boolean;
+  }
+
   interface Game {
     bowser: bowser.IBowser;
     TouchManager: TouchManager;
@@ -101,6 +105,12 @@ declare global {
   namespace box2d {
     interface b2Fixture {
       id: number;
+    }
+  }
+
+  namespace PIXI {
+    interface RenderSession {
+      resolution: number;
     }
   }
 }

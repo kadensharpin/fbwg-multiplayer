@@ -6,7 +6,7 @@ import Button from "../Common/Button";
 import GoldButton from "../Common/GoldButton";
 import UIState from "../Common/UIState";
 import CreditsMenu from "../Credits/CreditsMenu";
-import { Level } from "../Level/level";
+import Level from "../Level/Level";
 import LevelMenu from "../LevelMenu/LevelMenu";
 import SettingsMenu from "../Settings/SettingsMenu";
 

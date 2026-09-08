@@ -1,7 +1,14 @@
 /// <amd-module name="States/Level/Devices/TimedPusher" />
 
-import { BitmapData, Game, Graphics, Sound, Timer } from "@azerion/phaser";
-import { Cell, Light } from "./Device";
+import {
+  BitmapData,
+  Game,
+  Graphics,
+  Sound,
+  Tile,
+  Timer,
+} from "@azerion/phaser";
+import { Light } from "./Device";
 import Pusher, { PusherOptions } from "./Pusher";
 
 type TimedPusherOptions = {
@@ -113,7 +120,8 @@ class TimedPusher extends Pusher<TimedPusherOptions> {
         this.baseLight.mask = this.clock;
       }
       if (
-          0 === this.downState && (this.sound == null || !this.sound.isPlaying)
+        0 === this.downState &&
+        (this.sound == null || !this.sound.isPlaying)
       ) {
         this.sound = this.game.level.sounds.clock.play(
           null,
@@ -146,12 +154,12 @@ class TimedPusher extends Pusher<TimedPusherOptions> {
     } else if (this.lastDrawnAngle) {
       this.base.removeChild(this.clock);
       // @ts-ignore
-        this.baseLight.mask = null;
+      this.baseLight.mask = null;
       this.lastDrawnAngle = null;
     }
   }
 
-  ocupy(tiles: Cell[][]) {
+  ocupy(tiles: Tile[][]) {
     const x = this.options.x / 32;
     const y = this.options.y / 32;
     this.ocupyTile(tiles, x, y);

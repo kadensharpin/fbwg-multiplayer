@@ -7,10 +7,10 @@ import {
   Physics,
   Sound,
   Sprite,
+  Tile,
 } from "@azerion/phaser";
 import Character from "../character";
 import BoxedDevice, { BoxedDeviceOptions } from "./BoxedDevice";
-import { Cell } from "./Device";
 
 type WindOptions = {
   boxWidth: number;
@@ -216,7 +216,7 @@ class Wind extends BoxedDevice<WindOptions> {
     }
   }
 
-  ocupy(tiles: Cell[][]) {
+  ocupy(tiles: Tile[][]) {
     const x = this.options.x / 32;
     const y = this.options.y / 32;
     this.ocupyTile(tiles, x - 1, y);

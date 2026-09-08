@@ -3,7 +3,7 @@
 import { Game, Group } from "@azerion/phaser";
 import Button from "../Common/Button";
 import Clock from "./Clock";
-import { Level } from "./level";
+import Level from "./Level";
 
 class LevelUI extends Group {
   private readonly pauseButton: Button;

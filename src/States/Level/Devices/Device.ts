@@ -1,6 +1,14 @@
 /// <amd-module name="States/Level/Devices/Device" />
 
-import { Color, Game, Group, Physics, Signal, Sprite } from "@azerion/phaser";
+import {
+  Color,
+  Game,
+  Group,
+  Physics,
+  Signal,
+  Sprite,
+  Tile,
+} from "@azerion/phaser";
 import { deepObjectExtend } from "../../../utils/util";
 
 export type DeviceOptions = {
@@ -178,7 +186,7 @@ class Device<Options extends DeviceOptions> extends Group {
 
   checkState() {}
 
-  ocupyTile(tiles: Cell[][], x: number, y: number) {
+  ocupyTile(tiles: Tile[][], x: number, y: number) {
     const row = tiles[Math.floor(y)];
     const cell = row?.[Math.floor(x)];
     if (cell) {
@@ -188,7 +196,7 @@ class Device<Options extends DeviceOptions> extends Group {
     return false;
   }
 
-  ocupy(tiles: Cell[][]) {}
+  ocupy(tiles: Tile[][]) {}
 
   sounds(): string | string[] {
     return [];

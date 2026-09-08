@@ -512,11 +512,8 @@ class Level extends State {
     this.game.clearBeforeRender = false;
     this.game.level = this;
     this.setupLayers();
-    $(
-      '<div style="top:0; left: 0; width: 100%; height: 100%; position:absolute"></div>',
-    );
     if (this.game.config.enableDebug) {
-      $(window).on(
+      window.addEventListener(
         "keydown",
         (function (a) {
           return function (b) {

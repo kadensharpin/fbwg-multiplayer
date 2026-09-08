@@ -8,9 +8,10 @@ import {
   Physics,
   Sound,
   Sprite,
+  Tile,
 } from "@azerion/phaser";
 import BoxedDevice, { BoxedDeviceOptions } from "./BoxedDevice";
-import { Cell, Light } from "./Device";
+import { Light } from "./Device";
 
 type PortalOptions = {
   rotation: number;
@@ -510,7 +511,7 @@ class Portal extends BoxedDevice<PortalOptions> {
     body.mass = 0;
   }
 
-  ocupy(tiles: Cell[][]) {
+  ocupy(tiles: Tile[][]) {
     const x = this.options.x / 32;
     const y = this.options.y / 32;
     this.ocupyTile(tiles, x, y + 2);

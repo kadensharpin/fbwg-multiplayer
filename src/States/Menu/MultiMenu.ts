@@ -5,7 +5,7 @@ import MultiHall from "./MultiHall";
 
 class MultiMenu extends Menu {
   inputEnableChildren: boolean = false;
-  templeHall: MultiHall;
+  templeHall?: MultiHall;
 
   constructor() {
     super();
@@ -38,11 +38,11 @@ class MultiMenu extends Menu {
 
   layoutContent() {
     super.layoutContent();
-    this.templeHall.layoutContent();
+    this.templeHall?.layoutContent();
   }
 
   shutdown() {
-    this.templeHall.destroy();
+    this.templeHall?.destroy();
   }
 }
 

@@ -1,6 +1,6 @@
 /// <amd-module name="States/Level/Devices/Pusher" />
 
-import { Game, Signal, Sprite } from "@azerion/phaser";
+import { Game, Signal, Sprite, Tile } from "@azerion/phaser";
 import BoxedDevice from "./BoxedDevice";
 import type { DeviceOptions, Light } from "./Device";
 
@@ -101,7 +101,7 @@ class Pusher<Options extends PusherOptions> extends BoxedDevice<Options> {
     this.doRegister();
   }
 
-  sounds() {
+  sounds(): string | string[] {
     return "pusher";
   }
 
@@ -121,7 +121,8 @@ class Pusher<Options extends PusherOptions> extends BoxedDevice<Options> {
     this.signal.dispatch(this);
   }
 
-  ocupy() {}
+  ocupy(tiles: Tile[][]) {}
 }
 
+// @ts-ignore
 export = Pusher;

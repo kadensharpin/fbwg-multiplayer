@@ -126,3 +126,9 @@ class Door extends Group {
 }
 
 export = Door;
+
+declare module "@azerion/phaser" {
+  interface AnimationManager {
+    _outputFrames: number[];
+  }
+}
