@@ -1,5 +1,3 @@
-/// <amd-module name="States/Buy/BuyMenu" />
-
 import { Game, Signal } from "@azerion/phaser";
 import StoneButton from "../Common/StoneButton";
 import IngameMenu from "../Level/IngameMenu";
@@ -44,4 +42,4 @@ class BuyMenu extends IngameMenu {
   }
 }
 
-export = BuyMenu;
+export default BuyMenu;

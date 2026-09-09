@@ -8,13 +8,13 @@ import {
   Sound,
   Sprite,
 } from "@azerion/phaser";
-import Boot from "States/Boot";
-import Load from "States/Load";
-import TouchManager from "TouchManager";
 import bowser from "bowser";
 import _ from "underscore";
-import Lang from "utils/lang/Lang";
+import Boot from "./States/Boot";
 import Clock from "./States/Level/Clock";
+import Load from "./States/Load";
+import TouchManager from "./TouchManager";
+import Lang from "./utils/lang/Lang";
 import { deepObjectExtend } from "./utils/util";
 
 const defaultSettings = {

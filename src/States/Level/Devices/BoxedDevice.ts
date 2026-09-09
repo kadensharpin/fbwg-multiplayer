@@ -1,5 +1,3 @@
-/// <amd-module name="States/Level/Devices/BoxedDevice" />
-
 import { Game, Tile } from "@azerion/phaser";
 import Device, { DeviceOptions } from "./Device";
 
@@ -35,5 +33,4 @@ class BoxedDevice<Options extends BoxedDeviceOptions> extends Device<Options> {
   }
 }
 
-// @ts-ignore
-export = BoxedDevice;
+export default BoxedDevice;

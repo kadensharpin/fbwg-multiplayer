@@ -1,5 +1,3 @@
-/// <amd-module name="States/Common/StoneButton" />
-
 import { Game } from "@azerion/phaser";
 import Button from "./Button";
 
@@ -34,4 +32,4 @@ class StoneButton extends Button {
     this.addChild(this.label);
   }
 }
-export = StoneButton;
+export default StoneButton;

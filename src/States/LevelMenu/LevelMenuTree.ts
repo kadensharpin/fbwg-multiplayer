@@ -1,5 +1,3 @@
-/// <amd-module name="States/LevelMenu/LevelMenuTree" />
-
 import { Game } from "@azerion/phaser";
 import { Temple } from "../../temple";
 import LevelMenuButtons from "./LevelMenuButtons";
@@ -10,4 +8,4 @@ class LevelMenuTree extends LevelMenuButtons {
   }
 }
 
-export = LevelMenuTree;
+export default LevelMenuTree;

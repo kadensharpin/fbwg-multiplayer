@@ -1,5 +1,3 @@
-/// <amd-module name="States/Level/Ground" />
-
 import { BitmapData, Sprite } from "@azerion/phaser";
 
 class Ground extends Sprite {
@@ -843,4 +841,4 @@ class Ground extends Sprite {
   }
 }
 
-export = Ground;
+export default Ground;

@@ -1,5 +1,3 @@
-/// <amd-module name="States/Level/CameraManager" />
-
 import { Game, Graphics, Rectangle } from "@azerion/phaser";
 import _ from "underscore";
 import Level from "./Level";
@@ -361,4 +359,4 @@ class CameraManager {
   }
 }
 
-export = CameraManager;
+export default CameraManager;

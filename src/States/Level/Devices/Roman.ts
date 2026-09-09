@@ -1,5 +1,3 @@
-/// <amd-module name="States/Level/Devices/Roman" />
-
 import { Game } from "@azerion/phaser";
 import BoxedDevice from "./BoxedDevice";
 import { type DeviceOptions } from "./Device";
@@ -116,4 +114,4 @@ class Roman extends BoxedDevice<RomanOptions> {
   }
 }
 
-export = Roman;
+export default Roman;

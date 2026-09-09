@@ -1,5 +1,3 @@
-/// <amd-module name="utils/lang/ru" />
-
 import type { Translation } from "./translations";
 
 const MISSING = "Missing Translation";

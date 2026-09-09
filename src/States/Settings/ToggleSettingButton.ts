@@ -1,5 +1,3 @@
-/// <amd-module name="States/Settings/ToggleSettingButton" />
-
 import { Game } from "@azerion/phaser";
 import Button from "../Common/Button";
 
@@ -38,4 +36,4 @@ class ToggleSettingButton<T> extends Button {
   }
 }
 
-export = ToggleSettingButton;
+export default ToggleSettingButton;

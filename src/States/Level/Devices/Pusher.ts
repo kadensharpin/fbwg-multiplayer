@@ -1,5 +1,3 @@
-/// <amd-module name="States/Level/Devices/Pusher" />
-
 import { Game, Signal, Sprite, Tile } from "@azerion/phaser";
 import BoxedDevice from "./BoxedDevice";
 import type { DeviceOptions, Light } from "./Device";
@@ -124,5 +122,4 @@ class Pusher<Options extends PusherOptions> extends BoxedDevice<Options> {
   ocupy(tiles: Tile[][]) {}
 }
 
-// @ts-ignore
-export = Pusher;
+export default Pusher;

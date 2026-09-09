@@ -1,5 +1,3 @@
-/// <amd-module name="outlineFilter" />
-
 import { Filter, Game } from "@azerion/phaser";
 
 class OutlineFilter extends Filter {
@@ -68,4 +66,4 @@ class OutlineFilter extends Filter {
   }
 }
 
-export = OutlineFilter;
+export default OutlineFilter;

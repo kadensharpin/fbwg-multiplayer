@@ -1,5 +1,3 @@
-/// <amd-module name="States/Level/Devices/Pulley" />
-
 import { Game, Point, Sprite, TileSprite } from "@azerion/phaser";
 import Device, { DeviceOptions } from "./Device";
 
@@ -283,4 +281,4 @@ class Pulley extends Device<PulleyOptions> {
   }
 }
 
-export = Pulley;
+export default Pulley;

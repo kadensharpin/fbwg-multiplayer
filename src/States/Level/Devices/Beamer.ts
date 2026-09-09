@@ -1,5 +1,3 @@
-/// <amd-module name="States/Level/Devices/Beamer" />
-
 import { BitmapData, Color, Game, Graphics, Physics } from "@azerion/phaser";
 import _ from "underscore";
 import BoxedDevice from "./BoxedDevice";
@@ -279,4 +277,4 @@ class Beamer extends BoxedDevice<BeamerOptions> {
 type Point = { type: "move" | "line"; point: box2d.b2Vec2 };
 type Points = [{ point: box2d.b2Vec2 }, ...Point[]];
 
-export = Beamer;
+export default Beamer;

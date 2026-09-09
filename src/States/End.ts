@@ -1,5 +1,3 @@
-/// <amd-module name="States/End" />
-
 import { Key, Keyboard, State } from "@azerion/phaser";
 import { EndState } from "../ProgressModel";
 import EndMenu from "./Level/EndMenu";
@@ -56,4 +54,4 @@ class End extends State {
   }
 }
 
-export = End;
+export default End;

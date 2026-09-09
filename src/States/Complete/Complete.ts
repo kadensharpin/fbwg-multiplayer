@@ -1,5 +1,3 @@
-/// <amd-module name="States/Complete/Complete" />
-
 import { Particles, State } from "@azerion/phaser";
 import GameCompleteMenu from "./GameCompleteMenu";
 
@@ -50,4 +48,4 @@ class Complete extends State {
   }
 }
 
-export = Complete;
+export default Complete;

@@ -1,5 +1,3 @@
-/// <amd-module name="States/Level/Devices/Slider" />
-
 import { Game, Signal, Sound } from "@azerion/phaser";
 import Device, { DeviceOptions, Light } from "./Device";
 
@@ -109,4 +107,4 @@ class Slider extends Device<SliderOptions> {
   }
 }
 
-export = Slider;
+export default Slider;

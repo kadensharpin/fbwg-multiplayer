@@ -1,5 +1,3 @@
-/// <amd-module name="States/Level/Devices/BoxHeavy" />
-
 import { Game } from "@azerion/phaser";
 import BoxPrototype, { BoxPrototypeOptions } from "./BoxPrototype";
 
@@ -13,4 +11,4 @@ class BoxHeavy extends BoxPrototype {
   }
 }
 
-export = BoxHeavy;
+export default BoxHeavy;

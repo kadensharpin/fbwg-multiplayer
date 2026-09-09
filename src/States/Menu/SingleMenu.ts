@@ -1,5 +1,3 @@
-/// <amd-module name="States/Menu/SingleMenu" />
-
 import Menu from "./Menu";
 import TempleHall from "./TempleHall";
 
@@ -27,4 +25,4 @@ class SingleMenu extends Menu {
   }
 }
 
-export = SingleMenu;
+export default SingleMenu;

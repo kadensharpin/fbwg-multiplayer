@@ -1,5 +1,3 @@
-/// <amd-module name="States/Level/Devices/Diamond" />
-
 import { Easing, Game, Physics, Signal, Sprite } from "@azerion/phaser";
 import Character, { CharacterSprite } from "../character";
 
@@ -94,4 +92,4 @@ class Diamond extends Sprite {
   }
 }
 
-export = Diamond;
+export default Diamond;

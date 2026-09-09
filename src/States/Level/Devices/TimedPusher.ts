@@ -1,5 +1,3 @@
-/// <amd-module name="States/Level/Devices/TimedPusher" />
-
 import {
   BitmapData,
   Game,
@@ -194,4 +192,4 @@ class TimedPusher extends Pusher<TimedPusherOptions> {
   }
 }
 
-export = TimedPusher;
+export default TimedPusher;

@@ -1,5 +1,3 @@
-/// <amd-module name="States/Level/Devices/BoxPrototype" />
-
 import { Game, Physics } from "@azerion/phaser";
 import BoxedDevice from "./BoxedDevice";
 import { DeviceOptions } from "./Device";
@@ -137,5 +135,4 @@ class BoxPrototype<
   }
 }
 
-// @ts-ignore
-export = BoxPrototype;
+export default BoxPrototype;

@@ -1,5 +1,3 @@
-/// <amd-module name="States/Level/Devices/Portal" />
-
 import {
   Animation,
   BitmapData,
@@ -560,4 +558,4 @@ class Portal extends BoxedDevice<PortalOptions> {
   }
 }
 
-export = Portal;
+export default Portal;

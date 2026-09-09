@@ -1,5 +1,3 @@
-/// <amd-module name="States/Level/Devices/Device" />
-
 import {
   Color,
   Game,
@@ -213,5 +211,4 @@ class Device<Options extends DeviceOptions> extends Group {
   } as const;
 }
 
-// @ts-ignore
-export = Device;
+export default Device;

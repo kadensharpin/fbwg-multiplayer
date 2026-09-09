@@ -1,5 +1,3 @@
-/// <amd-module name="States/Common/RewardedAdMenu" />
-
 import { Game, Signal } from "@azerion/phaser";
 import IngameMenu from "../Level/IngameMenu";
 import LevelButton from "../LevelMenu/LevelButton";
@@ -107,4 +105,4 @@ class RewardedAdMenu extends IngameMenu {
   }
 }
 
-export = RewardedAdMenu;
+export default RewardedAdMenu;

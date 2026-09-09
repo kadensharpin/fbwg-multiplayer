@@ -1,5 +1,3 @@
-/// <amd-module name="States/Common/TouchButton" />
-
 import { Game } from "@azerion/phaser";
 import Button from "./Button";
 
@@ -57,4 +55,4 @@ class TouchButton extends Button {
   onUp() {}
 }
 
-export = TouchButton;
+export default TouchButton;

@@ -1,5 +1,3 @@
-/// <amd-module name="States/Level/Devices/Snow" />
-
 import { Game, Physics, Sprite } from "@azerion/phaser";
 import Character from "../character";
 import Ground from "../Ground";
@@ -157,4 +155,4 @@ class Snow extends Sprite {
   }
 }
 
-export = Snow;
+export default Snow;

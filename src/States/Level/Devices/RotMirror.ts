@@ -1,5 +1,3 @@
-/// <amd-module name="States/Level/Devices/RotMirror" />
-
 import { BitmapData, Game, Physics, Sound, Sprite } from "@azerion/phaser";
 import BoxedDevice from "./BoxedDevice";
 import { type DeviceOptions, Light } from "./Device";
@@ -209,4 +207,4 @@ class RotMirror extends BoxedDevice<RotMirrorOptions> {
   }
 }
 
-export = RotMirror;
+export default RotMirror;

@@ -1,5 +1,3 @@
-/// <amd-module name="States/Level/Clock" />
-
 import { BitmapText, Game, Sprite } from "@azerion/phaser";
 
 class Clock extends Sprite {
@@ -69,4 +67,4 @@ class Clock extends Sprite {
   }
 }
 
-export = Clock;
+export default Clock;

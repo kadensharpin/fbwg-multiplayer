@@ -1,5 +1,3 @@
-/// <amd-module name="States/Menu/Menu" />
-
 import { LevelData, Temple } from "../../temple";
 import BuyMenu from "../Buy/BuyMenu";
 import Button from "../Common/Button";
@@ -185,4 +183,4 @@ class Menu extends UIState {
   }
 }
 
-export = Menu;
+export default Menu;

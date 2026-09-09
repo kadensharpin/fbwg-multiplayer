@@ -1,5 +1,3 @@
-/// <amd-module name="States/Level/GameOverMenu" />
-
 import { BitmapText, Game } from "@azerion/phaser";
 import RewardedUnavailableMenu from "../Common/RewardedUnavailableMenu";
 import StoneButton from "../Common/StoneButton";
@@ -106,4 +104,4 @@ class GameOverMenu extends IngameMenu {
   onUnavailableClose() {}
 }
 
-export = GameOverMenu;
+export default GameOverMenu;

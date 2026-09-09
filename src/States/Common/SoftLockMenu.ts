@@ -1,5 +1,3 @@
-/// <amd-module name="States/Common/SoftLockMenu" />
-
 import { Game, Signal } from "@azerion/phaser";
 import IngameMenu from "../Level/IngameMenu";
 import StoneButton from "./StoneButton";
@@ -65,4 +63,4 @@ class SoftLockMenu extends IngameMenu {
   }
 }
 
-export = SoftLockMenu;
+export default SoftLockMenu;

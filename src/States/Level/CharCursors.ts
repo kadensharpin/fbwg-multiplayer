@@ -1,5 +1,3 @@
-/// <amd-module name="States/Level/CharCursors" />
-
 import { Game, Group, Keyboard, Signal, Sprite } from "@azerion/phaser";
 import TouchButton from "../Common/TouchButton";
 
@@ -172,4 +170,4 @@ class CharCursors extends Signal {
   }
 }
 
-export = CharCursors;
+export default CharCursors;

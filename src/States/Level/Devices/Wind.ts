@@ -1,5 +1,3 @@
-/// <amd-module name="States/Level/Devices/Wind" />
-
 import {
   Animation,
   BitmapData,
@@ -273,4 +271,4 @@ class Wind extends BoxedDevice<WindOptions> {
   }
 }
 
-export = Wind;
+export default Wind;

@@ -1,10 +1,8 @@
-/// <amd-module name="States/Boot" />
-
 import { State } from "@azerion/phaser";
-import ProgressModel from "ProgressModel";
-import MultiMenu from "States/Menu/MultiMenu";
-import SingleMenu from "States/Menu/SingleMenu";
+import ProgressModel from "../ProgressModel";
 import { CacheBuster } from "../utils/util";
+import MultiMenu from "./Menu/MultiMenu";
+import SingleMenu from "./Menu/SingleMenu";
 
 class Boot extends State {
   constructor() {
@@ -135,4 +133,4 @@ class Boot extends State {
   }
 }
 
-export = Boot;
+export default Boot;

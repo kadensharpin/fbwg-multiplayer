@@ -1,5 +1,3 @@
-/// <amd-module name="States/LevelMenu/LevelMenu" />
-
 import { BitmapText, Sound, TileSprite } from "@azerion/phaser";
 import { Temple } from "../../temple";
 import Buy from "../Buy/Buy";
@@ -260,4 +258,4 @@ class LevelMenu extends UIState {
   }
 }
 
-export = LevelMenu;
+export default LevelMenu;

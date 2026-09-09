@@ -1,5 +1,3 @@
-/// <amd-module name="shadowFilter" />
-
 import { Filter, Game } from "@azerion/phaser";
 
 class ShadowFilter extends Filter {
@@ -65,4 +63,4 @@ class ShadowFilter extends Filter {
   }
 }
 
-export = ShadowFilter;
+export default ShadowFilter;

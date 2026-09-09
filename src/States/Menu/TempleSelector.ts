@@ -1,5 +1,3 @@
-/// <amd-module name="States/Menu/TempleSelector" />
-
 import { Game, Group, Signal, Sprite, TileSprite } from "@azerion/phaser";
 import { Temple } from "../../temple";
 import Button from "../Common/Button";
@@ -318,4 +316,4 @@ class TempleSelector extends Sprite {
   }
 }
 
-export = TempleSelector;
+export default TempleSelector;

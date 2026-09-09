@@ -1,5 +1,3 @@
-/// <amd-module name="States/Level/Devices/Lever" />
-
 import { BitmapData, Game, Physics, Signal, Sprite } from "@azerion/phaser";
 import BoxedDevice from "./BoxedDevice";
 import { DeviceOptions, Light } from "./Device";
@@ -146,4 +144,4 @@ class Lever extends BoxedDevice<LeverOptions> {
   }
 }
 
-export = Lever;
+export default Lever;

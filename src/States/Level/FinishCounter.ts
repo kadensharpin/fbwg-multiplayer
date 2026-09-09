@@ -1,5 +1,3 @@
-/// <amd-module name="States/Level/FinishCounter" />
-
 import { Game, Group, Sprite } from "@azerion/phaser";
 
 class FinishCounter extends Group {
@@ -31,4 +29,4 @@ class FinishCounter extends Group {
   }
 }
 
-export = FinishCounter;
+export default FinishCounter;

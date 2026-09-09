@@ -1,5 +1,3 @@
-/// <amd-module name="States/Common/Navies" />
-
 import { Game, Sprite } from "@azerion/phaser";
 
 class MenuFairy extends Sprite {
@@ -48,7 +46,7 @@ class MenuFairy extends Sprite {
   }
 }
 
-export = MenuFairy;
+export default MenuFairy;
 
 type FairySprite = Sprite & {
   offsetCart: { x: number; y: number };

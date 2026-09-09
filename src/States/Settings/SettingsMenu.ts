@@ -1,5 +1,3 @@
-/// <amd-module name="States/Settings/SettingsMenu" />
-
 import { Game, Signal } from "@azerion/phaser";
 import StoneButton from "../Common/StoneButton";
 import IngameMenu from "../Level/IngameMenu";
@@ -158,7 +156,7 @@ class SettingsMenu extends IngameMenu {
   }
 }
 
-export = SettingsMenu;
+export default SettingsMenu;
 
 declare module "@azerion/phaser" {
   interface Game {

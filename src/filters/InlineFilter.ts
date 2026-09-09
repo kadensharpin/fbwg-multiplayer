@@ -1,5 +1,3 @@
-/// <amd-module name="inlineFilter" />
-
 import { Filter, Game } from "@azerion/phaser";
 
 class InlineFilter extends Filter {
@@ -70,4 +68,4 @@ class InlineFilter extends Filter {
   }
 }
 
-export = InlineFilter;
+export default InlineFilter;

@@ -1,5 +1,3 @@
-/// <amd-module name="States/Level/Devices/LightPusher" />
-
 import { Game, Physics, Signal } from "@azerion/phaser";
 import BoxedDevice from "./BoxedDevice";
 import { type DeviceOptions } from "./Device";
@@ -104,4 +102,4 @@ class LightPusher extends BoxedDevice<LightPusherOptions> {
   }
 }
 
-export = LightPusher;
+export default LightPusher;

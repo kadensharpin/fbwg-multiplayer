@@ -1,5 +1,3 @@
-/// <amd-module name="utils/lang/Lang" />
-
 import i18next from "i18next";
 import I18nextBrowserLanguageDetector from "i18next-browser-languagedetector";
 import en from "./en";
@@ -56,4 +54,4 @@ class Lang {
   }
 }
 
-export = Lang;
+export default Lang;

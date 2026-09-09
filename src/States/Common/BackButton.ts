@@ -1,5 +1,3 @@
-/// <amd-module name="States/Common/BackButton" />
-
 import { Game } from "@azerion/phaser";
 import Button from "./Button";
 
@@ -30,4 +28,4 @@ class BackButton extends Button {
   }
 }
 
-export = BackButton;
+export default BackButton;

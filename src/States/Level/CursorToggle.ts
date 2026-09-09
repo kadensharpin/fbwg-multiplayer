@@ -1,5 +1,3 @@
-/// <amd-module name="States/Level/CursorToggle" />
-
 import { Game, Point, Signal } from "@azerion/phaser";
 import Button from "../Common/Button";
 import { Characters } from "./character";
@@ -103,4 +101,4 @@ class CursorToggle extends Button {
   }
 }
 
-export = CursorToggle;
+export default CursorToggle;

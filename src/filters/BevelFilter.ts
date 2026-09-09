@@ -1,5 +1,3 @@
-/// <amd-module name="bevelFilter" />
-
 import { Filter, Game } from "@azerion/phaser";
 
 class BevelFilter extends Filter {
@@ -106,4 +104,4 @@ class BevelFilter extends Filter {
   }
 }
 
-export = BevelFilter;
+export default BevelFilter;

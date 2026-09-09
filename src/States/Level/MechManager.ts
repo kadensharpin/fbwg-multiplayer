@@ -1,5 +1,3 @@
-/// <amd-module name="States/Level/MechManager" />
-
 import { Game } from "@azerion/phaser";
 import BackgroundCover from "./Devices/BackgroundCover";
 import Ball from "./Devices/Ball";
@@ -160,4 +158,4 @@ class MechManager {
   };
 }
 
-export = MechManager;
+export default MechManager;

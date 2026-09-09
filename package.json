@@ -1,7 +1,8 @@
 {
+  "type": "module",
   "scripts": {
-    "build": "rm -rf dist/ && mkdir -p dist/ && tsc ; cp -r src/game.html src/ assets/* dist/",
-    "dev": "cd dist/ && python3 -m http.server 8080 && cd -"
+    "build": "vite build",
+    "dev": "vite"
   },
   "dependencies": {
     "@azerion/phaser": "2.6.15",
@@ -11,6 +12,7 @@
     "hammerjs": "2.0.8",
     "i18next": "^26.0.8",
     "i18next-browser-languagedetector": "^8.2.1",
+    "phaser-box2d": "^1.1.0",
     "seedrandom": "^3.0.5",
     "underscore": "1.9.2"
   },
@@ -18,6 +20,8 @@
     "@types/backbone": "1.4.1",
     "@types/hammerjs": "^2.0.46",
     "@types/underscore": "1.9.2",
-    "typescript": "^6.0.3"
+    "@types/node": "26.5.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.2.2"
   }
 }

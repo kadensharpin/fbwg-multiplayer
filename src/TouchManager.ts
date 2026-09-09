@@ -1,5 +1,3 @@
-/// <amd-module name="TouchManager" />
-
 import { Game, Point, Signal } from "@azerion/phaser";
 import Hammer from "hammerjs";
 
@@ -32,7 +30,6 @@ type Events = {
   >[];
 };
 
-export = TouchManager;
 class TouchManager extends Signal {
   private game!: Game;
   private $el!: HTMLElement;
@@ -317,6 +314,8 @@ class TouchManager extends Signal {
   }
   update() {}
 }
+
+export default TouchManager;
 
 declare global {
   namespace PIXI {

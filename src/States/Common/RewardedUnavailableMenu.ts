@@ -1,5 +1,3 @@
-/// <amd-module name="States/Common/RewardedUnavailableMenu" />
-
 import { Game, Signal } from "@azerion/phaser";
 import IngameMenu from "../Level/IngameMenu";
 import StoneButton from "./StoneButton";
@@ -50,4 +48,4 @@ class RewardedUnavailableMenu extends IngameMenu {
   }
 }
 
-export = RewardedUnavailableMenu;
+export default RewardedUnavailableMenu;

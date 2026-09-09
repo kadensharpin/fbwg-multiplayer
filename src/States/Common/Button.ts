@@ -1,5 +1,3 @@
-/// <amd-module name="States/Common/Button" />
-
 import {
   BitmapData,
   BitmapText,
@@ -116,4 +114,4 @@ class Button extends Sprite {
   }
 }
 
-export = Button;
+export default Button;

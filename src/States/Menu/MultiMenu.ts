@@ -1,5 +1,3 @@
-/// <amd-module name="States/Menu/MultiMenu" />
-
 import Menu from "./Menu";
 import MultiHall from "./MultiHall";
 
@@ -46,4 +44,4 @@ class MultiMenu extends Menu {
   }
 }
 
-export = MultiMenu;
+export default MultiMenu;

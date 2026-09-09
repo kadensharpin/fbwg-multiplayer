@@ -1,5 +1,3 @@
-/// <amd-module name="States/LevelMenu/LevelMenuButtons" />
-
 import {
   BitmapData,
   BitmapText,
@@ -340,4 +338,4 @@ class LevelMenuButtons extends Sprite {
   }
 }
 
-export = LevelMenuButtons;
+export default LevelMenuButtons;

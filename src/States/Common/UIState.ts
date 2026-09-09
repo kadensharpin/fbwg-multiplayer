@@ -1,5 +1,3 @@
-/// <amd-module name="States/Common/UIState" />
-
 import { Group, Signal, State } from "@azerion/phaser";
 import { Sounds } from "../../utils/sound/sounds";
 import MuteButton from "./MuteButton";
@@ -75,4 +73,4 @@ class UIState extends State {
   }
 }
 
-export = UIState;
+export default UIState;

@@ -1,5 +1,3 @@
-/// <amd-module name="States/Level/Devices/BackgroundCover" />
-
 import { Game, Sprite } from "@azerion/phaser";
 
 type BackgroundCoverOptions = {
@@ -23,4 +21,4 @@ class BackgroundCover extends Sprite {
   }
 }
 
-export = BackgroundCover;
+export default BackgroundCover;

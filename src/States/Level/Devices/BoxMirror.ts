@@ -1,5 +1,3 @@
-/// <amd-module name="States/Level/Devices/BoxMirror" />
-
 import { Game, Physics } from "@azerion/phaser";
 import BoxPrototype, { BoxPrototypeOptions } from "./BoxPrototype";
 
@@ -39,4 +37,4 @@ class BoxMirror extends BoxPrototype<BoxMirrorOptions> {
   }
 }
 
-export = BoxMirror;
+export default BoxMirror;

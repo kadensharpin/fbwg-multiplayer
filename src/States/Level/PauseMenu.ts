@@ -1,7 +1,5 @@
-/// <amd-module name="States/Level/PauseMenu" />
-
 import { BitmapText, Game } from "@azerion/phaser";
-import Button from "States/Common/Button";
+import Button from "../Common/Button";
 import StoneButton from "../Common/StoneButton";
 import SettingsMenu from "../Settings/SettingsMenu";
 import IngameMenu from "./IngameMenu";
@@ -136,4 +134,4 @@ class PauseMenu extends IngameMenu {
   }
 }
 
-export = PauseMenu;
+export default PauseMenu;

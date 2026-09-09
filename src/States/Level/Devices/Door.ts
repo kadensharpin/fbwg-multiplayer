@@ -1,5 +1,3 @@
-/// <amd-module name="States/Level/Devices/Door" />
-
 import {
   Animation,
   Game,
@@ -125,7 +123,7 @@ class Door extends Group {
   }
 }
 
-export = Door;
+export default Door;
 
 declare module "@azerion/phaser" {
   interface AnimationManager {

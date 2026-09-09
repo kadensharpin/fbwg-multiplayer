@@ -1,5 +1,3 @@
-/// <amd-module name="States/Common/LoaderBar" />
-
 import { Game, Group, Rectangle, Sprite } from "@azerion/phaser";
 
 class LoaderBar extends Group {
@@ -51,4 +49,4 @@ class LoaderBar extends Group {
   }
 }
 
-export = LoaderBar;
+export default LoaderBar;

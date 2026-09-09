@@ -1,8 +1,6 @@
-/// <amd-module name="States/Load" />
-
 import { State } from "@azerion/phaser";
-import LevelMenu from "States/LevelMenu/LevelMenu";
-import SingleMenu from "States/Menu/SingleMenu";
+import LevelMenu from "./LevelMenu/LevelMenu";
+import SingleMenu from "./Menu/SingleMenu";
 
 class Load extends State {
   constructor() {
@@ -186,4 +184,4 @@ class Load extends State {
   create() {}
 }
 
-export = Load;
+export default Load;

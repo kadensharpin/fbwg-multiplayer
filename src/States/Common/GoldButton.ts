@@ -1,5 +1,3 @@
-/// <amd-module name="States/Common/GoldButton" />
-
 import { Game } from "@azerion/phaser";
 import Button from "./Button";
 
@@ -26,4 +24,4 @@ class GoldButton extends Button {
     this.addChild(this.label);
   }
 }
-export = GoldButton;
+export default GoldButton;

@@ -1,5 +1,3 @@
-/// <amd-module name="States/Level/Devices/InfiniteMirror" />
-
 import { Game, Physics } from "@azerion/phaser";
 import BoxedDevice from "./BoxedDevice";
 import { Light, type DeviceOptions } from "./Device";
@@ -109,4 +107,4 @@ class InfiniteMirror extends BoxedDevice<InfiniteMirrorOptions> {
   }
 }
 
-export = InfiniteMirror;
+export default InfiniteMirror;

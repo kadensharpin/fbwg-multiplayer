@@ -1,5 +1,3 @@
-/// <amd-module name="States/Level/Level" />
-
 import { State } from "@azerion/phaser";
 
 import Navies from "../Common/Navies";
@@ -1189,4 +1187,4 @@ class Level extends State {
   }
 }
 
-export = Level;
+export default Level;

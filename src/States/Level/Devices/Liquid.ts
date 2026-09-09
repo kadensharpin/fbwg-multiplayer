@@ -1,5 +1,3 @@
-/// <amd-module name="States/Level/Devices/Liquid" />
-
 import { Animation, Game, Group, Physics, Sprite } from "@azerion/phaser";
 import { Fixture } from "utils/util";
 import { CharacterSprite } from "../character";
@@ -543,4 +541,4 @@ class Liquid extends Sprite {
   }
 }
 
-export = Liquid;
+export default Liquid;

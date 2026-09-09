@@ -1,5 +1,3 @@
-/// <amd-module name="States/Common/MuteButton" />
-
 import { Game } from "@azerion/phaser";
 import Button from "./Button";
 
@@ -31,4 +29,4 @@ class MuteButton extends Button {
   }
 }
 
-export = MuteButton;
+export default MuteButton;

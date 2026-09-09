@@ -1,5 +1,3 @@
-/// <amd-module name="States/Level/Devices/Window" />
-
 import { Game, Physics } from "@azerion/phaser";
 import { deepObjectExtend } from "../../../utils/util";
 import Device, { DeviceOptions } from "./Device";
@@ -102,4 +100,4 @@ class Window extends Device<WindowOptions> {
   }
 }
 
-export = Window;
+export default Window;

@@ -1,5 +1,3 @@
-/// <amd-module name="States/Level/LevelUI" />
-
 import { Game, Group } from "@azerion/phaser";
 import Button from "../Common/Button";
 import Clock from "./Clock";
@@ -58,4 +56,4 @@ class LevelUI extends Group {
   }
 }
 
-export = LevelUI;
+export default LevelUI;

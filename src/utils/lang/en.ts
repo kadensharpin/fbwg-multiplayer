@@ -1,5 +1,3 @@
-/// <amd-module name="utils/lang/en" />
-
 import type { Translation } from "./translations";
 
 const en: Translation = {

@@ -1,5 +1,3 @@
-/// <amd-module name="States/Level/EndMenu" />
-
 import { Animation, Game } from "@azerion/phaser";
 import StoneButton from "../Common/StoneButton";
 import FinishCounter from "./FinishCounter";
@@ -152,4 +150,4 @@ class EndMenu extends IngameMenu {
   }
 }
 
-export = EndMenu;
+export default EndMenu;

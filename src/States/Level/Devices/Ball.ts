@@ -1,5 +1,3 @@
-/// <amd-module name="States/Level/Devices/Ball" />
-
 import { Game, Physics } from "@azerion/phaser";
 import { deepObjectExtend } from "../../../utils/util";
 import BoxedDevice from "./BoxedDevice";
@@ -59,4 +57,4 @@ class Ball extends BoxedDevice<BallOptions> {
   }
 }
 
-export = Ball;
+export default Ball;

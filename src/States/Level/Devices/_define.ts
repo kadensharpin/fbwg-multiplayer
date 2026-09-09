@@ -1,5 +1,3 @@
-/// <amd-module name="States/Level/Devices/_define" />
-
 import BackgroundCover from "./BackgroundCover";
 import Ball from "./Ball";
 import Beamer from "./Beamer";

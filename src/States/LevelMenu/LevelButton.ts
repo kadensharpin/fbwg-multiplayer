@@ -1,5 +1,3 @@
-/// <amd-module name="States/LevelMenu/LevelButton" />
-
 import { Game, Sprite } from "@azerion/phaser";
 
 type LevelType = "speed" | "puzzle" | "dark";
@@ -83,4 +81,4 @@ class LevelButton extends Sprite {
   }
 }
 
-export = LevelButton;
+export default LevelButton;

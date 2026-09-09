@@ -1,5 +1,3 @@
-/// <amd-module name="colorMatrix" />
-
 import { Filter, Game } from "@azerion/phaser";
 
 class ColorMatrix extends Filter {
@@ -57,4 +55,4 @@ class ColorMatrix extends Filter {
   }
 }
 
-export = ColorMatrix;
+export default ColorMatrix;

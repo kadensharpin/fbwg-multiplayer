@@ -1,5 +1,3 @@
-/// <amd-module name="States/Menu/MultiHall" />
-
 import {
   BitmapData,
   Easing,
@@ -8,13 +6,13 @@ import {
   Signal,
   Sprite,
 } from "@azerion/phaser";
-import BuyMenu from "States/Buy/BuyMenu";
-import SoftLockMenu from "States/Common/SoftLockMenu";
-import TempleSelector from "States/Menu/TempleSelector";
 import _ from "underscore";
 import { Temple } from "../../temple";
+import BuyMenu from "../Buy/BuyMenu";
 import Button from "../Common/Button";
 import Navies from "../Common/Navies";
+import SoftLockMenu from "../Common/SoftLockMenu";
+import TempleSelector from "./TempleSelector";
 
 class MultiHall extends Sprite {
   readonly onStart: Signal;
@@ -159,4 +157,4 @@ class MultiHall extends Sprite {
   }
 }
 
-export = MultiHall;
+export default MultiHall;

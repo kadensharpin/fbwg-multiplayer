@@ -1,5 +1,3 @@
-/// <amd-module name="ProgressModel" />
-
 import { Game } from "@azerion/phaser";
 import { Model } from "backbone";
 import { LevelData, LevelResult, LevelState, Temple } from "./temple";
@@ -240,8 +238,7 @@ class ProgressModel extends Model {
   }
 }
 
-// @ts-ignore
-export = ProgressModel;
+export default ProgressModel;
 
 export type EndState = {
   success: boolean;

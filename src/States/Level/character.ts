@@ -1,5 +1,3 @@
-/// <amd-module name="States/Level/character" />
-
 import {
   BitmapData,
   Game,
@@ -743,5 +741,4 @@ class Character extends Group {
   }
 }
 
-// @ts-ignore
-export = Character;
+export default Character;

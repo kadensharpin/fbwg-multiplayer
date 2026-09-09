@@ -1,5 +1,3 @@
-/// <amd-module name="States/Complete/GameCompleteMenu" />
-
 import { Game, Signal } from "@azerion/phaser";
 import StoneButton from "../Common/StoneButton";
 import IngameMenu from "../Level/IngameMenu";
@@ -50,4 +48,4 @@ class GameCompleteMenu extends IngameMenu {
   }
 }
 
-export = GameCompleteMenu;
+export default GameCompleteMenu;

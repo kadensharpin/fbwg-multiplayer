@@ -1,5 +1,3 @@
-/// <amd-module name="States/Menu/TempleHall" />
-
 import { Animation, Game, Signal, Sprite } from "@azerion/phaser";
 import GoldButton from "../Common/GoldButton";
 import MenuFairy from "../Common/Navies";
@@ -156,6 +154,6 @@ class TempleHall extends Sprite {
   }
 }
 
-export = TempleHall;
+export default TempleHall;
 
 type LightBeam = Sprite & { t_speed: number; t_offset: number; _frame: any };

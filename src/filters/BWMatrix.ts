@@ -1,5 +1,3 @@
-/// <amd-module name="bwMatrix" />
-
 import { Filter, Game } from "@azerion/phaser";
 
 class BWMatrix extends Filter {
@@ -50,4 +48,4 @@ class BWMatrix extends Filter {
   }
 }
 
-export = BWMatrix;
+export default BWMatrix;

@@ -1,5 +1,3 @@
-/// <amd-module name="States/Level/IngameMenu" />
-
 import { Game, Graphics, Group, Sprite } from "@azerion/phaser";
 
 class IngameMenu extends Group {
@@ -128,7 +126,7 @@ class IngameMenu extends Group {
   }
 }
 
-export = IngameMenu;
+export default IngameMenu;
 
 declare module "@azerion/phaser" {
   interface Game {

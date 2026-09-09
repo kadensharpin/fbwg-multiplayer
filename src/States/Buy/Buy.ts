@@ -1,5 +1,3 @@
-/// <amd-module name="States/Buy/Buy" />
-
 import { State } from "@azerion/phaser";
 import BuyMenu from "./BuyMenu";
 
@@ -31,4 +29,4 @@ class Buy extends State {
   }
 }
 
-export = Buy;
+export default Buy;

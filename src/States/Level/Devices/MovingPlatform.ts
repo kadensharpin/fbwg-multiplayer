@@ -1,5 +1,3 @@
-/// <amd-module name="States/Level/Devices/MovingPlatform" />
-
 import { BitmapData, Game, Group, Physics, Sound } from "@azerion/phaser";
 import Device, { DeviceOptions } from "./Device";
 
@@ -279,4 +277,4 @@ class MovingPlatform extends Device<MovingPlatformOptions> {
   }
 }
 
-export = MovingPlatform;
+export default MovingPlatform;

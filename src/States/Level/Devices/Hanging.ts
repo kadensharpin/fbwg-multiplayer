@@ -1,5 +1,3 @@
-/// <amd-module name="States/Level/Devices/Hanging" />
-
 import { Game, Sprite, TileSprite } from "@azerion/phaser";
 import Device, { DeviceOptions } from "./Device";
 
@@ -145,4 +143,4 @@ class Hanging extends Device<HangingOptions> {
   }
 }
 
-export = Hanging;
+export default Hanging;
