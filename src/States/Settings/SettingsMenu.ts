@@ -1,4 +1,4 @@
-import { Game, Signal } from "@azerion/phaser";
+import { Game, Signal } from "phaser";
 import StoneButton from "../Common/StoneButton";
 import IngameMenu from "../Level/IngameMenu";
 import ToggleControlButton from "./ToggleControlButton";
@@ -158,7 +158,7 @@ class SettingsMenu extends IngameMenu {
 
 export default SettingsMenu;
 
-declare module "@azerion/phaser" {
+declare module "phaser" {
   interface Game {
     loadSettings(): Promise<void>;
     saveSettings(): Promise<void>;

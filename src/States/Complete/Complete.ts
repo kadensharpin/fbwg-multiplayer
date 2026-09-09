@@ -1,4 +1,4 @@
-import { Particles, State } from "@azerion/phaser";
+import { Particles, State } from "phaser";
 import GameCompleteMenu from "./GameCompleteMenu";
 
 class Complete extends State {

@@ -1,4 +1,4 @@
-import { BitmapData, Game, Physics, Sound, Sprite } from "@azerion/phaser";
+import { BitmapData, Game, Physics, Sound, Sprite } from "phaser";
 import BoxedDevice from "./BoxedDevice";
 import { type DeviceOptions, Light } from "./Device";
 

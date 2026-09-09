@@ -1,4 +1,4 @@
-import { Game, Group, Sprite } from "@azerion/phaser";
+import { Game, Group, Sprite } from "phaser";
 
 class FinishCounter extends Group {
   achieved: Sprite;

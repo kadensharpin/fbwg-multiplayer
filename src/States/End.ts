@@ -1,4 +1,4 @@
-import { Key, Keyboard, State } from "@azerion/phaser";
+import { Key, Keyboard, State } from "phaser";
 import { EndState } from "../ProgressModel";
 import EndMenu from "./Level/EndMenu";
 import GameOverMenu from "./Level/GameOverMenu";

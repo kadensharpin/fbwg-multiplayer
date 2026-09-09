@@ -1,4 +1,4 @@
-import { Game } from "@azerion/phaser";
+import { Game } from "phaser";
 import { Temple } from "../../temple";
 import LevelMenuButtons from "./LevelMenuButtons";
 

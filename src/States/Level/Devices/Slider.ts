@@ -1,4 +1,4 @@
-import { Game, Signal, Sound } from "@azerion/phaser";
+import { Game, Signal, Sound } from "phaser";
 import Device, { DeviceOptions, Light } from "./Device";
 
 type SliderOptions = {

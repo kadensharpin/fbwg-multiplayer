@@ -1,4 +1,4 @@
-import { State } from "@azerion/phaser";
+import { State } from "phaser";
 
 import Navies from "../Common/Navies";
 import End from "../End";

@@ -1,4 +1,4 @@
-import { Game, Physics } from "@azerion/phaser";
+import { Game, Physics } from "phaser";
 import BoxPrototype, { BoxPrototypeOptions } from "./BoxPrototype";
 
 type BoxMirrorOptions = {

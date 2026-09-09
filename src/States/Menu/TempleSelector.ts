@@ -1,4 +1,4 @@
-import { Game, Group, Signal, Sprite, TileSprite } from "@azerion/phaser";
+import { Game, Group, Signal, Sprite, TileSprite } from "phaser";
 import { Temple } from "../../temple";
 import Button from "../Common/Button";
 

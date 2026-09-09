@@ -1,4 +1,4 @@
-import { State } from "@azerion/phaser";
+import { State } from "phaser";
 import BuyMenu from "./BuyMenu";
 
 class Buy extends State {

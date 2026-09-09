@@ -1,4 +1,4 @@
-import { Game } from "@azerion/phaser";
+import { Game } from "phaser";
 import Button from "../Common/Button";
 
 class ToggleSettingButton<T> extends Button {

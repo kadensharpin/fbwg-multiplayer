@@ -8,7 +8,7 @@ import {
   Signal,
   Sprite,
   Text,
-} from "@azerion/phaser";
+} from "phaser";
 import BevelFilter from "../../filters/BevelFilter";
 import ColorMatrix from "../../filters/ColorMatrix";
 import OutlineFilter from "../../filters/OutlineFilter";

@@ -1,4 +1,4 @@
-import { Game, Physics } from "@azerion/phaser";
+import { Game, Physics } from "phaser";
 import { deepObjectExtend } from "../../../utils/util";
 import Device, { DeviceOptions } from "./Device";
 

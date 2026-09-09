@@ -1,4 +1,4 @@
-import { Game, Signal } from "@azerion/phaser";
+import { Game, Signal } from "phaser";
 import IngameMenu from "../Level/IngameMenu";
 import StoneButton from "./StoneButton";
 

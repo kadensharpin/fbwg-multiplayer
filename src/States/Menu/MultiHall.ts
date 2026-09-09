@@ -1,11 +1,4 @@
-import {
-  BitmapData,
-  Easing,
-  Game,
-  Group,
-  Signal,
-  Sprite,
-} from "@azerion/phaser";
+import { BitmapData, Easing, Game, Group, Signal, Sprite } from "phaser";
 import _ from "underscore";
 import { Temple } from "../../temple";
 import BuyMenu from "../Buy/BuyMenu";

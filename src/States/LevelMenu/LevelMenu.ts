@@ -1,4 +1,4 @@
-import { BitmapText, Sound, TileSprite } from "@azerion/phaser";
+import { BitmapText, Sound, TileSprite } from "phaser";
 import { Temple } from "../../temple";
 import Buy from "../Buy/Buy";
 import BackButton from "../Common/BackButton";

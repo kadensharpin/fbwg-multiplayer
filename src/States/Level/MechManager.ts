@@ -1,4 +1,4 @@
-import { Game } from "@azerion/phaser";
+import { Game } from "phaser";
 import BackgroundCover from "./Devices/BackgroundCover";
 import Ball from "./Devices/Ball";
 import Beamer from "./Devices/Beamer";

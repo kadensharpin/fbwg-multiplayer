@@ -1,4 +1,4 @@
-import { Animation, Game } from "@azerion/phaser";
+import { Animation, Game } from "phaser";
 import StoneButton from "../Common/StoneButton";
 import FinishCounter from "./FinishCounter";
 import IngameMenu from "./IngameMenu";

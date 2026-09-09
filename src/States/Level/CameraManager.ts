@@ -1,4 +1,4 @@
-import { Game, Graphics, Rectangle } from "@azerion/phaser";
+import { Game, Graphics, Rectangle } from "phaser";
 import _ from "underscore";
 import Level from "./Level";
 

@@ -1,4 +1,4 @@
-import { Sound } from "@azerion/phaser";
+import { Sound } from "phaser";
 
 export type Sounds = {
   levelMusic?: Sound;

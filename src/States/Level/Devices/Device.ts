@@ -1,12 +1,4 @@
-import {
-  Color,
-  Game,
-  Group,
-  Physics,
-  Signal,
-  Sprite,
-  Tile,
-} from "@azerion/phaser";
+import { Color, Game, Group, Physics, Signal, Sprite, Tile } from "phaser";
 import { deepObjectExtend } from "../../../utils/util";
 
 export type DeviceOptions = {

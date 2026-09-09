@@ -1,4 +1,4 @@
-import { Animation, Game } from "@azerion/phaser";
+import { Animation, Game } from "phaser";
 import Button from "../Common/Button";
 
 class ToggleControlButton<T> extends Button {

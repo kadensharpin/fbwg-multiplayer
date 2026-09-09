@@ -1,4 +1,4 @@
-import { Game } from "@azerion/phaser";
+import { Game } from "phaser";
 import BoxPrototype, { BoxPrototypeOptions } from "./BoxPrototype";
 
 class BoxHeavy extends BoxPrototype {

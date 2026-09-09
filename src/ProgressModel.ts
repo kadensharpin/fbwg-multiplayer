@@ -1,5 +1,5 @@
-import { Game } from "@azerion/phaser";
 import { Model } from "backbone";
+import { Game } from "phaser";
 import { LevelData, LevelResult, LevelState, Temple } from "./temple";
 import { deepObjectExtend } from "./utils/util";
 

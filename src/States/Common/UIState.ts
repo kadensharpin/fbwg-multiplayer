@@ -1,4 +1,4 @@
-import { Group, Signal, State } from "@azerion/phaser";
+import { Group, Signal, State } from "phaser";
 import { Sounds } from "../../utils/sound/sounds";
 import MuteButton from "./MuteButton";
 

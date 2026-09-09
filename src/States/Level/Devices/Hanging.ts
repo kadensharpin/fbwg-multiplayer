@@ -1,4 +1,4 @@
-import { Game, Sprite, TileSprite } from "@azerion/phaser";
+import { Game, Sprite, TileSprite } from "phaser";
 import Device, { DeviceOptions } from "./Device";
 
 type HangingOptions = {

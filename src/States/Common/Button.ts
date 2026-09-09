@@ -1,10 +1,4 @@
-import {
-  BitmapData,
-  BitmapText,
-  Game,
-  RenderTexture,
-  Sprite,
-} from "@azerion/phaser";
+import { BitmapData, BitmapText, Game, RenderTexture, Sprite } from "phaser";
 import { Sounds } from "../../utils/sound/sounds";
 
 class Button extends Sprite {

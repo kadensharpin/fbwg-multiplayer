@@ -1,4 +1,4 @@
-import { BitmapText, Game } from "@azerion/phaser";
+import { BitmapText, Game } from "phaser";
 import RewardedUnavailableMenu from "../Common/RewardedUnavailableMenu";
 import StoneButton from "../Common/StoneButton";
 import IngameMenu from "./IngameMenu";

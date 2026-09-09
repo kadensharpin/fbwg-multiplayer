@@ -1,3 +1,4 @@
+import bowser from "bowser";
 import {
   AUTO,
   Device,
@@ -7,8 +8,7 @@ import {
   Signal,
   Sound,
   Sprite,
-} from "@azerion/phaser";
-import bowser from "bowser";
+} from "phaser";
 import _ from "underscore";
 import Boot from "./States/Boot";
 import Clock from "./States/Level/Clock";
@@ -249,7 +249,7 @@ Device.whenReady(() => {
   return onResize();
 });
 
-declare module "@azerion/phaser" {
+declare module "phaser" {
   interface Sound {
     instances: number;
 

@@ -1,4 +1,4 @@
-import { Filter, Game } from "@azerion/phaser";
+import { Filter, Game } from "phaser";
 
 class BWMatrix extends Filter {
   passes: this[];

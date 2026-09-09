@@ -1,4 +1,4 @@
-import { State } from "@azerion/phaser";
+import { State } from "phaser";
 import LevelMenu from "./LevelMenu/LevelMenu";
 import SingleMenu from "./Menu/SingleMenu";
 

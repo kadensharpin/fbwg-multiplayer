@@ -4,7 +4,7 @@
 // Type definitions for Phaser 2.6.2 - 26th August 2016
 // Project: https://github.com/photonstorm/phaser
 
-declare module "@azerion/phaser" {
+declare module "phaser" {
   export = Phaser;
 }
 

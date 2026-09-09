@@ -1,4 +1,4 @@
-import { BitmapData, Game, Group, Physics, Sound } from "@azerion/phaser";
+import { BitmapData, Game, Group, Physics, Sound } from "phaser";
 import Device, { DeviceOptions } from "./Device";
 
 type MovingPlatformOptions = {

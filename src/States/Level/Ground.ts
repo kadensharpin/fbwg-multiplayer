@@ -1,4 +1,4 @@
-import { BitmapData, Sprite } from "@azerion/phaser";
+import { BitmapData, Sprite } from "phaser";
 
 class Ground extends Sprite {
   bmd: BitmapData;

@@ -1,5 +1,5 @@
-import { Game, Point, Signal } from "@azerion/phaser";
 import Hammer from "hammerjs";
+import { Game, Point, Signal } from "phaser";
 
 type Handler<Sprite, Callback> = {
   sprite: Sprite;

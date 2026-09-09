@@ -1,4 +1,4 @@
-import { Game } from "@azerion/phaser";
+import { Game } from "phaser";
 import BoxedDevice from "./BoxedDevice";
 import { type DeviceOptions } from "./Device";
 

@@ -1,4 +1,4 @@
-import { Easing, Game, Physics, Signal, Sprite } from "@azerion/phaser";
+import { Easing, Game, Physics, Signal, Sprite } from "phaser";
 import Character, { CharacterSprite } from "../character";
 
 class Diamond extends Sprite {

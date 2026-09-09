@@ -1,4 +1,4 @@
-import { Game, Sprite } from "@azerion/phaser";
+import { Game, Sprite } from "phaser";
 
 class MenuFairy extends Sprite {
   constructor(game: Game, x: number, y: number, target: number = 3) {

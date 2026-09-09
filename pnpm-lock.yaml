@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@azerion/phaser':
-        specifier: 2.6.15
-        version: 2.6.15
       '@azerion/phaser-super-storage':
         specifier: 1.0.4
         version: 1.0.4
@@ -29,6 +26,9 @@ importers:
       i18next-browser-languagedetector:
         specifier: ^8.2.1
         version: 8.2.1
+      phaser:
+        specifier: 2.6.2
+        version: 2.6.2
       phaser-box2d:
         specifier: ^1.1.0
         version: 1.1.0(supports-color@7.2.0)
@@ -62,9 +62,6 @@ packages:
 
   '@azerion/phaser-super-storage@1.0.4':
     resolution: {integrity: sha512-HozMJAzX+48QAdxgVi3zWCpyzttHOciqxXA0Nd34SYGUrZGXNjwOutcS9K0f/hEu1417dOS83X7/XATCa8hakA==}
-
-  '@azerion/phaser@2.6.15':
-    resolution: {integrity: sha512-ipYqi9Yc3AETW2QQYoe7tyezS1KO5MFOe21ia7Ji7TPW0HzF/lEdk1sEWKocoIaM0KyqoTjDmxANierIdF1YGA==}
 
   '@babel/runtime@7.29.2':
     resolution: {integrity: sha512-JiDShH45zKHWyGe4ZNVRrCjBz8Nh9TMmZG1kh4QTK8hCBTWBi8Da+i7s1fJw7/lYpM4ccepSNfqzZ/QvABBi5g==}
@@ -724,6 +721,9 @@ packages:
   phaser-box2d@1.1.0:
     resolution: {integrity: sha512-TpyRPEpay9mpgKwmshHRG9UuPMl5tdDvN2wlXxgrP+I7u1jY2b22WNVIjv3CUdHypoqyBNCCZ7JNVRC9K8MYoA==}
 
+  phaser@2.6.2:
+    resolution: {integrity: sha512-BqXkeptSDPYI7lr4XP3O8sA+FSbZpr3v8OoCZsE4C2y+PKf+f2fi6kExg8toDDcVUVjcXmMNYm08kUJpWrXpig==}
+
   picocolors@1.1.1:
     resolution: {integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==}
 
@@ -877,8 +877,6 @@ packages:
 snapshots:
 
   '@azerion/phaser-super-storage@1.0.4': {}
-
-  '@azerion/phaser@2.6.15': {}
 
   '@babel/runtime@7.29.2': {}
 
@@ -1391,6 +1389,8 @@ snapshots:
     transitivePeerDependencies:
       - jiti
       - supports-color
+
+  phaser@2.6.2: {}
 
   picocolors@1.1.1: {}
 

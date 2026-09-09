@@ -1,4 +1,4 @@
-import { Game, Group, Keyboard, Signal, Sprite } from "@azerion/phaser";
+import { Game, Group, Keyboard, Signal, Sprite } from "phaser";
 import TouchButton from "../Common/TouchButton";
 
 class CharCursors extends Signal {

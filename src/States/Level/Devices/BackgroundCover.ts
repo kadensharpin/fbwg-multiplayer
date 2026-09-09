@@ -1,4 +1,4 @@
-import { Game, Sprite } from "@azerion/phaser";
+import { Game, Sprite } from "phaser";
 
 type BackgroundCoverOptions = {
   x: number;

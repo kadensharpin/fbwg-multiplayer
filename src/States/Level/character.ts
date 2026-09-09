@@ -1,11 +1,4 @@
-import {
-  BitmapData,
-  Game,
-  Group,
-  Physics,
-  Signal,
-  Sprite,
-} from "@azerion/phaser";
+import { BitmapData, Game, Group, Physics, Signal, Sprite } from "phaser";
 import { Fixture } from "../../utils/util";
 import CharCursors from "./CharCursors";
 import Door from "./Devices/Door";

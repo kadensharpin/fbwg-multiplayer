@@ -7,7 +7,7 @@ import {
   Sound,
   Sprite,
   Tile,
-} from "@azerion/phaser";
+} from "phaser";
 import BoxedDevice, { BoxedDeviceOptions } from "./BoxedDevice";
 import { Light } from "./Device";
 

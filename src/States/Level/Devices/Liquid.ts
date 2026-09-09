@@ -1,4 +1,4 @@
-import { Animation, Game, Group, Physics, Sprite } from "@azerion/phaser";
+import { Animation, Game, Group, Physics, Sprite } from "phaser";
 import { Fixture } from "utils/util";
 import { CharacterSprite } from "../character";
 

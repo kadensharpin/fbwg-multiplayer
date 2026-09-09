@@ -1,4 +1,4 @@
-import { Game, Tile } from "@azerion/phaser";
+import { Game, Tile } from "phaser";
 import Device, { DeviceOptions } from "./Device";
 
 export type BoxedDeviceOptions = {

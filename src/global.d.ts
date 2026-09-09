@@ -10,7 +10,7 @@ import type TouchManager from "./TouchManager";
 import Lang from "./utils/lang/Lang";
 import { Sounds } from "./utils/sound/sounds";
 
-declare module "@azerion/phaser" {
+declare module "phaser" {
   interface IGameConfig {
     showFps: boolean;
     devUnlock: boolean;

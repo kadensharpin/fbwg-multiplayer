@@ -1,4 +1,4 @@
-import { Game, Physics, Sprite } from "@azerion/phaser";
+import { Game, Physics, Sprite } from "phaser";
 import Character from "../character";
 import Ground from "../Ground";
 

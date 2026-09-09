@@ -1,4 +1,4 @@
-import { Animation, Game, Signal, Sprite } from "@azerion/phaser";
+import { Animation, Game, Signal, Sprite } from "phaser";
 import GoldButton from "../Common/GoldButton";
 import MenuFairy from "../Common/Navies";
 

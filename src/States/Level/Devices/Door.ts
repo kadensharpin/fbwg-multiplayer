@@ -1,12 +1,4 @@
-import {
-  Animation,
-  Game,
-  Group,
-  Physics,
-  Signal,
-  Sound,
-  Sprite,
-} from "@azerion/phaser";
+import { Animation, Game, Group, Physics, Signal, Sound, Sprite } from "phaser";
 import Character, { Characters } from "../character";
 
 class Door extends Group {
@@ -125,7 +117,7 @@ class Door extends Group {
 
 export default Door;
 
-declare module "@azerion/phaser" {
+declare module "phaser" {
   interface AnimationManager {
     _outputFrames: number[];
   }

@@ -1,4 +1,4 @@
-import { Game, Point, Sprite, TileSprite } from "@azerion/phaser";
+import { Game, Point, Sprite, TileSprite } from "phaser";
 import Device, { DeviceOptions } from "./Device";
 
 type PulleyOptions = {

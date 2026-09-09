@@ -1,11 +1,4 @@
-import {
-  BitmapData,
-  Game,
-  Graphics,
-  Sound,
-  Tile,
-  Timer,
-} from "@azerion/phaser";
+import { BitmapData, Game, Graphics, Sound, Tile, Timer } from "phaser";
 import { Light } from "./Device";
 import Pusher, { PusherOptions } from "./Pusher";
 

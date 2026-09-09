@@ -1,4 +1,4 @@
-import { BitmapText, Game, Sprite } from "@azerion/phaser";
+import { BitmapText, Game, Sprite } from "phaser";
 
 class Clock extends Sprite {
   private readonly text: BitmapText;

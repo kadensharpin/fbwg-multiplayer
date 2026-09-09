@@ -1,4 +1,4 @@
-import { State } from "@azerion/phaser";
+import { State } from "phaser";
 import ProgressModel from "../ProgressModel";
 import { CacheBuster } from "../utils/util";
 import MultiMenu from "./Menu/MultiMenu";

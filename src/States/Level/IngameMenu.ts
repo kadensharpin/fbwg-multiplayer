@@ -1,4 +1,4 @@
-import { Game, Graphics, Group, Sprite } from "@azerion/phaser";
+import { Game, Graphics, Group, Sprite } from "phaser";
 
 class IngameMenu extends Group {
   options: any;
@@ -128,7 +128,7 @@ class IngameMenu extends Group {
 
 export default IngameMenu;
 
-declare module "@azerion/phaser" {
+declare module "phaser" {
   interface Game {
     realWidth: number;
     realHeight: number;

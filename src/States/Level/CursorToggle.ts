@@ -1,4 +1,4 @@
-import { Game, Point, Signal } from "@azerion/phaser";
+import { Game, Point, Signal } from "phaser";
 import Button from "../Common/Button";
 import { Characters } from "./character";
 

@@ -1,4 +1,4 @@
-import { Game, Plugin, PluginManager } from "@azerion/phaser";
+import { Game, Plugin, PluginManager } from "phaser";
 import _ from "underscore";
 
 export function deepObjectExtend(target: any, source: any) {
