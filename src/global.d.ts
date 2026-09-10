@@ -102,12 +102,6 @@ declare global {
     };
   }
 
-  namespace box2d {
-    interface b2Fixture {
-      id: number;
-    }
-  }
-
   namespace PIXI {
     interface RenderSession {
       resolution: number;

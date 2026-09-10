@@ -1,4 +1,5 @@
 import { Game, Physics } from "phaser";
+import * as box2d from "phaser-box2d";
 import { deepObjectExtend } from "../../../utils/util";
 import Device, { DeviceOptions } from "./Device";
 

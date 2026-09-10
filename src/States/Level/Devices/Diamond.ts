@@ -1,4 +1,5 @@
 import { Easing, Game, Physics, Signal, Sprite } from "phaser";
+import * as box2d from "phaser-box2d";
 import Character, { CharacterSprite } from "../character";
 
 class Diamond extends Sprite {

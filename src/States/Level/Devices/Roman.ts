@@ -1,4 +1,5 @@
 import { Game } from "phaser";
+import * as box2d from "phaser-box2d";
 import BoxedDevice from "./BoxedDevice";
 import { type DeviceOptions } from "./Device";
 

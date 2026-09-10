@@ -1,5 +1,4 @@
 .idea/
 node_modules/
-assets/
-!assets/game.js
+public/
 dist/

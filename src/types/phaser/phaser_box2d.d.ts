@@ -292,7 +292,7 @@ declare module Phaser {
 
             class Body {
 
-                constructor(game: Phaser.Game, sprite: Phaser.Sprite, x?: number, y?: number, density?: number, world?: Physics.Box2D);
+                constructor(game: Phaser.Game, sprite: Phaser.Sprite | null, x?: number, y?: number, density?: number, world?: Physics.Box2D);
 
                 // @property {Phaser.Game} game - Local reference to game.
                 game: Phaser.Game;
@@ -496,7 +496,7 @@ declare module Phaser {
             }
 
 
-            class WallsObject {
+            type WallsObject = {
                 left: any;
                 right: any;
                 top: any;
@@ -504,13 +504,13 @@ declare module Phaser {
             }
 
 
-            class AABBHit {
+            type AABBHit = {
                 body: Box2D.Body;
                 fixture: box2d.b2Fixture;
             }
 
 
-            class RaycastHit extends AABBHit {
+            type RaycastHit = AABBHit & {
                 point: Phaser.Point;
                 normal: Phaser.Point;
             }

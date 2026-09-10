@@ -1,4 +1,5 @@
 import { Game, Signal, Sound } from "phaser";
+import * as box2d from "phaser-box2d";
 import Device, { DeviceOptions, Light } from "./Device";
 
 type SliderOptions = {
@@ -23,8 +24,6 @@ class Slider extends Device<SliderOptions> {
     this.checkState = this.checkState.bind(this);
     this.sounds = this.sounds.bind(this);
 
-    const o = this.game.physics.box2d.mpx(1);
-    const p = -this.game.physics.box2d.mpx(1);
     this._width = this.options.polyline[1][0] - this.options.polyline[0][0];
     const pos = { x: this.options.x + this._width / 2, y: this.options.y };
     const sprite = this.game.make.sprite(

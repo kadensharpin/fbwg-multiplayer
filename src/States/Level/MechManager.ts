@@ -1,4 +1,5 @@
 import { Game } from "phaser";
+import * as box2d from "phaser-box2d";
 import BackgroundCover from "./Devices/BackgroundCover";
 import Ball from "./Devices/Ball";
 import Beamer from "./Devices/Beamer";

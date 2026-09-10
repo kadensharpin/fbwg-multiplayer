@@ -1,4 +1,5 @@
 import { Game, Physics } from "phaser";
+import * as box2d from "phaser-box2d";
 import BoxedDevice from "./BoxedDevice";
 import { Light, type DeviceOptions } from "./Device";
 
@@ -81,12 +82,12 @@ class InfiniteMirror extends BoxedDevice<InfiniteMirrorOptions> {
     shape2.m_p = new box2d.b2Vec2(1.1, 1.1);
     const fixtureDef2 = new box2d.b2FixtureDef();
     fixtureDef2.shape = shape2;
-    const fixture2 = this.body.data.CreateFixture(fixtureDef2);
+    this.body.data.CreateFixture(fixtureDef2);
     const shape3 = new box2d.b2CircleShape(0.3);
     shape3.m_p = new box2d.b2Vec2(-1.1, -1.1);
     const fixtureDef3 = new box2d.b2FixtureDef();
     fixtureDef3.shape = shape3;
-    const fixture3 = this.body.data.CreateFixture(fixtureDef3);
+    this.body.data.CreateFixture(fixtureDef3);
     const jointDef = new box2d.b2RevoluteJointDef();
     const bodyCentre = this.body.data.GetWorldCenter();
     jointDef.Initialize(

@@ -1,4 +1,5 @@
 import { Game, Point, Sprite, TileSprite } from "phaser";
+import * as box2d from "phaser-box2d";
 import Device, { DeviceOptions } from "./Device";
 
 type PulleyOptions = {

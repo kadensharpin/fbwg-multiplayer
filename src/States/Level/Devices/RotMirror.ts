@@ -1,4 +1,5 @@
 import { BitmapData, Game, Physics, Sound, Sprite } from "phaser";
+import * as box2d from "phaser-box2d";
 import BoxedDevice from "./BoxedDevice";
 import { type DeviceOptions, Light } from "./Device";
 
@@ -102,15 +103,15 @@ class RotMirror extends BoxedDevice<RotMirrorOptions> {
     );
     const fixtureDef3 = new box2d.b2FixtureDef();
     fixtureDef3.shape = fixtureShape3;
-    const fixture3 = this.body.data.CreateFixture(fixtureDef3);
-    const fixtureShape4 = new box2d.b2CircleShape(0.25);
+    this.body.data.CreateFixture(fixtureDef3);
+    new box2d.b2CircleShape(0.25);
     fixtureShape3.m_p = new box2d.b2Vec2(
       -this.options.boxWidth / 2 + 0.25,
       -this.options.boxWidth / 2 + 0.25,
     );
-    const fixtureDef4 = new box2d.b2FixtureDef();
+    new box2d.b2FixtureDef();
     fixtureDef1.shape = fixtureShape3;
-    const fixture4 = this.body.data.CreateFixture(fixtureDef1);
+    this.body.data.CreateFixture(fixtureDef1);
     const jointDef = new box2d.b2RevoluteJointDef();
     const centre = this.body.data.GetWorldCenter();
     const jointPos = new box2d.b2Vec2(centre.x, centre.y);

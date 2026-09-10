@@ -1,4 +1,5 @@
 import { Game, Physics } from "phaser";
+import * as box2d from "phaser-box2d";
 import BoxPrototype, { BoxPrototypeOptions } from "./BoxPrototype";
 
 type BoxMirrorOptions = {

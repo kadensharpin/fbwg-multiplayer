@@ -1,4 +1,5 @@
 import { Game, Physics, Sprite } from "phaser";
+import * as box2d from "phaser-box2d";
 import Character from "../character";
 import Ground from "../Ground";
 

@@ -1,4 +1,5 @@
 import { Game, Graphics, Rectangle } from "phaser";
+import * as box2d from "phaser-box2d";
 import _ from "underscore";
 import Level from "./Level";
 

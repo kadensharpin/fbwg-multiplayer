@@ -5,6 +5,13 @@ import SingleMenu from "./Menu/SingleMenu";
 class Load extends State {
   constructor() {
     super();
+
+    this.create = this.create.bind(this);
+    this.loadAssets = this.loadAssets.bind(this);
+    this.onLoadComplete = this.onLoadComplete.bind(this);
+    this.onFileComplete = this.onFileComplete.bind(this);
+    this.startGame = this.startGame.bind(this);
+    this.preload = this.preload.bind(this);
   }
 
   preload() {
@@ -33,7 +40,9 @@ class Load extends State {
 
   onFileComplete(_percent: number) {}
 
-  onLoadComplete(_percent: number) {}
+  onLoadComplete(_percent: number) {
+    this.startGame();
+  }
 
   loadAssets() {
     this.game.load.crossOrigin = "anonymous";
@@ -105,7 +114,6 @@ class Load extends State {
       "assets/images/stores/microsoft.png",
     );
     this.game.load.image("steam-store", "assets/images/stores/steam.png");
-    this.game.load.image("skirby-upsell", "assets/images/TOASTER-MINI-new.png");
     this.game.load.atlasJSONArray(
       "PopupAssets",
       "assets/atlasses/PopupAssets.png",

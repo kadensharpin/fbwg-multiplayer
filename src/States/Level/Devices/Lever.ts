@@ -1,4 +1,5 @@
 import { BitmapData, Game, Physics, Signal, Sprite } from "phaser";
+import * as box2d from "phaser-box2d";
 import BoxedDevice from "./BoxedDevice";
 import { DeviceOptions, Light } from "./Device";
 

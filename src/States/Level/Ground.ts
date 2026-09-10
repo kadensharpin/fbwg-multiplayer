@@ -1,4 +1,6 @@
-import { BitmapData, Sprite } from "phaser";
+import { BitmapData, Physics, RenderTexture, Sprite } from "phaser";
+import * as box2d from "phaser-box2d";
+import _ from "underscore";
 
 class Ground extends Sprite {
   bmd: BitmapData;
@@ -32,7 +34,7 @@ class Ground extends Sprite {
     this.options.height = this.mapData.height * this.mapData.tileHeight;
     this.convertTilemap(this.mapData);
     this.CreateSnows(this.mapData);
-    Phaser.Physics.Box2D.worldBoundsFilterCategory = 65535;
+    Physics.Box2D.worldBoundsFilterCategory = 65535;
     this.game.physics.box2d.setBounds(
       -100,
       -100,
@@ -450,7 +452,7 @@ class Ground extends Sprite {
     })();
     J = 1;
     f = [];
-    g = new Phaser.RenderTexture(
+    g = new RenderTexture(
       this.game,
       this.options.width + 64,
       this.options.height + 64,
@@ -595,14 +597,7 @@ class Ground extends Sprite {
     f = new ShadowFilter(this.game, g, b, 8, 0);
     f.init();
     this.image.filters = [c, d, f];
-    e = new Phaser.RenderTexture(
-      this.game,
-      g,
-      b,
-      "groundTexture",
-      undefined,
-      1,
-    );
+    e = new RenderTexture(this.game, g, b, "groundTexture", undefined, 1);
     this.game.renderer.renderSession.resolution = 1;
     e.renderRawXY(this.image, 0, 0, true);
     this.game.renderer.renderSession.resolution = this.game.resolution;

@@ -4,6 +4,7 @@ import {
   Device,
   Game,
   IGameConfig,
+  Physics,
   Rectangle,
   Signal,
   Sound,
@@ -11,11 +12,10 @@ import {
 } from "phaser";
 import _ from "underscore";
 import Boot from "./States/Boot";
-import Clock from "./States/Level/Clock";
 import Load from "./States/Load";
 import TouchManager from "./TouchManager";
+import Box2D from "./utils/box2d/Box2D";
 import Lang from "./utils/lang/Lang";
-import { deepObjectExtend } from "./utils/util";
 
 const defaultSettings = {
   vibrate: false,
@@ -48,6 +48,8 @@ if (!gameConfig.log) {
 const game = new Game(gameConfig);
 
 Device.whenReady(() => {
+  // @ts-ignore
+  Physics.Box2D = Box2D;
   game.stage.disableVisibilityChange = true;
   const event =
     game.device.desktop || !game.device.iPad ? "click" : "touchstart";
@@ -211,8 +213,6 @@ Device.whenReady(() => {
       });
     }
   };
-  _.deepObjectExtend = deepObjectExtend;
-  game.secondsToString = Clock.secondsToString;
   Sound.prototype.playInstance = function () {
     this.instances ||= 0;
     if (this.instances === 0 || this.loop) {

@@ -7,6 +7,7 @@ import {
   Sprite,
   Tile,
 } from "phaser";
+import * as box2d from "phaser-box2d";
 import Character from "../character";
 import BoxedDevice, { BoxedDeviceOptions } from "./BoxedDevice";
 

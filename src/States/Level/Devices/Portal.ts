@@ -8,6 +8,7 @@ import {
   Sprite,
   Tile,
 } from "phaser";
+import * as box2d from "phaser-box2d";
 import BoxedDevice, { BoxedDeviceOptions } from "./BoxedDevice";
 import { Light } from "./Device";
 

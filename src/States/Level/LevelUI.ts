@@ -7,7 +7,7 @@ class LevelUI extends Group {
   private readonly pauseButton: Button;
   private readonly clock: Clock;
 
-  constructor(game: Game, level: Level) {
+  constructor(game: Game, _level: Level) {
     super(game);
 
     this.pauseClicked = this.pauseClicked.bind(this);

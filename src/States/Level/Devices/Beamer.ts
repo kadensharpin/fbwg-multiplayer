@@ -1,4 +1,5 @@
 import { BitmapData, Color, Game, Graphics, Physics } from "phaser";
+import * as box2d from "phaser-box2d";
 import _ from "underscore";
 import BoxedDevice from "./BoxedDevice";
 import { type DeviceOptions, Light } from "./Device";
@@ -16,7 +17,7 @@ class Beamer extends BoxedDevice<BeamerOptions> {
   private readonly graphics: Graphics;
   private readonly graphicsColor: number;
   state = 1;
-  private dirty: boolean = false;
+  dirty: boolean = false;
   private points: Points | null = null;
   declare body: Physics.Box2D.Body;
 

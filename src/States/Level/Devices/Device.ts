@@ -186,7 +186,7 @@ class Device<Options extends DeviceOptions> extends Group {
     return false;
   }
 
-  ocupy(tiles: Tile[][]) {}
+  ocupy(_tiles: Tile[][]) {}
 
   sounds(): string | string[] {
     return [];

@@ -1,4 +1,5 @@
 import { Animation, Game, Group, Physics, Signal, Sound, Sprite } from "phaser";
+import * as box2d from "phaser-box2d";
 import Character, { Characters } from "../character";
 
 class Door extends Group {

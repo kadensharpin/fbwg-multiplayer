@@ -1,4 +1,5 @@
-import { Game, Plugin, PluginManager } from "phaser";
+import { Game, Loader, Plugin, PluginManager } from "phaser";
+import * as box2d from "phaser-box2d";
 import _ from "underscore";
 
 export function deepObjectExtend(target: any, source: any) {
@@ -26,7 +27,7 @@ export class CacheBuster extends Plugin {
   }
 
   patchLoader() {
-    Phaser.Loader.prototype.transformUrl = function (url: string, file?: any) {
+    Loader.prototype.transformUrl = function (url: string, file?: any) {
       if (!url) {
         return "";
       }

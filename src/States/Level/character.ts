@@ -1,4 +1,14 @@
-import { BitmapData, Game, Group, Physics, Signal, Sprite } from "phaser";
+import {
+  Animation,
+  BitmapData,
+  Easing,
+  Game,
+  Group,
+  Physics,
+  Signal,
+  Sprite,
+} from "phaser";
+import * as box2d from "phaser-box2d";
 import { Fixture } from "../../utils/util";
 import CharCursors from "./CharCursors";
 import Door from "./Devices/Door";
@@ -152,20 +162,14 @@ class Character extends Group {
     legSprite.anchor.set(0.5);
     legSprite.animations.add(
       "running",
-      Phaser.Animation.generateFrameNames(
-        this.prefix + "_legs_running",
-        0,
-        7,
-        "",
-        4,
-      ),
+      Animation.generateFrameNames(this.prefix + "_legs_running", 0, 7, "", 4),
       30,
       true,
     );
     "wg" === this.data.char &&
       legSprite.animations.add(
         "onice",
-        Phaser.Animation.generateFrameNames(
+        Animation.generateFrameNames(
           this.prefix + "_legs_running",
           0,
           7,
@@ -180,49 +184,25 @@ class Character extends Group {
     const headSprite = game.make.sprite(0, 0, "CharAssets");
     headSprite.animations.add(
       "idle",
-      Phaser.Animation.generateFrameNames(
-        this.prefix + "_head_idle",
-        0,
-        29,
-        "",
-        4,
-      ),
+      Animation.generateFrameNames(this.prefix + "_head_idle", 0, 29, "", 4),
       30,
       true,
     );
     headSprite.animations.add(
       "falling",
-      Phaser.Animation.generateFrameNames(
-        this.prefix + "_head_falling",
-        0,
-        4,
-        "",
-        4,
-      ),
+      Animation.generateFrameNames(this.prefix + "_head_falling", 0, 4, "", 4),
       30,
       true,
     );
     headSprite.animations.add(
       "jumping",
-      Phaser.Animation.generateFrameNames(
-        this.prefix + "_head_jumping",
-        0,
-        10,
-        "",
-        4,
-      ),
+      Animation.generateFrameNames(this.prefix + "_head_jumping", 0, 10, "", 4),
       30,
       true,
     );
     headSprite.animations.add(
       "rising",
-      Phaser.Animation.generateFrameNames(
-        this.prefix + "_head_rising",
-        0,
-        4,
-        "",
-        4,
-      ),
+      Animation.generateFrameNames(this.prefix + "_head_rising", 0, 4, "", 4),
       30,
       true,
     );
@@ -233,13 +213,7 @@ class Character extends Group {
     iceSprite.anchor.set(0.5);
     iceSprite.animations.add(
       "loop",
-      Phaser.Animation.generateFrameNames(
-        this.prefix + "_ice_legs",
-        0,
-        4,
-        "",
-        4,
-      ),
+      Animation.generateFrameNames(this.prefix + "_ice_legs", 0, 4, "", 4),
       10,
       true,
     );
@@ -309,7 +283,7 @@ class Character extends Group {
     );
     const smokeAnimation = smokeSprite.animations.add(
       "play",
-      Phaser.Animation.generateFrameNames("death_smoke", 0, 45, "", 4),
+      Animation.generateFrameNames("death_smoke", 0, 45, "", 4),
       30,
       false,
     );
@@ -338,20 +312,14 @@ class Character extends Group {
     const stairSprite = this.game.make.sprite(0, 0, "CharAssets");
     stairSprite.animations.add(
       "up",
-      Phaser.Animation.generateFrameNames(
-        this.prefix + "_stairs",
-        0,
-        30,
-        "",
-        4,
-      ),
+      Animation.generateFrameNames(this.prefix + "_stairs", 0, 30, "", 4),
       25,
       false,
     );
     stairSprite.anchor.set(0.5, 1);
     this.game.add
       .tween(stairSprite.scale)
-      .to({ x: 0.8, y: 0.8 }, 360, Phaser.Easing.Linear.None, true, 0);
+      .to({ x: 0.8, y: 0.8 }, 360, Easing.Linear.None, true, 0);
     this.sprite.addChild(stairSprite);
     this.body.x = door.pos.x;
     this.body.y = door.pos.y + 4;

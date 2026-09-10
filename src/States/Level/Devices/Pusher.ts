@@ -1,4 +1,5 @@
 import { Game, Signal, Sprite, Tile } from "phaser";
+import * as box2d from "phaser-box2d";
 import BoxedDevice from "./BoxedDevice";
 import type { DeviceOptions, Light } from "./Device";
 
@@ -119,7 +120,7 @@ class Pusher<Options extends PusherOptions> extends BoxedDevice<Options> {
     this.signal.dispatch(this);
   }
 
-  ocupy(tiles: Tile[][]) {}
+  ocupy(_tiles: Tile[][]) {}
 }
 
 export default Pusher;

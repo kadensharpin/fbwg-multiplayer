@@ -3,9 +3,9 @@ import { Sounds } from "../../utils/sound/sounds";
 
 class Button extends Sprite {
   private readonly soundId: keyof Sounds | null;
-  private readonly id: number;
   private disabled: boolean = false;
 
+  readonly id: number;
   readonly sprite?: Sprite;
   protected downFrameName?: string;
   protected upFrameName?: string;
@@ -46,7 +46,7 @@ class Button extends Sprite {
       this.game.device.iPad
     ) {
       game.TouchManager.register(this, "touchstart", this.setDown);
-      game.TouchManager.register(this, "touchend", (ev, clicked) => {
+      game.TouchManager.register(this, "touchend", (_ev, clicked) => {
         if (clicked && this.isDown && onClick != null) {
           if (this.game.settings.vibrate && navigator.vibrate)
             navigator.vibrate(50);
@@ -58,7 +58,7 @@ class Button extends Sprite {
       });
     } else {
       game.TouchManager.register(this, "mousedown", this.setDown);
-      game.TouchManager.register(this, "mouseup", (ev, clicked) => {
+      game.TouchManager.register(this, "mouseup", (_ev, clicked) => {
         if (clicked && this.isDown && onClick) {
           if (this.game.settings.fx && this.soundId)
             this.game.currentSounds[this.soundId]?.play();

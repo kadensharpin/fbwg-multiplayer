@@ -1,4 +1,5 @@
 import { BitmapData, Game, Group, Physics, Sound } from "phaser";
+import * as box2d from "phaser-box2d";
 import Device, { DeviceOptions } from "./Device";
 
 type MovingPlatformOptions = {

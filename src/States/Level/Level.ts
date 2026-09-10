@@ -1,5 +1,18 @@
-import { State } from "phaser";
+import {
+  Game,
+  Group,
+  Keyboard,
+  Physics,
+  Rectangle,
+  Signal,
+  State,
+  Tilemap,
+  TilemapParser,
+} from "phaser";
 
+import { Sounds } from "@/utils/sound/sounds";
+import _ from "underscore";
+import { deepObjectExtend } from "../../utils/util";
 import Navies from "../Common/Navies";
 import End from "../End";
 import CameraManager from "./CameraManager";
@@ -57,7 +70,7 @@ class Level extends State {
     this.baseLoadComplete = this.baseLoadComplete.bind(this);
     this.create = this.create.bind(this);
     this.init = this.init.bind(this);
-    this.onReady = new Phaser.Signal();
+    this.onReady = new Signal();
   }
 
   init(a) {
@@ -76,12 +89,7 @@ class Level extends State {
   }
 
   create() {
-    this.game.load.tilemap(
-      "map",
-      this.levelPath,
-      null,
-      Phaser.Tilemap.TILED_JSON,
-    );
+    this.game.load.tilemap("map", this.levelPath, null, Tilemap.TILED_JSON);
     this.game.load.onLoadComplete.addOnce(this.baseLoadComplete, this);
     this.game.load.start();
   }
@@ -335,7 +343,7 @@ class Level extends State {
         _.extend(p, this.game.cache.getJSON(h));
       }
     }
-    q = Phaser.TilemapParser.parseTiledJSON(g);
+    q = TilemapParser.parseTiledJSON(g);
     g.tilesets = a.concat(i);
     n = g.tilesets;
     k = 0;
@@ -393,7 +401,7 @@ class Level extends State {
             if (c.type === "") {
               delete c.type;
             }
-            e.push(_.deepObjectExtend(c, r[+c.gid]));
+            e.push(deepObjectExtend(c, r[+c.gid]));
           } else {
             e.push(undefined);
           }
@@ -446,7 +454,7 @@ class Level extends State {
         } else {
           q[j.properties.id].rects ||= [];
           q[j.properties.id].rects.push(
-            new Phaser.Rectangle(j.x, j.y, j.width, j.height),
+            new Rectangle(j.x, j.y, j.width, j.height),
           );
         }
       }
@@ -524,7 +532,7 @@ class Level extends State {
     }
     this.showfps = this.game.config.showFps;
     this.game.MechManager = new MechManager(this.game);
-    this.game.physics.startSystem(Phaser.Physics.BOX2D);
+    this.game.physics.startSystem(Physics.BOX2D);
     this.game.physics.box2d.setPTMRatio(32);
     this.game.physics.setBoundsToWorld = (function (a) {
       return function () {};
@@ -589,7 +597,7 @@ class Level extends State {
     this.setupDarkness();
     this.setupTutorial();
     this.pauseMenu = new PauseMenu(this.game, this);
-    this.pauseKey = this.game.input.keyboard.addKey(Phaser.Keyboard.P);
+    this.pauseKey = this.game.input.keyboard.addKey(Keyboard.P);
     this.pauseKey.onDown.add(this.togglePause);
     this.ui = new LevelUI(this.game, this);
     this.camManager = new CameraManager(this);
@@ -687,7 +695,7 @@ class Level extends State {
         return function () {
           a.camManager.camFreeze = false;
           return _.delay(function () {
-            a.restartKey = a.game.input.keyboard.addKey(Phaser.Keyboard.R);
+            a.restartKey = a.game.input.keyboard.addKey(Keyboard.R);
             a.restartKey.onDown.add(a.retry);
             if (a.game.physics.box2d != null) {
               a.ui.clock.start();

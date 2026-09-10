@@ -1,120 +1,120 @@
-declare class box2d {
-    static DEBUG: boolean;
-    static ENABLE_ASSERTS: boolean;
-    static b2Assert(condition: boolean, opt_message?: string, ...var_args: any[]): void;
-    static b2_maxFloat: number;
-    static b2_epsilon: number;
-    static b2_epsilon_sq: number;
-    static b2_pi: number;
+declare module "phaser-box2d" {
+    export const DEBUG: boolean;
+    export const ENABLE_ASSERTS: boolean;
+    export function b2Assert(condition: boolean, opt_message?: string, ...var_args: any[]): void;
+    export const b2_maxFloat: number;
+    export const b2_epsilon: number;
+    export const b2_epsilon_sq: number;
+    export const b2_pi: number;
     //  The maximum number of contact points between two convex 
     //  shapes. Do not change this value. 
-    static b2_maxManifoldPoints: number;
+    export const b2_maxManifoldPoints: number;
     //  The maximum number of vertices on a convex polygon. You 
     //  cannot increase this too much because b2BlockAllocator has a 
     //  maximum object size. 
-    static b2_maxPolygonVertices: number;
+    export const b2_maxPolygonVertices: number;
     //  This is used to fatten AABBs in the dynamic tree. This allows 
     //  proxies to move by a small amount without triggering a tree 
     //  adjustment. 
     //  This is in meters. 
-    static b2_aabbExtension: number;
+    export const b2_aabbExtension: number;
     //  This is used to fatten AABBs in the dynamic tree. This is 
     //  used to predict the future position based on the current 
     //  displacement. 
     //  This is a dimensionless multiplier. 
-    static b2_aabbMultiplier: number;
+    export const b2_aabbMultiplier: number;
     //  A small length used as a collision and constraint tolerance. 
     //  Usually it is chosen to be numerically significant, but 
     //  visually insignificant. 
-    static b2_linearSlop: number;
+    export const b2_linearSlop: number;
     //  A small angle used as a collision and constraint tolerance. 
     //  Usually it is chosen to be numerically significant, but 
     //  visually insignificant. 
-    static b2_angularSlop: number;
+    export const b2_angularSlop: number;
     //  The radius of the polygon/edge shape skin. This should not be 
     //  modified. Making this smaller means polygons will have an 
     //  insufficient buffer for continuous collision. 
     //  Making it larger may create artifacts for vertex collision.
-    static b2_polygonRadius: number;
+    export const b2_polygonRadius: number;
     //  Maximum number of sub-steps per contact in continuous physics 
     //  simulation. 
-    static b2_maxSubSteps: number;
+    export const b2_maxSubSteps: number;
     //  Maximum number of contacts to be handled to solve a TOI 
     //  impact. 
-    static b2_maxTOIContacts: number;
+    export const b2_maxTOIContacts: number;
     //  A velocity threshold for elastic collisions. Any collision 
     //  with a relative linear velocity below this threshold will be 
     //  treated as inelastic. 
-    static b2_velocityThreshold: number;
+    export const b2_velocityThreshold: number;
     //  The maximum linear position correction used when solving 
     //  constraints. This helps to prevent overshoot. 
-    static b2_maxLinearCorrection: number;
+    export const b2_maxLinearCorrection: number;
     //  The maximum angular position correction used when solving 
     //  constraints. This helps to prevent overshoot. 
-    static b2_maxAngularCorrection: number;
+    export const b2_maxAngularCorrection: number;
     //  The maximum linear velocity of a body. This limit is very 
     //  large and is used to prevent numerical problems. You 
     //  shouldn't need to adjust this. 
-    static b2_maxTranslation: number;
-    static b2_maxTranslationSquared: number;
+    export const b2_maxTranslation: number;
+    export const b2_maxTranslationSquared: number;
     //  The maximum angular velocity of a body. This limit is very 
     //  large and is used to prevent numerical problems. You 
     //  shouldn't need to adjust this. 
-    static b2_maxRotation: number;
-    static b2_maxRotationSquared: number;
+    export const b2_maxRotation: number;
+    export const b2_maxRotationSquared: number;
     //  This scale factor controls how fast overlap is resolved. 
     //  Ideally this would be 1 so that overlap is removed in one 
     //  time step. However using values close to 1 often lead to 
     //  overshoot. 
-    static b2_baumgarte: number;
-    static b2_toiBaumgarte: number;
+    export const b2_baumgarte: number;
+    export const b2_toiBaumgarte: number;
     //  The time that a body must be still before it will go to 
     //  sleep. 
-    static b2_timeToSleep: number;
+    export const b2_timeToSleep: number;
     //  A body cannot sleep if its linear velocity is above this 
     //  tolerance. 
-    static b2_linearSleepTolerance: number;
+    export const b2_linearSleepTolerance: number;
     //  A body cannot sleep if its angular velocity is above this 
     //  tolerance. 
-    static b2_angularSleepTolerance: number;
+    export const b2_angularSleepTolerance: number;
     //  Implement this function to use your own memory allocator. 
-    static b2Alloc(size: number): any;
+    export function b2Alloc(size: number): any;
     //  If you implement b2Alloc, you should also implement this 
     //  function. 
-    static b2Free(mem: any): void;
+    export function b2Free(mem: any): void;
     //  Logging function. 
     //  You can modify this to use your logging facility.
-    static b2Log(...var_args: any[]): void;
+    export function b2Log(...var_args: any[]): void;
     //  Current version. 
-    static b2_version: box2d.b2Version;
-    static b2_changelist: number;
-    static b2ParseInt(v: string): number;
-    static b2ParseUInt(v: string): number;
-    static b2MakeArray(length?: number, init?: (length: number) => any): Array<any>;
-    static b2MakeNumberArray(length?: number): Array<number>;
-    static b2_pi_over_180: number;
-    static b2_180_over_pi: number;
-    static b2_two_pi: number;
-    static b2Abs(n: number): number;
-    static b2Min(a: number, b: number): number;
-    static b2Max(a: number, b: number): number;
-    static b2Clamp(a: number, lo: number, hi: number): number;
-    static b2Swap(a: Array<number>, b: Array<number>): void;
+    export const b2_version: box2d.b2Version;
+    export const b2_changelist: number;
+    export function b2ParseInt(v: string): number;
+    export function b2ParseUInt(v: string): number;
+    export function b2MakeArray(length?: number, init?: (length: number) => any): Array<any>;
+    export function b2MakeNumberArray(length?: number): Array<number>;
+    export const b2_pi_over_180: number;
+    export const b2_180_over_pi: number;
+    export const b2_two_pi: number;
+    export function b2Abs(n: number): number;
+    export function b2Min(a: number, b: number): number;
+    export function b2Max(a: number, b: number): number;
+    export function b2Clamp(a: number, lo: number, hi: number): number;
+    export function b2Swap(a: Array<number>, b: Array<number>): void;
     //  This function is used to ensure that a floating point number 
     //  is not a NaN or infinity. 
-    static b2IsValid(n: number): boolean;
-    static b2Sq(n: number): number;
+    export function b2IsValid(n: number): boolean;
+    export function b2Sq(n: number): number;
     //  This is a approximate yet fast inverse square-root. 
-    static b2InvSqrt(n: number): number;
-    static b2Sqrt(n: number): number;
-    static b2Pow(x: number, y: number): number;
-    static b2DegToRad(degrees: number): number;
-    static b2RadToDeg(radians: number): number;
-    static b2Cos(radians: number): number;
-    static b2Sin(radians: number): number;
-    static b2Acos(n: number): number;
-    static b2Asin(n: number): number;
-    static b2Atan2(y: number, x: number): number;
+    export function b2InvSqrt(n: number): number;
+    export function b2Sqrt(n: number): number;
+    export function b2Pow(x: number, y: number): number;
+    export function b2DegToRad(degrees: number): number;
+    export function b2RadToDeg(radians: number): number;
+    export function b2Cos(radians: number): number;
+    export function b2Sin(radians: number): number;
+    export function b2Acos(n: number): number;
+    export function b2Asin(n: number): number;
+    export function b2Atan2(y: number, x: number): number;
     //  Next Largest Power of 2 
     //  Given a binary integer value x, the next largest power of 2 
     //  can be computed by a SWAR algorithm that recursively "folds" 
@@ -122,114 +122,114 @@ declare class box2d {
     //  vector with the same most significant 1 as x, but all 1's 
     //  below it. Adding 1 to that value yields the next largest 
     //  power of 2. For a 32-bit value: 
-    static b2NextPowerOfTwo(x: number): number;
-    static b2IsPowerOfTwo(x: number): boolean;
-    static b2Random(): number;
-    static b2RandomRange(lo: number, hi: number): number;
-    static b2Vec2_zero: box2d.b2Vec2;
-    static b2AbsV(v: box2d.b2Vec2, out: box2d.b2Vec2): box2d.b2Vec2;
-    static b2MinV(a: box2d.b2Vec2, b: box2d.b2Vec2, out: box2d.b2Vec2): box2d.b2Vec2;
-    static b2MaxV(a: box2d.b2Vec2, b: box2d.b2Vec2, out: box2d.b2Vec2): box2d.b2Vec2;
-    static b2ClampV(v: box2d.b2Vec2, lo: box2d.b2Vec2, hi: box2d.b2Vec2, out: box2d.b2Vec2): box2d.b2Vec2;
-    static b2RotateV(v: box2d.b2Vec2, c: number, s: number, out: box2d.b2Vec2): box2d.b2Vec2;
-    static b2RotateRadiansV(v: box2d.b2Vec2, radians: number, out: box2d.b2Vec2): box2d.b2Vec2;
-    static b2RotateDegreesV(v: box2d.b2Vec2, degrees: number, out: box2d.b2Vec2): box2d.b2Vec2;
+    export function b2NextPowerOfTwo(x: number): number;
+    export function b2IsPowerOfTwo(x: number): boolean;
+    export function b2Random(): number;
+    export function b2RandomRange(lo: number, hi: number): number;
+    export const b2Vec2_zero: box2d.b2Vec2;
+    export function b2AbsV(v: box2d.b2Vec2, out: box2d.b2Vec2): box2d.b2Vec2;
+    export function b2MinV(a: box2d.b2Vec2, b: box2d.b2Vec2, out: box2d.b2Vec2): box2d.b2Vec2;
+    export function b2MaxV(a: box2d.b2Vec2, b: box2d.b2Vec2, out: box2d.b2Vec2): box2d.b2Vec2;
+    export function b2ClampV(v: box2d.b2Vec2, lo: box2d.b2Vec2, hi: box2d.b2Vec2, out: box2d.b2Vec2): box2d.b2Vec2;
+    export function b2RotateV(v: box2d.b2Vec2, c: number, s: number, out: box2d.b2Vec2): box2d.b2Vec2;
+    export function b2RotateRadiansV(v: box2d.b2Vec2, radians: number, out: box2d.b2Vec2): box2d.b2Vec2;
+    export function b2RotateDegreesV(v: box2d.b2Vec2, degrees: number, out: box2d.b2Vec2): box2d.b2Vec2;
     //  Perform the dot product on two vectors. 
     //  a.x * b.x + a.y * b.y 
-    static b2DotVV(a: box2d.b2Vec2, b: box2d.b2Vec2): number;
+    export function b2DotVV(a: box2d.b2Vec2, b: box2d.b2Vec2): number;
     //  Perform the cross product on two vectors. In 2D this produces a scalar. 
     //  a.x * b.y - a.y * b.x 
-    static b2CrossVV(a: box2d.b2Vec2, b: box2d.b2Vec2): number;
+    export function b2CrossVV(a: box2d.b2Vec2, b: box2d.b2Vec2): number;
     //  Perform the cross product on a vector and a scalar. In 2D 
     //  this produces a vector. 
-    static b2CrossVS(v: box2d.b2Vec2, s: number, out: box2d.b2Vec2): box2d.b2Vec2;
+    export function b2CrossVS(v: box2d.b2Vec2, s: number, out: box2d.b2Vec2): box2d.b2Vec2;
     //  box2d.b2CrossVS(v, 1.0, out) 
-    static b2CrossVOne(v: box2d.b2Vec2, out: box2d.b2Vec2): box2d.b2Vec2;
+    export function b2CrossVOne(v: box2d.b2Vec2, out: box2d.b2Vec2): box2d.b2Vec2;
     //  Perform the cross product on a scalar and a vector. In 2D 
     //  this produces a vector. 
-    static b2CrossSV(s: number, v: box2d.b2Vec2, out: box2d.b2Vec2): box2d.b2Vec2;
+    export function b2CrossSV(s: number, v: box2d.b2Vec2, out: box2d.b2Vec2): box2d.b2Vec2;
     //  box2d.b2CrossSV(1.0, v, out) 
-    static b2CrossOneV(v: box2d.b2Vec2, out: box2d.b2Vec2): box2d.b2Vec2;
+    export function b2CrossOneV(v: box2d.b2Vec2, out: box2d.b2Vec2): box2d.b2Vec2;
     //  Add two vectors component-wise. 
-    static b2AddVV(a: box2d.b2Vec2, b: box2d.b2Vec2, out: box2d.b2Vec2): box2d.b2Vec2;
+    export function b2AddVV(a: box2d.b2Vec2, b: box2d.b2Vec2, out: box2d.b2Vec2): box2d.b2Vec2;
     //  Subtract two vectors component-wise. 
-    static b2SubVV(a: box2d.b2Vec2, b: box2d.b2Vec2, out: box2d.b2Vec2): box2d.b2Vec2;
-    static b2MulSV(s: number, v: box2d.b2Vec2, out: box2d.b2Vec2): box2d.b2Vec2;
+    export function b2SubVV(a: box2d.b2Vec2, b: box2d.b2Vec2, out: box2d.b2Vec2): box2d.b2Vec2;
+    export function b2MulSV(s: number, v: box2d.b2Vec2, out: box2d.b2Vec2): box2d.b2Vec2;
     //  out = a + (s * b)
-    static b2AddVMulSV(a: box2d.b2Vec2, s: number, b: box2d.b2Vec2, out: box2d.b2Vec2): box2d.b2Vec2;
+    export function b2AddVMulSV(a: box2d.b2Vec2, s: number, b: box2d.b2Vec2, out: box2d.b2Vec2): box2d.b2Vec2;
     //  out = a - (s * b)
-    static b2SubVMulSV(a: box2d.b2Vec2, s: number, b: box2d.b2Vec2, out: box2d.b2Vec2): box2d.b2Vec2;
+    export function b2SubVMulSV(a: box2d.b2Vec2, s: number, b: box2d.b2Vec2, out: box2d.b2Vec2): box2d.b2Vec2;
     //  out = a + b2CrossSV(s, v) 
-    static b2AddVCrossSV(a: box2d.b2Vec2, s: number, v: box2d.b2Vec2, out: box2d.b2Vec2): box2d.b2Vec2;
+    export function b2AddVCrossSV(a: box2d.b2Vec2, s: number, v: box2d.b2Vec2, out: box2d.b2Vec2): box2d.b2Vec2;
     //  Get the center of two vectors. 
-    static b2MidVV(a: box2d.b2Vec2, b: box2d.b2Vec2, out: box2d.b2Vec2): box2d.b2Vec2;
+    export function b2MidVV(a: box2d.b2Vec2, b: box2d.b2Vec2, out: box2d.b2Vec2): box2d.b2Vec2;
     //  Get the extent of two vectors (half-widths). 
-    static b2ExtVV(a: box2d.b2Vec2, b: box2d.b2Vec2, out: box2d.b2Vec2): box2d.b2Vec2;
-    static b2IsEqualToV(a: box2d.b2Vec2, b: box2d.b2Vec2): boolean;
-    static b2DistanceVV(a: box2d.b2Vec2, b: box2d.b2Vec2): number;
-    static b2DistanceSquaredVV(a: box2d.b2Vec2, b: box2d.b2Vec2): number;
-    static b2NegV(v: box2d.b2Vec2, out: box2d.b2Vec2): box2d.b2Vec2;
+    export function b2ExtVV(a: box2d.b2Vec2, b: box2d.b2Vec2, out: box2d.b2Vec2): box2d.b2Vec2;
+    export function b2IsEqualToV(a: box2d.b2Vec2, b: box2d.b2Vec2): boolean;
+    export function b2DistanceVV(a: box2d.b2Vec2, b: box2d.b2Vec2): number;
+    export function b2DistanceSquaredVV(a: box2d.b2Vec2, b: box2d.b2Vec2): number;
+    export function b2NegV(v: box2d.b2Vec2, out: box2d.b2Vec2): box2d.b2Vec2;
     //  Perform the dot product on two vectors. 
-    static b2DotV3V3(a: box2d.b2Vec3, b: box2d.b2Vec3): number;
+    export function b2DotV3V3(a: box2d.b2Vec3, b: box2d.b2Vec3): number;
     //  Perform the cross product on two vectors. 
-    static b2CrossV3V3(a: box2d.b2Vec3, b: box2d.b2Vec3, out: box2d.b2Vec3): box2d.b2Vec3;
-    static b2AbsM(M: box2d.b2Mat22, out: box2d.b2Mat22): box2d.b2Mat22;
+    export function b2CrossV3V3(a: box2d.b2Vec3, b: box2d.b2Vec3, out: box2d.b2Vec3): box2d.b2Vec3;
+    export function b2AbsM(M: box2d.b2Mat22, out: box2d.b2Mat22): box2d.b2Mat22;
     //  Multiply a matrix times a vector. If a rotation matrix is 
     //  provided, then this transforms the vector from one frame to 
     //  another. 
-    static b2MulMV(M: box2d.b2Mat22, v: box2d.b2Vec2, out: box2d.b2Vec2): box2d.b2Vec2;
+    export function b2MulMV(M: box2d.b2Mat22, v: box2d.b2Vec2, out: box2d.b2Vec2): box2d.b2Vec2;
     //  Multiply a matrix transpose times a vector. If a rotation 
     //  matrix is provided, then this transforms the vector from one 
     //  frame to another (inverse transform). 
-    static b2MulTMV(M: box2d.b2Mat22, v: box2d.b2Vec2, out: box2d.b2Vec2): box2d.b2Vec2;
-    static b2AddMM(A: box2d.b2Mat22, B: box2d.b2Mat22, out: box2d.b2Mat22): box2d.b2Mat22;
-    static b2MulMM(A: box2d.b2Mat22, B: box2d.b2Mat22, out: box2d.b2Mat22): box2d.b2Mat22;
-    static b2MulTMM(A: box2d.b2Mat22, B: box2d.b2Mat22, out: box2d.b2Mat22): box2d.b2Mat22;
+    export function b2MulTMV(M: box2d.b2Mat22, v: box2d.b2Vec2, out: box2d.b2Vec2): box2d.b2Vec2;
+    export function b2AddMM(A: box2d.b2Mat22, B: box2d.b2Mat22, out: box2d.b2Mat22): box2d.b2Mat22;
+    export function b2MulMM(A: box2d.b2Mat22, B: box2d.b2Mat22, out: box2d.b2Mat22): box2d.b2Mat22;
+    export function b2MulTMM(A: box2d.b2Mat22, B: box2d.b2Mat22, out: box2d.b2Mat22): box2d.b2Mat22;
     //  Multiply a matrix times a vector. 
-    static b2MulM33V3(A: box2d.b2Mat33, v: box2d.b2Vec3, out: box2d.b2Vec3): box2d.b2Vec3;
-    static b2MulM33XYZ(A: box2d.b2Mat33, x: number, y: number, z: number, out: box2d.b2Vec3): box2d.b2Vec3;
-    static b2MulM33V2(A: box2d.b2Mat33, v: box2d.b2Vec2, out: box2d.b2Vec2): box2d.b2Vec2;
-    static b2MulM33XY(A: box2d.b2Mat33, x: number, y: number, out: box2d.b2Vec2): box2d.b2Vec2;
+    export function b2MulM33V3(A: box2d.b2Mat33, v: box2d.b2Vec3, out: box2d.b2Vec3): box2d.b2Vec3;
+    export function b2MulM33XYZ(A: box2d.b2Mat33, x: number, y: number, z: number, out: box2d.b2Vec3): box2d.b2Vec3;
+    export function b2MulM33V2(A: box2d.b2Mat33, v: box2d.b2Vec2, out: box2d.b2Vec2): box2d.b2Vec2;
+    export function b2MulM33XY(A: box2d.b2Mat33, x: number, y: number, out: box2d.b2Vec2): box2d.b2Vec2;
     //  Multiply two rotations: q * r 
-    static b2MulRR(q: box2d.b2Rot, r: box2d.b2Rot, out: box2d.b2Rot): box2d.b2Rot;
+    export function b2MulRR(q: box2d.b2Rot, r: box2d.b2Rot, out: box2d.b2Rot): box2d.b2Rot;
     //  Transpose multiply two rotations: qT * r 
-    static b2MulTRR(q: box2d.b2Rot, r: box2d.b2Rot, out: box2d.b2Rot): box2d.b2Rot;
+    export function b2MulTRR(q: box2d.b2Rot, r: box2d.b2Rot, out: box2d.b2Rot): box2d.b2Rot;
     //  Rotate a vector 
-    static b2MulRV(q: box2d.b2Rot, v: box2d.b2Vec2, out: box2d.b2Vec2): box2d.b2Vec2;
+    export function b2MulRV(q: box2d.b2Rot, v: box2d.b2Vec2, out: box2d.b2Vec2): box2d.b2Vec2;
     //  Inverse rotate a vector 
-    static b2MulTRV(q: box2d.b2Rot, v: box2d.b2Vec2, out: box2d.b2Vec2): box2d.b2Vec2;
-    static b2MulXV(T: box2d.b2Transform, v: box2d.b2Vec2, out: box2d.b2Vec2): box2d.b2Vec2;
-    static b2MulTXV(T: box2d.b2Transform, v: box2d.b2Vec2, out: box2d.b2Vec2): box2d.b2Vec2;
+    export function b2MulTRV(q: box2d.b2Rot, v: box2d.b2Vec2, out: box2d.b2Vec2): box2d.b2Vec2;
+    export function b2MulXV(T: box2d.b2Transform, v: box2d.b2Vec2, out: box2d.b2Vec2): box2d.b2Vec2;
+    export function b2MulTXV(T: box2d.b2Transform, v: box2d.b2Vec2, out: box2d.b2Vec2): box2d.b2Vec2;
     //  v2 = A.q.Rot(B.q.Rot(v1) + B.p) + A.p
     //     = (A.q * B.q).Rot(v1) + A.q.Rot(B.p) + A.p
-    static b2MulXX(A: box2d.b2Transform, B: box2d.b2Transform, out: box2d.b2Transform): box2d.b2Transform;
+    export function b2MulXX(A: box2d.b2Transform, B: box2d.b2Transform, out: box2d.b2Transform): box2d.b2Transform;
     //  v2 = A.q' * (B.q * v1 + B.p - A.p)
     //     = A.q' * B.q * v1 + A.q' * (B.p - A.p)
-    static b2MulTXX(A: box2d.b2Transform, B: box2d.b2Transform, out: box2d.b2Transform): box2d.b2Transform;
-    static b2_gjkCalls: number;
-    static b2_gjkIters: number;
-    static b2_gjkMaxIters: number;
+    export function b2MulTXX(A: box2d.b2Transform, B: box2d.b2Transform, out: box2d.b2Transform): box2d.b2Transform;
+    export const b2_gjkCalls: number;
+    export const b2_gjkIters: number;
+    export const b2_gjkMaxIters: number;
     //  Compute the closest points between two shapes. Supports any combination of:
     //  box2d.b2CircleShape, box2d.b2PolygonShape, box2d.b2EdgeShape. The simplex cache is input/output.
     //  On the first call set box2d.b2SimplexCache.count to zero.
-    static b2Distance(output: box2d.b2DistanceOutput, cache: box2d.b2SimplexCache, input: box2d.b2DistanceInput): void;
+    export function b2Distance(output: box2d.b2DistanceOutput, cache: box2d.b2SimplexCache, input: box2d.b2DistanceInput): void;
     //  Compute the point states given two manifolds. The states 
     //  pertain to the transition from manifold1 to manifold2. So 
     //  state1 is either persist or remove while state2 is either add 
     //  or persist. 
-    static b2GetPointStates(state1: Array<box2d.b2PointState>, state2: Array<box2d.b2PointState>, manifold1: box2d.b2Manifold, manifold2: box2d.b2Manifold): void;
-    static b2TestOverlapAABB(a: box2d.b2AABB, b: box2d.b2AABB): boolean;
+    export function b2GetPointStates(state1: Array<box2d.b2PointState>, state2: Array<box2d.b2PointState>, manifold1: box2d.b2Manifold, manifold2: box2d.b2Manifold): void;
+    export function b2TestOverlapAABB(a: box2d.b2AABB, b: box2d.b2AABB): boolean;
     //  Clipping for contact manifolds. 
     //  Sutherland-Hodgman clipping. 
-    static b2ClipSegmentToLine(vOut: Array<box2d.b2ClipVertex>, vIn: Array<box2d.b2ClipVertex>, normal: box2d.b2Vec2, offset: number, vertexIndexA: number): number;
-    static b2TestOverlapShape(shapeA: box2d.b2Shape, shapeB: box2d.b2Shape, xfA: box2d.b2Transform, xfB: box2d.b2Transform): boolean;
-    static b2_toiTime: number;
-    static b2_toiMaxTime: number;
-    static b2_toiCalls: number;
-    static b2_toiIters: number;
-    static b2_toiMaxIters: number;
-    static b2_toiRootIters: number;
-    static b2_toiMaxRootIters: number;
+    export function b2ClipSegmentToLine(vOut: Array<box2d.b2ClipVertex>, vIn: Array<box2d.b2ClipVertex>, normal: box2d.b2Vec2, offset: number, vertexIndexA: number): number;
+    export function b2TestOverlapShape(shapeA: box2d.b2Shape, shapeB: box2d.b2Shape, xfA: box2d.b2Transform, xfB: box2d.b2Transform): boolean;
+    export const b2_toiTime: number;
+    export const b2_toiMaxTime: number;
+    export const b2_toiCalls: number;
+    export const b2_toiIters: number;
+    export const b2_toiMaxIters: number;
+    export const b2_toiRootIters: number;
+    export const b2_toiMaxRootIters: number;
     //  Compute the upper bound on time before two shapes penetrate. 
     //  Time is represented as a fraction between [0,tMax]. This uses
     //  a swept separating axis and may miss some intermediate, 
@@ -237,45 +237,42 @@ declare class box2d {
     //  should call this function again. 
     //  Note: use box2d.b2Distance to compute the contact point and 
     //  normal at the time of impact. 
-    static b2TimeOfImpact(output: box2d.b2TOIOutput, input: box2d.b2TOIInput): void;
+    export function b2TimeOfImpact(output: box2d.b2TOIOutput, input: box2d.b2TOIInput): void;
     //  Friction mixing law. The idea is to allow either fixture to
     //  drive the restitution to zero. For example, anything slides
     //  on ice.
-    static b2MixFriction(friction1: number, friction2: number): number;
+    export function b2MixFriction(friction1: number, friction2: number): number;
     //  Restitution mixing law. The idea is allow for anything to
     //  bounce off an inelastic surface. For example, a superball
     //  bounces on anything.
-    static b2MixRestitution(restitution1: number, restitution2: number): number;
+    export function b2MixRestitution(restitution1: number, restitution2: number): number;
     //  Compute the collision manifold between an edge and a circle. 
     //  Compute contact points for edge versus circle. 
     //  This accounts for edge connectivity.
-    static b2CollideEdgeAndCircle(manifold: box2d.b2Manifold, edgeA: box2d.b2EdgeShape, xfA: box2d.b2Transform, circleB: box2d.b2CircleShape, xfB: box2d.b2Transform): void;
+    export function b2CollideEdgeAndCircle(manifold: box2d.b2Manifold, edgeA: box2d.b2EdgeShape, xfA: box2d.b2Transform, circleB: box2d.b2CircleShape, xfB: box2d.b2Transform): void;
     //  Compute the collision manifold between an edge and a polygon.
-    static b2CollideEdgeAndPolygon(manifold: box2d.b2Manifold, edgeA: box2d.b2EdgeShape, xfA: box2d.b2Transform, polygonB: box2d.b2PolygonShape, xfB: box2d.b2Transform): void;
+    export function b2CollideEdgeAndPolygon(manifold: box2d.b2Manifold, edgeA: box2d.b2EdgeShape, xfA: box2d.b2Transform, polygonB: box2d.b2PolygonShape, xfB: box2d.b2Transform): void;
     //  Find the max separation between poly1 and poly2 using edge
     //  normals from poly1.
-    static b2FindMaxSeparation(edgeIndex: Array<number>, poly1: box2d.b2PolygonShape, xf1: box2d.b2Transform, poly2: box2d.b2PolygonShape, xf2: box2d.b2Transform): number;
-    static b2FindIncidentEdge(c: Array<box2d.b2ClipVertex>, poly1: box2d.b2PolygonShape, xf1: box2d.b2Transform, edge1: number, poly2: box2d.b2PolygonShape, xf2: box2d.b2Transform): void;
+    export function b2FindMaxSeparation(edgeIndex: Array<number>, poly1: box2d.b2PolygonShape, xf1: box2d.b2Transform, poly2: box2d.b2PolygonShape, xf2: box2d.b2Transform): number;
+    export function b2FindIncidentEdge(c: Array<box2d.b2ClipVertex>, poly1: box2d.b2PolygonShape, xf1: box2d.b2Transform, edge1: number, poly2: box2d.b2PolygonShape, xf2: box2d.b2Transform): void;
     //  Find edge normal of max separation on A - return if separating axis is found
     //  Find edge normal of max separation on B - return if separation axis is found
     //  Choose reference edge as min(minA, minB)
     //  Find incident edge
     //  Clip
     //  The normal points from 1 to 2
-    static b2CollidePolygons(manifold: box2d.b2Manifold, polyA: box2d.b2PolygonShape, xfA: box2d.b2Transform, polyB: box2d.b2PolygonShape, xfB: box2d.b2Transform): void;
+    export function b2CollidePolygons(manifold: box2d.b2Manifold, polyA: box2d.b2PolygonShape, xfA: box2d.b2Transform, polyB: box2d.b2PolygonShape, xfB: box2d.b2Transform): void;
     //  Compute the collision manifold between two circles. 
-    static b2CollideCircles(manifold: box2d.b2Manifold, circleA: box2d.b2CircleShape, xfA: box2d.b2Transform, circleB: box2d.b2CircleShape, xfB: box2d.b2Transform): void;
+    export function b2CollideCircles(manifold: box2d.b2Manifold, circleA: box2d.b2CircleShape, xfA: box2d.b2Transform, circleB: box2d.b2CircleShape, xfB: box2d.b2Transform): void;
     //  Compute the collision manifold between a polygon and a 
     //  circle. 
-    static b2CollidePolygonAndCircle(manifold: box2d.b2Manifold, polygonA: box2d.b2PolygonShape, xfA: box2d.b2Transform, circleB: box2d.b2CircleShape, xfB: box2d.b2Transform): void;
+    export function b2CollidePolygonAndCircle(manifold: box2d.b2Manifold, polygonA: box2d.b2PolygonShape, xfA: box2d.b2Transform, circleB: box2d.b2CircleShape, xfB: box2d.b2Transform): void;
     //  This is used to sort pairs. 
-    static b2PairLessThan(pair1: box2d.b2Pair, pair2: box2d.b2Pair): number;
-    static b2_minPulleyLength: number;
-}
+    export function b2PairLessThan(pair1: box2d.b2Pair, pair2: box2d.b2Pair): number;
+    export const b2_minPulleyLength: number;
 
-
-declare module box2d {
-    enum b2JointType {
+    export enum b2JointType {
         e_unknownJoint = 0,
         e_revoluteJoint = 1,
         e_prismaticJoint = 2,
@@ -291,19 +288,19 @@ declare module box2d {
         e_areaJoint = 12
     }
 
-    enum b2LimitState {
+    export enum b2LimitState {
         e_inactiveLimit = 0,
         e_atLowerLimit = 1,
         e_atUpperLimit = 2,
         e_equalLimits = 3
     }
 
-    enum b2ContactFeatureType {
+    export enum b2ContactFeatureType {
         e_vertex = 0,
         e_face = 1
     }
 
-    enum b2ManifoldType {
+    export enum b2ManifoldType {
         e_unknown = -1,
         e_circles = 0,
         e_faceA = 1,
@@ -311,14 +308,14 @@ declare module box2d {
     }
 
     //  This is used for determining the state of contact points. 
-    enum b2PointState {
+    export enum b2PointState {
         b2_nullState = 0, ///< point does not exist
         b2_addState = 1, ///< point was added in the update
         b2_persistState = 2, ///< point persisted across the update
         b2_removeState = 3  ///< point was removed in the update
     }
 
-    enum b2TOIOutputState {
+    export enum b2TOIOutputState {
         e_unknown = 0,
         e_failed = 1,
         e_overlapped = 2,
@@ -326,7 +323,7 @@ declare module box2d {
         e_separated = 4
     }
 
-    enum b2SeparationFunctionType {
+    export enum b2SeparationFunctionType {
         e_unknown = -1,
         e_points = 0,
         e_faceA = 1,
@@ -334,7 +331,7 @@ declare module box2d {
     }
 
     //  Flags stored in m_flags
-    enum b2ContactFlag {
+    export enum b2ContactFlag {
         e_none = 0,
         e_islandFlag = 0x0001, /// Used when crawling contact graph when forming islands.
         e_touchingFlag = 0x0002, /// Set when the shapes are touching.
@@ -344,7 +341,7 @@ declare module box2d {
         e_toiFlag = 0x0020  /// This contact has a valid TOI in m_toi
     }
 
-    enum b2ShapeType {
+    export enum b2ShapeType {
         e_unknown = -1,
         e_circleShape = 0,
         e_edgeShape = 1,
@@ -353,19 +350,19 @@ declare module box2d {
         e_shapeTypeCount = 4
     }
 
-    enum b2EPAxisType {
+    export enum b2EPAxisType {
         e_unknown = 0,
         e_edgeA = 1,
         e_edgeB = 2
     }
 
-    enum b2EPColliderVertexType {
+    export enum b2EPColliderVertexType {
         e_isolated = 0,
         e_concave = 1,
         e_convex = 2
     }
 
-    enum b2DrawFlags {
+    export enum b2DrawFlags {
         e_none = 0,
         e_shapeBit = 0x0001, ///< draw shapes
         e_jointBit = 0x0002, ///< draw joint connections
@@ -380,7 +377,7 @@ declare module box2d {
     //  enum= zero mass, zero velocity, may be manually moved
     //  kinematic= zero mass, non-zero velocity set by user, moved by solver
     //  dynamic= positive mass, non-zero velocity determined by forces, moved by solver
-    enum b2BodyType {
+    export enum b2BodyType {
         b2_unknown = -1,
         b2_staticBody = 0,
         b2_kinematicBody = 1,
@@ -388,7 +385,7 @@ declare module box2d {
         b2_bulletBody = 3 // TODO_ERIN
     }
 
-    enum b2BodyFlag {
+    export enum b2BodyFlag {
         e_none = 0,
         e_islandFlag = 0x0001,
         e_awakeFlag = 0x0002,
@@ -399,7 +396,7 @@ declare module box2d {
         e_toiFlag = 0x0040
     }
 
-    enum b2WorldFlag {
+    export enum b2WorldFlag {
         e_none = 0,
         e_newFixture = 0x1,
         e_locked = 0x2,
@@ -407,7 +404,7 @@ declare module box2d {
     }
 
 
-    class b2Version {
+    export class b2Version {
         //  Version numberinf scheme See 
         //  http://en.wikipedia.org/wiki/Software_versioning 
         constructor(major?: number, minor?: number, revision?: number);
@@ -418,7 +415,7 @@ declare module box2d {
     }
 
 
-    class b2Vec2 {
+    export class b2Vec2 {
         //  A 2D column vector. 
         constructor(x?: number, y?: number);
         x: number;
@@ -478,7 +475,7 @@ declare module box2d {
     }
 
 
-    class b2Vec3 {
+    export class b2Vec3 {
         constructor(x?: number, y?: number, z?: number);
         x: number;
         y: number;
@@ -498,7 +495,7 @@ declare module box2d {
     }
 
 
-    class b2Mat22 {
+    export class b2Mat22 {
         //  A 2-by-2 matrix. Stored in column-major order. 
         constructor();
         ex: b2Vec2;
@@ -538,7 +535,7 @@ declare module box2d {
     }
 
 
-    class b2Mat33 {
+    export class b2Mat33 {
         //  A 3-by-3 matrix. Stored in column-major order. 
         constructor();
         ex: b2Vec3;
@@ -568,7 +565,7 @@ declare module box2d {
     }
 
 
-    class b2Rot {
+    export class b2Rot {
         //  Rotation 
         //  Initialize from an angle in radians 
         constructor(angle?: number);
@@ -591,7 +588,7 @@ declare module box2d {
     }
 
 
-    class b2Transform {
+    export class b2Transform {
         //  A transform contains translation and rotation. It is used to 
         //  represent the position and orientation of rigid frames. 
         constructor();
@@ -616,7 +613,7 @@ declare module box2d {
     }
 
 
-    class b2Sweep {
+    export class b2Sweep {
         //  This describes the motion of a body/shape for TOI computation.
         //  Shapes are defined with respect to the body origin, which may
         //  no coincide with the center of mass. However, to support dynamics
@@ -642,7 +639,7 @@ declare module box2d {
     }
 
 
-    class b2ControllerEdge {
+    export class b2ControllerEdge {
         //  A controller edge is used to connect bodies and controllers 
         //  together in a bipartite graph. 
         constructor();
@@ -655,7 +652,7 @@ declare module box2d {
     }
 
 
-    class b2Controller {
+    export class b2Controller {
         //  Base class for controllers. Controllers are a convience for 
         //  encapsulating common per-step functionality. 
         constructor();
@@ -686,7 +683,7 @@ declare module box2d {
     }
 
 
-    class b2ConstantAccelController extends b2Controller {
+    export class b2ConstantAccelController extends b2Controller {
         //  Applies a force every frame 
         constructor();
         //  The acceleration to apply 
@@ -697,7 +694,7 @@ declare module box2d {
     }
 
 
-    class b2Jacobian {
+    export class b2Jacobian {
         constructor();
         linear: b2Vec2;
         angularA: number;
@@ -707,7 +704,7 @@ declare module box2d {
     }
 
 
-    class b2JointEdge {
+    export class b2JointEdge {
         //  A joint edge is used to connect bodies and joints together in 
         //  a joint graph where each body is a node and each joint is an 
         //  edge. A joint edge belongs to a doubly linked list maintained 
@@ -721,7 +718,7 @@ declare module box2d {
     }
 
 
-    class b2JointDef {
+    export class b2JointDef {
         //  Joint definitions are used to construct joints. 
         constructor(type: b2JointType);
         //  The joint type is set automatically for concrete joint types.
@@ -737,7 +734,7 @@ declare module box2d {
     }
 
 
-    class b2Joint {
+    export class b2Joint {
         //  The base joint class. Joints are used to constraint two 
         //  bodies together in various fashions. Some joints also feature 
         //  limits and motors. 
@@ -793,7 +790,7 @@ declare module box2d {
     }
 
 
-    class b2RevoluteJointDef extends b2JointDef {
+    export class b2RevoluteJointDef extends b2JointDef {
         //  Revolute joint definition. This requires defining an anchor 
         //  point where the bodies are joined. The definition uses local 
         //  anchor points so that the initial configuration can violate 
@@ -831,7 +828,7 @@ declare module box2d {
     }
 
 
-    class b2RevoluteJoint extends b2Joint {
+    export class b2RevoluteJoint extends b2Joint {
         //  A revolute joint constrains two bodies to share a common 
         //  point while they are free to rotate about the point. The 
         //  relative rotation about the shared point is the joint angle. 
@@ -909,7 +906,7 @@ declare module box2d {
     }
 
 
-    class b2PrismaticJointDef extends b2JointDef {
+    export class b2PrismaticJointDef extends b2JointDef {
         //  Prismatic joint definition. This requires defining a line of 
         //  motion using an axis and an anchor point. The definition uses 
         //  local anchor points and a local axis so that the initial 
@@ -945,7 +942,7 @@ declare module box2d {
     }
 
 
-    class b2PrismaticJoint extends b2Joint {
+    export class b2PrismaticJoint extends b2Joint {
         //  A prismatic joint. This joint provides one degree of freedom: 
         //  translation along an axis fixed in bodyA. Relative rotation 
         //  is prevented. You can use a joint limit to restrict the range 
@@ -1024,7 +1021,7 @@ declare module box2d {
     }
 
 
-    class b2GearJointDef extends b2JointDef {
+    export class b2GearJointDef extends b2JointDef {
         //  Gear joint definition. This definition requires two existing 
         //  revolute or prismatic joints (any combination will work). 
         constructor();
@@ -1039,7 +1036,7 @@ declare module box2d {
     }
 
 
-    class b2GearJoint extends b2Joint {
+    export class b2GearJoint extends b2Joint {
         //  A gear joint is used to connect two joints together. Either 
         //  joint can be a revolute or prismatic joint. You specify a 
         //  gear ratio to bind the motions together: 
@@ -1116,7 +1113,7 @@ declare module box2d {
     }
 
 
-    class b2DistanceProxy {
+    export class b2DistanceProxy {
         //  A distance proxy is used by the GJK algorithm. 
         //  It encapsulates any shape.
         constructor();
@@ -1139,7 +1136,7 @@ declare module box2d {
     }
 
 
-    class b2SimplexCache {
+    export class b2SimplexCache {
         //  Used to warm start box2d.b2Distance. 
         //  Set count to zero on first call.
         constructor();
@@ -1151,7 +1148,7 @@ declare module box2d {
     }
 
 
-    class b2DistanceInput {
+    export class b2DistanceInput {
         //  Input for box2d.b2Distance. 
         //  You have to option to use the shape radii in the computation. 
         constructor();
@@ -1164,7 +1161,7 @@ declare module box2d {
     }
 
 
-    class b2DistanceOutput {
+    export class b2DistanceOutput {
         //  Output for box2d.b2Distance. 
         constructor();
         pointA: b2Vec2;
@@ -1175,7 +1172,7 @@ declare module box2d {
     }
 
 
-    class b2SimplexVertex {
+    export class b2SimplexVertex {
         constructor();
         wA: b2Vec2;
         wB: b2Vec2;
@@ -1187,7 +1184,7 @@ declare module box2d {
     }
 
 
-    class b2Simplex {
+    export class b2Simplex {
         constructor();
         m_v1: b2SimplexVertex;
         m_v2: b2SimplexVertex;
@@ -1234,7 +1231,7 @@ declare module box2d {
     }
 
 
-    class b2WeldJointDef extends b2JointDef {
+    export class b2WeldJointDef extends b2JointDef {
         //  Weld joint definition. You need to specify local anchor 
         //  points where they are attached and the relative body angle. 
         //  The position of the anchor points is important for computing 
@@ -1256,7 +1253,7 @@ declare module box2d {
     }
 
 
-    class b2WeldJoint extends b2Joint {
+    export class b2WeldJoint extends b2Joint {
         //  A weld joint essentially glues two bodies together. A weld 
         //  joint may distort somewhat because the island constraint 
         //  solver is approximate. 
@@ -1309,7 +1306,7 @@ declare module box2d {
     }
 
 
-    class b2RopeJointDef extends b2JointDef {
+    export class b2RopeJointDef extends b2JointDef {
         //  Rope joint definition. This requires two body anchor points 
         //  and a maximum lengths. 
         //  Note: by default the connected objects will not collide. see 
@@ -1326,7 +1323,7 @@ declare module box2d {
     }
 
 
-    class b2RopeJoint extends b2Joint {
+    export class b2RopeJoint extends b2Joint {
         //  A rope joint enforces a maximum distance between two points 
         //  on two bodies. It has no other effect. 
         //  Warning: if you attempt to change the maximum length during 
@@ -1378,7 +1375,7 @@ declare module box2d {
     }
 
 
-    class b2GravityController extends b2Controller {
+    export class b2GravityController extends b2Controller {
         //  Applies simplified gravity between every pair of bodies 
         constructor();
         //  Specifies the strength of the gravitiation force 
@@ -1389,7 +1386,7 @@ declare module box2d {
     }
 
 
-    class b2Profile {
+    export class b2Profile {
         //  Profiling data. Times are in milliseconds. 
         constructor();
         step: number;
@@ -1404,7 +1401,7 @@ declare module box2d {
     }
 
 
-    class b2TimeStep {
+    export class b2TimeStep {
         //  This is an internal structure. 
         constructor();
         dt: number;
@@ -1417,7 +1414,7 @@ declare module box2d {
     }
 
 
-    class b2Position {
+    export class b2Position {
         //  This is an internal structure. 
         constructor();
         c: b2Vec2;
@@ -1426,7 +1423,7 @@ declare module box2d {
     }
 
 
-    class b2Velocity {
+    export class b2Velocity {
         //  This is an internal structure. 
         constructor();
         v: b2Vec2;
@@ -1435,7 +1432,7 @@ declare module box2d {
     }
 
 
-    class b2SolverData {
+    export class b2SolverData {
         //  Solver Data 
         constructor();
         step: b2TimeStep;
@@ -1444,7 +1441,7 @@ declare module box2d {
     }
 
 
-    class b2ContactFeature {
+    export class b2ContactFeature {
         //  The features that intersect to form the contact point 
         //  This must be 4 bytes or less.
         constructor(id: b2ContactID);
@@ -1461,7 +1458,7 @@ declare module box2d {
     }
 
 
-    class b2ContactID {
+    export class b2ContactID {
         //  Contact ids to facilitate warm starting. 
         constructor();
         cf: b2ContactFeature;
@@ -1471,7 +1468,7 @@ declare module box2d {
     }
 
 
-    class b2ManifoldPoint {
+    export class b2ManifoldPoint {
         //  A manifold point is a contact point belonging to a contact
         //  manifold. It holds details related to the geometry and dynamics
         //  of the contact points.
@@ -1493,7 +1490,7 @@ declare module box2d {
     }
 
 
-    class b2Manifold {
+    export class b2Manifold {
         //  A manifold for two touching convex shapes.
         //  Box2D supports multiple types of contact:
         //  - clip point versus plane with radius
@@ -1522,7 +1519,7 @@ declare module box2d {
     }
 
 
-    class b2WorldManifold {
+    export class b2WorldManifold {
         //  This is used to compute the current state of a contact 
         //  manifold. 
         constructor();
@@ -1537,7 +1534,7 @@ declare module box2d {
     }
 
 
-    class b2ClipVertex {
+    export class b2ClipVertex {
         //  Used for computing contact manifolds. 
         constructor();
         v: b2Vec2;
@@ -1547,7 +1544,7 @@ declare module box2d {
     }
 
 
-    class b2RayCastInput {
+    export class b2RayCastInput {
         //  Ray-cast input data. The ray extends from p1 to p1 + 
         //  maxFraction * (p2 - p1). 
         constructor();
@@ -1558,7 +1555,7 @@ declare module box2d {
     }
 
 
-    class b2RayCastOutput {
+    export class b2RayCastOutput {
         //  Ray-cast output data. The ray hits at p1 + fraction * (p2 - 
         //  p1), where p1 and p2 come from box2d.b2RayCastInput. 
         constructor();
@@ -1568,7 +1565,7 @@ declare module box2d {
     }
 
 
-    class b2AABB {
+    export class b2AABB {
         //  An axis aligned bounding box. 
         constructor();
         lowerBound: b2Vec2;
@@ -1597,7 +1594,7 @@ declare module box2d {
     }
 
 
-    class b2Timer {
+    export class b2Timer {
         //  Timer for profiling. This has platform specific code and may 
         //  not work on every platform. 
         constructor();
@@ -1607,7 +1604,7 @@ declare module box2d {
     }
 
 
-    class b2Counter {
+    export class b2Counter {
         constructor();
         m_count: number;
         m_min_count: number;
@@ -1623,7 +1620,7 @@ declare module box2d {
     }
 
 
-    class b2TOIInput {
+    export class b2TOIInput {
         //  Input parameters for b2TimeOfImpact 
         constructor();
         proxyA: b2DistanceProxy;
@@ -1634,7 +1631,7 @@ declare module box2d {
     }
 
 
-    class b2TOIOutput {
+    export class b2TOIOutput {
         //  Output parameters for b2TimeOfImpact. 
         constructor();
         state: b2TOIOutputState;
@@ -1642,7 +1639,7 @@ declare module box2d {
     }
 
 
-    class b2SeparationFunction {
+    export class b2SeparationFunction {
         constructor();
         m_proxyA: b2DistanceProxy;
         m_proxyB: b2DistanceProxy;
@@ -1658,7 +1655,7 @@ declare module box2d {
     }
 
 
-    class b2ContactEdge {
+    export class b2ContactEdge {
         //  A contact edge is used to connect bodies and contacts
         //  together in a contact graph where each body is a node and
         //  each contact is an edge. A contact edge belongs to a doubly
@@ -1672,7 +1669,7 @@ declare module box2d {
     }
 
 
-    class b2Contact {
+    export class b2Contact {
         //  The class manages contact between two shapes. A contact
         //  exists for each overlapping AABB in the broad-phase (except
         //  if filtered). Therefore a contact object may exist that has
@@ -1752,7 +1749,7 @@ declare module box2d {
     }
 
 
-    class b2PolygonAndCircleContact extends b2Contact {
+    export class b2PolygonAndCircleContact extends b2Contact {
         constructor();
         static Create(allocator: any): b2Contact;
         static Destroy(contact: b2Contact, allocator: any): void;
@@ -1761,7 +1758,7 @@ declare module box2d {
     }
 
 
-    class b2EdgeAndPolygonContact extends b2Contact {
+    export class b2EdgeAndPolygonContact extends b2Contact {
         constructor();
         static Create(allocator: any): b2Contact;
         static Destroy(contact: b2Contact, allocator: any): void;
@@ -1770,7 +1767,7 @@ declare module box2d {
     }
 
 
-    class b2MassData {
+    export class b2MassData {
         //  This holds the mass data computed for a shape. 
         constructor();
         //  The mass of the shape, usually in kilograms. 
@@ -1783,7 +1780,7 @@ declare module box2d {
     }
 
 
-    class b2Shape {
+    export class b2Shape {
         //  A shape is used for collision detection. You can create a 
         //  shape however you like. 
         //  Shapes used for simulation in box2d.b2World are created 
@@ -1819,7 +1816,7 @@ declare module box2d {
     }
 
 
-    class b2PolygonShape extends b2Shape {
+    export class b2PolygonShape extends b2Shape {
         //  A convex polygon. It is assumed that the interior of the 
         //  polygon is to the left of each edge. 
         //  Polygons have a maximum number of vertices equal to 
@@ -1864,7 +1861,7 @@ declare module box2d {
     }
 
 
-    class b2EPAxis {
+    export class b2EPAxis {
         //  This structure is used to keep track of the best separating 
         //  axis. 
         constructor();
@@ -1874,7 +1871,7 @@ declare module box2d {
     }
 
 
-    class b2TempPolygon {
+    export class b2TempPolygon {
         //  This holds polygon B expressed in frame A. 
         constructor();
         vertices: Array<b2Vec2>;
@@ -1883,7 +1880,7 @@ declare module box2d {
     }
 
 
-    class b2ReferenceFace {
+    export class b2ReferenceFace {
         //  Reference face used for clipping 
         constructor();
         i1: number;
@@ -1898,7 +1895,7 @@ declare module box2d {
     }
 
 
-    class b2EPCollider {
+    export class b2EPCollider {
         //  This class collides and edge and a polygon, taking into 
         //  account edge adjacency. 
         constructor();
@@ -1934,7 +1931,7 @@ declare module box2d {
     }
 
 
-    class b2EdgeShape extends b2Shape {
+    export class b2EdgeShape extends b2Shape {
         //  A line segment (edge) shape. These can be connected in chains 
         //  or loops to other edge shapes. The connectivity information 
         //  is used to ensure correct contact normals. 
@@ -1970,7 +1967,7 @@ declare module box2d {
     }
 
 
-    class b2ChainShape extends b2Shape {
+    export class b2ChainShape extends b2Shape {
         //  A chain shape is a free form sequence of line segments.
         //  The chain has two-sided collision, so you can use inside and outside collision.
         //  Therefore, you may use any winding order.
@@ -2016,7 +2013,7 @@ declare module box2d {
     }
 
 
-    class b2ChainAndPolygonContact extends b2Contact {
+    export class b2ChainAndPolygonContact extends b2Contact {
         constructor();
         static Create(allocator: any): b2Contact;
         static Destroy(contact: b2Contact, allocator: any): void;
@@ -2025,7 +2022,7 @@ declare module box2d {
     }
 
 
-    class b2PolygonContact extends b2Contact {
+    export class b2PolygonContact extends b2Contact {
         constructor();
         static Create(allocator: any): b2Contact;
         static Destroy(contact: b2Contact, allocator: any): void;
@@ -2034,7 +2031,7 @@ declare module box2d {
     }
 
 
-    class b2CircleContact extends b2Contact {
+    export class b2CircleContact extends b2Contact {
         constructor();
         static Create(allocator: any): b2Contact;
         static Destroy(contact: b2Contact, allocator: any): void;
@@ -2043,7 +2040,7 @@ declare module box2d {
     }
 
 
-    class b2ChainAndCircleContact extends b2Contact {
+    export class b2ChainAndCircleContact extends b2Contact {
         constructor();
         static Create(allocator: any): b2Contact;
         static Destroy(contact: b2Contact, allocator: any): void;
@@ -2052,7 +2049,7 @@ declare module box2d {
     }
 
 
-    class b2EdgeAndCircleContact extends b2Contact {
+    export class b2EdgeAndCircleContact extends b2Contact {
         constructor();
         static Create(allocator: any): b2Contact;
         static Destroy(contact: b2Contact, allocator: any): void;
@@ -2061,7 +2058,7 @@ declare module box2d {
     }
 
 
-    class b2VelocityConstraintPoint {
+    export class b2VelocityConstraintPoint {
         constructor();
         rA: b2Vec2;
         rB: b2Vec2;
@@ -2074,7 +2071,7 @@ declare module box2d {
     }
 
 
-    class b2ContactVelocityConstraint {
+    export class b2ContactVelocityConstraint {
         constructor();
         points: Array<b2VelocityConstraintPoint>;
         normal: b2Vec2;
@@ -2096,7 +2093,7 @@ declare module box2d {
     }
 
 
-    class b2ContactPositionConstraint {
+    export class b2ContactPositionConstraint {
         constructor();
         localPoints: Array<b2Vec2>;
         localNormal: b2Vec2;
@@ -2117,7 +2114,7 @@ declare module box2d {
     }
 
 
-    class b2ContactSolverDef {
+    export class b2ContactSolverDef {
         constructor();
         step: b2TimeStep;
         contacts: Array<b2Contact>;
@@ -2128,7 +2125,7 @@ declare module box2d {
     }
 
 
-    class b2ContactSolver {
+    export class b2ContactSolver {
         constructor();
         m_step: b2TimeStep;
         m_positions: Array<b2Position>;
@@ -2152,7 +2149,7 @@ declare module box2d {
     }
 
 
-    class b2PositionSolverManifold {
+    export class b2PositionSolverManifold {
         constructor();
         normal: b2Vec2;
         point: b2Vec2;
@@ -2161,7 +2158,7 @@ declare module box2d {
     }
 
 
-    class b2DestructionListener {
+    export class b2DestructionListener {
         //  Joints and fixtures are destroyed when their associated body 
         //  is destroyed. Implement this listener so that you may nullify 
         //  references to these joints and shapes. 
@@ -2175,7 +2172,7 @@ declare module box2d {
     }
 
 
-    class b2ContactFilter {
+    export class b2ContactFilter {
         //  Implement this class to provide collision filtering. In other 
         //  words, you can implement this class if you want finer control 
         //  over contact creation. 
@@ -2188,7 +2185,7 @@ declare module box2d {
     }
 
 
-    class b2ContactImpulse {
+    export class b2ContactImpulse {
         //  Contact impulses for reporting. Impulses are used instead of 
         //  forces because sub-step forces may approach infinity for 
         //  rigid body collisions. These match up one-to-one with the 
@@ -2201,7 +2198,7 @@ declare module box2d {
     }
 
 
-    class b2ContactListener {
+    export class b2ContactListener {
         //  Implement this class to get contact information. You can use 
         //  these results for things like sounds and game logic. You can 
         //  also get contact results by traversing the contact lists 
@@ -2241,20 +2238,20 @@ declare module box2d {
         //  Note: this is only called for contacts that are touching, 
         //  solid, and awake. 
         PostSolve(contact: b2Contact, impulse: b2ContactImpulse): void;
-        static b2_defaultListener: b2ContactListener;
+        // static b2_defaultListener: b2ContactListener;
     }
 
 
-    class b2QueryCallback {
+    export class b2QueryCallback {
         //  Callback class for AABB queries. 
         //  See b2World::Query 
         constructor();
         //  Called for each fixture found in the query AABB. 
-        ReportFixture(): boolean;
+        ReportFixture(fixture: b2Fixture): boolean;
     }
 
 
-    class b2RayCastCallback {
+    export class b2RayCastCallback {
         //  Callback class for ray casts. 
         //  See b2World::RayCast 
         constructor();
@@ -2269,7 +2266,7 @@ declare module box2d {
     }
 
 
-    class b2Island {
+    export class b2Island {
         //  This is an internal class. 
         constructor();
         m_allocator: any;
@@ -2296,12 +2293,12 @@ declare module box2d {
     }
 
 
-    class b2ContactRegister {
+    export class b2ContactRegister {
         constructor();
     }
 
 
-    class b2ContactFactory {
+    export class b2ContactFactory {
         constructor(allocator: any);
         AddType(createFcn: Function, destroyFcn: Function, type1: b2ShapeType, type2: b2ShapeType): void;
         InitializeRegisters(): void;
@@ -2310,7 +2307,7 @@ declare module box2d {
     }
 
 
-    class b2GrowableStack {
+    export class b2GrowableStack {
         //  This is a growable LIFO stack with an initial capacity of N. 
         //  If the stack size exceeds the initial capacity, the heap is 
         //  used to increase the size of the stack. 
@@ -2324,7 +2321,7 @@ declare module box2d {
     }
 
 
-    class b2TreeNode {
+    export class b2TreeNode {
         //  A node in the dynamic tree. The client does not interact with 
         //  this directly. 
         constructor(id?: number);
@@ -2341,7 +2338,7 @@ declare module box2d {
     }
 
 
-    class b2DynamicTree {
+    export class b2DynamicTree {
         //  A dynamic tree arranges data in a binary tree to accelerate
         //  queries such as volume queries and ray casts. Leafs are proxies
         //  with an AABB. In the tree we expand the proxy AABB by b2_fatAABBFactor
@@ -2409,14 +2406,14 @@ declare module box2d {
     }
 
 
-    class b2Pair {
+    export class b2Pair {
         constructor();
         proxyA: b2TreeNode;
         proxyB: b2TreeNode;
     }
 
 
-    class b2BroadPhase {
+    export class b2BroadPhase {
         //  The broad-phase is used for computing pairs and performing 
         //  volume queries and ray casts. This broad-phase does not 
         //  persist pairs. Instead, this reports potentially new pairs. 
@@ -2477,7 +2474,7 @@ declare module box2d {
     }
 
 
-    class b2ContactManager {
+    export class b2ContactManager {
         //  Delegate of box2d.b2World. 
         constructor();
         m_broadPhase: b2BroadPhase;
@@ -2498,13 +2495,13 @@ declare module box2d {
     }
 
 
-    class b2JointFactory {
+    export class b2JointFactory {
         static Create(def: b2JointDef, allocator: any): b2Joint;
         static Destroy(joint: b2Joint, allocator: any): void;
     }
 
 
-    class b2Color {
+    export class b2Color {
         //  Color for debug drawing. Each value has the range [0,1]. 
         constructor(rr: number, gg: number, bb: number);
         r: number;
@@ -2518,7 +2515,7 @@ declare module box2d {
     }
 
 
-    class b2Draw {
+    export class b2Draw {
         //  Implement and register this class with a b2World to provide 
         //  debug drawing of physics entities in your game. 
         constructor();
@@ -2548,7 +2545,7 @@ declare module box2d {
     }
 
 
-    class b2Filter {
+    export class b2Filter {
         //  This holds contact filtering data. 
         constructor();
         //  The collision category bits. Normally you would just set one 
@@ -2567,7 +2564,7 @@ declare module box2d {
     }
 
 
-    class b2FixtureDef {
+    export class b2FixtureDef {
         //  A fixture definition is used to create a fixture. This class 
         //  defines an abstract fixture definition. You can reuse fixture 
         //  definitions safely. 
@@ -2591,7 +2588,7 @@ declare module box2d {
     }
 
 
-    class b2FixtureProxy {
+    export class b2FixtureProxy {
         //  This proxy is used internally to connect fixtures to the 
         //  broad-phase. 
         constructor();
@@ -2603,7 +2600,7 @@ declare module box2d {
     }
 
 
-    class b2Fixture {
+    export class b2Fixture {
         //  A fixture is used to attach a shape to a body for collision 
         //  detection. A fixture inherits its transform from its parent. 
         //  Fixtures hold additional non-geometric data such as friction, 
@@ -2697,7 +2694,7 @@ declare module box2d {
     }
 
 
-    class b2BodyDef {
+    export class b2BodyDef {
         //  A body definition holds all the data needed to construct a 
         //  rigid body. 
         //  You can safely re-use body definitions. Shapes are added to a 
@@ -2751,7 +2748,7 @@ declare module box2d {
     }
 
 
-    class b2Body {
+    export class b2Body {
         //  A rigid body. These are created via 
         //  box2d.b2World::CreateBody. 
         constructor(bd: b2BodyDef, world: b2World);
@@ -2976,7 +2973,7 @@ declare module box2d {
     }
 
 
-    class b2World {
+    export class b2World {
         //  Construct a world object. 
         constructor(gravity: b2Vec2);
         m_flags: b2WorldFlag;
@@ -3087,6 +3084,15 @@ declare module box2d {
         //  warning This function is locked during callbacks.
         CreateJoint(def: b2RevoluteJointDef): b2RevoluteJoint;
         CreateJoint(def: b2PrismaticJointDef): b2PrismaticJoint;
+        CreateJoint(def: b2MouseJointDef): b2MouseJoint;
+        CreateJoint(def: b2GearJointDef): b2GearJoint;
+        CreateJoint(def: b2PulleyJointDef): b2PulleyJoint;
+        CreateJoint(def: b2WheelJointDef): b2WheelJoint;
+        CreateJoint(def: b2DistanceJointDef): b2DistanceJoint;
+        CreateJoint(def: b2RopeJointDef): b2RopeJoint;
+        CreateJoint(def: b2FrictionJointDef): b2FrictionJoint;
+        CreateJoint(def: b2WeldJointDef): b2WeldJoint;
+        CreateJoint(def: b2MotorJointDef): b2MotorJoint;
         CreateJoint(def: b2JointDef): b2Joint;
         //  Destroy a joint. This may cause the connected bodies to begin 
         //  colliding. 
@@ -3113,11 +3119,11 @@ declare module box2d {
         //  Query the world for all fixtures that potentially overlap the 
         //  provided AABB. 
         //   	  boolean} callback a user implemented callback class.
-        QueryAABB(callback: (fixture: b2Fixture) => boolean | b2QueryCallback, aabb: b2AABB): void;
+        QueryAABB(callback: ((fixture: b2Fixture) => boolean) | b2QueryCallback, aabb: b2AABB): void;
         //   	  boolean} callback
-        QueryShape(callback: (fixture: b2Fixture) => boolean | b2QueryCallback, shape: b2Shape, transform: b2Transform): void;
+        QueryShape(callback: ((fixture: b2Fixture) => boolean) | b2QueryCallback, shape: b2Shape, transform: b2Transform): void;
         //   	  boolean} callback
-        QueryPoint(callback: (fixture: b2Fixture) => boolean | b2QueryCallback, point: b2Vec2): void;
+        QueryPoint(callback: ((fixture: b2Fixture) => boolean) | b2QueryCallback, point: b2Vec2): void;
         //  Ray-cast the world for all fixtures in the path of the ray. 
         //  Your callback controls whether you get the closest point, any 
         //  point, or n-points. The ray-cast ignores shapes that contain 
@@ -3152,7 +3158,7 @@ declare module box2d {
     }
 
 
-    class b2AreaJointDef extends b2JointDef {
+    export class b2AreaJointDef extends b2JointDef {
         //  Definition for a {@link box2d.b2AreaJoint}, which connects a 
         //  group a bodies together so they maintain a constant area 
         //  within them. 
@@ -3168,7 +3174,7 @@ declare module box2d {
     }
 
 
-    class b2AreaJoint extends b2Joint {
+    export class b2AreaJoint extends b2Joint {
         //  A distance joint constrains two points on two bodies to 
         //  remain at a fixed distance from each other. You can view this 
         //  as a massless, rigid rod. 
@@ -3199,7 +3205,7 @@ declare module box2d {
     }
 
 
-    class b2BuoyancyController extends b2Controller {
+    export class b2BuoyancyController extends b2Controller {
         //  Calculates buoyancy forces for fluids in the form of a half 
         //  plane. 
         constructor();
@@ -3227,7 +3233,7 @@ declare module box2d {
     }
 
 
-    class b2TensorDampingController extends b2Controller {
+    export class b2TensorDampingController extends b2Controller {
         //  Applies top down linear damping to the controlled bodies 
         //  The damping is calculated by multiplying velocity by a matrix 
         //  in local co-ordinates. 
@@ -3243,7 +3249,7 @@ declare module box2d {
     }
 
 
-    class b2DistanceJointDef extends b2JointDef {
+    export class b2DistanceJointDef extends b2JointDef {
         //  Distance joint definition. This requires defining an anchor 
         //  point on both bodies and the non-zero length of the distance 
         //  joint. The definition uses local anchor points so that the 
@@ -3266,7 +3272,7 @@ declare module box2d {
     }
 
 
-    class b2DistanceJoint extends b2Joint {
+    export class b2DistanceJoint extends b2Joint {
         //  A distance joint constrains two points on two bodies to 
         //  remain at a fixed distance from each other. You can view this 
         //  as a massless, rigid rod. 
@@ -3323,7 +3329,7 @@ declare module box2d {
     }
 
 
-    class b2FrictionJointDef extends b2JointDef {
+    export class b2FrictionJointDef extends b2JointDef {
         //  Friction joint definition. 
         constructor();
         //  The local anchor point relative to bodyA's origin. 
@@ -3338,7 +3344,7 @@ declare module box2d {
     }
 
 
-    class b2FrictionJoint extends b2Joint {
+    export class b2FrictionJoint extends b2Joint {
         //  Friction joint. This is used for top-down friction. It 
         //  provides 2D translational friction and angular friction. 
         constructor(def: b2FrictionJointDef);
@@ -3389,7 +3395,7 @@ declare module box2d {
     }
 
 
-    class b2MouseJointDef extends b2JointDef {
+    export class b2MouseJointDef extends b2JointDef {
         //  Mouse joint definition. This requires a world target point, 
         //  tuning parameters, and the time step. 
         constructor();
@@ -3407,7 +3413,7 @@ declare module box2d {
     }
 
 
-    class b2MouseJoint extends b2Joint {
+    export class b2MouseJoint extends b2Joint {
         //  A mouse joint is used to make a point on a body track a 
         //  specified world point. This a soft constraint with a maximum 
         //  force. This allows the constraint to stretch and without 
@@ -3457,14 +3463,14 @@ declare module box2d {
     }
 
 
-    class b2ConstantForceController extends b2Controller {
+    export class b2ConstantForceController extends b2Controller {
         //  Applies a force every frame 
         constructor();
         Step(step: b2TimeStep): void;
     }
 
 
-    class b2PulleyJointDef extends b2JointDef {
+    export class b2PulleyJointDef extends b2JointDef {
         //  Pulley joint definition. This requires two ground anchors, 
         //  two dynamic body anchor points, and a pulley ratio. 
         constructor();
@@ -3488,7 +3494,7 @@ declare module box2d {
     }
 
 
-    class b2PulleyJoint extends b2Joint {
+    export class b2PulleyJoint extends b2Joint {
         //  The pulley joint is connected to two bodies and two fixed ground points. 
         //  The pulley supports a ratio such that: 
         //  lengthA + ratio * lengthB <= constant 
@@ -3550,7 +3556,7 @@ declare module box2d {
     }
 
 
-    class b2CircleShape extends b2Shape {
+    export class b2CircleShape extends b2Shape {
         //  A circle shape. 
         constructor(radius?: number);
         m_p: b2Vec2;
@@ -3576,12 +3582,12 @@ declare module box2d {
     }
 
 
-    class b2RopeDef {
+    export class b2RopeDef {
         constructor();
     }
 
 
-    class b2Rope {
+    export class b2Rope {
         constructor();
         GetVertexCount(): number;
         GetVertices(): Array<b2Vec2>;
@@ -3594,7 +3600,7 @@ declare module box2d {
     }
 
 
-    class b2WheelJointDef extends b2JointDef {
+    export class b2WheelJointDef extends b2JointDef {
         //  Wheel joint definition. This requires defining a line of 
         //  motion using an axis and an anchor point. The definition uses 
         //  local anchor points and a local axis so that the initial 
@@ -3623,7 +3629,7 @@ declare module box2d {
     }
 
 
-    class b2WheelJoint extends b2Joint {
+    export class b2WheelJoint extends b2Joint {
         //  A wheel joint. This joint provides two degrees of freedom: 
         //  translation along an axis fixed in bodyA and rotation in the 
         //  plane. You can use a joint limit to restrict the range of 
@@ -3705,7 +3711,7 @@ declare module box2d {
     }
 
 
-    class b2MotorJointDef extends b2JointDef {
+    export class b2MotorJointDef extends b2JointDef {
         //  Motor joint definition. 
         constructor();
         //  Position of bodyB minus the position of bodyA, in bodyA's 
@@ -3723,7 +3729,7 @@ declare module box2d {
     }
 
 
-    class b2MotorJoint extends b2Joint {
+    export class b2MotorJoint extends b2Joint {
         //  A motor joint is used to control the relative motion between 
         //  two bodies. A typical usage is to control the movement of a 
         //  dynamic body with respect to the ground. 
@@ -3781,7 +3787,7 @@ declare module box2d {
         Dump(): void;
     }
 
-    class b2ParticleSystem {
+    export class b2ParticleSystem {
 
     }
 }
