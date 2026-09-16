@@ -5,7 +5,7 @@ import Level from "./Level";
 
 class LevelUI extends Group {
   private readonly pauseButton: Button;
-  private readonly clock: Clock;
+  readonly clock: Clock;
 
   constructor(game: Game, _level: Level) {
     super(game);

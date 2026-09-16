@@ -21,7 +21,6 @@ class Lever extends BoxedDevice<LeverOptions> {
 
     this.drawDarkMask = this.drawDarkMask.bind(this);
     this.checkState = this.checkState.bind(this);
-    this.sounds = this.sounds.bind(this);
 
     const stick = this.game.make.sprite(
       this.options.x,
@@ -95,7 +94,7 @@ class Lever extends BoxedDevice<LeverOptions> {
     this.registerDevice();
   }
 
-  sounds() {
+  static sounds() {
     return "lever";
   }
 

@@ -10,7 +10,7 @@ class Door extends Group {
   readonly signal: Signal;
   readonly data: { char: Characters };
   private isOpen: boolean = false;
-  private isUp: boolean = false;
+  isUp: boolean = false;
   private currentFrac: number;
   private sound: Sound | null = null;
 

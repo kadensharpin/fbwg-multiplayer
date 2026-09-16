@@ -19,6 +19,10 @@ class BackgroundCover extends Sprite {
 
     game.layers.background.addChild(this);
   }
+
+  static sounds(): string | string[] {
+    return [];
+  }
 }
 
 export default BackgroundCover;

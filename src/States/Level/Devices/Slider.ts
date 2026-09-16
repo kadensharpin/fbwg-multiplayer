@@ -22,7 +22,6 @@ class Slider extends Device<SliderOptions> {
     super(game, options);
 
     this.checkState = this.checkState.bind(this);
-    this.sounds = this.sounds.bind(this);
 
     this._width = this.options.polyline[1][0] - this.options.polyline[0][0];
     const pos = { x: this.options.x + this._width / 2, y: this.options.y };
@@ -87,7 +86,7 @@ class Slider extends Device<SliderOptions> {
     this.registerDevice();
   }
 
-  sounds() {
+  static sounds() {
     return "slider";
   }
 

@@ -61,7 +61,6 @@ class Wind extends BoxedDevice<WindOptions> {
     this.updateState = this.updateState.bind(this);
     this.update = this.update.bind(this);
     this.destroy = this.destroy.bind(this);
-    this.sounds = this.sounds.bind(this);
 
     this.sprite.anchor.set(0.5);
     const shape1 = new box2d.b2PolygonShape();
@@ -161,7 +160,7 @@ class Wind extends BoxedDevice<WindOptions> {
     this.registerDevice();
   }
 
-  sounds() {
+  static sounds() {
     return "wind";
   }
 

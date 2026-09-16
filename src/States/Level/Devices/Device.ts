@@ -2,6 +2,8 @@ import { Color, Game, Group, Physics, Signal, Sprite, Tile } from "phaser";
 import { deepObjectExtend } from "../../../utils/util";
 
 export type DeviceOptions = {
+  type: string;
+
   x: number;
   y: number;
   width: number;
@@ -42,7 +44,6 @@ class Device<Options extends DeviceOptions> extends Group {
   constructor(game: Game, options: Options) {
     super(game);
 
-    this.sounds = this.sounds.bind(this);
     this.ocupy = this.ocupy.bind(this);
     this.ocupyTile = this.ocupyTile.bind(this);
     this.checkState = this.checkState.bind(this);
@@ -81,7 +82,7 @@ class Device<Options extends DeviceOptions> extends Group {
         this.options.atlasName,
         this.options.frameName,
       );
-      this.game.layers[this.options.layer].addChild(this.sprite);
+      this.game.layers[this.options.layer]?.addChild(this.sprite);
       this.sprite.anchor.set(0.5);
     }
 
@@ -188,7 +189,7 @@ class Device<Options extends DeviceOptions> extends Group {
 
   ocupy(_tiles: Tile[][]) {}
 
-  sounds(): string | string[] {
+  static sounds(): string | string[] {
     return [];
   }
 

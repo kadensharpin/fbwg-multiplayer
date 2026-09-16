@@ -27,7 +27,6 @@ class LightPusher extends BoxedDevice<LightPusherOptions> {
     super(game, options);
 
     this.checkState = this.checkState.bind(this);
-    this.sounds = this.sounds.bind(this);
 
     this.body.mass = 0;
     const fixture1Shape = new box2d.b2PolygonShape();
@@ -78,7 +77,7 @@ class LightPusher extends BoxedDevice<LightPusherOptions> {
     this.registerDevice();
   }
 
-  sounds() {
+  static sounds() {
     return "lightPusher";
   }
 

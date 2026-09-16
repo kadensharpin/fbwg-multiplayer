@@ -23,7 +23,6 @@ class Pusher<Options extends PusherOptions> extends BoxedDevice<Options> {
     this.ocupy = this.ocupy.bind(this);
     this.checkState = this.checkState.bind(this);
     this.doRegister = this.doRegister.bind(this);
-    this.sounds = this.sounds.bind(this);
 
     const button = this.game.make.sprite(
       this.options.x,
@@ -100,7 +99,7 @@ class Pusher<Options extends PusherOptions> extends BoxedDevice<Options> {
     this.doRegister();
   }
 
-  sounds(): string | string[] {
+  static sounds(): string | string[] {
     return "pusher";
   }
 

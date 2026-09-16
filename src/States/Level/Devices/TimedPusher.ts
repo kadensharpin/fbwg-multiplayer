@@ -24,7 +24,6 @@ class TimedPusher extends Pusher<TimedPusherOptions> {
     this.checkState = this.checkState.bind(this);
     this.doRegister = this.doRegister.bind(this);
     this.destroy = this.destroy.bind(this);
-    this.sounds = this.sounds.bind(this);
 
     const baseSprite = this.game.make.sprite(
       0,
@@ -63,7 +62,7 @@ class TimedPusher extends Pusher<TimedPusherOptions> {
     this.downState = 0;
   }
 
-  sounds() {
+  static sounds() {
     return ["pusher", "clock"];
   }
 

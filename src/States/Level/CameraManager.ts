@@ -24,7 +24,6 @@ class CameraManager {
   };
   private readonly minScale: number;
   private readonly maxScale: number;
-  private readonly camFreeze: boolean;
   private wheelScale?: number | null;
   private pinchScale?: number;
   private pinchOrigin?: { x: number; y: number };
@@ -33,6 +32,7 @@ class CameraManager {
   private userCenter?: box2d.b2Vec2 | null;
   private panOrigin?: { x: number; y: number };
   private readonly resetWheelZoom: () => void;
+  camFreeze: boolean;
 
   constructor(level: Level) {
     this.onWheelEvent = this.onWheelEvent.bind(this);
@@ -76,9 +76,11 @@ class CameraManager {
       (this.game.realHeight * 0.9) / this.game.level.size.height,
     );
     this.maxScale = 1.5;
-    this.level.root.x = (-this.game.level.size.width / 2) * this.minScale;
-    this.level.root.y = (-this.game.level.size.height / 2) * this.minScale;
-    this.level.root.scale.set(this.minScale);
+    if (this.level.root) {
+      this.level.root.x = (-this.game.level.size.width / 2) * this.minScale;
+      this.level.root.y = (-this.game.level.size.height / 2) * this.minScale;
+      this.level.root.scale.set(this.minScale);
+    }
     this.camFreeze = true;
     this.resetWheelZoom = _.debounce(() => {
       this.wheelScale = null;
@@ -88,7 +90,8 @@ class CameraManager {
     this.game.TouchManager.register(null, "pinch", (input) => {
       if (
         this.game.level.pers1.cursors.active ||
-        this.game.level.pers2.cursors.active
+        this.game.level.pers2.cursors.active ||
+        !this.level.root
       )
         return;
       if (
@@ -135,7 +138,8 @@ class CameraManager {
     this.game.TouchManager.register(null, "pan", (input) => {
       if (
         this.game.level.pers1.cursors.active ||
-        this.game.level.pers2.cursors.active
+        this.game.level.pers2.cursors.active ||
+        !this.level.root
       )
         return;
       if (this.userCenter == null || this.panOrigin == null) {
@@ -156,6 +160,7 @@ class CameraManager {
 
   onWheelEvent(ev: WheelEvent) {
     console.log("zoom", ev.deltaY);
+    if (!this.level.root) return;
     if (ev.deltaY > 0) {
       this.wheelScale = Math.min(
         this.maxScale,
@@ -274,9 +279,10 @@ class CameraManager {
 
   animate() {
     if (
-      this.target.x === this.level.root.x &&
-      this.target.y === this.level.root.y &&
-      this.target.scale === this.level.root.scale.x
+      !this.level.root ||
+      (this.target.x === this.level.root.x &&
+        this.target.y === this.level.root.y &&
+        this.target.scale === this.level.root.scale.x)
     ) {
       return;
     }

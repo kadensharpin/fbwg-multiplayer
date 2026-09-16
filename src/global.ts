@@ -2,8 +2,14 @@ import bowser from "bowser";
 import { i18n } from "i18next";
 import PhaserSuperStorage from "phaser-super-storage";
 import ProgressModel from "./ProgressModel";
+import CharCursors from "./States/Level/CharCursors";
+import CursorToggle from "./States/Level/CursorToggle";
 import Beamer from "./States/Level/Devices/Beamer";
-import { Level } from "./States/Level/level";
+import Liquid from "./States/Level/Devices/Liquid";
+import Portal from "./States/Level/Devices/Portal";
+import Snow from "./States/Level/Devices/Snow";
+import Level from "./States/Level/Level";
+import LevelUI from "./States/Level/LevelUI";
 import MechManager from "./States/Level/MechManager";
 import { Temple } from "./temple";
 import type TouchManager from "./TouchManager";
@@ -44,11 +50,22 @@ declare module "phaser" {
       chars: Group;
       overChars: Group;
       decorations: Group;
-      liquids: Group & { update(): void };
-      dust: Group & { sources: Beamer[] };
-      ui: Group & {
+      liquids: Omit<Group, "children"> & {
+        update(): void;
+        children: (Liquid | Snow | Portal)[];
+      };
+      dust: Omit<Group, "children"> & {
+        sources: Beamer[];
+        maskGraphics: Graphics;
+        children: Sprite[];
+      };
+      ui: Omit<Group, "children"> & {
         update(): void;
         alpha: number;
+        children: (LevelUI | CharCursors | CursorToggle)[];
+      };
+      darkGradients?: Group & {
+        update(): void;
       };
     };
     level: Level;

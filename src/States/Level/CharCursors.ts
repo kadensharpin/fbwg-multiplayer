@@ -168,6 +168,8 @@ class CharCursors extends Signal {
   hide() {
     if (this.buttons) this.buttons.visible = false;
   }
+  update() {}
+  layoutContent() {}
 }
 
 export default CharCursors;

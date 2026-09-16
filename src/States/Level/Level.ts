@@ -1,23 +1,33 @@
 import {
+  BitmapData,
+  BitmapText,
   Game,
   Group,
+  Key,
   Keyboard,
   Physics,
   Rectangle,
   Signal,
+  Sprite,
   State,
   Tilemap,
   TilemapParser,
 } from "phaser";
+import box2d from "phaser-box2d";
 
-import { Sounds } from "@/utils/sound/sounds";
 import _ from "underscore";
+import { LevelData } from "../../temple";
+import { TranslationString } from "../../utils/lang/translations";
+import { Sounds } from "../../utils/sound/sounds";
 import { deepObjectExtend } from "../../utils/util";
 import Navies from "../Common/Navies";
 import End from "../End";
 import CameraManager from "./CameraManager";
-import Character from "./character";
+import Character, { Characters } from "./character";
 import CursorToggle from "./CursorToggle";
+import Beamer from "./Devices/Beamer";
+import Diamond from "./Devices/Diamond";
+import Door from "./Devices/Door";
 import Ground from "./Ground";
 import LevelUI from "./LevelUI";
 import MechManager from "./MechManager";
@@ -25,14 +35,46 @@ import PauseMenu from "./PauseMenu";
 
 class Level extends State {
   useDust = true;
-  game: Game;
-  root: Group;
-  size: { width: number; height: number };
-  pers1: Character;
-  pers2: Character;
-  debug: boolean;
-  ended: boolean;
-  sounds: Sounds;
+  pers1?: Character;
+  pers2?: Character;
+  door1?: Door;
+  door2?: Door;
+  debug: boolean = false;
+  ended: boolean = false;
+  loadCompleted: boolean = false;
+  showfps: boolean = false;
+  soundIds?: (keyof Sounds)[];
+  sounds?: Sounds;
+  onReady: Signal;
+  levelPath?: string;
+  levelData?: LevelData;
+  levelState?: {
+    diamonds: number;
+    silverDiamond: number;
+    time: number;
+  };
+  tutorialTexts?: (BitmapText & { rects: Rectangle[]; shown?: boolean })[];
+  ground?: Ground;
+  totalDiamonds?: number;
+  cursorToggle?: CursorToggle | null;
+  camManager?: CameraManager;
+  ui?: LevelUI;
+  pauseMenu?: PauseMenu;
+  pauseKey?: Key;
+  navies?: Navies[];
+  objects?: ((typeof MechManager.classNames)[keyof typeof MechManager.classNames] extends new (
+    ...args: any
+  ) => infer T
+    ? T
+    : never)[];
+  size?: { width: number; height: number };
+  root?: Group;
+  levelStarted: boolean = false;
+  restartKey?: Key;
+  darkness?: Sprite;
+  darknessBmd?: BitmapData & { offset: { x: number; y: number } };
+  mapData?: ParsedMapData;
+  groundBody?: box2d.b2Body;
 
   constructor() {
     super();
@@ -73,19 +115,16 @@ class Level extends State {
     this.onReady = new Signal();
   }
 
-  init(a) {
-    this.levelPath = "data/" + a.filename;
-    this.levelData = a;
+  init(levelData: LevelData) {
+    this.levelPath = "data/" + levelData.filename;
+    this.levelData = levelData;
     this.levelState = {
-      diamonds: {
-        red: 0,
-        blue: 0,
-        silver: 0,
-      },
+      diamonds: 0,
+      silverDiamond: 0,
       time: Infinity,
     };
     this.game.time.advancedTiming = true;
-    return (this.game.sound.mute = !this.game.settings.fx);
+    this.game.sound.mute = !this.game.settings.fx;
   }
 
   create() {
@@ -95,62 +134,44 @@ class Level extends State {
   }
 
   baseLoadComplete() {
-    _.defer(
-      (function (a) {
-        return function () {
-          var b;
-          a.mapData = a.parseMapPropper();
-          b = "./assets/atlasses/Temples/" + a.game.currentTemple.id;
-          a.game.load.atlasJSONArray(
-            "TempleAssets",
-            b + "/TempleAssets.png",
-            b + "/TempleAssets.json",
-          );
-          a.preloadAudioFiles();
-          a.game.load.onLoadComplete.addOnce(a.loadComplete, a);
-          return a.game.load.start();
-        };
-      })(this),
-    );
+    setTimeout(() => {
+      this.mapData = this.parseMapPropper();
+      const prefix = "./assets/atlasses/Temples/" + this.game.currentTemple.id;
+      this.game.load.atlasJSONArray(
+        "TempleAssets",
+        prefix + "/TempleAssets.png",
+        prefix + "/TempleAssets.json",
+      );
+      this.preloadAudioFiles();
+      this.game.load.onLoadComplete.addOnce(this.loadComplete, this);
+      this.game.load.start();
+    });
   }
 
   preloadAudioFiles() {
-    var a;
-    var b;
-    var c;
-    var d;
-    var e;
-    var f;
-    var g;
-    var h;
-    var i;
-    var k;
-    var l;
-    var m;
-    var n;
-    var o;
-    var p;
-    var q;
+    if (!this.levelData || !this.mapData) return;
+    let levelMusic;
+    let finishMusic;
+    let overMusic;
     if (this.levelData.type === "dark") {
-      h = "levelMusic_dark";
-      k = "levelMusicOver";
-      i = "levelMusicFinish";
+      levelMusic = "levelMusic_dark";
+      overMusic = "levelMusicOver";
+      finishMusic = "levelMusicFinish";
     } else if (this.levelData.type === "speed") {
-      h = "levelMusic_speed";
-      k = "levelMusicOver";
-      i = "levelMusicFinish_speed";
+      levelMusic = "levelMusic_speed";
+      overMusic = "levelMusicOver";
+      finishMusic = "levelMusicFinish_speed";
     } else {
-      h = "levelMusic";
-      k = "levelMusicOver";
-      i = "levelMusicFinish";
+      levelMusic = "levelMusic";
+      overMusic = "levelMusicOver";
+      finishMusic = "levelMusicFinish";
     }
-    q = {
-      levelMusic: h,
-      levelMusicOver: k,
-      levelMusicFinish: i,
+    const music = {
+      levelMusic: levelMusic,
+      levelMusicOver: overMusic,
+      levelMusicFinish: finishMusic,
     };
-    this.sounds = [];
-    this.sounds = this.sounds.concat([
+    this.soundIds = [
       "levelMusic",
       "levelMusicOver",
       "levelMusicFinish",
@@ -169,431 +190,292 @@ class Level extends State {
       "door",
       "freeze",
       "melt",
-    ]);
-    m = this.mapData.objects.Objects;
-    d = 0;
-    f = m.length;
-    for (; d < f; d++) {
-      l = m[d];
-      a = MechManager.className(l.type);
-      if (a != null) {
-        b = (a.prototype.sounds != null && a.prototype.sounds()) || [];
-        if (!Array.isArray(b)) {
-          [b];
-        }
-        this.sounds = this.sounds.concat(b);
+    ];
+    for (const object of this.mapData.objects.Objects) {
+      const device = MechManager.className(
+        object.type as keyof typeof MechManager.classNames,
+      );
+      if (device == null) {
+        console.warn("Object type " + object.type + " not found!");
+        continue;
+      }
+      const deviceSounds = device.sounds() || [];
+      if (!Array.isArray(deviceSounds)) {
+        this.soundIds = [...this.soundIds, deviceSounds as keyof Sounds];
       } else {
-        console.warn("Object type " + l.type + " not found!");
+        this.soundIds = [
+          ...this.soundIds,
+          ...(deviceSounds as (keyof Sounds)[]),
+        ];
       }
     }
-    this.sounds = _.uniq(this.sounds);
-    n = this.sounds;
-    o = [];
-    e = 0;
-    g = n.length;
-    for (; e < g; e++) {
-      p = n[e];
-      c = (q[p] || p).charAt(0).toUpperCase() + (q[p] || p).slice(1);
-      o.push(this.game.load.audio(p, "./assets/audio/" + c + ".mp3"));
+    this.soundIds = _.uniq(this.soundIds);
+    for (const sound of this.soundIds) {
+      const soundId = music[sound as "levelMusic"] || sound;
+      const SoundId = soundId.charAt(0).toUpperCase() + soundId.slice(1);
+      this.game.load.audio(sound, "./assets/audio/" + SoundId + ".mp3");
     }
-    return o;
   }
 
-  decodeAudio(a) {
-    var b;
-    var c;
-    var d;
-    var e;
-    var f;
-    f = {};
-    d = this.sounds;
-    b = 0;
-    c = d.length;
-    for (; b < c; b++) {
-      e = d[b];
-      f[e] = this.game.add.audio(e);
+  decodeAudio(onComplete: () => void) {
+    const sounds: Sounds = {};
+    for (const soundId of this.soundIds!) {
+      sounds[soundId] = this.game.add.audio(soundId);
     }
-    this.sounds = f;
+    this.sounds = sounds;
     this.game.sound.setDecodedCallback(
-      _.map(this.sounds),
-      (function (a) {
-        return function () {
-          if (a.game.settings.music) {
-            a.sounds.levelMusic.loop = true;
-            return a.sounds.levelMusic.play();
-          }
-        };
-      })(this),
+      Object.values(sounds),
+      () => {
+        if (this.game.settings.music && this.sounds?.levelMusic) {
+          this.sounds.levelMusic.loop = true;
+          return this.sounds.levelMusic.play();
+        }
+      },
       this,
     );
-    return a();
+    return onComplete();
   }
 
   shutdown() {
-    var a;
-    var b;
-    var c;
-    var d;
-    var e;
-    this.pers1.destroy(true);
-    this.pers2.destroy(true);
-    this.door1.destroy(true);
-    this.door2.destroy(true);
-    this.camManager.destroy();
+    this.pers1?.destroy(true);
+    this.pers2?.destroy(true);
+    this.door1?.destroy(true);
+    this.door2?.destroy(true);
+    this.camManager?.destroy();
     if (this.darknessBmd != null) {
-      this.darkness.events.onRemovedFromGroup.add(
-        (function (a) {
-          return function () {
-            return a.darknessBmd.destroy();
-          };
-        })(this),
-      );
+      this.darkness?.events.onRemovedFromGroup.add(() => {
+        this.darknessBmd?.destroy();
+      });
     }
-    _.each(this.objects, function (a) {
-      return a.destroy(true);
+    this.objects?.forEach((object) => {
+      return object.destroy(true);
     });
-    _.each(this.game.layers, function (a) {
-      return (a.update = (function (a) {
-        return function () {};
-      })());
+    Object.values(this.game.layers).forEach((layer) => {
+      layer.update = () => {};
     });
     this.game.settingsSignal.remove(this.onSettingChange);
-    if (this.cursorToggle != null) {
+    if (this.cursorToggle != null && this.pers1 && this.pers2) {
       this.game.TouchManager.unregister(this.pers1.bodySprite, "tap");
       this.game.TouchManager.unregister(this.pers2.bodySprite, "tap");
     }
     if (this.navies != null) {
-      d = this.navies;
-      e = [];
-      a = 0;
-      b = d.length;
-      for (; a < b; a++) {
-        c = d[a];
-        e.push(c.destroy(true));
+      for (const navie of this.navies) {
+        navie.destroy(true);
       }
-      return e;
     }
   }
 
   killAll() {
-    if (this.game != null) {
-      this.game.physics.box2d.paused = true;
-      this.game.paused = true;
-      this.ui.clock.destroy(true);
-      this.ui.destroy(true);
-      return _.each(
-        this.sounds,
-        (function (a) {
-          return function (a) {
-            return a.destroy();
-          };
-        })(),
-      );
-    }
+    if (!this.game) return;
+    this.game.physics.box2d.paused = true;
+    this.game.paused = true;
+    this.ui?.clock.destroy(true);
+    this.ui?.destroy(true);
+    Object.values(this.sounds ?? {}).forEach((sound) => sound.destroy());
   }
 
   parseMapPropper() {
-    var a;
-    var b;
-    var c;
-    var d;
-    var e;
-    var f;
-    var g;
-    var h;
-    var i;
-    var j;
-    var k;
-    var l;
-    var m;
-    var n;
-    var o;
-    var p;
-    var q;
-    var r;
-    g = this.game.cache.getTilemapData("map").data;
-    a = [];
-    i = [];
-    l = g.tilesets;
-    b = 0;
-    d = l.length;
-    for (; b < d; b++) {
-      p = l[b];
-      if (p.source != null) {
-        p.src = p.source;
-        h = p.src.split("/").pop().replace(".json", "");
-        delete p.source;
-        if (h === "Ground") {
-          a.push(p);
-        } else {
-          i.push(p);
-        }
+    const mapData = this.game.cache.getTilemapData("map").data as MapData;
+    const ground = [];
+    const objects = [];
+    for (const tileset of mapData.tilesets) {
+      if (tileset.source == null) continue;
+      tileset.src = tileset.source;
+      const sourceName = tileset.src.split("/").pop()!.replace(".json", "");
+      delete tileset.source;
+      if (sourceName === "Ground") {
+        ground.push(tileset);
+      } else {
+        objects.push(tileset);
       }
     }
-    g.tilesets = a;
-    m = g.tilesets;
-    c = 0;
-    e = m.length;
-    for (; c < e; c++) {
-      p = m[c];
-      if (
-        p.src != null &&
-        (h = p.src.split("/").pop().replace(".json", "")) === "Ground"
-      ) {
-        _.extend(p, this.game.cache.getJSON(h));
-      }
+    mapData.tilesets = ground;
+    for (const tileset of mapData.tilesets) {
+      if (tileset.src == null) continue;
+      const type = tileset.src.split("/").pop()!.replace(".json", "");
+      if (type !== "Ground") continue;
+      Object.assign(tileset, this.game.cache.getJSON(type));
     }
-    q = TilemapParser.parseTiledJSON(g);
-    g.tilesets = a.concat(i);
-    n = g.tilesets;
-    k = 0;
-    f = n.length;
-    for (; k < f; k++) {
-      p = n[k];
-      if (
-        p.src != null &&
-        (h = p.src.split("/").pop().replace(".json", "")) !== "Ground"
-      ) {
-        q.tilesets.push(_.extend(p, this.game.cache.getJSON(h)));
-      }
+    const parsedData = TilemapParser.parseJSON(mapData) as ParsedMapData;
+    mapData.tilesets = ground.concat(objects);
+    for (const tileset of mapData.tilesets) {
+      if (tileset.src == null) continue;
+      const type = tileset.src.split("/").pop()!.replace(".json", "");
+      if (type === "Ground") continue;
+      parsedData.tilesets.push(
+        Object.assign(tileset, this.game.cache.getJSON(type)),
+      );
     }
-    j = (function (a) {
-      return function () {
-        var a;
-        var b;
-        var c;
-        var d;
-        var e;
-        var f;
-        var g;
-        g = {};
-        e = q.tilesets;
-        d = 0;
-        b = e.length;
-        for (; d < b; d++) {
-          f = e[d];
-          if (f.tiles != null) {
-            for (a in f.tiles) {
-              c = f.tileproperties[a];
-              g[+f.firstgid + +a] = {
-                type: f.tiles[a].type,
-                properties: c,
-              };
-            }
+    const getProperties = () => {
+      const props: Record<number, { type: string; properties?: {} }> = {};
+      for (const tileset of parsedData.tilesets) {
+        if (tileset.tiles != null) {
+          for (const key in tileset.tiles) {
+            const properties = tileset?.tileproperties?.[key];
+            props[Number(tileset.firstgid) + Number(key)] = {
+              type: tileset.tiles[key].type,
+              properties: properties,
+            };
           }
         }
-        return g;
-      };
-    })();
-    r = j();
-    o = (function (a) {
-      return function (a) {
-        var b;
-        var c;
-        var d;
-        var e;
-        e = [];
-        d = 0;
-        b = a.length;
-        for (; d < b; d++) {
-          c = a[d];
-          if (c.gid != null && r[+c.gid] != null) {
-            if (c.type === "") {
-              delete c.type;
-            }
-            e.push(deepObjectExtend(c, r[+c.gid]));
-          } else {
-            e.push(undefined);
+      }
+      return props;
+    };
+    const properties = getProperties();
+    const addProperties = (
+      objects:
+        | ParsedMapData["objects"]["Objects"]
+        | ParsedMapData["objects"]["Chars"],
+    ) => {
+      for (const obj of objects) {
+        if (obj.gid != null && properties[Number(obj.gid)] != null) {
+          if (obj.type === "") {
+            // @ts-ignore
+            delete obj.type;
           }
+          deepObjectExtend(obj, properties[Number(obj.gid)]);
         }
-        return e;
-      };
-    })();
-    o(q.objects.Objects);
-    o(q.objects.Chars);
-    return q;
+      }
+    };
+    addProperties(parsedData.objects.Objects);
+    addProperties(parsedData.objects.Chars);
+    return parsedData;
   }
 
   setupTutorial() {
-    var c;
-    var d;
-    var e;
-    var f;
-    var g;
-    var h;
-    var j;
-    var k;
-    var l;
-    var m;
-    var n;
-    var o;
-    var p;
-    var q;
-    var r;
-    var s;
-    h = this.game.cache.getTilemapData("map").data;
-    if (
-      (s =
-        _.findWhere(h.layers, {
-          name: "Tutorial_" + this.game.settings.controls,
-        }) ||
-        _.findWhere(h.layers, {
-          name: "Tutorial",
-        })) != null
-    ) {
-      q = {};
-      l = s.objects;
-      e = 0;
-      g = l.length;
-      for (; e < g; e++) {
-        j = l[e];
-        q[j.properties.id] ||= {};
-        if (j.text != null) {
-          q[j.properties.id].texts ||= [];
-          q[j.properties.id].texts.push(j);
-        } else {
-          q[j.properties.id].rects ||= [];
-          q[j.properties.id].rects.push(
-            new Rectangle(j.x, j.y, j.width, j.height),
-          );
-        }
+    let font;
+    const mapData = this.game.cache.getTilemapData("map").data as MapData;
+    const tutorialLayer =
+      _.findWhere(mapData.layers, {
+        name: "Tutorial_" + this.game.settings.controls,
+      }) ||
+      _.findWhere(mapData.layers, {
+        name: "Tutorial",
+      });
+    if (!tutorialLayer) return;
+    const texts: Record<
+      number,
+      {
+        texts: Required<MapData["layers"][number]>["objects"];
+        rects: Rectangle[];
       }
-      this.tutorialTexts = [];
-      m = [];
-      for (f in q) {
-        o = q[f];
-        console.log("text object", o);
-        m.push(
-          function () {
-            var a;
-            var b;
-            var e;
-            var f;
-            e = o.texts;
-            f = [];
-            a = 0;
-            b = e.length;
-            for (; a < b; a++) {
-              n = e[a];
-              r = this.game.lang.locale(n.text.text);
-              c = 18;
-              k = n.x;
-              if (n.text.text === "tutorial_forest37_suffix") {
-                d = this.game.lang.default_font;
-                if (this.game.lang.getLanguage() === "ru") {
-                  c = 12;
-                  k += 50;
-                }
-              } else {
-                d = this.game.lang.font;
-              }
-              p = this.game.make.bitmapText(k, n.y, d, r, c, n.text.halign);
-              p.maxWidth = n.width;
-              p.cacheAsBitmap = true;
-              p.visible = false;
-              p.rects = o.rects;
-              this.game.layers.tutorial.addChild(p);
-              f.push(this.tutorialTexts.push(p));
-            }
-            return f;
-          }.call(this),
+    > = {};
+    for (const obj of tutorialLayer.objects ?? []) {
+      if (obj.properties?.id == null) continue;
+      texts[obj.properties.id] ||= {
+        texts: [],
+        rects: [],
+      };
+      if (obj.text != null) {
+        texts[obj.properties.id].texts.push(obj);
+      } else {
+        texts[obj.properties.id].rects.push(
+          new Rectangle(obj.x, obj.y, obj.width, obj.height),
         );
       }
-      return m;
+    }
+    this.tutorialTexts = [];
+    for (const text of Object.values(texts)) {
+      console.log("text object", text);
+      for (const obj of text.texts) {
+        const textString = this.game.lang.locale(
+          obj.text?.text as TranslationString,
+        );
+        let fontSize = 18;
+        let x = obj.x;
+        if (obj.text?.text === "tutorial_forest37_suffix") {
+          font = this.game.lang.default_font;
+          if (this.game.lang.getLanguage() === "ru") {
+            fontSize = 12;
+            x += 50;
+          }
+        } else {
+          font = this.game.lang.font;
+        }
+        const bmpText = this.game.make.bitmapText(
+          x,
+          obj.y,
+          font,
+          textString,
+          fontSize,
+          obj.text?.halign,
+        ) as BitmapText & { rects: Rectangle[] };
+        bmpText.maxWidth = obj.width;
+        bmpText.cacheAsBitmap = true;
+        bmpText.visible = false;
+        bmpText.rects = text.rects;
+        this.game.layers.tutorial.addChild(bmpText);
+        this.tutorialTexts.push(bmpText);
+      }
     }
   }
 
   loadComplete() {
-    var a;
-    var b;
-    var c;
-    var e;
-    var f;
-    var g;
-    var m;
-    var n;
-    var o;
-    var p;
+    if (!this.mapData) return;
     this.loadCompleted = true;
     this.game.clearBeforeRender = false;
     this.game.level = this;
     this.setupLayers();
     if (this.game.config.enableDebug) {
-      window.addEventListener(
-        "keydown",
-        (function (a) {
-          return function (b) {
-            if (b.keyCode === 81) {
-              return (a.debug = !a.debug);
-            }
-          };
-        })(this),
-      );
+      window.addEventListener("keydown", (ev) => {
+        if (ev.keyCode === 81) {
+          this.debug = !this.debug;
+        }
+      });
     }
     this.showfps = this.game.config.showFps;
     this.game.MechManager = new MechManager(this.game);
     this.game.physics.startSystem(Physics.BOX2D);
     this.game.physics.box2d.setPTMRatio(32);
-    this.game.physics.setBoundsToWorld = (function (a) {
-      return function () {};
-    })();
-    a = new Ground(this.game, this.mapData);
-    this.ground = a;
+    this.game.physics.setBoundsToWorld = () => {};
+    this.ground = new Ground(this.game, this.mapData, {});
     this.size = {
-      width: a.options.width,
-      height: a.options.height,
+      width: this.ground.options.width,
+      height: this.ground.options.height,
     };
     this.game.physics.box2d.gravity.y = 1000;
-    this.objects = this.createObjects(this.map, this.mapData.objects.Objects);
-    this.createCharObjects(this.map, this.mapData.objects.Chars);
-    o = _.values(this.game.physics.box2d.walls);
-    b = 0;
-    e = o.length;
-    for (; b < e; b++) {
-      p = o[b];
-      p.setBodyContactCallback(
+    this.objects = this.createObjects(this.mapData.objects.Objects);
+    this.createCharObjects(this.mapData.objects.Chars);
+    const walls = Object.values(this.game.physics.box2d.walls);
+    for (const wall of walls) {
+      wall.setBodyContactCallback(
         this.pers1,
-        (function (a) {
-          return function (b, c, d, e, f, g) {
-            console.log("char1 is dead");
-            return a.pers1.kill();
-          };
-        })(this),
+        () => {
+          console.log("char1 is dead");
+          this.pers1?.kill();
+        },
         this,
       );
-      p.setBodyContactCallback(
+      wall.setBodyContactCallback(
         this.pers2,
-        (function (a) {
-          return function (b, c, d, e, f, g) {
-            console.log("char2 is dead");
-            return a.pers2.kill();
-          };
-        })(this),
+        () => {
+          console.log("char2 is dead");
+          this.pers2?.kill();
+        },
         this,
       );
     }
     if (this.useDust) {
-      n = a.getNaviesPoints();
       this.navies = [];
-      c = 0;
-      f = n.length;
-      for (; c < f; c++) {
-        m = n[c];
-        g = new Navies(this.game, m.x, m.y, Math.floor(1 + Math.random() * 3));
-        g.scale.set(0.3 + Math.random() * 0.7);
-        this.game.layers.overGround.addChild(g);
-        this.navies.push(g);
+      for (const pos of this.ground.getNaviesPoints()) {
+        const navies = new Navies(
+          this.game,
+          pos.x,
+          pos.y,
+          Math.floor(1 + Math.random() * 3),
+        );
+        navies.scale.set(0.3 + Math.random() * 0.7);
+        this.game.layers.overGround.addChild(navies);
+        this.navies.push(navies);
       }
     }
     if (
       this.useDust &&
-      _.find(this.objects, function (a) {
-        return a.options.type === "beamer";
-      }) != null
+      this.objects.some((object) => object instanceof Beamer)
     ) {
       this.fillDustLayer();
     }
-    a.decorate(this.objects);
+    this.ground.decorate(this.objects);
     this.setupDarkness();
     this.setupTutorial();
     this.pauseMenu = new PauseMenu(this.game, this);
@@ -601,42 +483,31 @@ class Level extends State {
     this.pauseKey.onDown.add(this.togglePause);
     this.ui = new LevelUI(this.game, this);
     this.camManager = new CameraManager(this);
-    this.root.alpha = 0;
-    requestAnimationFrame(
-      (function (a) {
-        return function () {
-          a.game.stage.backgroundColor = 0;
-          a.onReady.dispatch();
-          a.root.alpha = 1;
-          a.game.layers.ui.alpha = 1;
-          a.ui.show();
-          if (a.cursorToggle != null) {
-            return a.cursorToggle.init();
-          }
-        };
-      })(this),
-    );
+    if (this.root) this.root.alpha = 0;
+    requestAnimationFrame(() => {
+      this.game.stage.backgroundColor = 0;
+      this.onReady.dispatch();
+      if (this.root) this.root.alpha = 1;
+      this.game.layers.ui.alpha = 1;
+      this.ui?.show();
+      this.cursorToggle?.init();
+    });
     this.game.physics.box2d.useElapsedTime = true;
     this.game.physics.box2d.paused = true;
     this.game.physics.box2d.update = function () {
-      var a;
       if (!this.paused) {
-        a = Math.min(0.04, this.game.time.elapsed / 1000);
-        return this.world.Step(
-          a,
+        this.world.Step(
+          Math.min(0.04, this.game.time.elapsed / 1000),
           this.velocityIterations,
           this.positionIterations,
         );
+        return;
       }
     };
-    this.decodeAudio(
-      (function (a) {
-        return function () {
-          console.log("load completed");
-          return a.startLevel();
-        };
-      })(this),
-    );
+    this.decodeAudio(() => {
+      console.log("load completed");
+      this.startLevel();
+    });
   }
 
   layoutContent() {
@@ -649,39 +520,26 @@ class Level extends State {
     if (this.cursorToggle != null) {
       this.cursorToggle.layoutContent();
     }
-    if (this.pers1 != null && this.pers1.cursors.layoutContent != null) {
-      this.pers1.cursors.layoutContent();
-    }
-    if (this.pers2 != null && this.pers2.cursors.layoutContent != null) {
-      return this.pers2.cursors.layoutContent();
-    }
+    this.pers1?.cursors?.layoutContent();
+    this.pers2?.cursors?.layoutContent();
   }
 
   start() {}
 
   startLevel() {
-    var a;
-    this.game.time.addvancedTiming = true;
-    _.delay(
-      (function (a) {
-        return function () {
-          if (a.game.time.suggestedFps < 40) {
-            a.useDust = false;
-            _.each(a.navies, function (a) {
-              return a.destroy();
-            });
-            return a.game.layers.dust.destroy();
-          }
-        };
-      })(this),
-      3000,
-    );
+    this.game.time.advancedTiming = true;
+    setTimeout(() => {
+      if (this.game.time.suggestedFps < 40) {
+        this.useDust = false;
+        this.navies?.forEach((fairy) => fairy.destroy());
+        this.game.layers.dust.destroy();
+      }
+    }, 3000);
     this.levelStarted = true;
     this.game.MechManager.resetStates();
     this.game.physics.box2d.paused = false;
     this.game.forceSingleUpdate = false;
-    a = 0;
-    for (; a <= 3; ++a) {
+    for (let i = 0; i <= 3; ++i) {
       this.game.updateLogic(this.game.time.desiredFpsMult);
     }
     this.game.updateRender(
@@ -690,223 +548,178 @@ class Level extends State {
     this.game.forceSingleUpdate = true;
     this.game.physics.box2d.paused = true;
     console.log("start timer, and whatever");
-    return _.delay(
-      (function (a) {
-        return function () {
-          a.camManager.camFreeze = false;
-          return _.delay(function () {
-            a.restartKey = a.game.input.keyboard.addKey(Keyboard.R);
-            a.restartKey.onDown.add(a.retry);
-            if (a.game.physics.box2d != null) {
-              a.ui.clock.start();
-              return (a.game.physics.box2d.paused = false);
-            }
-          }, 400);
-        };
-      })(this),
-      1600,
-    );
+    setTimeout(() => {
+      if (this.camManager) this.camManager.camFreeze = false;
+      setTimeout(() => {
+        this.restartKey = this.game.input.keyboard.addKey(Keyboard.R);
+        this.restartKey.onDown.add(this.retry);
+        if (this.game.physics.box2d != null) {
+          this.ui?.clock.start();
+          this.game.physics.box2d.paused = false;
+        }
+      }, 400);
+    }, 1600);
   }
 
   togglePause() {
+    if (!this.root) return;
     this.game.paused = !this.game.paused;
     if (this.game.paused) {
-      this.root.alpha.cacheAsBitmap = true;
-      this.pauseMenu.show();
-      return this.ui.clock.pause();
+      this.pauseMenu?.show();
+      this.ui?.clock.pause();
     } else {
-      this.root.alpha.cacheAsBitmap = false;
       this.root.alpha = 1;
-      this.pauseMenu.hide();
-      return this.ui.clock.resume();
+      this.pauseMenu?.hide();
+      this.ui?.clock.resume();
     }
   }
 
   pauseUpdate() {
     if (this.loadCompleted) {
-      this.pauseMenu.update();
-      if (this.pauseMenu.settingsMenu != null) {
-        this.pauseMenu.settingsMenu.update();
-      }
+      this.pauseMenu?.update();
+      this.pauseMenu?.settingsMenu?.update();
       this.game.tweens.update();
-      return this.camManager.update();
+      this.camManager?.update();
     }
   }
 
   setupLayers() {
-    var a;
-    var layers;
-    layers = {};
-    this.root = this.game.make.group(0, 0);
-    a = (function (a) {
-      return function (key) {
-        layers[key] = a.game.make.group();
-        layers[key].name = key;
-        return a.root.addChild(layers[key]);
-      };
-    })(this);
-    a("background");
-    a("tutorial");
-    a("underGround");
-    a("lights");
-    a("ground");
-    a("overGround");
-    a("chars");
-    a("overChars");
-    a("decorations");
-    a("liquids");
+    const layers = {} as Game["layers"];
+    this.root = this.game.make.group(0);
+    const createLayer = <K extends keyof Game["layers"]>(key: K) => {
+      layers[key] = this.game.make.group() as Required<Game["layers"]>[K];
+      layers[key].name = key;
+      this.root?.addChild(layers[key]);
+    };
+    createLayer("background");
+    createLayer("tutorial");
+    createLayer("underGround");
+    createLayer("lights");
+    createLayer("ground");
+    createLayer("overGround");
+    createLayer("chars");
+    createLayer("overChars");
+    createLayer("decorations");
+    createLayer("liquids");
     layers.liquids.update = function () {
-      return _.each(this.children, function (a) {
-        return a.update();
-      });
+      this.children.forEach((liquid) => liquid.update());
     };
     this.game.add.existing(this.root);
-    layers.ui = this.game.make.group();
+    layers.ui = this.game.make.group() as Game["layers"]["ui"];
     layers.ui.alpha = 0;
     this.game.add.existing(layers.ui);
     layers.ui.update = function () {
-      return _.each(this.children, function (a) {
-        return a.update();
-      });
+      this.children.forEach((ui) => ui.update());
     };
-    layers.dust = this.game.make.group();
+    layers.dust = this.game.make.group() as Game["layers"]["dust"];
     layers.dust.sources = [];
     this.root.addChild(layers.dust);
-    return (this.game.layers = layers);
+    this.game.layers = layers;
   }
 
   setupDarkness() {
-    var a;
-    var b;
-    if (this.levelData.type != null && this.levelData.type === "dark") {
-      this.darknessBmd = a = this.game.add.bitmapData(
+    if (
+      this.levelData?.type != null &&
+      this.levelData.type === "dark" &&
+      this.size
+    ) {
+      this.darknessBmd = this.game.add.bitmapData(
         this.size.width + 64,
         this.size.height + 64,
-      );
-      a.offset = {
+      ) as BitmapData & { offset: { x: number; y: number } };
+      this.darknessBmd.offset = {
         x: 32,
         y: 32,
       };
-      this.darkness = b = this.game.make.sprite(-32, -32, a);
-      b.blendMode = Phaser.blendModes.MULTIPLY;
-      this.game.layers.darkGradients = this.game.make.group(0, 0);
-      this.root.addChild(this.game.layers.darkGradients);
-      this.root.addChild(b);
-      this.updateDarkness(a);
-      return (this.game.layers.darkGradients.update = (function (b) {
-        return function () {
-          if (b.game.physics != null) {
-            return b.updateDarkness(a);
-          }
-        };
-      })(this));
+      this.darkness = this.game.make.sprite(-32, -32, this.darknessBmd);
+      this.darkness.blendMode = Phaser.blendModes.MULTIPLY;
+      this.game.layers.darkGradients = this.game.make.group(0);
+      this.root?.addChild(this.game.layers.darkGradients);
+      this.root?.addChild(this.darkness);
+      this.updateDarkness(this.darknessBmd);
+      this.game.layers.darkGradients.update = () => {
+        if (this.game.physics != null && this.darknessBmd) {
+          this.updateDarkness(this.darknessBmd);
+        }
+      };
     }
   }
 
-  updateDarkness(a) {
-    var b;
-    var c;
-    var d;
-    var e;
-    a.ctx.globalCompositeOperation = "source-over";
-    a.ctx.beginPath();
-    a.ctx.rect(0, 0, this.size.width + 64, this.size.height + 64);
-    a.ctx.fillStyle = "#000000";
-    a.ctx.fill();
-    this.pers1.drawDarkMask(a);
-    this.pers2.drawDarkMask(a);
-    e = this.objects;
-    b = 0;
-    c = e.length;
-    for (; b < c; b++) {
-      d = e[b];
-      if (d.drawDarkMask != null) {
-        d.drawDarkMask(a);
-      }
+  updateDarkness(bmd: BitmapData & { offset: { x: number; y: number } }) {
+    if (!this.size) return;
+    bmd.ctx.globalCompositeOperation = "source-over";
+    bmd.ctx.beginPath();
+    bmd.ctx.rect(0, 0, this.size.width + 64, this.size.height + 64);
+    bmd.ctx.fillStyle = "#000000";
+    bmd.ctx.fill();
+    this.pers1?.drawDarkMask(bmd);
+    this.pers2?.drawDarkMask(bmd);
+    for (const object of this.objects ?? []) {
+      if ("drawDarkMask" in object) object.drawDarkMask?.(bmd);
     }
-    return (a.dirty = true);
+    bmd.dirty = true;
   }
 
   fillDustLayer() {
-    var a;
-    var b;
-    var c;
-    var d;
-    d = this.game.layers.dust;
-    a = 0;
-    b = Math.ceil(this.size.width / 20);
-    for (; b >= 0 ? a <= b : a >= b; b >= 0 ? ++a : --a) {
-      c = this.game.make.sprite(
+    if (!this.size) return;
+    const width = Math.ceil(this.size.width / 20);
+    for (let i = 0; i <= width; ++i) {
+      const dust = this.game.make.sprite(
         Math.random() * this.size.width,
         Math.random() * this.size.height,
         "GroundAssets",
         "BeamDust0000",
       );
-      c.rotation = Math.random() * 180;
-      d.add(c);
+      dust.rotation = Math.random() * 180;
+      this.game.layers.dust.add(dust);
     }
-    d.maskGraphics = this.game.make.graphics(0, 0);
-    this.root.addChild(d.maskGraphics);
-    d.mask = d.maskGraphics;
-    return d;
+    this.game.layers.dust.maskGraphics = this.game.make.graphics(0, 0);
+    this.root?.addChild(this.game.layers.dust.maskGraphics);
+    this.game.layers.dust.mask = this.game.layers.dust.maskGraphics;
   }
 
-  createObjects(a, b) {
-    var c;
-    var d;
-    var e;
-    var f;
-    var g;
-    var h;
-    e = [];
-    f = 0;
-    g = b.length;
-    for (; f < g; f++) {
-      h = b[f];
-      console.log("create", h.name, h.type);
-      c = MechManager.className(h.type);
-      if (c != null) {
-        d = new c(this.game, h);
-        e.push(d);
+  createObjects(objects: ParsedMapData["objects"]["Objects"]) {
+    const devices = [];
+    for (const options of objects) {
+      console.log("create", options.name, options.type);
+      const device = MechManager.className(
+        options.type as keyof typeof MechManager.classNames,
+      );
+      if (device != null) {
+        devices.push(new device(this.game, options as any));
       } else {
-        console.warn("Object type " + h.type + " not found!");
+        console.warn("Object type " + options.type + " not found!");
       }
     }
     this.game.MechManager.connectPortals();
-    return e;
+    return devices;
   }
 
-  createCharObjects(a, b) {
-    var c;
-    var d;
-    var f;
+  createCharObjects(objects: ParsedMapData["objects"]["Chars"]) {
     this.totalDiamonds = 0;
-    c = 0;
-    d = b.length;
-    for (; c < d; c++) {
-      f = b[c];
-      console.log("found char object", f.type);
-      if (f.type === "char") {
-        if (f.properties == null || f.properties.char === "fb") {
-          this.pers1 = new Character(this.game, f.x, f.y, "fb");
+    for (const object of objects) {
+      console.log("found char object", object.type);
+      if (object.type === "char") {
+        if (object.properties == null || object.properties.char === "fb") {
+          this.pers1 = new Character(this.game, object.x, object.y, "fb");
           this.pers1.signal.add(this.checkEndGame);
-        } else if (f.properties.char === "wg") {
-          this.pers2 = new Character(this.game, f.x, f.y, "wg");
+        } else if (object.properties.char === "wg") {
+          this.pers2 = new Character(this.game, object.x, object.y, "wg");
           this.pers2.signal.add(this.checkEndGame);
         }
       }
-      if (f.type === "door") {
-        if (f.properties == null || f.properties.char === "fb") {
-          this.door1 = new Devices.Door(this.game, f.x, f.y, "fb");
+      if (object.type === "door") {
+        if (object.properties == null || object.properties.char === "fb") {
+          this.door1 = new Door(this.game, object.x, object.y, "fb");
           this.door1.signal.add(this.checkEndGame);
-        } else if (f.properties.char === "wg") {
-          this.door2 = new Devices.Door(this.game, f.x, f.y, "wg");
+        } else if (object.properties.char === "wg") {
+          this.door2 = new Door(this.game, object.x, object.y, "wg");
           this.door2.signal.add(this.checkEndGame);
         }
       }
-      if (f.type === "diamond") {
-        new Devices.Diamond(this.game, f.x, f.y, f.properties.char);
-        if (f.properties.char !== "silver") {
+      if (object.type === "diamond") {
+        new Diamond(this.game, object.x, object.y, object.properties.char);
+        if (object.properties.char !== "silver") {
           this.totalDiamonds++;
         }
       }
@@ -915,8 +728,8 @@ class Level extends State {
     return this.game.settingsSignal.add(this.onSettingChange);
   }
 
-  onSettingChange(a) {
-    if (a === "controls") {
+  onSettingChange(setting: "controls" | "fx" | "music") {
+    if (setting === "controls") {
       if (this.cursorToggle != null) {
         this.cursorToggle.destroy();
         this.cursorToggle = null;
@@ -926,92 +739,75 @@ class Level extends State {
   }
 
   setupCursorToggle() {
-    if (this.game.settings.controls === "single") {
-      this.game.TouchManager.register(
-        this.pers1.bodySprite,
-        "tap",
-        (function (a) {
-          return function (b) {
-            return a.cursorToggle.setChar("fb", b);
-          };
-        })(this),
-      );
-      this.game.TouchManager.register(
-        this.pers2.bodySprite,
-        "tap",
-        (function (a) {
-          return function (b) {
-            return a.cursorToggle.setChar("wg", b);
-          };
-        })(this),
-      );
-      this.cursorToggle = new CursorToggle(this.game);
-      this.game.layers.ui.addChild(this.cursorToggle);
-      return this.cursorToggle.onChange.add(
-        (function (a) {
-          return function (b) {
-            if (b === "fb") {
-              a.pers1.cursors.show();
-              return a.pers2.cursors.hide();
-            } else {
-              a.pers1.cursors.hide();
-              return a.pers2.cursors.show();
-            }
-          };
-        })(this),
-      );
+    if (
+      this.game.settings.controls !== "single" ||
+      !this.pers1 ||
+      !this.pers2
+    ) {
+      return;
     }
+    this.game.TouchManager.register(this.pers1.bodySprite, "tap", (ev) => {
+      return this.cursorToggle?.setChar("fb", ev);
+    });
+    this.game.TouchManager.register(this.pers2.bodySprite, "tap", (ev) => {
+      return this.cursorToggle?.setChar("wg", ev);
+    });
+    this.cursorToggle = new CursorToggle(this.game);
+    this.game.layers.ui.addChild(this.cursorToggle);
+    return this.cursorToggle.onChange.add((char: Characters) => {
+      if (char === "fb") {
+        this.pers1?.cursors.show();
+        this.pers2?.cursors.hide();
+      } else {
+        this.pers1?.cursors.hide();
+        this.pers2?.cursors.show();
+      }
+    });
   }
 
   updateMusic() {
-    if (this.sounds.levelMusic != null) {
-      this.sounds.levelMusic.stop();
-    }
+    this.sounds?.levelMusic?.stop();
     if (this.game.settings.music) {
-      return this.sounds.levelMusic.play();
+      this.sounds?.levelMusic?.play();
     }
   }
 
   checkEndGame() {
-    if (!this.ended) {
-      if (this.door1.isUp && this.door2.isUp) {
-        this.ended = true;
-        this.game.physics.box2d.paused = true;
-        this.animateFinish();
-      }
-      if (this.pers1.isDead || this.pers2.isDead) {
-        this.ended = true;
-        this.game.physics.box2d.paused = true;
-        return this.gameOver();
-      } else {
-        return undefined;
-      }
+    if (this.ended) return;
+    if (this.door1?.isUp && this.door2?.isUp) {
+      this.ended = true;
+      this.game.physics.box2d.paused = true;
+      this.animateFinish();
+    }
+    if (this.pers1?.isDead || this.pers2?.isDead) {
+      this.ended = true;
+      this.game.physics.box2d.paused = true;
+      this.gameOver();
     }
   }
 
   animateFinish() {
-    this.game.level.sounds.levelMusic.stop();
-    this.game.level.sounds.levelMusicFinish.play();
-    this.pers1.animateStairs(this.door1);
-    this.pers2.animateStairs(this.door2);
-    return _.delay(
-      (function (a) {
-        return function () {
-          return a.gameFinish();
-        };
-      })(this),
-      1600,
-    );
+    this.game.level.sounds?.levelMusic?.stop();
+    this.game.level.sounds?.levelMusicFinish?.play();
+    if (this.door1) this.pers1?.animateStairs(this.door1);
+    if (this.door2) this.pers2?.animateStairs(this.door2);
+    return setTimeout(this.gameFinish, 1600);
   }
 
   gameFinish() {
+    this.levelState ??= {
+      diamonds: 0,
+      silverDiamond: 0,
+      time: Infinity,
+    };
     this.levelState.diamonds =
-      this.pers1.data.diamonds + this.pers2.data.diamonds;
+      (this.pers1?.data.diamonds ?? 0) + (this.pers2?.data.diamonds ?? 0);
     this.levelState.silverDiamond =
-      this.pers1.data.silverDiamond + this.pers2.data.silverDiamond;
-    this.levelState.time = this.ui.clock.getElapsedSeconds();
-    this.ui.clock.stop();
-    this.levelData.totalDiamonds = this.totalDiamonds;
+      (this.pers1?.data.silverDiamond ?? 0) +
+      (this.pers2?.data.silverDiamond ?? 0);
+    this.levelState.time = this.ui?.clock.getElapsedSeconds() ?? Infinity;
+    this.ui?.clock.stop();
+    if (this.levelData) this.levelData.totalDiamonds = this.totalDiamonds ?? 0;
     this.game.state.add("endGame", End);
     return this.game.state.start("endGame", false, false, {
       success: true,
@@ -1022,60 +818,43 @@ class Level extends State {
   }
 
   update() {
-    if (this.loadCompleted) {
-      if (this.showfps) {
-        $("#debug-fps").html(this.game.time.fps);
-      }
-      if (this.debug) {
-        this.game.debug.box2dWorld();
-      }
-      this.ui.update();
-      if (this.useDust) {
-        this.updateDust();
-      }
-      if (this.tutorialTexts != null) {
-        this.updateTutorial();
-      }
-      return this.camManager.update();
+    if (!this.loadCompleted) {
+      return;
     }
+    if (this.showfps) {
+      const fps = document.querySelector<HTMLDivElement>("#debug-fps");
+      if (fps) fps.innerText = this.game.time.fps + "";
+    }
+    if (this.debug) {
+      this.game.debug.box2dWorld();
+    }
+    this.ui?.update();
+    if (this.useDust) {
+      this.updateDust();
+    }
+    if (this.tutorialTexts != null) {
+      this.updateTutorial();
+    }
+    this.camManager?.update();
   }
 
   updateTutorial() {
-    var a;
-    var b;
-    var c;
-    var d;
-    var e;
-    var f;
-    var g;
-    var h;
-    var i;
-    var j;
-    var k;
-    f = this.tutorialTexts;
-    h = [];
-    a = 0;
-    c = f.length;
-    for (; a < c; a++) {
-      j = f[a];
-      k = false;
-      g = j.rects;
-      b = 0;
-      d = g.length;
-      for (; b < d; b++) {
-        e = g[b];
+    if (!this.pers1 || !this.pers2) return;
+    for (const tutorialText of this.tutorialTexts ?? []) {
+      let detectedByRect = false;
+      for (const rect of tutorialText.rects) {
         if (
-          e.contains(this.pers1.sprite.x, this.pers1.sprite.y) ||
-          e.contains(this.pers2.sprite.x, this.pers2.sprite.y)
+          rect.contains(this.pers1.sprite.x, this.pers1.sprite.y) ||
+          rect.contains(this.pers2.sprite.x, this.pers2.sprite.y)
         ) {
-          k = true;
+          detectedByRect = true;
         }
       }
-      if (k && !j.shown) {
-        j.visible = true;
-        j.shown = true;
-        j.alpha = 0;
-        this.game.add.tween(j).to(
+      if (detectedByRect && !tutorialText.shown) {
+        tutorialText.visible = true;
+        tutorialText.shown = true;
+        tutorialText.alpha = 0;
+        this.game.add.tween(tutorialText).to(
           {
             alpha: 1,
           },
@@ -1084,10 +863,10 @@ class Level extends State {
           true,
         );
       }
-      if (!k && j.shown) {
-        j.shown = false;
-        j.alpha = 1;
-        i = this.game.add.tween(j).to(
+      if (!detectedByRect && tutorialText.shown) {
+        tutorialText.shown = false;
+        tutorialText.alpha = 1;
+        const animation = this.game.add.tween(tutorialText).to(
           {
             alpha: 0,
           },
@@ -1095,92 +874,51 @@ class Level extends State {
           "Linear",
           true,
         );
-        h.push(
-          i.onComplete.add(
-            (function (a) {
-              return function (a) {
-                return (a.visible = false);
-              };
-            })(),
-          ),
-        );
-      } else {
-        h.push(undefined);
+        animation.onComplete.add((text: BitmapText) => {
+          text.visible = false;
+        });
       }
     }
-    return h;
   }
 
   updateDust() {
-    var a;
-    var b;
-    var c;
-    var d;
-    var e;
-    var f;
-    var g;
-    var h;
-    var i;
-    var j;
-    var k;
-    var l;
-    var m;
-    var n;
-    var o;
     if (
-      this.game.layers.dust != null &&
-      this.game.layers.dust.sources.length > 0
+      this.game.layers.dust == null ||
+      this.game.layers.dust.sources.length <= 0
     ) {
-      i = false;
-      j = this.game.layers.dust.sources;
-      c = 0;
-      e = j.length;
-      for (; c < e; c++) {
-        o = j[c];
-        if (o.dirty) {
-          i = true;
+      return;
+    }
+    const dirty = this.game.layers.dust.sources.some((source) => source.dirty);
+    if (dirty) {
+      this.game.layers.dust.maskGraphics.clear();
+      this.game.layers.dust.maskGraphics.lineStyle(40, 0, 1);
+      let hidden = true;
+      for (const source of this.game.layers.dust.sources) {
+        if (source.points != null && source.points.length > 0) {
+          hidden = false;
+          source.drawBeam(this.game.layers.dust.maskGraphics, source.points);
         }
       }
-      if (i) {
-        this.game.layers.dust.maskGraphics.clear();
-        this.game.layers.dust.maskGraphics.lineStyle(40, 0, 1);
-        a = true;
-        k = this.game.layers.dust.sources;
-        d = 0;
-        f = k.length;
-        for (; d < f; d++) {
-          o = k[d];
-          if (o.points != null && o.points.length > 0) {
-            a = false;
-            o.drawBeam(this.game.layers.dust.maskGraphics, o.points);
-          }
-        }
-        this.game.layers.dust.visible = !a;
-      }
-      l = this.game.layers.dust.children;
-      m = [];
-      b = h = 0;
-      g = l.length;
-      for (; h < g; b = ++h) {
-        n = l[b];
-        n.angle += ((b % 2) * 2 - 1) * 0.002;
-        m.push(n.anchor.set(Math.sin(n.angle), Math.cos(n.angle)));
-      }
-      return m;
+      this.game.layers.dust.visible = !hidden;
+    }
+    let i = 0;
+    for (const dust of this.game.layers.dust.children) {
+      dust.angle += ((i++ % 2) * 2 - 1) * 0.002;
+      dust.anchor.set(Math.sin(dust.angle), Math.cos(dust.angle));
     }
   }
 
   retry() {
-    this.game.level.sounds.levelMusic.stop();
+    this.game.level.sounds?.levelMusic?.stop();
     this.game.state.add("level", Level);
     this.game.state.fade("level", true, false, this.levelData);
-    return this.killAll();
+    this.killAll();
   }
 
   gameOver() {
-    this.ui.clock.stop();
+    this.ui?.clock.stop();
     this.game.state.add("endGame", End);
-    return this.game.state.start("endGame", false, false, {
+    this.game.state.start("endGame", false, false, {
       success: false,
       data: this.levelData,
       state: this.levelState,
@@ -1189,10 +927,245 @@ class Level extends State {
   }
 
   quit() {
-    this.game.level.sounds.levelMusic.stop();
+    this.game.level.sounds?.levelMusic?.stop();
     this.game.state.fade("levelMenu", true, false, this.game.currentTemple);
-    return this.killAll();
+    this.killAll();
   }
 }
 
 export default Level;
+
+export type MapData = {
+  height: number;
+  infinite: boolean;
+  layers: {
+    data?: number[];
+    height?: number;
+    name: string;
+    opacity: number;
+    type: string;
+    visible: boolean;
+    width?: number;
+    x: number;
+    y: number;
+    draworder?: string;
+    objects?: {
+      height: number;
+      id: number;
+      name: string;
+      properties?: {
+        dx?: number;
+        dy?: number;
+        group?: number;
+        id?: number;
+      };
+      propertytypes?: {
+        dx?: string;
+        dy?: string;
+        group?: string;
+        id?: string;
+      };
+      rotation: number;
+      type: string;
+      visible: boolean;
+      width: number;
+      x: number;
+      y: number;
+      text?: {
+        bold: boolean;
+        fontfamily: string;
+        halign: string;
+        pixelsize: number;
+        text: string;
+        wrap: boolean;
+      };
+      gid?: number;
+    }[];
+  }[];
+  nextobjectid: number;
+  orientation: string;
+  renderorder: string;
+  tiledversion: string;
+  tileheight: number;
+  tilesets: {
+    firstgid: number;
+    source?: string;
+    src?: string;
+  }[];
+  tilewidth: number;
+  type: string;
+  version: number;
+  width: number;
+};
+
+export interface ParsedMapData {
+  width: number;
+  height: number;
+  tileWidth: number;
+  tileHeight: number;
+  orientation: string;
+  format: number;
+  version: number;
+  widthInPixels: number;
+  heightInPixels: number;
+  layers: Layer[];
+  images: unknown[];
+  tilesets: ParsedTileset[];
+  imagecollections: unknown[];
+  objects: {
+    Chars: {
+      gid: number;
+      name: string;
+      type: string;
+      x: number;
+      y: number;
+      visible: boolean;
+      properties?: any;
+    }[];
+    Objects: {
+      gid?: number;
+      name: string;
+      type: string;
+      x: number;
+      y: number;
+      visible: boolean;
+      properties?: {
+        dx?: number;
+        dy?: number;
+        group: number;
+      };
+      width?: number;
+      height?: number;
+      rotation?: number;
+      rectangle?: boolean;
+    }[];
+  } & {
+    [key: string]: {
+      name: string;
+      type: string;
+      x: number;
+      y: number;
+      width: number;
+      height: number;
+      visible: boolean;
+      rotation: number;
+      properties: {
+        id: number;
+      };
+      rectangle: boolean;
+    };
+  };
+  collision: {
+    Tutorial_dual: unknown[];
+    Tutorial_single: unknown[];
+    Tutorial_keyboard: unknown[];
+    Chars: unknown[];
+    Objects: unknown[];
+  };
+  tiles: number[] | undefined[];
+}
+
+export interface Layer {
+  name: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  widthInPixels: number;
+  heightInPixels: number;
+  alpha: number;
+  visible: boolean;
+  properties: {};
+  indexes: unknown[];
+  callbacks: unknown[];
+  bodies: unknown[];
+  data: ParsedTile[][];
+}
+
+export interface ParsedTile {
+  layer: Layer;
+  index: number;
+  x: number;
+  y: number;
+  rotation: number;
+  flipped: boolean;
+  worldX: number;
+  worldY: number;
+  width: number;
+  height: number;
+  centerX: number;
+  centerY: number;
+  alpha: number;
+  properties: {
+    type?: number;
+  };
+  scanned: boolean;
+  faceTop: boolean;
+  faceBottom: boolean;
+  faceLeft: boolean;
+  faceRight: boolean;
+  collideLeft: boolean;
+  collideRight: boolean;
+  collideUp: boolean;
+  collideDown: boolean;
+  collisionCallback: unknown;
+  collisionCallbackContext: string;
+}
+
+export interface ParsedTileset {
+  name: string;
+  firstgid: number;
+  tileWidth?: number;
+  tileHeight?: number;
+  tileMargin?: number;
+  tileSpacing?: number;
+  properties?: {};
+  image?: string;
+  rows?: number;
+  columns: number;
+  total?: number;
+  drawCoords?: number[];
+  tileProperties?: {
+    [key: number]: {
+      type: number;
+    };
+  };
+  src?: string;
+  imageheight?: number;
+  imagewidth?: number;
+  margin?: number;
+  spacing?: number;
+  tilecount?: number;
+  tileheight?: number;
+  tileproperties?: {
+    [key: number]: {
+      group?: number;
+      char?: string;
+      onis?: number;
+      startPos?: number;
+      dir?: number;
+      color?: string;
+      time: number;
+      length: number;
+    };
+  };
+  tilepropertytypes?: {
+    [key: number]: {
+      onis?: string;
+      startPos?: string;
+      dir?: string;
+      color?: string;
+      time?: string;
+      group?: string;
+      length?: string;
+      char?: string;
+    };
+  };
+  tiles?: {
+    [key: number]: {
+      type: string;
+    };
+  };
+  tilewidth?: number;
+  type?: string;
+}

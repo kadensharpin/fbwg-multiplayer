@@ -70,7 +70,6 @@ class Portal extends BoxedDevice<PortalOptions> {
     this.transport = this.transport.bind(this);
     this.removeMask = this.removeMask.bind(this);
     this.createMask = this.createMask.bind(this);
-    this.sounds = this.sounds.bind(this);
 
     this.center = this.game.make.sprite(
       this.options.x,
@@ -290,7 +289,7 @@ class Portal extends BoxedDevice<PortalOptions> {
     this.normal.SelfRotateRadians(this.options.rotation || 0);
   }
 
-  sounds() {
+  static sounds() {
     return ["portalOpen", "portalLoop", "portalClose", "portalTransport"];
   }
 

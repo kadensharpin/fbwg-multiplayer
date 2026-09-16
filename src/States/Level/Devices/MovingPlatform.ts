@@ -59,7 +59,6 @@ class MovingPlatform extends Device<MovingPlatformOptions> {
     this.checkState = this.checkState.bind(this);
     this.updateState = this.updateState.bind(this);
     this.update = this.update.bind(this);
-    this.sounds = this.sounds.bind(this);
 
     this.shapeRotation = shapeRotation;
 
@@ -167,7 +166,7 @@ class MovingPlatform extends Device<MovingPlatformOptions> {
       : ((this.sprite.scale.y = 1.05), (this.sprite.scale.x = 0.95));
   }
 
-  sounds() {
+  static sounds() {
     return "platform";
   }
 

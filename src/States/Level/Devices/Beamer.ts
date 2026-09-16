@@ -18,7 +18,7 @@ class Beamer extends BoxedDevice<BeamerOptions> {
   private readonly graphicsColor: number;
   state = 1;
   dirty: boolean = false;
-  private points: Points | null = null;
+  points: Points | null = null;
   declare body: Physics.Box2D.Body;
 
   constructor(game: Game, options: BeamerOptions) {

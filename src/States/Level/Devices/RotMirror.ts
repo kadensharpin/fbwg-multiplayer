@@ -32,7 +32,6 @@ class RotMirror extends BoxedDevice<RotMirrorOptions> {
     this.checkState = this.checkState.bind(this);
     this.updateState = this.updateState.bind(this);
     this.update = this.update.bind(this);
-    this.sounds = this.sounds.bind(this);
 
     this.base = this.game.make.sprite(
       this.options.x,
@@ -132,7 +131,7 @@ class RotMirror extends BoxedDevice<RotMirrorOptions> {
     this.registerDevice();
   }
 
-  sounds() {
+  static sounds() {
     return ["platform"];
   }
 
