@@ -79,18 +79,16 @@ class MechManager {
       );
     let block: box2d.b2Vec2 | null = null;
     if (
-      -1 ===
-      this.game.level.ground.getTileAt(
+      this.game.level.ground?.getTileAt(
         Math.floor(bottom.x),
         Math.floor(bottom.y),
-      ).properties.type
+      )?.properties.type === -1
     ) {
       block = bottom;
     }
     if (
-      -1 ===
-      this.game.level.ground.getTileAt(Math.floor(top.x), Math.floor(top.y))
-        .properties.type
+      this.game.level.ground?.getTileAt(Math.floor(top.x), Math.floor(top.y))
+        ?.properties.type === -1
     ) {
       block = top;
     }

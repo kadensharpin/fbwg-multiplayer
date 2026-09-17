@@ -31011,7 +31011,7 @@ declare module Phaser {
      * @param json The JSON map data.
      * @return Generated and parsed map data.
      */
-    static parseJSON(json: any): any;
+    static parseTiledJSON(json: any): any;
   }
 
   /**

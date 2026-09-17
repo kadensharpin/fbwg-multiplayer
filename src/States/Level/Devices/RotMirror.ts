@@ -114,7 +114,7 @@ class RotMirror extends BoxedDevice<RotMirrorOptions> {
     const jointDef = new box2d.b2RevoluteJointDef();
     const centre = this.body.data.GetWorldCenter();
     const jointPos = new box2d.b2Vec2(centre.x, centre.y);
-    jointDef.Initialize(this.body.data, this.game.level.groundBody, jointPos);
+    jointDef.Initialize(this.body.data, this.game.level.groundBody!, jointPos);
     while (this.options.rotation < 0) this.options.rotation += 2 * Math.PI;
     1 === this.options.properties.dir
       ? ((jointDef.lowerAngle = -this.options.rotation),
@@ -148,13 +148,13 @@ class RotMirror extends BoxedDevice<RotMirrorOptions> {
       this.joint.SetMotorSpeed(-1.5 * this.options.properties.dir);
       this.sound?.stopInstance();
       if (!mute) {
-        this.sound = this.game.level.sounds.platform.playInstance();
+        this.sound = this.game.level.sounds?.platform?.playInstance();
       }
     } else {
       this.joint.SetMotorSpeed(1.5 * this.options.properties.dir);
       this.sound?.stopInstance();
       if (!mute) {
-        this.sound = this.game.level.sounds.platform.playInstance();
+        this.sound = this.game.level.sounds?.platform?.playInstance();
       }
     }
   }
@@ -173,11 +173,11 @@ class RotMirror extends BoxedDevice<RotMirrorOptions> {
         ? -this.joint.GetLowerLimit()
         : this.joint.GetUpperLimit();
     if (null != this.sound && 0 === this.state && a() >= c()) {
-      this.game.level.sounds.platform.stopInstance();
+      this.game.level.sounds?.platform?.stopInstance();
       this.sound = null;
     } else {
       if (null != this.sound && 1 === this.state && a() <= b()) {
-        this.game.level.sounds.platform.stopInstance();
+        this.game.level.sounds?.platform?.stopInstance();
         this.sound = null;
       }
     }

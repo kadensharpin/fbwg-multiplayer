@@ -1,5 +1,6 @@
-import { Color, Game, Group, Physics, Signal, Sprite, Tile } from "phaser";
+import { Color, Game, Group, Physics, Signal, Sprite } from "phaser";
 import { deepObjectExtend } from "../../../utils/util";
+import { ParsedTile } from "../Level";
 
 export type DeviceOptions = {
   type: string;
@@ -177,7 +178,7 @@ class Device<Options extends DeviceOptions> extends Group {
 
   checkState() {}
 
-  ocupyTile(tiles: Tile[][], x: number, y: number) {
+  ocupyTile(tiles: ParsedTile[][], x: number, y: number) {
     const row = tiles[Math.floor(y)];
     const cell = row?.[Math.floor(x)];
     if (cell) {
@@ -187,7 +188,7 @@ class Device<Options extends DeviceOptions> extends Group {
     return false;
   }
 
-  ocupy(_tiles: Tile[][]) {}
+  ocupy(_tiles: ParsedTile[][]) {}
 
   static sounds(): string | string[] {
     return [];

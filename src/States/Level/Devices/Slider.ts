@@ -70,7 +70,7 @@ class Slider extends Device<SliderOptions> {
     const jointDef = new box2d.b2PrismaticJointDef();
     jointDef.Initialize(
       sprite.body.data,
-      this.game.level.groundBody,
+      this.game.level.groundBody!,
       sprite.body.data.GetWorldCenter(),
       axis,
     );
@@ -94,7 +94,7 @@ class Slider extends Device<SliderOptions> {
     if (this.joint.GetJointTranslation() === this.state) return;
 
     if (!this.sound || !this.sound.isPlaying) {
-      this.sound = this.game.level.sounds.slider.play();
+      this.sound = this.game.level.sounds?.slider?.play();
     }
     this.state =
       (Math.PI *

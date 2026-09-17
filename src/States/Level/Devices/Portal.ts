@@ -6,9 +6,9 @@ import {
   Physics,
   Sound,
   Sprite,
-  Tile,
 } from "phaser";
 import * as box2d from "phaser-box2d";
+import { ParsedTile } from "../Level";
 import BoxedDevice, { BoxedDeviceOptions } from "./BoxedDevice";
 import { Light } from "./Device";
 
@@ -296,7 +296,7 @@ class Portal extends BoxedDevice<PortalOptions> {
   createMask(body: (typeof this.nearBodies)[number]) {
     const height = this.mpx(3 * this.options.sensorHeigh);
     const mask = this.game.make.graphics(0, 0);
-    this.game.level.root.addChild(mask);
+    this.game.level.root?.addChild(mask);
     mask.beginFill(16777215);
     const direction = new box2d.b2Vec2(-1, 0).SelfRotateRadians(
       this.options.rotation || 0,
@@ -364,7 +364,7 @@ class Portal extends BoxedDevice<PortalOptions> {
       );
     }
     this.game.physics.update();
-    this.game.level.sounds.portalTransport.play();
+    this.game.level.sounds?.portalTransport?.play();
     this.sensorFixture.Refilter();
     this.eventHorizon.Refilter();
   }
@@ -383,7 +383,7 @@ class Portal extends BoxedDevice<PortalOptions> {
           this.sound = null;
         }
         if (!mute) {
-          this.game.level.sounds.portalClose.play();
+          this.game.level.sounds?.portalClose?.play();
         }
       }
     } else {
@@ -393,10 +393,11 @@ class Portal extends BoxedDevice<PortalOptions> {
       filter.categoryBits = 4096;
       this.eventHorizon.SetFilterData(filter);
       this.sensorFixture.SetFilterData(filter);
-      this.game.level.sounds.portalOpen.play();
-      this.game.level.sounds.portalLoop.loop = true;
+      this.game.level.sounds?.portalOpen?.play();
+      if (this.game.level.sounds?.portalLoop)
+        this.game.level.sounds.portalLoop.loop = true;
       if (!mute) {
-        this.sound = this.game.level.sounds.portalLoop.playInstance();
+        this.sound = this.game.level.sounds?.portalLoop?.playInstance();
         this.sound!.volume = 0.3;
       }
     }
@@ -509,7 +510,7 @@ class Portal extends BoxedDevice<PortalOptions> {
     body.mass = 0;
   }
 
-  ocupy(tiles: Tile[][]) {
+  ocupy(tiles: ParsedTile[][]) {
     const x = this.options.x / 32;
     const y = this.options.y / 32;
     this.ocupyTile(tiles, x, y + 2);

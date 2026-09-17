@@ -96,11 +96,11 @@ class MovingPlatform extends Device<MovingPlatformOptions> {
     if (this.options.properties.dtheta) {
       const jointDef = new box2d.b2RevoluteJointDef();
       const worldCenter = this.body.data.GetWorldCenter();
-      const f = new box2d.b2Vec2(
+      const pos = new box2d.b2Vec2(
         worldCenter.x - (this.options.properties.offsetX || 0),
         worldCenter.y - (this.options.properties.offsetY || 0),
       );
-      jointDef.Initialize(this.body.data, this.game.level.groundBody, f);
+      jointDef.Initialize(this.body.data, this.game.level.groundBody!, pos);
       if (this.options.properties.dtheta > 0) {
         jointDef.lowerAngle = 0;
         jointDef.upperAngle = (Math.PI * this.options.properties.dtheta) / 180;
@@ -120,7 +120,7 @@ class MovingPlatform extends Device<MovingPlatformOptions> {
       const jointDef = new box2d.b2PrismaticJointDef();
       jointDef.Initialize(
         this.body.data,
-        this.game.level.groundBody,
+        this.game.level.groundBody!,
         this.body.data.GetWorldCenter(),
         axis,
       );
@@ -197,7 +197,7 @@ class MovingPlatform extends Device<MovingPlatformOptions> {
         this.sound = null;
       }
       if (!mute) {
-        this.sound = this.game.level.sounds.platform.playInstance();
+        this.sound = this.game.level.sounds?.platform?.playInstance();
         return this.sound;
       }
     } else {
@@ -208,7 +208,7 @@ class MovingPlatform extends Device<MovingPlatformOptions> {
         this.sound = null;
       }
       if (!mute) {
-        this.sound = this.game.level.sounds.platform.playInstance();
+        this.sound = this.game.level.sounds?.platform?.playInstance();
         return this.sound;
       }
     }

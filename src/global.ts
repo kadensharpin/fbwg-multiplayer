@@ -29,10 +29,6 @@ declare module "phaser" {
     _shake: { duration: number };
   }
 
-  interface Tile {
-    occupied: boolean;
-  }
-
   interface Game {
     bowser: bowser.IBowser;
     TouchManager: TouchManager;

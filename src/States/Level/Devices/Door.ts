@@ -12,7 +12,7 @@ class Door extends Group {
   private isOpen: boolean = false;
   isUp: boolean = false;
   private currentFrac: number;
-  private sound: Sound | null = null;
+  private sound: Sound | null | undefined = null;
 
   constructor(game: Game, x: number, y: number, char: Characters) {
     super(game);
@@ -88,7 +88,7 @@ class Door extends Group {
         this.currentFrac += c;
         this.sprite.animations.frame = Math.round(this.currentFrac);
         if (!(null != this.sound && this.sound.isPlaying))
-          this.sound = this.game.level.sounds.door.playInstance();
+          this.sound = this.game.level.sounds?.door?.playInstance();
       } else if (frameIndex === 21) {
         this.signal.dispatch();
         if (null != this.sound) {
@@ -101,7 +101,7 @@ class Door extends Group {
         this.currentFrac -= c;
         this.sprite.animations.frame = Math.round(this.currentFrac);
         if (!(null != this.sound && this.sound.isPlaying)) {
-          this.sound = this.game.level.sounds.door.playInstance();
+          this.sound = this.game.level.sounds?.door?.playInstance();
         }
       }
       if (0 === frameIndex) {

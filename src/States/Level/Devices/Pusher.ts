@@ -1,5 +1,6 @@
-import { Game, Signal, Sprite, Tile } from "phaser";
+import { Game, Signal, Sprite } from "phaser";
 import * as box2d from "phaser-box2d";
+import { ParsedTile } from "../Level";
 import BoxedDevice from "./BoxedDevice";
 import type { DeviceOptions, Light } from "./Device";
 
@@ -84,7 +85,7 @@ class Pusher<Options extends PusherOptions> extends BoxedDevice<Options> {
     const jointDef = new box2d.b2PrismaticJointDef();
     jointDef.Initialize(
       button.body.data,
-      this.game.level.groundBody,
+      this.game.level.groundBody!,
       button.body.data.GetWorldCenter(),
       new box2d.b2Vec2(0, 1),
     );
@@ -115,11 +116,11 @@ class Pusher<Options extends PusherOptions> extends BoxedDevice<Options> {
     } else {
       return;
     }
-    this.game.level.sounds.pusher.play();
+    this.game.level.sounds?.pusher?.play();
     this.signal.dispatch(this);
   }
 
-  ocupy(_tiles: Tile[][]) {}
+  ocupy(_tiles: ParsedTile[][]) {}
 }
 
 export default Pusher;

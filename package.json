@@ -20,6 +20,7 @@
     "@types/backbone": "1.4.1",
     "@types/hammerjs": "^2.0.46",
     "@types/node": "26.5.0",
+    "@types/seedrandom": "^3.0.8",
     "@types/underscore": "1.9.2",
     "typescript": "^7.0.2",
     "vite": "^8.2.2"

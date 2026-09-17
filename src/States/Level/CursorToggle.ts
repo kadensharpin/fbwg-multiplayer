@@ -54,15 +54,15 @@ class CursorToggle extends Button {
   getAngle() {
     let angle, sprite;
     if ("fb" === this.current) {
-      sprite = this.game.level.pers1.sprite;
+      sprite = this.game.level.pers1?.sprite;
       angle = 0;
     } else {
-      sprite = this.game.level.pers2.sprite;
+      sprite = this.game.level.pers2?.sprite;
       angle = Math.PI;
     }
     const distance = Math.atan2(
-      sprite.world.y - this.world.y,
-      sprite.world.x - this.world.x,
+      (sprite?.world.y ?? 0) - this.world.y,
+      (sprite?.world.x ?? 0) - this.world.x,
     );
     return this.normalizeAngle(angle + distance);
   }
@@ -84,10 +84,10 @@ class CursorToggle extends Button {
   clicked() {
     if (this.current === "wg") {
       this.setChar("fb");
-      this.game.level.sounds.charToggle1?.play();
+      this.game.level.sounds?.charToggle1?.play();
     } else {
       this.setChar("wg");
-      this.game.level.sounds.charToggle2?.play();
+      this.game.level.sounds?.charToggle2?.play();
     }
   }
 

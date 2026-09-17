@@ -1,14 +1,7 @@
-import {
-  Animation,
-  BitmapData,
-  Game,
-  Physics,
-  Sound,
-  Sprite,
-  Tile,
-} from "phaser";
+import { Animation, BitmapData, Game, Physics, Sound, Sprite } from "phaser";
 import * as box2d from "phaser-box2d";
 import Character from "../character";
+import { ParsedTile } from "../Level";
 import BoxedDevice, { BoxedDeviceOptions } from "./BoxedDevice";
 
 type WindOptions = {
@@ -200,8 +193,10 @@ class Wind extends BoxedDevice<WindOptions> {
       this.windEffect.visible = true;
       this.sprite.animations.play("loop");
       this.running = true;
-      this.game.level.sounds.wind.loop = true;
-      this.sound = this.game.level.sounds.wind.playInstance();
+      if (this.game.level.sounds?.wind) {
+        this.game.level.sounds.wind.loop = true;
+        this.sound = this.game.level.sounds.wind.playInstance();
+      }
       this.sound!.volume = 0.2;
     } else if (state === 0 && this.windEffect.visible === true) {
       this.windEffect.visible = false;
@@ -214,7 +209,7 @@ class Wind extends BoxedDevice<WindOptions> {
     }
   }
 
-  ocupy(tiles: Tile[][]) {
+  ocupy(tiles: ParsedTile[][]) {
     const x = this.options.x / 32;
     const y = this.options.y / 32;
     this.ocupyTile(tiles, x - 1, y);

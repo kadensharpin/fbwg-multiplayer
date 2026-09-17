@@ -1,4 +1,5 @@
-import { BitmapData, Game, Graphics, Sound, Tile, Timer } from "phaser";
+import { BitmapData, Game, Graphics, Sound, Timer } from "phaser";
+import { ParsedTile } from "../Level";
 import { Light } from "./Device";
 import Pusher, { PusherOptions } from "./Pusher";
 
@@ -77,12 +78,12 @@ class TimedPusher extends Pusher<TimedPusherOptions> {
     const translation = this.joint.GetJointTranslation();
     if (0 === this.downState && translation > 0) {
       this.downState = 1;
-      this.game.level.sounds.pusher.play();
+      this.game.level.sounds?.pusher?.play();
       null != this.sound && this.sound.isPlaying && this.sound.stop();
     } else {
       if (1 === this.downState && translation <= 0) {
         this.downState = 0;
-        this.game.level.sounds.pusher.play();
+        this.game.level.sounds?.pusher?.play();
         null != this.sound && this.sound.isPlaying && this.sound.stop();
       }
     }
@@ -93,7 +94,7 @@ class TimedPusher extends Pusher<TimedPusherOptions> {
         this.timer = this.game.time.create(true);
         this.timer.add(this.options.properties.time, () => {
           this.state = 0;
-          this.game.level.sounds.pusher.play();
+          this.game.level.sounds?.pusher?.play();
           this.signal.dispatch(this);
           this.timer = null;
         });
@@ -113,8 +114,8 @@ class TimedPusher extends Pusher<TimedPusherOptions> {
         0 === this.downState &&
         (this.sound == null || !this.sound.isPlaying)
       ) {
-        this.sound = this.game.level.sounds.clock.play(
-          null,
+        this.sound = this.game.level.sounds?.clock?.play(
+          undefined,
           (22796 - this.options.properties.time) / 1e3,
         );
       }
@@ -149,7 +150,7 @@ class TimedPusher extends Pusher<TimedPusherOptions> {
     }
   }
 
-  ocupy(tiles: Tile[][]) {
+  ocupy(tiles: ParsedTile[][]) {
     const x = this.options.x / 32;
     const y = this.options.y / 32;
     this.ocupyTile(tiles, x, y);

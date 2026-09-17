@@ -209,8 +209,8 @@ class TempleSelector extends Sprite {
   preload() {}
 
   resize() {
-    this.background.width = this.game.realWidth;
-    this.background.x = -this.game.realWidth / 2;
+    // this.background.width = this.game.realWidth;
+    // this.background.x = -this.game.realWidth / 2;
     this.leftSide.width = (this.game.realWidth - this.cover.width) / 2;
     this.rigthSide.width = (this.game.realWidth - this.cover.width) / 2;
     this.leftSide.x = -this.cover.width / 2;

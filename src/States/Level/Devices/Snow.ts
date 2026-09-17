@@ -3,7 +3,7 @@ import * as box2d from "phaser-box2d";
 import Character from "../character";
 import Ground from "../Ground";
 
-type SnowOptions = {
+export type SnowOptions = {
   x: number;
   y: number;
   data: {
@@ -142,7 +142,7 @@ class Snow extends Sprite {
     const img = this.game.cache.getImage("GroundAssets");
     x = x - (frame.width - 32) / 2 + 32;
     y = y - (frame.height - 32) / 2 + 32;
-    this.ground.bmd.ctx.drawImage(
+    this.ground.bmd?.ctx.drawImage(
       img,
       frame.x,
       frame.y,

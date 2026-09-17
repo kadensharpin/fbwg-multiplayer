@@ -31,4 +31,14 @@ export type Sounds = {
   menuMusic?: Sound;
   pusher?: Sound;
   lightPusher?: Sound;
+
+  lever?: Sound;
+  platform?: Sound;
+  wind?: Sound;
+  portalOpen?: Sound;
+  portalLoop?: Sound;
+  portalClose?: Sound;
+  portalTransport?: Sound;
+  clock?: Sound;
+  slider?: Sound;
 };

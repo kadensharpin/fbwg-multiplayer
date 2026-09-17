@@ -1,5 +1,6 @@
-import { Game, Tile } from "phaser";
+import { Game } from "phaser";
 import * as box2d from "phaser-box2d";
+import { ParsedTile } from "../Level";
 import Device, { DeviceOptions } from "./Device";
 
 export type BoxedDeviceOptions = {
@@ -24,7 +25,7 @@ class BoxedDevice<Options extends BoxedDeviceOptions> extends Device<Options> {
     this.ocupy = this.ocupy.bind(this);
   }
 
-  ocupy(tiles: Tile[][]) {
+  ocupy(tiles: ParsedTile[][]) {
     const x = this.options.x / 32;
     const y = this.options.y / 32;
     this.ocupyTile(tiles, x, y);

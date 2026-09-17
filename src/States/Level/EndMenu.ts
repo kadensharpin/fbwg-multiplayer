@@ -89,16 +89,16 @@ class EndMenu extends IngameMenu {
     return setTimeout(() => {
       this.finishCheck.setAchieved(true);
       if (!this.game?.level) return;
-      this.game.level.sounds.endPass?.play();
+      this.game.level.sounds?.endPass?.play();
       setTimeout(
         () => {
           if (!this.game?.level) return;
-          this.game.level.sounds.endPass?.play();
+          this.game.level.sounds?.endPass?.play();
           this.diamondsCheck.setAchieved(diamondsCollected >= diamondsTotal);
           setTimeout(
             () => {
               if (!this.game?.level) return;
-              this.game.level.sounds.endPass?.play();
+              this.game.level.sounds?.endPass?.play();
               this.timeCheck.setAchieved(
                 this.options.data.type === "puzzle"
                   ? this.options.state.silverDiamond > 0
@@ -107,7 +107,7 @@ class EndMenu extends IngameMenu {
               setTimeout(
                 () => {
                   if (!this.game?.level) return;
-                  this.game.level.sounds.endDiamond?.play();
+                  this.game.level.sounds?.endDiamond?.play();
                   arrow.frameName = "popupArrow0001";
                   sprite.animations.play("to_" + this.options.state.stars);
                   this.animationDone = true;

@@ -296,7 +296,7 @@ class Level extends State {
       if (type !== "Ground") continue;
       Object.assign(tileset, this.game.cache.getJSON(type));
     }
-    const parsedData = TilemapParser.parseJSON(mapData) as ParsedMapData;
+    const parsedData = TilemapParser.parseTiledJSON(mapData) as ParsedMapData;
     mapData.tilesets = ground.concat(objects);
     for (const tileset of mapData.tilesets) {
       if (tileset.src == null) continue;
@@ -1110,6 +1110,7 @@ export interface ParsedTile {
   collideDown: boolean;
   collisionCallback: unknown;
   collisionCallbackContext: string;
+  occupied?: boolean;
 }
 
 export interface ParsedTileset {

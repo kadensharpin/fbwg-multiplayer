@@ -289,13 +289,13 @@ class Liquid extends Sprite {
   shouldFreeze() {
     if (!this.frozen) {
       this.freeze();
-      this.game.level.sounds.freeze.play();
+      this.game.level.sounds?.freeze?.play();
     }
   }
 
   shouldMelt() {
     if (this.frozen) {
-      this.game.level.sounds.melt.play();
+      this.game.level.sounds?.melt?.play();
       this.melt();
     }
   }

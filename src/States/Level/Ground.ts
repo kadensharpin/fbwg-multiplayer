@@ -1,18 +1,40 @@
-import { BitmapData, Physics, RenderTexture, Sprite } from "phaser";
+import {
+  BitmapData,
+  Game,
+  Image,
+  Physics,
+  RenderTexture,
+  Sprite,
+} from "phaser";
 import * as box2d from "phaser-box2d";
-import _ from "underscore";
+import seedrandom from "seedrandom";
+import InlineFilter from "../../filters/InlineFilter";
+import OutlineFilter from "../../filters/OutlineFilter";
+import ShadowFilter from "../../filters/ShadowFilter";
+import Liquid from "./Devices/Liquid";
+import Snow, { SnowOptions } from "./Devices/Snow";
+import { ParsedMapData, ParsedTile } from "./Level";
+import MechManager from "./MechManager";
 
 class Ground extends Sprite {
-  bmd: BitmapData;
+  declare body: Physics.Box2D.Body;
   filterPadding = 10;
   options = {
+    width: 0,
+    height: 0,
     tileWidth: 32,
     tileHeight: 32,
     key: "map",
   };
+  mapData: ParsedMapData;
+  bmd?: BitmapData;
+  maskBmd?: BitmapData;
+  foregroundBmd?: BitmapData;
+  sprite?: Sprite;
+  image?: Image;
 
-  constructor(b, c, d) {
-    super(b, 0, 0);
+  constructor(game: Game, mapData: ParsedMapData, options: {}) {
+    super(game, 0, 0);
 
     this.CreateLiquid = this.CreateLiquid.bind(this);
     this.CreateSnow = this.CreateSnow.bind(this);
@@ -24,16 +46,16 @@ class Ground extends Sprite {
     this.getNaviesPoints = this.getNaviesPoints.bind(this);
     this.getTileAt = this.getTileAt.bind(this);
     this.drawTile = this.drawTile.bind(this);
-    this.options = _.extend(this.options, d);
+    this.options = Object.assign(this.options, options);
 
     this.game.physics.box2d.enable(this);
     this.body.mass = 0;
     this.body.clearFixtures();
-    this.mapData = c;
+    this.mapData = mapData;
     this.options.width = this.mapData.width * this.mapData.tileWidth;
     this.options.height = this.mapData.height * this.mapData.tileHeight;
-    this.convertTilemap(this.mapData);
-    this.CreateSnows(this.mapData);
+    this.convertTilemap();
+    this.CreateSnows();
     Physics.Box2D.worldBoundsFilterCategory = 65535;
     this.game.physics.box2d.setBounds(
       -100,
@@ -51,408 +73,280 @@ class Ground extends Sprite {
     this.applyFilter();
   }
 
-  getTileRight(a, b, c) {
-    if (a.data[c] != null && a.data[c][b + 1] != null) {
-      return a.data[c][b + 1];
+  getTileAt(x: number, y: number): ParsedTile | null {
+    return this.mapData.layers[0].data[y]?.[x] ?? null;
+  }
+
+  getTileRight(x: number, y: number) {
+    return this.getTileAt(x + 1, y);
+  }
+
+  getTileLeft(x: number, y: number) {
+    return this.getTileAt(x - 1, y);
+  }
+
+  getTileUp(x: number, y: number) {
+    return this.getTileAt(x, y - 1);
+  }
+
+  getTileDown(x: number, y: number) {
+    return this.getTileAt(x, y + 1);
+  }
+
+  drawTile(
+    ctx: CanvasRenderingContext2D,
+    destX: number,
+    destY: number,
+    type: number,
+  ) {
+    let frameName;
+    if (type === 10) {
+      type = 0;
+    }
+    if (type === 11) {
+      type = 1;
+    }
+    if (type === 12) {
+      type = 2;
+    }
+    if (type === 55) {
+      type = 5;
+    }
+    if (type === 0) {
+      const rand = Math.floor(Math.random() * 4);
+      frameName = "MaskBox0000" + rand;
     } else {
-      return null;
+      frameName = "MaskBox" + type + "0000";
     }
+    const ground = this.game.cache.getFrameByName("GroundAssets", frameName);
+    const img = this.game.cache.getImage("GroundAssets");
+    destX -= (ground.width - 32) / 2 - 32;
+    destY -= (ground.height - 32) / 2 - 32;
+    return ctx.drawImage(
+      img,
+      ground.x,
+      ground.y,
+      ground.width,
+      ground.height,
+      destX,
+      destY,
+      ground.width,
+      ground.height,
+    );
   }
 
-  getTileLeft(a, b, c) {
-    if (a.data[c] != null && a.data[c][b - 1] != null) {
-      return a.data[c][b - 1];
-    } else {
-      return null;
-    }
-  }
-
-  getTileUp(a, b, c) {
-    if (a.data[c - 1] != null && a.data[c - 1][b] != null) {
-      return a.data[c - 1][b];
-    } else {
-      return null;
-    }
-  }
-
-  getTileDown(a, b, c) {
-    if (a.data[c + 1] != null && a.data[c + 1][b] != null) {
-      return a.data[c + 1][b];
-    } else {
-      return null;
-    }
-  }
-
-  drawTile(a, b, c, d) {
-    var e;
-    var f;
-    var g;
-    var h;
-    if (d === 10) {
-      d = 0;
-    }
-    if (d === 11) {
-      d = 1;
-    }
-    if (d === 12) {
-      d = 2;
-    }
-    if (d === 55) {
-      d = 5;
-    }
-    if (d === 0) {
-      h = Math.floor(Math.random() * 4);
-      g = "MaskBox0000" + h;
-    } else {
-      g = "MaskBox" + d + "0000";
-    }
-    e = this.game.cache.getFrameByName("GroundAssets", g);
-    f = this.game.cache.getImage("GroundAssets");
-    b = b - (e.width - 32) / 2 + 32;
-    c = c - (e.height - 32) / 2 + 32;
-    return a.drawImage(f, e.x, e.y, e.width, e.height, b, c, e.width, e.height);
-  }
-
-  getTileAt(a, b) {
-    return this.mapData.layers[0].data[b][a];
-  }
-
-  convertTilemap(a) {
-    var b;
-    var c;
-    var d;
-    var e;
-    var f;
-    var g;
-    var h;
-    var i;
-    var j;
-    var k;
-    var l;
-    var m;
-    var n;
-    var o;
-    var p;
-    var q;
-    var r;
-    var s;
-    var t;
-    var u;
-    var v;
-    var w;
-    var x;
-    var y;
-    var z;
-    var A;
-    var B;
-    var C;
-    m = 0;
-    this.map = a;
-    A = 0;
-    v = 0;
-    w = 0;
-    C = 0;
-    this.h = h = a.height;
-    this.w = z = a.width;
-    this.groundBody = c = this.body;
-    this.groundBody.data.m_userData = "ground";
-    this.game.level.groundBody = this.groundBody.data;
-    n = this.game.add.bitmapData(
+  convertTilemap() {
+    this.body.data.m_userData = "ground";
+    this.game.level.groundBody = this.body.data;
+    const maskBmd = this.game.add.bitmapData(
       this.options.width + 64,
       this.options.height + 64,
     );
-    while (C < h) {
-      A = 0;
-      B = 0;
-      while (B < z) {
-        x = a.layers[m].data[C][B];
-        if (x && x.index > -1) {
-          d = B * this.options.tileWidth;
-          e = C * this.options.tileHeight;
-          if (x.properties.type === 0) {
-            if (A === 0) {
-              v = B * x.width;
-              w = C * x.height;
-              A = 1;
-            }
-            r = this.getTileRight(a.layers[m], B, C);
-            if (r && r.properties.type === 0) {
-              A += 1;
-              this.drawTile(n.ctx, d, e, x.properties.type);
-            } else {
-              t = new box2d.b2PolygonShape();
-              y = [];
-              u = this.groundBody.world.pxm(c.world.mpx(1) * A);
-              s = this.groundBody.world.pxm(c.world.mpx(1));
-              y.push(new box2d.b2Vec2(0, 0));
-              y.push(new box2d.b2Vec2(-u, 0));
-              y.push(new box2d.b2Vec2(-u, -s));
-              y.push(new box2d.b2Vec2(0, -s));
-              _.each(y, function (a) {
-                a.x -= c.world.pxm(v);
-                return (a.y -= c.world.pxm(w));
-              });
-              t.Set(y);
-              A = 0;
-              this.createGroundFixture(t);
-              this.drawTile(n.ctx, d, e, x.properties.type);
-            }
-          } else if (
-            x.properties.type === 5 ||
-            x.properties.type === 6 ||
-            x.properties.type === 7 ||
-            x.properties.type === 55
-          ) {
-            if (A === 0) {
-              v = B * x.width;
-              w = C * x.height;
-              A = 1;
-            }
-            r = this.getTileRight(a.layers[m], B, C);
-            if (r && r.properties.type === x.properties.type) {
-              if (A > 1) {
-                this.drawTile(n.ctx, d, e, x.properties.type);
-              }
-              A += 1;
-            } else {
-              t = this.createGroundShape(
-                8,
-                new box2d.b2Vec2(c.world.pxm(d) - A + 1, c.world.pxm(e)),
-              );
-              this.createGroundFixture(t);
-              this.drawTile(n.ctx, d - c.world.mpx(A - 1), e, 8);
-              t = this.createGroundShape(
-                9,
-                new box2d.b2Vec2(c.world.pxm(d), c.world.pxm(e)),
-              );
-              this.createGroundFixture(t);
-              this.drawTile(n.ctx, d, e, 9);
-              t = new box2d.b2PolygonShape();
-              y = [];
-              u = this.groundBody.world.pxm(c.world.mpx(1) * A);
-              s = this.groundBody.world.pxm(c.world.mpx(1));
-              y.push(new box2d.b2Vec2(-1, -s / 2 + 0.05));
-              y.push(new box2d.b2Vec2(1 - u, -s / 2 + 0.05));
-              y.push(new box2d.b2Vec2(1 - u, -s));
-              y.push(new box2d.b2Vec2(-1, -s));
-              _.each(y, function (a) {
-                a.x -= c.world.pxm(v);
-                return (a.y -= c.world.pxm(w));
-              });
-              t.Set(y);
-              this.createGroundFixture(t);
-              this.CreateLiquid(x.properties.type, B + 1, C, A);
-              A = 0;
-            }
-          } else if (x.properties.type === -1) {
-            this.drawTile(n.ctx, d, e, 0);
-          } else {
-            t = this.createGroundShape(
-              x.properties.type,
-              new box2d.b2Vec2(c.world.pxm(d), c.world.pxm(e)),
-            );
-            this.createGroundFixture(t);
-            this.drawTile(n.ctx, d, e, x.properties.type);
+    let offsetX = 0;
+    let offsetY = 0;
+    for (let Y = 0; Y < this.mapData.height; Y++) {
+      let A = 0;
+      for (let X = 0; X < this.mapData.width; X++) {
+        const tile = this.getTileAt(X, Y);
+        if (!tile || tile.index <= -1) continue;
+        const tileX = X * this.options.tileWidth;
+        const tileY = Y * this.options.tileHeight;
+        if (tile.properties.type === 0) {
+          if (A === 0) {
+            offsetX = X * tile.width;
+            offsetY = Y * tile.height;
+            A = 1;
           }
+          const rightTile = this.getTileRight(X, Y);
+          if (rightTile && rightTile.properties.type === 0) {
+            A += 1;
+            this.drawTile(maskBmd.ctx, tileX, tileY, tile.properties.type);
+            continue;
+          }
+          const shape = new box2d.b2PolygonShape();
+          const vertices = [];
+          vertices.push(new box2d.b2Vec2(0, 0));
+          vertices.push(new box2d.b2Vec2(-A, 0));
+          vertices.push(new box2d.b2Vec2(-A, -1));
+          vertices.push(new box2d.b2Vec2(0, -1));
+          vertices.forEach((vertex) => {
+            vertex.x -= this.body.world.pxm(offsetX);
+            vertex.y -= this.body.world.pxm(offsetY);
+          });
+          shape.Set(vertices);
+          A = 0;
+          this.createGroundFixture(shape);
+          this.drawTile(maskBmd.ctx, tileX, tileY, tile.properties.type);
+        } else if (
+          tile.properties.type === 5 ||
+          tile.properties.type === 6 ||
+          tile.properties.type === 7 ||
+          tile.properties.type === 55
+        ) {
+          if (A === 0) {
+            offsetX = X * tile.width;
+            offsetY = Y * tile.height;
+            A = 1;
+          }
+          const rightTile = this.getTileRight(X, Y);
+          if (rightTile && rightTile.properties.type === tile.properties.type) {
+            if (A > 1) {
+              this.drawTile(maskBmd.ctx, tileX, tileY, tile.properties.type);
+            }
+            A += 1;
+            continue;
+          }
+          const shape1 = this.createGroundShape(
+            8,
+            new box2d.b2Vec2(
+              this.body.world.pxm(tileX) - A + 1,
+              this.body.world.pxm(tileY),
+            ),
+          );
+          this.createGroundFixture(shape1);
+          this.drawTile(
+            maskBmd.ctx,
+            tileX - this.body.world.mpx(A - 1),
+            tileY,
+            8,
+          );
+          const shape2 = this.createGroundShape(
+            9,
+            new box2d.b2Vec2(
+              this.body.world.pxm(tileX),
+              this.body.world.pxm(tileY),
+            ),
+          );
+          this.createGroundFixture(shape2);
+          this.drawTile(maskBmd.ctx, tileX, tileY, 9);
+          const shape3 = new box2d.b2PolygonShape();
+          const vertices = [];
+          vertices.push(new box2d.b2Vec2(-1, -1 / 2 + 0.05));
+          vertices.push(new box2d.b2Vec2(1 - A, -1 / 2 + 0.05));
+          vertices.push(new box2d.b2Vec2(1 - A, -1));
+          vertices.push(new box2d.b2Vec2(-1, -1));
+          vertices.forEach((vertex) => {
+            vertex.x -= this.body.world.pxm(offsetX);
+            vertex.y -= this.body.world.pxm(offsetY);
+          });
+          shape3.Set(vertices);
+          this.createGroundFixture(shape3);
+          this.CreateLiquid(tile.properties.type, X + 1, Y, A);
+          A = 0;
+        } else if (tile.properties.type === -1) {
+          this.drawTile(maskBmd.ctx, tileX, tileY, 0);
+        } else {
+          const groundShape = this.createGroundShape(
+            tile.properties.type!,
+            new box2d.b2Vec2(
+              this.body.world.pxm(tileX),
+              this.body.world.pxm(tileY),
+            ),
+          );
+          this.createGroundFixture(groundShape);
+          this.drawTile(maskBmd.ctx, tileX, tileY, tile.properties.type!);
         }
-        B++;
       }
-      C++;
     }
-    f = this.game.make.bitmapData(
+    const foregroundBmd = this.game.make.bitmapData(
       this.options.width + 64,
       this.options.height + 64,
     );
-    g = this.game.cache.getFrameByName("TempleAssets", "ForeGround0000");
-    j = this.game.cache.getImage("TempleAssets");
-    i = l = 0;
-    p = Math.ceil(this.options.width / 256);
-    for (; p >= 0 ? l <= p : l >= p; i = p >= 0 ? ++l : --l) {
-      k = o = 0;
-      q = Math.ceil(this.options.height / 256);
-      for (; q >= 0 ? o <= q : o >= q; k = q >= 0 ? ++o : --o) {
-        B = i * 256;
-        C = k * 256;
-        f.ctx.drawImage(
-          j,
-          g.x,
-          g.y,
-          g.width,
-          g.height,
-          B,
-          C,
-          g.width,
-          g.height,
+    const foreground = this.game.cache.getFrameByName(
+      "TempleAssets",
+      "ForeGround0000",
+    );
+    const img = this.game.cache.getImage("TempleAssets");
+    const width = Math.ceil(this.options.width / 256);
+    for (let x = 0; x < width; x++) {
+      const height = Math.ceil(this.options.height / 256);
+      for (let y = 0; y < height; y++) {
+        foregroundBmd.ctx.drawImage(
+          img,
+          foreground.x,
+          foreground.y,
+          foreground.width,
+          foreground.height,
+          x * 256,
+          y * 256,
+          foreground.width,
+          foreground.height,
         );
       }
     }
-    b = this.game.add.bitmapData(
+    const bmd = this.game.add.bitmapData(
       this.options.width + 64,
       this.options.height + 64,
     );
-    b.alphaMask(f, n);
-    this.bmd = b;
-    this.maskBmd = n;
-    this.foregroundBmd = f;
-    return c;
+    bmd.alphaMask(foregroundBmd, maskBmd);
+    this.bmd = bmd;
+    this.maskBmd = maskBmd;
+    this.foregroundBmd = foregroundBmd;
+    return this.body;
   }
 
   getNaviesPoints() {
-    var a;
-    var b;
-    var c;
-    var d;
-    var f;
-    var g;
-    var h;
-    var i;
-    var j;
-    var k;
-    var l;
-    var m;
-    i = this.map;
-    d = this.h;
-    m = this.w;
-    g = 0;
-    b = this.groundBody;
-    this.rng = seedrandom("ASDFA");
-    (function (a) {
-      return function () {
-        return Math.round(a.rng() * 3 + 3.5);
-      };
-    })(this);
-    j = (function (a) {
-      return function (a, b) {
-        if (i.layers[g].data[a] != null && i.layers[g].data[a][b] != null) {
-          return i.layers[g].data[a][b];
-        } else {
-          return null;
-        }
-      };
-    })();
-    l = [
+    let quadrants: { x: number; y: number }[] = [
       {
-        x: Math.floor(d / 4),
-        y: Math.floor(d / 4),
+        x: Math.floor(this.mapData.height / 4),
+        y: Math.floor(this.mapData.height / 4),
       },
       {
-        x: Math.floor((d * 3) / 4),
-        y: Math.floor(d / 4),
+        x: Math.floor((this.mapData.height * 3) / 4),
+        y: Math.floor(this.mapData.height / 4),
       },
       {
-        x: Math.floor(d / 4),
-        y: Math.floor((d * 3) / 4),
+        x: Math.floor(this.mapData.height / 4),
+        y: Math.floor((this.mapData.height * 3) / 4),
       },
       {
-        x: Math.floor((d * 3) / 4),
-        y: Math.floor(d / 4),
+        x: Math.floor((this.mapData.height * 3) / 4),
+        // TODO: Bug?
+        y: Math.floor(this.mapData.height / 4),
       },
     ];
-    a = (function (a) {
-      return function (a) {
-        if (a > 0) {
-          return 1;
-        } else if (a < 0) {
-          return -1;
-        } else {
-          return 0;
-        }
+    const roundToOne = (n: number) => (n > 0 ? 1 : n < 0 ? -1 : 0);
+    const points: { x: number; y: number }[] = [];
+    for (const point of quadrants) {
+      const offset = {
+        x: roundToOne(Math.random() - 0.5),
+        y: roundToOne(Math.random() - 0.5),
       };
-    })();
-    f = 0;
-    h = l.length;
-    for (; f < h; f++) {
-      k = l[f];
-      k.valid = false;
-      c = {
-        x: a(Math.random() - 0.5),
-        y: a(Math.random() - 0.5),
-      };
-      while (k.x > 0 && k.x < m && k.y > 0 && k.y < d) {
-        if (j(k.y, k.x).properties.type == null) {
-          k.valid = true;
+      while (
+        point.x > 0 &&
+        point.x < this.mapData.width &&
+        point.y > 0 &&
+        point.y < this.mapData.height
+      ) {
+        if (this.getTileAt(point.x, point.y)?.properties.type == null) {
+          point.x *= this.body.world.mpx(1);
+          point.y *= this.body.world.mpx(1);
+          points.push(point);
           break;
         }
-        k.x += c.x;
-        k.y += c.y;
+        point.x += offset.x;
+        point.y += offset.y;
       }
     }
-    l = l.filter(function (a) {
-      return a.valid;
-    });
-    _.each(l, function (a) {
-      a.x *= b.world.mpx(1);
-      return (a.y *= b.world.mpx(1));
-    });
-    return l;
+    return points;
   }
 
-  decorate(a) {
-    var b;
-    var c;
-    var d;
-    var f;
-    var g;
-    var h;
-    var i;
-    var j;
-    var k;
-    var l;
-    var m;
-    var n;
-    var o;
-    var p;
-    var q;
-    var r;
-    var s;
-    var t;
-    var u;
-    var v;
-    var w;
-    var x;
-    var y;
-    var z;
-    var A;
-    var B;
-    var C;
-    var D;
-    var E;
-    var F;
-    var G;
-    var H;
-    var I;
-    var J;
-    s = this.map;
-    k = this.h;
-    H = this.w;
-    o = 0;
-    c = this.groundBody;
-    this.rng = seedrandom("ASDFA");
-    z = (function (a) {
-      return function () {
-        return Math.round(a.rng() * 3 + 3.5);
-      };
-    })(this);
-    n = 0;
-    q = a.length;
-    for (; n < q; n++) {
-      v = a[n];
-      if (v.ocupy != null) {
-        v.ocupy(s.layers[o].data);
+  decorate(
+    objects: ((typeof MechManager.classNames)[keyof typeof MechManager.classNames] extends new (
+      ...args: any
+    ) => infer T
+      ? T
+      : never)[],
+  ) {
+    const rng = seedrandom("ASDFA");
+    const nextRandom = () => Math.round(rng() * 3 + 3.5);
+    for (const object of objects) {
+      if ("ocupy" in object) {
+        object.ocupy(this.mapData.layers[0].data);
       }
     }
-    t = (function (a) {
-      return function (a, b) {
-        if (s.layers[o].data[a] != null && s.layers[o].data[a][b] != null) {
-          return s.layers[o].data[a][b];
-        } else {
-          return null;
-        }
-      };
-    })();
-    J = 1;
-    f = [];
-    g = new RenderTexture(
+    const tiles: ParsedTile[] = [];
+    const decoTexture = new RenderTexture(
       this.game,
       this.options.width + 64,
       this.options.height + 64,
@@ -460,125 +354,104 @@ class Ground extends Sprite {
       undefined,
       1,
     );
-    while (J < k) {
-      0;
-      I = 1;
-      while (I < H - 1) {
-        F = s.layers[o].data[J][I];
-        l = x = 0;
-        for (; x <= 6; l = ++x) {
-          j = null;
-          m = y = 0;
-          for (; y <= 6; m = ++y) {
-            h = Math.max(Math.min(I + l, H - 2), 0);
-            i = Math.max(Math.min(J + m, k - 1), 0);
+    for (let Y = 1; Y < this.mapData.height; Y += nextRandom()) {
+      for (let X = 1; X < this.mapData.width - 1; X += nextRandom()) {
+        for (let x = 0; x <= 6; ++x) {
+          let prevTile = null;
+          for (let y = 0; y <= 6; ++y) {
+            const tileX = Math.max(Math.min(X + x, this.mapData.width - 2), 0);
+            const tileY = Math.max(Math.min(Y + y, this.mapData.height - 1), 0);
+            const tile = this.getTileAt(tileX, tileY);
             if (
-              t(i, h).properties.type != null &&
-              !t(i, h).occupied &&
-              f.indexOf(t(i, h)) < 0 &&
-              f.indexOf(t(i - 1, h)) < 0 &&
-              f.indexOf(t(i, h + 1)) < 0 &&
-              f.indexOf(t(i - 1, h + 1)) < 0 &&
-              f.indexOf(t(i, h - 1)) < 0 &&
-              f.indexOf(t(i - 1, h - 1)) < 0
+              tile?.properties.type != null &&
+              !tile.occupied &&
+              tiles.indexOf(tile) < 0 &&
+              tiles.indexOf(this.getTileUp(tileX, tileY)!) < 0 &&
+              tiles.indexOf(this.getTileRight(tileX, tileY)!) < 0 &&
+              tiles.indexOf(this.getTileAt(tileX + 1, tileY - 1)!) < 0 &&
+              tiles.indexOf(this.getTileLeft(tileX, tileY)!) < 0 &&
+              tiles.indexOf(this.getTileAt(tileX - 1, tileY - 1)!) < 0
             ) {
-              j = s.layers[o].data[i][h];
-              f.push(j);
+              prevTile = tile;
+              tiles.push(tile);
               break;
             }
           }
-          if (j != null) {
+          if (prevTile != null) {
             break;
           }
         }
-        I += z();
       }
-      J += z();
     }
-    w = 0;
-    l = E = 0;
-    r = f.length;
-    for (; E < r; l = ++E) {
-      d = f[l];
-      F = s.layers[o].data[d.y][d.x];
-      b = this.getTileUp(s.layers[o], d.x, d.y);
-      A = this.getTileRight(s.layers[o], d.x, d.y);
-      p = this.getTileLeft(s.layers[o], d.x, d.y);
-      G = null;
-      B = 0;
-      C = [1, 1];
-      u = 1;
+    let i = 0;
+    for (const tile of tiles) {
+      const tileUp = this.getTileUp(tile.x, tile.y);
+      const tileRight = this.getTileRight(tile.x, tile.y);
+      const tileLeft = this.getTileLeft(tile.x, tile.y);
+      let frameName = null;
+      let rotation = 0;
+      let scaleX = 1;
+      let randomScaleX = 1;
       if (
-        F.properties.type === 0 &&
-        b != null &&
-        b.properties.type != null &&
-        A != null &&
-        A.properties.type != null &&
-        p != null &&
-        p.properties.type != null
+        tile.properties.type === 0 &&
+        tileUp?.properties.type != null &&
+        tileRight?.properties.type != null &&
+        tileLeft?.properties.type != null
       ) {
-        G = "O_" + ((w % 2) + 1);
-        B = w === "1" ? (Math.floor(Math.random() * 3) * Math.PI) / 2 : 0;
+        frameName = "O_" + ((i % 2) + 1);
+        rotation = i === 1 ? (Math.floor(Math.random() * 3) * Math.PI) / 2 : 0;
       } else if (
-        F.properties.type !== 0 ||
-        (b != null && b.properties.type != null)
+        tile.properties.type !== 0 ||
+        tileUp?.properties.type != null
       ) {
-        if (F.properties.type === 0) {
-          G = "X";
-          B = (Math.floor(Math.random() * 3) * Math.PI) / 2;
-        } else if (F.properties.type === 1) {
-          G = "A";
-        } else if (F.properties.type === 2) {
-          G = "A";
-          C = [-1, 1];
-        } else if (F.properties.type === 3) {
-          G = "V";
-        } else if (F.properties.type === 4) {
-          G = "V";
-          C = [-1, 1];
+        if (tile.properties.type === 0) {
+          frameName = "X";
+          rotation = (Math.floor(Math.random() * 3) * Math.PI) / 2;
+        } else if (tile.properties.type === 1) {
+          frameName = "A";
+        } else if (tile.properties.type === 2) {
+          frameName = "A";
+          scaleX = -1;
+        } else if (tile.properties.type === 3) {
+          frameName = "V";
+        } else if (tile.properties.type === 4) {
+          frameName = "V";
+          scaleX = -1;
         }
       } else {
-        G = "T_" + ((w % 3) + 1);
-        u = Math.round(Math.random()) * 2 - 1;
+        frameName = "T_" + ((i % 3) + 1);
+        randomScaleX = Math.round(Math.random()) * 2 - 1;
       }
-      w++;
-      if (G != null) {
-        D = this.game.make.sprite(
-          (d.x + 0.5) * c.world.mpx(1),
-          (d.y + 0.5) * c.world.mpx(1),
-          "TempleAssets",
-          "decor_" + G + "0000",
-        );
-        D.rotation = B;
-        D.scale.set(u * C[0], C[1]);
-        D.anchor.set(0.5);
-        g.renderXY(D, D.x + 32, D.y + 32, false);
-        D.destroy();
-      }
+      i++;
+      if (frameName == null) continue;
+      const sprite = this.game.make.sprite(
+        (tile.x + 0.5) * this.body.world.mpx(1),
+        (tile.y + 0.5) * this.body.world.mpx(1),
+        "TempleAssets",
+        "decor_" + frameName + "0000",
+      );
+      sprite.rotation = rotation;
+      sprite.scale.set(randomScaleX * scaleX, 1);
+      sprite.anchor.set(0.5);
+      decoTexture.renderXY(sprite, sprite.x + 32, sprite.y + 32, false);
+      sprite.destroy();
     }
-    this.game.cache.addRenderTexture("decosTexture", g);
-    D = this.game.make.sprite(
+    this.game.cache.addRenderTexture("decosTexture", decoTexture);
+    const decoSprite = this.game.make.sprite(
       -32,
       -32,
       this.game.cache.getRenderTexture("decosTexture").texture,
     );
-    this.game.layers.decorations.addChild(D);
-    return (this.game.layers.decorations.cacheAsBitmap = true);
+    this.game.layers.decorations.addChild(decoSprite);
+    this.game.layers.decorations.cacheAsBitmap = true;
   }
 
   drawForeground() {
-    return (this.image = this.game.make.image(0, 0, this.bmd));
+    this.image = this.game.make.image(0, 0, this.bmd);
   }
 
   applyFilter() {
-    var a;
-    var b;
-    var c;
-    var d;
-    var e;
-    var f;
-    var g;
-    a = this.game.make.tileSprite(
+    const background = this.game.make.tileSprite(
       0,
       0,
       this.options.width,
@@ -586,22 +459,47 @@ class Ground extends Sprite {
       "TempleAssets",
       "BackGround0000",
     );
-    this.game.layers.background.addChild(a);
-    a.cacheAsBitmap = true;
-    g = this.options.width + 64;
-    b = this.options.height + 64;
-    c = new InlineFilter(this.game, g, b, 3, 16711680);
-    c.init();
-    d = new OutlineFilter(this.game, g, b, 3.5, 0);
-    d.init();
-    f = new ShadowFilter(this.game, g, b, 8, 0);
-    f.init();
-    this.image.filters = [c, d, f];
-    e = new RenderTexture(this.game, g, b, "groundTexture", undefined, 1);
+    this.game.layers.background.addChild(background);
+    background.cacheAsBitmap = true;
+    const filterWidth = this.options.width + 64;
+    const filterHeight = this.options.height + 64;
+    const inlineFilter = new InlineFilter(
+      this.game,
+      filterWidth,
+      filterHeight,
+      3,
+      16711680,
+    );
+    inlineFilter.init();
+    const outlineFilter = new OutlineFilter(
+      this.game,
+      filterWidth,
+      filterHeight,
+      3.5,
+      0,
+    );
+    outlineFilter.init();
+    const shadowFilter = new ShadowFilter(
+      this.game,
+      filterWidth,
+      filterHeight,
+      8,
+      0,
+    );
+    shadowFilter.init();
+    this.image!.filters = [inlineFilter, outlineFilter, shadowFilter];
+    const groundTexture = new RenderTexture(
+      this.game,
+      filterWidth,
+      filterHeight,
+      "groundTexture",
+      undefined,
+      1,
+    );
     this.game.renderer.renderSession.resolution = 1;
-    e.renderRawXY(this.image, 0, 0, true);
+    groundTexture.renderRawXY(this.image!, 0, 0, true);
     this.game.renderer.renderSession.resolution = this.game.resolution;
-    this.game.cache.addRenderTexture("groundTexture", e);
+    this.game.cache.addRenderTexture("groundTexture", groundTexture);
     this.sprite = this.game.make.sprite(
       -32,
       -32,
@@ -609,229 +507,162 @@ class Ground extends Sprite {
     );
     this.game.layers.ground.addChild(this.sprite);
     this.sprite.cacheAsBitmap = true;
-    this.image.destroy();
-    this.bmd.destroy();
-    this.maskBmd.destroy();
-    return this.foregroundBmd.destroy();
+    this.image?.destroy();
+    this.bmd?.destroy();
+    this.maskBmd?.destroy();
+    this.foregroundBmd?.destroy();
   }
 
   destroy() {
-    this.sprite.destroy();
-    this.image.destroy();
-    this.bmd.destroy();
-    this.maskBmd.destroy();
-    this.foregroundBmd.destroy();
+    this.sprite?.destroy();
+    this.image?.destroy();
+    this.bmd?.destroy();
+    this.maskBmd?.destroy();
+    this.foregroundBmd?.destroy();
     super.destroy();
   }
 
-  createGroundFixture(a, b, c) {
-    var d;
-    var e;
-    e = new box2d.b2FixtureDef();
-    e.shape = a;
-    e.filter.categoryBits = 1;
-    e.filter.maskBits = 4369;
-    e.friction = 0.8;
-    e.isSensor = b;
-    e.userData = c;
-    d = this.groundBody.data.CreateFixture(e);
-    return (d.id = this.groundBody.world.getNextFixtureId());
+  createGroundFixture(
+    shape: box2d.b2Shape,
+    isSensor: boolean = false,
+    userData: any = null,
+  ) {
+    const fixtureDef = new box2d.b2FixtureDef();
+    fixtureDef.shape = shape;
+    fixtureDef.filter.categoryBits = 1;
+    fixtureDef.filter.maskBits = 4369;
+    fixtureDef.friction = 0.8;
+    fixtureDef.isSensor = isSensor;
+    fixtureDef.userData = userData;
+    const fixture = this.body.data.CreateFixture(fixtureDef);
+    fixture.id = this.body.world.getNextFixtureId();
   }
 
-  createGroundShape(a, b) {
-    var c;
-    var d;
-    var e;
-    var f;
-    e = 1;
-    d = 1;
-    c = new box2d.b2PolygonShape();
-    if (a === 0 || a === 10) {
-      f = [];
-      f.push(new box2d.b2Vec2(0, 0));
-      f.push(new box2d.b2Vec2(-e, 0));
-      f.push(new box2d.b2Vec2(-e, -d));
-      f.push(new box2d.b2Vec2(0, -d));
-    } else if (a === 1 || a === -2 || a === 11) {
-      f = [];
-      f.push(new box2d.b2Vec2(-e, 0));
-      f.push(new box2d.b2Vec2(-e, -d));
-      f.push(new box2d.b2Vec2(0, -d));
-    } else if (a === 2 || a === 12) {
-      f = [];
-      f.push(new box2d.b2Vec2(0, 0));
-      f.push(new box2d.b2Vec2(-e, -d));
-      f.push(new box2d.b2Vec2(0, -d));
-    } else if (a === 3) {
-      f = [];
-      f.push(new box2d.b2Vec2(0, 0));
-      f.push(new box2d.b2Vec2(-e, 0));
-      f.push(new box2d.b2Vec2(-e, -d));
-    } else if (a === 4) {
-      f = [];
-      f.push(new box2d.b2Vec2(0, 0));
-      f.push(new box2d.b2Vec2(-e, 0));
-      f.push(new box2d.b2Vec2(0, -d));
-    } else if (a === 5 || a === 6 || a === 7) {
-      f = [];
-      f.push(new box2d.b2Vec2(0, -d / 2));
-      f.push(new box2d.b2Vec2(-e, -d / 2));
-      f.push(new box2d.b2Vec2(-e, -d));
-      f.push(new box2d.b2Vec2(0, -d));
-    } else if (a === 8) {
-      f = [];
-      f.push(new box2d.b2Vec2(0, 0));
-      f.push(new box2d.b2Vec2(-e - 0.3, -d / 2));
-      f.push(new box2d.b2Vec2(-e - 0.3, -d));
-      f.push(new box2d.b2Vec2(0, -d));
-    } else if (a === 9) {
-      f = [];
-      f.push(new box2d.b2Vec2(0.3, -d / 2));
-      f.push(new box2d.b2Vec2(-e, 0));
-      f.push(new box2d.b2Vec2(-e, -d));
-      f.push(new box2d.b2Vec2(0.3, -d));
+  createGroundShape(type: number, offset: { x: number; y: number }) {
+    const vertices: box2d.b2Vec2[] = [];
+    if (type === 0 || type === 10) {
+      vertices.push(new box2d.b2Vec2(0, 0));
+      vertices.push(new box2d.b2Vec2(-1, 0));
+      vertices.push(new box2d.b2Vec2(-1, -1));
+      vertices.push(new box2d.b2Vec2(0, -1));
+    } else if (type === 1 || type === -2 || type === 11) {
+      vertices.push(new box2d.b2Vec2(-1, 0));
+      vertices.push(new box2d.b2Vec2(-1, -1));
+      vertices.push(new box2d.b2Vec2(0, -1));
+    } else if (type === 2 || type === 12) {
+      vertices.push(new box2d.b2Vec2(0, 0));
+      vertices.push(new box2d.b2Vec2(-1, -1));
+      vertices.push(new box2d.b2Vec2(0, -1));
+    } else if (type === 3) {
+      vertices.push(new box2d.b2Vec2(0, 0));
+      vertices.push(new box2d.b2Vec2(-1, 0));
+      vertices.push(new box2d.b2Vec2(-1, -1));
+    } else if (type === 4) {
+      vertices.push(new box2d.b2Vec2(0, 0));
+      vertices.push(new box2d.b2Vec2(-1, 0));
+      vertices.push(new box2d.b2Vec2(0, -1));
+    } else if (type === 5 || type === 6 || type === 7) {
+      vertices.push(new box2d.b2Vec2(0, -1 / 2));
+      vertices.push(new box2d.b2Vec2(-1, -1 / 2));
+      vertices.push(new box2d.b2Vec2(-1, -1));
+      vertices.push(new box2d.b2Vec2(0, -1));
+    } else if (type === 8) {
+      vertices.push(new box2d.b2Vec2(0, 0));
+      vertices.push(new box2d.b2Vec2(-1 - 0.3, -1 / 2));
+      vertices.push(new box2d.b2Vec2(-1 - 0.3, -1));
+      vertices.push(new box2d.b2Vec2(0, -1));
+    } else if (type === 9) {
+      vertices.push(new box2d.b2Vec2(0.3, -1 / 2));
+      vertices.push(new box2d.b2Vec2(-1, 0));
+      vertices.push(new box2d.b2Vec2(-1, -1));
+      vertices.push(new box2d.b2Vec2(0.3, -1));
     }
-    _.each(f, function (a) {
-      a.x -= b.x;
-      return (a.y -= b.y);
+    vertices.forEach((vertex) => {
+      vertex.x -= offset.x;
+      vertex.y -= offset.y;
     });
-    c.Set(f);
-    return c;
+    const shape = new box2d.b2PolygonShape();
+    shape.Set(vertices);
+    return shape;
   }
 
-  CreateSnows(a) {
-    var b;
-    var c;
-    var d;
-    var e;
-    var f;
-    var g;
-    var h;
-    var i;
-    var j;
-    var k;
-    var l;
-    var m;
-    var n;
-    var o;
-    var p;
-    var q;
-    var r;
-    var s;
-    var t;
-    var u;
-    var v;
-    var w;
-    var x;
-    var y;
-    var z;
-    c = a.layers[0].data;
-    j = c.length;
-    i = c[0].length;
-    v = [];
+  CreateSnows() {
+    let snow: SnowOptions["data"] | null = null;
+    const mapHeight = this.mapData.height;
+    const mapWidth = this.mapData.width;
+    const snows: SnowOptions["data"][] = [];
     console.log("WE");
-    d = g = 0;
-    m = j;
-    for (; m >= 0 ? g <= m : g >= m; d = m >= 0 ? ++g : --g) {
-      [];
-      e = k = 0;
-      n = i;
-      for (; n >= 0 ? k <= n : k >= n; e = n >= 0 ? ++k : --k) {
-        if (d >= 0 && e >= 0 && d < j && e < i) {
-          x = c[d][e];
-          if (x.properties.type === 10) {
-            if (u === undefined || u === null) {
-              u = {
-                x: d,
-                y: e,
-                length: 1,
-                dir: "WE",
-              };
-            } else {
-              u.length += 1;
-            }
-          } else if (u != null) {
-            v.push(u);
-            u = null;
-          }
+    for (const rows of this.mapData.layers[0].data) {
+      for (const tile of rows) {
+        if (tile.properties.type === 10) {
+          snow ??= {
+            x: tile.x,
+            y: tile.y,
+            length: 0,
+            dir: "WE",
+          };
+          snow.length += 1;
+        } else if (snow != null) {
+          snows.push(snow);
+          snow = null;
         }
       }
     }
     console.log("SE");
-    f = l = 0;
-    o = i + j;
-    for (; o >= 0 ? l <= o : l >= o; f = o >= 0 ? ++l : --l) {
-      [];
-      d = w = 0;
-      p = f;
-      for (; p >= 0 ? w <= p : w >= p; d = p >= 0 ? ++w : --w) {
-        e = f - d;
-        if (d >= 0 && e >= 0 && d < j && e < i) {
-          x = c[d][e];
-          if (x.properties.type === 11) {
-            if (u == null) {
-              u = {
-                x: d,
-                y: e,
-                length: 1,
-                dir: "SE",
-              };
-            } else {
-              u.length += 1;
-            }
-          } else if (u != null) {
-            v.push(u);
-            u = null;
-          }
+    for (let l = 0; l <= mapWidth + mapHeight; ++l) {
+      for (let y = 0; y <= l; y = ++y) {
+        let x = l - y;
+        if (y < 0 || x < 0 || y >= mapHeight || x >= mapWidth) continue;
+        const tile = this.getTileAt(x, y);
+        if (tile?.properties.type === 11) {
+          snow ??= {
+            x: y,
+            y: x,
+            length: 0,
+            dir: "SE",
+          };
+          snow.length += 1;
+        } else if (snow != null) {
+          snows.push(snow);
+          snow = null;
         }
       }
     }
     console.log("SW");
-    f = y = q = -Math.max(i, j);
-    r = Math.max(i, j);
-    for (; q <= r ? y <= r : y >= r; f = q <= r ? ++y : --y) {
-      [];
-      d = z = 0;
-      s = j;
-      for (; s >= 0 ? z <= s : z >= s; d = s >= 0 ? ++z : --z) {
-        e = f + d;
-        if (d >= 0 && e >= 0 && d < j && e < i) {
-          x = c[d][e];
-          if (x.properties.type === 12) {
-            if (u == null) {
-              u = {
-                x: d,
-                y: e,
-                length: 1,
-                dir: "SW",
-              };
-            } else {
-              u.length += 1;
-            }
-          } else if (u != null) {
-            v.push(u);
-            u = null;
-          }
+    const l = Math.max(mapWidth, mapHeight);
+    for (let i = 0; i <= l * 2; i++) {
+      for (let x = 0; x <= mapHeight; ++x) {
+        let y = i - l + x;
+        if (x < 0 || y < 0 || x >= mapHeight || y >= mapWidth) continue;
+        const tile = this.mapData.layers[0].data[x][y];
+        if (tile.properties.type === 12) {
+          snow ??= {
+            x: x,
+            y: y,
+            length: 0,
+            dir: "SW",
+          };
+          snow.length += 1;
+        } else if (snow != null) {
+          snows.push(snow);
+          snow = null;
         }
       }
     }
-    console.log(v);
-    b = 0;
-    h = v.length;
-    for (; b < h; b++) {
-      t = v[b];
-      this.CreateSnow(this, t);
+    console.log(snows);
+    for (const snow of snows) {
+      this.CreateSnow(snow);
     }
   }
 
-  CreateSnow(a, b) {
-    return new Snow(this.game, a, b);
+  CreateSnow(options: SnowOptions["data"]) {
+    return new Snow(this.game, this, options);
   }
 
-  CreateLiquid(a, b, d, e) {
-    return new Liquid(this.game, b - e, d, {
-      type: a,
-      width: e,
+  CreateLiquid(type: number, x: number, y: number, width: number) {
+    return new Liquid(this.game, x - width, y, {
+      type: type,
+      width: width,
     });
   }
 }

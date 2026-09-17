@@ -128,7 +128,7 @@ class Hanging extends Device<HangingOptions> {
     const jointDef3 = new box2d.b2RevoluteJointDef();
     jointDef3.Initialize(
       hangingAnchor.body.data,
-      this.game.level.groundBody,
+      this.game.level.groundBody!,
       anchorPos,
     );
     this.joint = this.game.physics.box2d.world.CreateJoint(jointDef3);

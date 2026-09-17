@@ -77,7 +77,7 @@ class Lever extends BoxedDevice<LeverOptions> {
     const joint = new box2d.b2RevoluteJointDef();
     const centre = this.body.data.GetWorldCenter();
     const centreAtBase = new box2d.b2Vec2(centre.x, centre.y - 0.7);
-    joint.Initialize(this.body.data, this.game.level.groundBody, centreAtBase);
+    joint.Initialize(this.body.data, this.game.level.groundBody!, centreAtBase);
     joint.lowerAngle = -0.2 * Math.PI;
     joint.upperAngle = 0.2 * Math.PI;
     joint.enableLimit = true;
@@ -115,7 +115,7 @@ class Lever extends BoxedDevice<LeverOptions> {
     this.joint.SetMotorSpeed(
       4 * this.options.properties.onis * (this.state ? -1 : 1),
     );
-    this.game.level.sounds.lever.play();
+    this.game.level.sounds?.lever?.play();
     this.signal.dispatch(this);
   }
 

@@ -273,9 +273,9 @@ class Character extends Group {
   }
 
   _doKill() {
-    this.game.level.sounds.death?.play();
-    this.game.level.sounds.levelMusic?.stop();
-    this.game.level.sounds.levelMusicOver?.play();
+    this.game.level.sounds?.death?.play();
+    this.game.level.sounds?.levelMusic?.stop();
+    this.game.level.sounds?.levelMusicOver?.play();
     const smokeSprite = this.game.make.sprite(
       0,
       -0.7 * this.game.physics.box2d.mpx(1),
@@ -371,7 +371,7 @@ class Character extends Group {
         (this.cursors.right.isDown || this.cursors.left.isDown) &&
         this.isOnLiquid
       ) {
-        if (!this.waterplaying && this.game.level?.sounds.waterSteps) {
+        if (!this.waterplaying && this.game.level?.sounds?.waterSteps) {
           this.waterplaying = true;
           this.game.level.sounds.waterSteps.loop = true;
           this.game.level.sounds.waterSteps.volume = 0.5;
@@ -379,7 +379,7 @@ class Character extends Group {
         }
       } else if (this.waterplaying === true) {
         this.waterplaying = false;
-        this.game.level.sounds.waterSteps?.stop();
+        this.game.level.sounds?.waterSteps?.stop();
       }
       const iceSteps = ("iceSteps_" + this.data.char) as "iceSteps_fb";
       if (
@@ -388,14 +388,14 @@ class Character extends Group {
       ) {
         if (!this.iceplaying) {
           this.iceplaying = true;
-          if (this.game.level.sounds[iceSteps]) {
+          if (this.game.level.sounds?.[iceSteps]) {
             this.game.level.sounds[iceSteps].loop = true;
             this.game.level.sounds[iceSteps].play();
           }
         }
       } else if (this.iceplaying === true) {
         this.iceplaying = false;
-        this.game.level.sounds[iceSteps]?.stop();
+        this.game.level.sounds?.[iceSteps]?.stop();
       }
       let normalForce: box2d.b2Vec2 | null | undefined = null;
       if (this.feetSensor.contacts.length > 0) {
@@ -541,9 +541,9 @@ class Character extends Group {
         }
         this.prohibitJump = true;
         if (this.char === "wg") {
-          this.game.level.sounds.jump_wg?.play();
+          this.game.level.sounds?.jump_wg?.play();
         } else {
-          this.game.level.sounds.jump_fb?.play();
+          this.game.level.sounds?.jump_fb?.play();
         }
       }
       if (jumping) {

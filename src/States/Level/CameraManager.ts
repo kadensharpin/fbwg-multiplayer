@@ -71,14 +71,15 @@ class CameraManager {
       ascale: 0,
     };
     this.updateCamera();
+    const size = this.game.level.size ?? { width: 0, height: 0 };
     this.minScale = Math.min(
-      (this.game.realWidth * 0.9) / this.game.level.size.width,
-      (this.game.realHeight * 0.9) / this.game.level.size.height,
+      (this.game.realWidth * 0.9) / size.width,
+      (this.game.realHeight * 0.9) / size.height,
     );
     this.maxScale = 1.5;
     if (this.level.root) {
-      this.level.root.x = (-this.game.level.size.width / 2) * this.minScale;
-      this.level.root.y = (-this.game.level.size.height / 2) * this.minScale;
+      this.level.root.x = (-size.width / 2) * this.minScale;
+      this.level.root.y = (-size.height / 2) * this.minScale;
       this.level.root.scale.set(this.minScale);
     }
     this.camFreeze = true;
@@ -89,8 +90,8 @@ class CameraManager {
 
     this.game.TouchManager.register(null, "pinch", (input) => {
       if (
-        this.game.level.pers1.cursors.active ||
-        this.game.level.pers2.cursors.active ||
+        this.game.level.pers1?.cursors.active ||
+        this.game.level.pers2?.cursors.active ||
         !this.level.root
       )
         return;
@@ -137,8 +138,8 @@ class CameraManager {
     });
     this.game.TouchManager.register(null, "pan", (input) => {
       if (
-        this.game.level.pers1.cursors.active ||
-        this.game.level.pers2.cursors.active ||
+        this.game.level.pers1?.cursors.active ||
+        this.game.level.pers2?.cursors.active ||
         !this.level.root
       )
         return;
@@ -213,8 +214,8 @@ class CameraManager {
       Math.abs(charDistance.y) +
       this.worldPadding.top +
       this.worldPadding.bottom;
-    distX = Math.min(distX, this.game.level.size.width);
-    distY = Math.min(distY, this.game.level.size.height);
+    distX = Math.min(distX, this.game.level.size?.width ?? 0);
+    distY = Math.min(distY, this.game.level.size?.height ?? 0);
     let xScale = 1;
     if (distX > realSize.width) {
       xScale = realSize.width / distX;
@@ -312,8 +313,8 @@ class CameraManager {
     let levelRect = new Rectangle(
       0,
       0,
-      this.game.level.size.width,
-      this.game.level.size.height,
+      this.game.level.size?.width ?? 0,
+      this.game.level.size?.height ?? 0,
     );
     if (0 <= this.target.x + levelRect.x * this.target.scale) {
       edges.left = true;

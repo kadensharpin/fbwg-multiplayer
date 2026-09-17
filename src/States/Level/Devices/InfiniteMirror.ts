@@ -92,7 +92,7 @@ class InfiniteMirror extends BoxedDevice<InfiniteMirrorOptions> {
     const bodyCentre = this.body.data.GetWorldCenter();
     jointDef.Initialize(
       this.body.data,
-      this.game.level.groundBody,
+      this.game.level.groundBody!,
       bodyCentre.Clone(),
     );
     jointDef.enableLimit = true;
