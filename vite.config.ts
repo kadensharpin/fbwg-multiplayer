@@ -1,4 +1,5 @@
 import Path from "node:path";
+import { fileURLToPath } from "node:url";
 import { defineConfig } from "vite";
 
 export default defineConfig({
@@ -17,6 +18,7 @@ export default defineConfig({
         __dirname,
         "node_modules/phaser-box2d/dist/PhaserBox2D.js",
       ),
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
   },
 });
