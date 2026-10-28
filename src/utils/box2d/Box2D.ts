@@ -1,3 +1,5 @@
+import box2d, { XY } from "@box2d/core";
+import box2p from "@box2d/particles";
 import {
   Color,
   Game,
@@ -11,7 +13,6 @@ import {
   TilemapLayer,
   Utils,
 } from "phaser";
-import * as box2d from "phaser-box2d";
 import Body from "./Body";
 import DefaultContactListener from "./DefaultContactListener";
 import DefaultDebugDraw from "./DefaultDebugDraw";
@@ -23,7 +24,7 @@ import RayCastCallback, {
   RaycastHit,
 } from "./RayCastCallback";
 
-declare module "phaser-box2d" {
+declare module "@box2d/core" {
   interface b2Body {
     parent: Body;
     world: box2d.b2World;
@@ -40,7 +41,7 @@ class Box2D {
   version: string;
   ptmRatio: number;
   world: box2d.b2World;
-  debugDraw: DefaultDebugDraw;
+  // debugDraw: DefaultDebugDraw;
   contactListener: DefaultContactListener;
   nextBodyId: number;
   nextFixtureId: number;
@@ -53,7 +54,7 @@ class Box2D {
   positionIterations: number;
   useElapsedTime: boolean;
   paused: boolean;
-  particleSystem: box2d.b2ParticleSystem | null;
+  particleSystem: box2p.b2ParticleSystem | null;
   mouseJointBody: box2d.b2Body;
   mouseJoint: box2d.b2MouseJoint | null;
   walls: {
@@ -70,9 +71,8 @@ class Box2D {
     this.game = game;
     this.version = "1.0.2";
     this.ptmRatio = 50;
-    this.world = new box2d.b2World(new box2d.b2Vec2(0, 0));
-    this.debugDraw = new DefaultDebugDraw(this.mpx(1));
-    this.world.SetDebugDraw(this.debugDraw);
+    this.world = box2d.b2World.Create(new box2d.b2Vec2(0, 0));
+    // this.debugDraw = new DefaultDebugDraw(this.mpx(1));
     this.contactListener = new DefaultContactListener();
     this.world.SetContactListener(this.contactListener);
     this.nextBodyId = 0;
@@ -92,8 +92,7 @@ class Box2D {
     this.useElapsedTime = false;
     this.paused = false;
     this.particleSystem = null;
-    var mouseJointDef = new box2d.b2BodyDef();
-    this.mouseJointBody = this.world.CreateBody(mouseJointDef);
+    this.mouseJointBody = this.world.CreateBody({});
     this.mouseJoint = null;
     if (config.hasOwnProperty("mpx") && config.hasOwnProperty("pxm")) {
       this.mpx = config.mpx;
@@ -221,15 +220,18 @@ class Box2D {
       this.removeBody(this.walls.bottom);
     }
     var v5 = new box2d.b2PolygonShape();
-    var v6 = new box2d.b2FixtureDef();
-    v6.shape = v5;
-    v6.filter.categoryBits = Box2D.worldBoundsFilterCategory;
-    v6.filter.maskBits = 65535;
+    var v6: box2d.b2FixtureDef = {
+      shape: v5,
+      filter: {
+        categoryBits: Box2D.worldBoundsFilterCategory,
+        maskBits: 65535,
+      },
+    };
     var v7 = this.pxm(100);
     var v8 = new PIXI.Rectangle(x, y, width, height);
     if (left) {
       this.walls.left = this.createBody(0, 0, 0);
-      v5.SetAsOrientedBox(
+      v5.SetAsBox(
         v7,
         this.pxm(v8.height) + v7,
         new box2d.b2Vec2(v7 - this.pxm(v8.x), -this.pxm(v8.y)),
@@ -240,7 +242,7 @@ class Box2D {
     }
     if (right) {
       this.walls.right = this.createBody(0, 0, 0);
-      v5.SetAsOrientedBox(
+      v5.SetAsBox(
         v7,
         this.pxm(v8.height) + v7,
         new box2d.b2Vec2(
@@ -254,7 +256,7 @@ class Box2D {
     }
     if (top) {
       this.walls.top = this.createBody(0, 0, 0);
-      v5.SetAsOrientedBox(
+      v5.SetAsBox(
         this.pxm(v8.width) + v7,
         v7,
         new box2d.b2Vec2(-this.pxm(v8.x), v7 - this.pxm(v8.y)),
@@ -265,7 +267,7 @@ class Box2D {
     }
     if (bottom) {
       this.walls.bottom = this.createBody(0, 0, 0);
-      v5.SetAsOrientedBox(
+      v5.SetAsBox(
         this.pxm(v8.width) + v7,
         v7,
         new box2d.b2Vec2(
@@ -288,20 +290,17 @@ class Box2D {
   }
 
   update() {
-    if (!this.paused) {
-      if (this.useElapsedTime) {
-        this.world.Step(
-          this.game.time.physicsElapsed,
-          this.velocityIterations,
-          this.positionIterations,
-        );
-      } else {
-        this.world.Step(
-          this.frameRate,
-          this.velocityIterations,
-          this.positionIterations,
-        );
-      }
+    if (this.paused) return;
+    if (this.useElapsedTime) {
+      this.world.Step(this.game.time.physicsElapsed, {
+        velocityIterations: this.velocityIterations,
+        positionIterations: this.positionIterations,
+      });
+    } else {
+      this.world.Step(this.frameRate, {
+        velocityIterations: this.velocityIterations,
+        positionIterations: this.positionIterations,
+      });
     }
   }
 
@@ -311,8 +310,7 @@ class Box2D {
 
   clear() {
     var v13 = this.world.GetGravity().Clone();
-    this.world = new box2d.b2World(v13);
-    this.world.SetDebugDraw(this.debugDraw);
+    this.world = box2d.b2World.Create(v13);
     this.world.SetContactListener(this.contactListener);
     this._toRemove = [];
   }
@@ -455,9 +453,9 @@ class Box2D {
     var v18 = new box2d.b2Vec2(v16, v17);
     var v19 = new box2d.b2AABB();
     var v20 = new box2d.b2Vec2();
-    v20.SetXY(0.001, 0.001);
-    box2d.b2SubVV(v18, v20, v19.lowerBound);
-    box2d.b2AddVV(v18, v20, v19.upperBound);
+    v20.Set(0.001, 0.001);
+    b2SubVV(v18, v20, v19.lowerBound);
+    b2AddVV(v18, v20, v19.upperBound);
     var vA2: box2d.b2Fixture[] = [];
     var vF = function (fixture: box2d.b2Fixture) {
       return (
@@ -467,7 +465,7 @@ class Box2D {
         (vA2.push(fixture), !onlyOne)
       );
     };
-    this.world.QueryAABB(vF, v19);
+    this.world.QueryAABB(v19, vF);
     return vA2;
   }
 
@@ -543,61 +541,61 @@ class Box2D {
     var v30 = new box2d.b2DistanceJointDef();
     v30.bodyA = bodyA.data;
     v30.bodyB = bodyB.data;
-    v30.localAnchorA.SetXY(ay, bx);
-    v30.localAnchorB.SetXY(by, length);
+    v30.localAnchorA.Set(ay, bx);
+    v30.localAnchorB.Set(by, length);
     if (ax === null || ax === undefined) {
       var v31 = new box2d.b2Vec2();
       var v32 = new box2d.b2Vec2();
       v30.bodyA.GetWorldPoint(v30.localAnchorA, v31);
       v30.bodyB.GetWorldPoint(v30.localAnchorB, v32);
-      v31.SelfSub(v32);
+      v31.Subtract(v32);
       ax = v31.Length();
     } else {
       ax = this.pxm(ax);
     }
     v30.length = ax;
     v30.frequencyHz = frequency;
-    v30.dampingRatio = damping;
+    v30.damping = damping;
     return this.world.CreateJoint(v30);
   }
 
-  ropeJoint(
-    bodyA: Body | Sprite,
-    bodyB: Body | Sprite,
-    length?: number,
-    ax = 0,
-    ay = 0,
-    bx = 0,
-    by = 0,
-  ): box2d.b2RopeJoint {
-    ax = this.pxm(-ax);
-    ay = this.pxm(-ay);
-    bx = this.pxm(-bx);
-    by = this.pxm(-by);
-    if (bodyA instanceof Sprite) {
-      bodyA = bodyA.body;
-    }
-    if (bodyB instanceof Sprite) {
-      bodyB = bodyB.body;
-    }
-    var v33 = new box2d.b2RopeJointDef();
-    v33.bodyA = bodyA.data;
-    v33.bodyB = bodyB.data;
-    v33.localAnchorA.SetXY(ax, ay);
-    v33.localAnchorB.SetXY(bx, by);
-    if (length === null || length === undefined) {
-      var v34 = new box2d.b2Vec2();
-      var v35 = new box2d.b2Vec2();
-      v33.bodyA.GetWorldPoint(v33.localAnchorA, v34);
-      v33.bodyB.GetWorldPoint(v33.localAnchorB, v35);
-      v34.SelfSub(v35);
-      length = v34.Length();
-    } else {
-      length = this.pxm(length);
-    }
-    v33.maxLength = length;
-    return this.world.CreateJoint(v33);
-  }
+  // ropeJoint(
+  //   bodyA: Body | Sprite,
+  //   bodyB: Body | Sprite,
+  //   length?: number,
+  //   ax = 0,
+  //   ay = 0,
+  //   bx = 0,
+  //   by = 0,
+  // ): box2d.b2RopeJoint {
+  //   ax = this.pxm(-ax);
+  //   ay = this.pxm(-ay);
+  //   bx = this.pxm(-bx);
+  //   by = this.pxm(-by);
+  //   if (bodyA instanceof Sprite) {
+  //     bodyA = bodyA.body;
+  //   }
+  //   if (bodyB instanceof Sprite) {
+  //     bodyB = bodyB.body;
+  //   }
+  //   var v33 = new box2d.b2RopeJointDef();
+  //   v33.bodyA = bodyA.data;
+  //   v33.bodyB = bodyB.data;
+  //   v33.localAnchorA.Set(ax, ay);
+  //   v33.localAnchorB.Set(bx, by);
+  //   if (length === null || length === undefined) {
+  //     var v34 = new box2d.b2Vec2();
+  //     var v35 = new box2d.b2Vec2();
+  //     v33.bodyA.GetWorldPoint(v33.localAnchorA, v34);
+  //     v33.bodyB.GetWorldPoint(v33.localAnchorB, v35);
+  //     v34.Subtract(v35);
+  //     length = v34.Length();
+  //   } else {
+  //     length = this.pxm(length);
+  //   }
+  //   v33.maxLength = length;
+  //   return this.world.CreateJoint(v33);
+  // }
 
   revoluteJoint(
     bodyA: Body | Sprite,
@@ -626,8 +624,8 @@ class Box2D {
     var v36 = new box2d.b2RevoluteJointDef();
     v36.bodyA = bodyA.data;
     v36.bodyB = bodyB.data;
-    v36.localAnchorA.SetXY(ax, ay);
-    v36.localAnchorB.SetXY(bx, by);
+    v36.localAnchorA.Set(ax, ay);
+    v36.localAnchorB.Set(bx, by);
     v36.motorSpeed = Math.degToRad(-motorSpeed);
     v36.maxMotorTorque = motorTorque;
     v36.enableMotor = motorEnabled;
@@ -672,9 +670,9 @@ class Box2D {
     var v37 = new box2d.b2PrismaticJointDef();
     v37.bodyA = bodyA.data;
     v37.bodyB = bodyB.data;
-    v37.localAxisA.SetXY(axisX, axisY);
-    v37.localAnchorA.SetXY(ax, ay);
-    v37.localAnchorB.SetXY(bx, by);
+    v37.localAxisA.Set(axisX, axisY);
+    v37.localAnchorA.Set(ax, ay);
+    v37.localAnchorB.Set(bx, by);
     v37.motorSpeed = motorSpeed;
     v37.maxMotorForce = motorForce;
     v37.enableMotor = motorEnabled;
@@ -708,8 +706,8 @@ class Box2D {
     var v38 = new box2d.b2FrictionJointDef();
     v38.bodyA = bodyA.data;
     v38.bodyB = bodyB.data;
-    v38.localAnchorA.SetXY(ax, ay);
-    v38.localAnchorB.SetXY(bx, by);
+    v38.localAnchorA.Set(ax, ay);
+    v38.localAnchorB.Set(bx, by);
     v38.maxForce = maxForce;
     v38.maxTorque = maxTorque;
     return this.world.CreateJoint(v38);
@@ -738,10 +736,10 @@ class Box2D {
     var v39 = new box2d.b2WeldJointDef();
     v39.bodyA = bodyA.data;
     v39.bodyB = bodyB.data;
-    v39.localAnchorA.SetXY(ax, ay);
-    v39.localAnchorB.SetXY(bx, by);
+    v39.localAnchorA.Set(ax, ay);
+    v39.localAnchorB.Set(bx, by);
     v39.frequencyHz = frequency;
-    v39.dampingRatio = damping;
+    v39.damping = damping;
     return this.world.CreateJoint(v39);
   }
 
@@ -766,7 +764,7 @@ class Box2D {
     var v40 = new box2d.b2MotorJointDef();
     v40.bodyA = bodyA.data;
     v40.bodyB = bodyB.data;
-    v40.linearOffset.SetXY(by, frequency);
+    v40.linearOffset.Set(by, frequency);
     v40.maxForce = ax;
     v40.maxTorque = ay;
     v40.angularOffset = Math.degToRad(-damping);
@@ -804,14 +802,14 @@ class Box2D {
     var v41 = new box2d.b2WheelJointDef();
     v41.bodyA = bodyA.data;
     v41.bodyB = bodyB.data;
-    v41.localAxisA.SetXY(axisX, axisY);
-    v41.localAnchorA.SetXY(ax, ay);
-    v41.localAnchorB.SetXY(bx, by);
+    v41.localAxisA.Set(axisX, axisY);
+    v41.localAnchorA.Set(ax, ay);
+    v41.localAnchorB.Set(bx, by);
     v41.motorSpeed = Math.degToRad(-motorSpeed);
     v41.maxMotorTorque = motorTorque;
     v41.enableMotor = motorEnabled;
     v41.frequencyHz = frequency;
-    v41.dampingRatio = damping;
+    v41.damping = damping;
     return this.world.CreateJoint(v41);
   }
 
@@ -849,10 +847,10 @@ class Box2D {
     var v42 = new box2d.b2PulleyJointDef();
     v42.bodyA = bodyA.data;
     v42.bodyB = bodyB.data;
-    v42.localAnchorA.SetXY(ax, ay);
-    v42.localAnchorB.SetXY(bx, by);
-    v42.groundAnchorA.SetXY(gax, gay);
-    v42.groundAnchorB.SetXY(gbx, gby);
+    v42.localAnchorA.Set(ax, ay);
+    v42.localAnchorB.Set(bx, by);
+    v42.groundAnchorA.Set(gax, gay);
+    v42.groundAnchorB.Set(gbx, gby);
     v42.lengthA = lengthA;
     v42.lengthB = lengthB;
     v42.ratio = ratio;
@@ -860,8 +858,8 @@ class Box2D {
   }
 
   gearJoint(
-    joint1: box2d.b2Joint,
-    joint2: box2d.b2Joint,
+    joint1: box2d.b2RevoluteJoint | box2d.b2PrismaticJoint,
+    joint2: box2d.b2RevoluteJoint | box2d.b2PrismaticJoint,
     ratio = 1,
   ): box2d.b2GearJoint {
     var v43 = new box2d.b2GearJointDef();
@@ -951,7 +949,7 @@ class Box2D {
     var v52 = new box2d.b2Vec2(x2, y2);
     var vA4: RaycastHit[] = [];
     var v53 = new RayCastCallback(this, closestHitOnly, filterFunction);
-    this.world.RayCast(v53, v51, v52);
+    this.world.RayCast(v51, v52, v53.Callback);
     for (var vLN07 = 0; vLN07 < v53.hits.length; vLN07++) {
       var v54 = v53.hits[vLN07];
       v54.point = {
@@ -973,27 +971,28 @@ class Box2D {
     width = this.pxm(width);
     height = this.pxm(height);
     var v55 = new box2d.b2AABB();
-    v55.lowerBound.SetXY(x - width, y - height);
-    v55.upperBound.SetXY(x, y);
+    v55.lowerBound.Set(x - width, y - height);
+    v55.upperBound.Set(x, y);
     var v56 = new QueryCallback(this);
-    this.world.QueryAABB(v56, v55);
+    this.world.QueryAABB(v55, v56.ReportFixture);
     return v56.hits;
   }
 
   queryFixture(fixture: box2d.b2Fixture): AABBHit[] {
     var v57 = new QueryCallback(this);
-    this.world.QueryShape(
-      v57,
+    this.world.QueryFixtureShape(
       fixture.GetShape(),
+      0,
       fixture.GetBody().GetTransform(),
+      v57.ReportFixture,
     );
     return v57.hits;
   }
 
   setPTMRatio(newRatio: number) {
     this.ptmRatio = newRatio;
-    this.debugDraw = new DefaultDebugDraw(this.ptmRatio);
-    this.world.SetDebugDraw(this.debugDraw);
+    // this.debugDraw = new DefaultDebugDraw(this.ptmRatio);
+    // this.world.SetDebugDraw(this.debugDraw);
   }
 
   static renderBody(
@@ -1006,18 +1005,18 @@ class Box2D {
     var v61 = body.world;
     v60.p.x += -body.game.camera.x / v61.ptmRatio;
     v60.p.y -= -body.game.camera.y / v61.ptmRatio;
-    v61.debugDraw.start(context);
-    v61.debugDraw.PushTransform(v60);
+    // v61.debugDraw.start(context);
+    // v61.debugDraw.PushTransform(v60);
     var v62 = Color.webToColor(colour);
-    var v63 = v61.debugDraw.color;
-    v63.r = v62.r / 255;
-    v63.g = v62.g / 255;
-    v63.b = v62.b / 255;
+    // var v63 = v61.debugDraw.color;
+    // v63.r = v62.r / 255;
+    // v63.g = v62.g / 255;
+    // v63.b = v62.b / 255;
     for (var v64 = v59.GetFixtureList(); v64; v64 = v64.GetNext()) {
       v61.world.DrawShape(v64, v63);
     }
-    v61.debugDraw.PopTransform();
-    v61.debugDraw.stop();
+    // v61.debugDraw.PopTransform();
+    // v61.debugDraw.stop();
   }
 
   static Body = Body;
@@ -1027,6 +1026,29 @@ class Box2D {
   static Polygon = Polygon;
   static QueryCallback = QueryCallback;
   static RayCastCallback = RayCastCallback;
+}
+
+export function b2SubVV(a: XY, b: XY, c: XY) {
+  c.x = a.x - b.x;
+  c.y = a.y - b.y;
+  return c;
+}
+
+export function b2AddVV(a: XY, b: XY, c: XY) {
+  c.x = a.x + b.x;
+  c.y = a.y + b.y;
+  return c;
+}
+
+export function b2CrossVS(a: XY, b: number, c: XY) {
+  var d = a.x;
+  c.x = b * a.y;
+  c.y = -b * d;
+  return c;
+}
+
+export function b2DotVV(a: XY, b: XY) {
+  return a.x * b.x + a.y * b.y;
 }
 
 export default Box2D;

@@ -1,7 +1,8 @@
-import { Game, Physics, Sprite } from "phaser";
-import * as box2d from "phaser-box2d";
-import Character from "../character";
+import Body from "@/utils/box2d/Body";
+import box2d from "@box2d/core";
+import { Game, Sprite } from "phaser";
 import Ground from "../Ground";
+import { CharacterBody } from "../character";
 
 export type SnowOptions = {
   x: number;
@@ -18,7 +19,7 @@ class Snow extends Sprite {
   readonly options: SnowOptions;
   readonly ground: Ground;
   readonly iceFixture: box2d.b2Fixture;
-  declare body: Physics.Box2D.Body;
+  declare body: Body;
 
   constructor(game: Game, ground: Ground, data: SnowOptions["data"]) {
     const options: Partial<SnowOptions> = { data };
@@ -57,10 +58,7 @@ class Snow extends Sprite {
     this.game.physics.box2d.enable(this);
     this.body.clearFixtures();
     this.body.mass = 0;
-    this.body.data.SetPosition(
-      new box2d.b2Vec2(-this.options.x, -this.options.y),
-    );
-    this.body.data.SetAngle(angle);
+    this.body.data.SetTransformXY(-this.options.x, -this.options.y, angle);
     const iceShape = new box2d.b2PolygonShape();
     const iceVertices = [];
     const height = 0.4;
@@ -69,28 +67,21 @@ class Snow extends Sprite {
     iceVertices.push(new box2d.b2Vec2(iceX / 2 - 0.3, 0.01 - height));
     iceVertices.push(new box2d.b2Vec2(-iceX / 2 + 0.3, 0.01 - height));
     iceShape.Set(iceVertices);
-    const iceFixtureDef = new box2d.b2FixtureDef();
+    const iceFixtureDef = {} as box2d.b2FixtureDef;
     iceFixtureDef.shape = iceShape;
-    iceFixtureDef.filter.categoryBits = 1;
-    iceFixtureDef.filter.maskBits = 16;
+    iceFixtureDef.filter = { categoryBits: 1, maskBits: 16 };
     iceFixtureDef.friction = 1;
     iceFixtureDef.userData = { type: "ice" };
     this.iceFixture = this.body.data.CreateFixture(iceFixtureDef);
     this.iceFixture.id = this.body.world.getNextFixtureId();
     this.body.setFixtureContactCallback(
       this.iceFixture,
-      (
-        body1: Physics.Box2D.Body & { sprite: { character?: Character } },
-        body2: Physics.Box2D.Body & { sprite: { character?: Character } },
-        fixture1: box2d.b2Fixture,
-        fixture2: box2d.b2Fixture,
-        begin: boolean,
-      ) => {
-        const character1 = body1.sprite.character;
-        const character2 = body2.sprite.character;
+      (body1, body2, fixture1, fixture2, begin) => {
+        const character1 = (body1 as CharacterBody)?.sprite?.character;
+        const character2 = (body2 as CharacterBody)?.sprite?.character;
         if (
-          (character1 && "feet" === fixture1.m_userData) ||
-          (character2 && "feet" === fixture2.m_userData)
+          (character1 && "feet" === fixture1.GetUserData()) ||
+          (character2 && "feet" === fixture2.GetUserData())
         ) {
           const character = (character1 || character2)!;
           character.snowCount ||= 0;

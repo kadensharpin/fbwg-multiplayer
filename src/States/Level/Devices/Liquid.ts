@@ -1,5 +1,6 @@
-import { Animation, Game, Group, Physics, Sprite } from "phaser";
-import * as box2d from "phaser-box2d";
+import Body from "@/utils/box2d/Body";
+import box2d from "@box2d/core";
+import { Animation, Game, Group, Sprite } from "phaser";
 import { Fixture } from "../../../utils/util";
 import { CharacterSprite } from "../character";
 
@@ -13,9 +14,15 @@ type LiquidOptions = {
 };
 
 class Liquid extends Sprite {
-  declare body: Physics.Box2D.Body;
+  declare body: Body;
   readonly options: LiquidOptions;
-  readonly sensorFixture: box2d.b2Fixture;
+  readonly sensorFixture: Fixture<{
+    lightProperties: {
+      iluminated: "red" | "blue" | "yellow";
+      type: "normal" | "mirror";
+      lightAt: box2d.b2Vec2;
+    };
+  }>;
   readonly iceFixture: box2d.b2Fixture;
   readonly killFixture: Fixture<{
     type: "liquid_death";
@@ -24,8 +31,8 @@ class Liquid extends Sprite {
   }>;
   readonly liquidGraphics: Group;
   readonly iceGraphics?: Group;
-  readonly nearBodies: Record<number, { body: Physics.Box2D.Body }>;
-  readonly frozenBodies: Record<number, { body: Physics.Box2D.Body }>;
+  readonly nearBodies: Record<number, { body: Body }>;
+  readonly frozenBodies: Record<number, { body: Body }>;
   private ready: boolean = false;
   private frozen: boolean = false;
 
@@ -57,7 +64,10 @@ class Liquid extends Sprite {
     this.game.physics.box2d.enable(this);
     this.body.clearFixtures();
     this.body.mass = 0;
-    this.body.data.SetPosition(new box2d.b2Vec2(-x, -y));
+    this.body.data.SetTransformVec(
+      new box2d.b2Vec2(-x, -y),
+      this.body.data.GetAngle(),
+    );
 
     const width = this.options.width;
     const sensorShape = new box2d.b2PolygonShape();
@@ -67,10 +77,9 @@ class Liquid extends Sprite {
     sensorVertices.push(new box2d.b2Vec2(-width, -1 / 2));
     sensorVertices.push(new box2d.b2Vec2(0, -1 / 2));
     sensorShape.Set(sensorVertices);
-    const sensorFixtureDef = new box2d.b2FixtureDef();
+    const sensorFixtureDef = {} as box2d.b2FixtureDef;
     sensorFixtureDef.shape = sensorShape;
-    sensorFixtureDef.filter.categoryBits = 1;
-    sensorFixtureDef.filter.maskBits = 61695;
+    sensorFixtureDef.filter = { categoryBits: 1, maskBits: 61695 };
     sensorFixtureDef.friction = 0.7;
     sensorFixtureDef.isSensor = true;
     sensorFixtureDef.userData = {
@@ -78,6 +87,7 @@ class Liquid extends Sprite {
       liquidType: options.type,
       lightProperties: { type: "normal", sensor: true },
     };
+    // @ts-expect-error
     this.sensorFixture = this.body.data.CreateFixture(sensorFixtureDef);
     this.sensorFixture.id = this.body.world.getNextFixtureId();
     const iceShape = new box2d.b2PolygonShape();
@@ -87,10 +97,9 @@ class Liquid extends Sprite {
     iceVertices.push(new box2d.b2Vec2(-width, -1 / 2));
     iceVertices.push(new box2d.b2Vec2(0, -1 / 2));
     iceShape.Set(iceVertices);
-    const iceFixtureDef = new box2d.b2FixtureDef();
+    const iceFixtureDef = {} as box2d.b2FixtureDef;
     iceFixtureDef.shape = iceShape;
-    iceFixtureDef.filter.categoryBits = 1;
-    iceFixtureDef.filter.maskBits = 0;
+    iceFixtureDef.filter = { categoryBits: 1, maskBits: 0 };
     iceFixtureDef.friction = 0;
     iceFixtureDef.userData = {
       type: "ice",
@@ -101,13 +110,7 @@ class Liquid extends Sprite {
     this.iceFixture.id = this.body.world.getNextFixtureId();
     this.body.setFixtureContactCallback(
       this.iceFixture,
-      (
-        body1: Physics.Box2D.Body,
-        body2: Physics.Box2D.Body,
-        _fixture1: box2d.b2Fixture,
-        _fixture2: box2d.b2Fixture,
-        begin: boolean,
-      ) => {
+      (body1, body2, _fixture1, _fixture2, begin) => {
         const sprite1 = body1.sprite as CharacterSprite;
         const sprite2 = body2.sprite as CharacterSprite;
         const character = sprite1.character || sprite2.character;
@@ -130,10 +133,9 @@ class Liquid extends Sprite {
     killVertices.push(new box2d.b2Vec2(-width, -1));
     killVertices.push(new box2d.b2Vec2(0, -1));
     killShape.Set(killVertices);
-    const killFixtureDef3 = new box2d.b2FixtureDef();
+    const killFixtureDef3 = {} as box2d.b2FixtureDef;
     killFixtureDef3.shape = killShape;
-    killFixtureDef3.filter.categoryBits = 1;
-    killFixtureDef3.filter.maskBits = 4369;
+    killFixtureDef3.filter = { categoryBits: 1, maskBits: 4369 };
     killFixtureDef3.friction = 0.7;
     killFixtureDef3.isSensor = true;
     killFixtureDef3.userData = {
@@ -141,6 +143,7 @@ class Liquid extends Sprite {
       liquidType: options.type,
       lightProperties: { type: "transparent" },
     };
+    // @ts-expect-error
     this.killFixture = this.body.data.CreateFixture(killFixtureDef3);
     this.killFixture.id = this.body.world.getNextFixtureId();
     this.liquidGraphics = this.game.make.group();
@@ -157,14 +160,9 @@ class Liquid extends Sprite {
     this.nearBodies = {};
     this.frozenBodies = {};
     this.body.setFixtureContactCallback(
+      // @ts-expect-error
       this.sensorFixture,
-      (
-        _body1: Physics.Box2D.Body,
-        body2: Physics.Box2D.Body,
-        _fixture1: box2d.b2Fixture,
-        _fixture2: box2d.b2Fixture,
-        begin: boolean,
-      ) => {
+      (_body1, body2, _fixture1, _fixture2, begin) => {
         if (begin && !this.nearBodies[body2.id]) {
           this.nearBodies[body2.id] = { body: body2 };
         } else if (!begin && this.nearBodies[body2.id]) {
@@ -305,15 +303,14 @@ class Liquid extends Sprite {
     this.game.physics.box2d.update();
     this.game.physics.box2d.paused = true;
     this.frozen = true;
-    const filter = new box2d.b2Filter();
+    const filter = {} as box2d.b2Filter;
     filter.maskBits = 16;
     filter.categoryBits = 1;
     this.iceFixture.SetFilterData(filter);
     for (const { body } of Object.values(this.nearBodies)) {
-      if ("pers" === body.data.m_userData) {
-        body.data.SetPosition(
-          body.data.GetPosition().SelfAdd(new box2d.b2Vec2(0, 0.5)),
-        );
+      if ("pers" === body.data.GetUserData()) {
+        const pos = body.data.GetPosition();
+        body.data.SetPositionXY(pos.x, pos.y + 0.5);
         body.data.SetAwake(true);
       } else {
         this.frozenBodies[body.id] = { body };
@@ -331,15 +328,14 @@ class Liquid extends Sprite {
     const duration = 800;
     console.log("freezing");
     this.frozen = true;
-    const filter = new box2d.b2Filter();
+    const filter = {} as box2d.b2Filter;
     filter.maskBits = 16;
     filter.categoryBits = 1;
     this.iceFixture.SetFilterData(filter);
     for (const { body } of Object.values(this.nearBodies)) {
-      if ("pers" === body.data.m_userData) {
-        body.data.SetPosition(
-          body.data.GetPosition().SelfAdd(new box2d.b2Vec2(0, 0.5)),
-        );
+      if ("pers" === body.data.GetUserData()) {
+        const pos = body.data.GetPosition();
+        body.data.SetPositionXY(pos.x, pos.y + 0.5);
         body.data.SetAwake(true);
       } else {
         this.frozenBodies[body.id] = { body };
@@ -443,7 +439,7 @@ class Liquid extends Sprite {
     const duration = 800;
     console.log("melting");
     this.frozen = false;
-    const filter = new box2d.b2Filter();
+    const filter = {} as box2d.b2Filter;
     filter.maskBits = 0;
     filter.categoryBits = 1;
     this.iceFixture.SetFilterData(filter);

@@ -1,3 +1,4 @@
+import { b2Body, b2BodyType, b2Vec2 } from "@box2d/core";
 import bowser from "bowser";
 import {
   AUTO,
@@ -226,6 +227,33 @@ Device.whenReady(() => {
   Sound.prototype.stopInstance = function () {
     if (--this.instances === 0) {
       return this.stop();
+    }
+  };
+  b2Body.prototype.SetPosition = function (pos) {
+    this.SetTransformVec(pos, this.GetAngle());
+  };
+  b2Body.prototype.SetPositionXY = function (x, y) {
+    this.SetTransformXY(x, y, this.GetAngle());
+  };
+  b2Vec2.prototype.SelfNormalize = function () {
+    this.Normalize();
+    return this;
+  };
+  b2Vec2.prototype.SelfCrossSV = function (s) {
+    const x = this.x;
+    this.x = -s * this.y;
+    this.y = s * x;
+    return this;
+  };
+  const originalResetMassData = b2Body.prototype.ResetMassData;
+  b2Body.prototype.ResetMassData = function () {
+    originalResetMassData.call(this);
+    // @ts-expect-error
+    if (this.m_type === b2BodyType.b2_dynamicBody && this.m_mass <= 0) {
+      // @ts-expect-error
+      this.m_mass = 1;
+      // @ts-expect-error
+      this.m_invMass = 1;
     }
   };
   const onResize = _.debounce(() => {

@@ -1,5 +1,5 @@
+import box2d from "@box2d/core";
 import { Game } from "phaser";
-import * as box2d from "phaser-box2d";
 import { ParsedTile } from "../Level";
 import Device, { DeviceOptions } from "./Device";
 
@@ -16,7 +16,7 @@ class BoxedDevice<Options extends BoxedDeviceOptions> extends Device<Options> {
       game.physics.box2d.mpx(options.boxSize.width / 2),
       game.physics.box2d.mpx(options.boxSize.height / 2),
     );
-    box = box.SelfRotateRadians((-Math.PI * options.rotation) / 180);
+    box = box.Rotate((-Math.PI * options.rotation) / 180);
     options.x = options.x + box.x;
     options.y = options.y - box.y;
 

@@ -1,5 +1,6 @@
-import { BitmapData, Game, Physics, Sound, Sprite } from "phaser";
-import * as box2d from "phaser-box2d";
+import Body from "@/utils/box2d/Body";
+import box2d from "@box2d/core";
+import { BitmapData, Game, Sound, Sprite } from "phaser";
 import BoxedDevice from "./BoxedDevice";
 import { type DeviceOptions, Light } from "./Device";
 
@@ -18,7 +19,7 @@ class RotMirror extends BoxedDevice<RotMirrorOptions> {
   readonly joint: box2d.b2RevoluteJoint;
   private sound?: Sound | null;
 
-  declare body: Physics.Box2D.Body;
+  declare body: Body;
 
   constructor(game: Game, options: RotMirrorOptions) {
     options.boxWidth ??= 1.8;
@@ -66,13 +67,13 @@ class RotMirror extends BoxedDevice<RotMirrorOptions> {
     ].addChild(mirror);
     this.body.clearFixtures();
     const fixtureShape = new box2d.b2PolygonShape();
-    fixtureShape.SetAsOrientedBox(
+    fixtureShape.SetAsBox(
       this.options.boxWidth / 2,
       this.options.boxHeight / 2,
       new box2d.b2Vec2(0, 0),
       0,
     );
-    const fixtureDef1 = new box2d.b2FixtureDef();
+    const fixtureDef1 = {} as box2d.b2FixtureDef;
     fixtureDef1.shape = fixtureShape;
     fixtureDef1.friction = 0.7;
     fixtureDef1.restitution = 0;
@@ -81,13 +82,13 @@ class RotMirror extends BoxedDevice<RotMirrorOptions> {
     const fixture1 = this.body.data.CreateFixture(fixtureDef1);
     fixture1.id = this.body.world.getNextFixtureId();
     const fixtureShape2 = new box2d.b2PolygonShape();
-    fixtureShape2.SetAsOrientedBox(
+    fixtureShape2.SetAsBox(
       this.options.mirrorWidth / 2,
       this.options.mirrorHeight / 2,
       new box2d.b2Vec2(0, 0),
       Math.PI / 4,
     );
-    const fixtureDef2 = new box2d.b2FixtureDef();
+    const fixtureDef2 = {} as box2d.b2FixtureDef;
     fixtureDef2.shape = fixtureShape2;
     fixtureDef2.friction = 0.7;
     fixtureDef2.restitution = 0;
@@ -96,19 +97,22 @@ class RotMirror extends BoxedDevice<RotMirrorOptions> {
     const fixture2 = this.body.data.CreateFixture(fixtureDef2);
     fixture2.id = this.body.world.getNextFixtureId();
     const fixtureShape3 = new box2d.b2CircleShape(0.25);
-    fixtureShape3.m_p = new box2d.b2Vec2(
-      this.options.boxWidth / 2 - 0.25,
-      this.options.boxWidth / 2 - 0.25,
+    fixtureShape3.Set(
+      new box2d.b2Vec2(
+        this.options.boxWidth / 2 - 0.25,
+        this.options.boxWidth / 2 - 0.25,
+      ),
     );
-    const fixtureDef3 = new box2d.b2FixtureDef();
+    const fixtureDef3 = {} as box2d.b2FixtureDef;
     fixtureDef3.shape = fixtureShape3;
     this.body.data.CreateFixture(fixtureDef3);
     new box2d.b2CircleShape(0.25);
-    fixtureShape3.m_p = new box2d.b2Vec2(
-      -this.options.boxWidth / 2 + 0.25,
-      -this.options.boxWidth / 2 + 0.25,
+    fixtureShape3.Set(
+      new box2d.b2Vec2(
+        -this.options.boxWidth / 2 + 0.25,
+        -this.options.boxWidth / 2 + 0.25,
+      ),
     );
-    new box2d.b2FixtureDef();
     fixtureDef1.shape = fixtureShape3;
     this.body.data.CreateFixture(fixtureDef1);
     const jointDef = new box2d.b2RevoluteJointDef();
@@ -136,9 +140,9 @@ class RotMirror extends BoxedDevice<RotMirrorOptions> {
   }
 
   update() {
-    if (this.joint.GetJointAngleRadians() < this.joint.GetLowerLimit())
+    if (this.joint.GetJointAngle() < this.joint.GetLowerLimit())
       this.body.data.SetAngle(-this.joint.GetLowerLimit());
-    if (this.joint.GetJointAngleRadians() > this.joint.GetUpperLimit())
+    if (this.joint.GetJointAngle() > this.joint.GetUpperLimit())
       this.body.data.SetAngle(-this.joint.GetUpperLimit());
     super.update();
   }
@@ -162,8 +166,8 @@ class RotMirror extends BoxedDevice<RotMirrorOptions> {
   checkState() {
     const a = () =>
       this.options.properties.dir > 0
-        ? -this.joint.GetJointAngleRadians()
-        : this.joint.GetJointAngleRadians();
+        ? -this.joint.GetJointAngle()
+        : this.joint.GetJointAngle();
     const b = () =>
       this.options.properties.dir > 0
         ? -this.joint.GetUpperLimit()

@@ -1,5 +1,6 @@
+import box2d from "@box2d/core";
 import { Game, Point, Sprite, TileSprite } from "phaser";
-import * as box2d from "phaser-box2d";
+import Body from "../../../utils/box2d/Body";
 import Device, { DeviceOptions } from "./Device";
 
 type PulleyOptions = {
@@ -144,7 +145,10 @@ class Pulley extends Device<PulleyOptions> {
     this.platform1.body.data.SetLinearDamping(0.1);
     this.platform2.body.data.SetLinearDamping(0.1);
 
-    for (const platformBody of [this.platform1.body, this.platform2.body]) {
+    for (const platformBody of [
+      this.platform1.body,
+      this.platform2.body,
+    ] as Body[]) {
       platformBody.clearFixtures();
       const centreWidth = this.barWidth / 2;
       const centreHeight = this.barHeight / 2;
@@ -158,7 +162,7 @@ class Pulley extends Device<PulleyOptions> {
       vertices.push(new box2d.b2Vec2(paddedWidth, 0));
       const shape = new box2d.b2PolygonShape();
       shape.Set(vertices);
-      const fixtureDef = new box2d.b2FixtureDef();
+      const fixtureDef = {} as box2d.b2FixtureDef;
       fixtureDef.shape = shape;
       fixtureDef.friction = 0.4;
       fixtureDef.restitution = 0;
@@ -168,15 +172,11 @@ class Pulley extends Device<PulleyOptions> {
 
       if (this.options.properties.prismatic) {
         const axis = new box2d.b2Vec2(0, 1);
-        const bodyDef = new box2d.b2BodyDef() as box2d.b2BodyDef & {
-          density: number;
-        };
-        bodyDef.density = 0;
-        const body = new box2d.b2Body(bodyDef, platformBody.world);
+        const body = platformBody.world.createBody(undefined, undefined, 0);
         const jointDef = new box2d.b2PrismaticJointDef();
         jointDef.Initialize(
           platformBody.data,
-          body,
+          body.data,
           platformBody.data.GetWorldCenter(),
           axis,
         );
@@ -247,9 +247,9 @@ class Pulley extends Device<PulleyOptions> {
       this.cacheAsBitmap = false;
       this.lastp1 = platform1Pos.Clone();
       this.lastp2 = platform2Pos.Clone();
-      const leftRopeLength = platform1Pos.Clone().SelfSub(anchor1Pos);
-      const centreRopeLength = anchor1Pos.Clone().SelfSub(anchor2Pos);
-      const rightRopeLength = anchor2Pos.Clone().SelfSub(platform2Pos);
+      const leftRopeLength = platform1Pos.Clone().Subtract(anchor1Pos);
+      const centreRopeLength = anchor1Pos.Clone().Subtract(anchor2Pos);
+      const rightRopeLength = anchor2Pos.Clone().Subtract(platform2Pos);
       this.ropeLeft.position = new Point(anchor1Pos.x, anchor1Pos.y);
       this.ropeLeft.width = leftRopeLength.Length();
       this.ropeLeft.height = 20;

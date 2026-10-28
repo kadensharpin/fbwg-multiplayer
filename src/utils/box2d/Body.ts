@@ -1,5 +1,5 @@
+import box2d from "@box2d/core";
 import { Game, Image, Math, Physics, Point, Sprite } from "phaser";
-import * as box2d from "phaser-box2d";
 import Box2D from "./Box2D";
 import PointProxy from "./PointProxy";
 import Polygon from "./Polygon";
@@ -49,16 +49,17 @@ export default class Body {
     this.sprite = sprite;
     this.type = Physics.BOX2D;
     this.offset = new Point();
-    this.bodyDef = new box2d.b2BodyDef();
-    this.bodyDef.position.SetXY(-this.world.pxm(x), -this.world.pxm(y));
+    this.bodyDef = {} as box2d.b2BodyDef;
+    this.bodyDef.position = new box2d.b2Vec2(
+      -this.world.pxm(x),
+      -this.world.pxm(y),
+    );
     if (density === 0) {
       this.bodyDef.type = box2d.b2BodyType.b2_staticBody;
     } else if (density === 1) {
       this.bodyDef.type = box2d.b2BodyType.b2_kinematicBody;
     } else if (density === 2) {
       this.bodyDef.type = box2d.b2BodyType.b2_dynamicBody;
-    } else if (density === 3) {
-      this.bodyDef.type = box2d.b2BodyType.b2_bulletBody;
     }
     this.data = this.world.world.CreateBody(this.bodyDef);
     this.data.world = this.world.world;
@@ -252,23 +253,22 @@ export default class Body {
   setCollisionCategory(category: number, fixture?: box2d.b2Fixture) {
     if (fixture === undefined) {
       for (var v71 = this.data.GetFixtureList(); v71; v71 = v71.GetNext()) {
-        var v73 = v71.GetFilterData();
-        v73.categoryBits = category;
+        v71.SetFilterData({ ...v71.GetFilterData(), categoryBits: category });
       }
     } else {
-      var v73 = fixture.GetFilterData();
-      v73.categoryBits = category;
+      fixture.SetFilterData({
+        ...fixture.GetFilterData(),
+        categoryBits: category,
+      });
     }
   }
   setCollisionMask(mask: number, fixture?: box2d.b2Fixture) {
     if (fixture === undefined) {
       for (var v74 = this.data.GetFixtureList(); v74; v74 = v74.GetNext()) {
-        var v76 = v74.GetFilterData();
-        v76.maskBits = mask;
+        v74.SetFilterData({ ...v74.GetFilterData(), maskBits: mask });
       }
     } else {
-      var v76 = fixture.GetFilterData();
-      v76.maskBits = mask;
+      fixture.SetFilterData({ ...fixture.GetFilterData(), maskBits: mask });
     }
   }
   applyForce(x: number, y: number) {
@@ -375,11 +375,11 @@ export default class Body {
     }
   }
   kill() {
-    this.data.SetActive(false);
+    this.data.SetEnabled(false);
   }
   reset(x: number, y: number) {
     this.data.SetPositionXY(this.world.pxm(-x), this.world.pxm(-y));
-    this.data.SetActive(true);
+    this.data.SetEnabled(true);
   }
   removeFromWorld() {
     if (this.data.world === this.game.physics.box2d.world) {
@@ -414,8 +414,8 @@ export default class Body {
   }
   addCircle(radius: number, offsetX = 0, offsetY = 0) {
     var v87 = new box2d.b2CircleShape(this.world.pxm(radius));
-    v87.m_p.SetXY(this.world.pxm(-offsetX), this.world.pxm(-offsetY));
-    var v88 = new box2d.b2FixtureDef();
+    v87.m_p.Set(this.world.pxm(-offsetX), this.world.pxm(-offsetY));
+    var v88 = {} as box2d.b2FixtureDef;
     v88.shape = v87;
     v88.friction = this.world.friction;
     v88.restitution = this.world.restitution;
@@ -434,13 +434,13 @@ export default class Body {
     width = this.world.pxm(width);
     height = this.world.pxm(height);
     var v90 = new box2d.b2PolygonShape();
-    v90.SetAsOrientedBox(
+    v90.SetAsBox(
       width * 0.5,
       height * 0.5,
       new box2d.b2Vec2(this.world.pxm(-offsetX), this.world.pxm(-offsetY)),
       rotation,
     );
-    var v91 = new box2d.b2FixtureDef();
+    var v91 = {} as box2d.b2FixtureDef;
     v91.shape = v90;
     v91.friction = this.world.friction;
     v91.restitution = this.world.restitution;
@@ -451,11 +451,11 @@ export default class Body {
   }
   addEdge(x1 = 0, y1 = 0, x2 = 0, y2 = 0) {
     var v93 = new box2d.b2EdgeShape();
-    v93.Set(
+    v93.SetTwoSided(
       new box2d.b2Vec2(this.world.pxm(-x1), this.world.pxm(-y1)),
       new box2d.b2Vec2(this.world.pxm(-x2), this.world.pxm(-y2)),
     );
-    var v94 = new box2d.b2FixtureDef();
+    var v94 = {} as box2d.b2FixtureDef;
     v94.shape = v93;
     v94.friction = this.world.friction;
     v94.restitution = this.world.restitution;
@@ -495,9 +495,9 @@ export default class Body {
     if (loop) {
       v96.CreateLoop(vA6, vA6.length);
     } else {
-      v96.CreateChain(vA6, vA6.length);
+      v96.CreateChain(vA6, vA6.length, vA6[0], vA6[vA6.length - 1]);
     }
-    var v97 = new box2d.b2FixtureDef();
+    var v97 = {} as box2d.b2FixtureDef;
     v97.shape = v96;
     v97.friction = this.world.friction;
     v97.restitution = this.world.restitution;
@@ -536,7 +536,7 @@ export default class Body {
     for (var vLN08 = 0; vLN08 < v100.length; vLN08++) {
       var v102 = new box2d.b2PolygonShape();
       v102.Set(v100[vLN08] as box2d.b2Vec2[], v100[vLN08].length);
-      var v103 = new box2d.b2FixtureDef();
+      var v103 = {} as box2d.b2FixtureDef;
       v103.shape = v102;
       v103.friction = this.world.friction;
       v103.restitution = this.world.restitution;
@@ -661,13 +661,12 @@ export default class Body {
       }
       var v107 = new box2d.b2PolygonShape();
       v107.Set(vA8, vA8.length);
-      var v108 = new box2d.b2FixtureDef();
+      var v108 = {} as box2d.b2FixtureDef;
       v108.shape = v107;
       v108.friction = v104[vLN09].friction;
       v108.restitution = v104[vLN09].bounce;
       v108.density = v104[vLN09].density;
-      v108.filter.categoryBits = v104[vLN09].filter.categoryBits;
-      v108.filter.maskBits = v104[vLN09].filter.maskBits;
+      v108.filter = { ...v104[vLN09].filter };
       this.data.CreateFixture(v108).id = this.world.getNextFixtureId();
     }
     return true;
@@ -855,11 +854,12 @@ export default class Body {
   set collideWorldBounds(p318) {
     for (var v124 = this.data.GetFixtureList(); v124; v124 = v124.GetNext()) {
       var v125 = v124.GetFilterData();
-      if (p318) {
-        v125.maskBits |= Box2D.worldBoundsFilterCategory;
-      } else {
-        v125.maskBits &= ~Box2D.worldBoundsFilterCategory;
-      }
+      v124.SetFilterData({
+        ...v125,
+        maskBits: p318
+          ? v125.maskBits | Box2D.worldBoundsFilterCategory
+          : v125.maskBits & ~Box2D.worldBoundsFilterCategory,
+      });
     }
   }
 }

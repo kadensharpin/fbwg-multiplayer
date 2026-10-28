@@ -1,5 +1,7 @@
-import { Game, Physics, Signal } from "phaser";
-import * as box2d from "phaser-box2d";
+import Body from "@/utils/box2d/Body";
+import { Fixture } from "@/utils/util";
+import box2d from "@box2d/core";
+import { Game, Signal } from "phaser";
 import BoxedDevice from "./BoxedDevice";
 import { type DeviceOptions } from "./Device";
 
@@ -11,8 +13,10 @@ type LightPusherOptions = {
 } & DeviceOptions;
 
 class LightPusher extends BoxedDevice<LightPusherOptions> {
-  declare body: Physics.Box2D.Body;
-  readonly sensorFixture: box2d.b2Fixture;
+  declare body: Body;
+  readonly sensorFixture: Fixture<{
+    lightProperties: { iluminated: "red" | "blue" | "yellow" | null };
+  }>;
   readonly signal: Signal;
 
   constructor(game: Game, options: LightPusherOptions) {
@@ -30,13 +34,13 @@ class LightPusher extends BoxedDevice<LightPusherOptions> {
 
     this.body.mass = 0;
     const fixture1Shape = new box2d.b2PolygonShape();
-    fixture1Shape.SetAsOrientedBox(
+    fixture1Shape.SetAsBox(
       this.options.sensorWidth / 2,
       this.options.pusherHeight / 2,
       new box2d.b2Vec2(0, 0),
       0,
     );
-    const fixtureDef1 = new box2d.b2FixtureDef();
+    const fixtureDef1 = {} as box2d.b2FixtureDef;
     fixtureDef1.shape = fixture1Shape;
     fixtureDef1.friction = 0.7;
     fixtureDef1.restitution = 0;
@@ -45,6 +49,7 @@ class LightPusher extends BoxedDevice<LightPusherOptions> {
     fixtureDef1.userData = {
       lightProperties: { type: "normal", sensor: true },
     };
+    // @ts-expect-error
     this.sensorFixture = this.body.data.CreateFixture(fixtureDef1);
     this.sensorFixture.id = this.body.world.getNextFixtureId();
     const vertices = [];
@@ -64,7 +69,7 @@ class LightPusher extends BoxedDevice<LightPusherOptions> {
     );
     const fixture2Shape = new box2d.b2PolygonShape();
     fixture2Shape.Set(vertices);
-    const fixtureDef2 = new box2d.b2FixtureDef();
+    const fixtureDef2 = {} as box2d.b2FixtureDef;
     fixtureDef2.shape = fixture2Shape;
     fixtureDef2.friction = 0.7;
     fixtureDef2.restitution = 0;
@@ -84,7 +89,7 @@ class LightPusher extends BoxedDevice<LightPusherOptions> {
   checkState() {
     if (
       this.state === 0 &&
-      this.sensorFixture.m_userData.lightProperties.iluminated ===
+      this.sensorFixture.GetUserData().lightProperties.iluminated ===
         this.options.properties.color
     ) {
       this.state = 1;
@@ -92,13 +97,13 @@ class LightPusher extends BoxedDevice<LightPusherOptions> {
       this.signal.dispatch(this);
     } else if (
       this.state === 1 &&
-      this.sensorFixture.m_userData.lightProperties.iluminated !==
+      this.sensorFixture.GetUserData().lightProperties.iluminated !==
         this.options.properties.color
     ) {
       this.state = 0;
       this.signal.dispatch(this);
     }
-    this.sensorFixture.m_userData.lightProperties.iluminated = null;
+    this.sensorFixture.GetUserData().lightProperties.iluminated = null;
   }
 }
 

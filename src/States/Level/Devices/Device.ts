@@ -1,4 +1,5 @@
-import { Color, Game, Group, Physics, Signal, Sprite } from "phaser";
+import Body from "@/utils/box2d/Body";
+import { Color, Game, Group, Signal, Sprite } from "phaser";
 import { deepObjectExtend } from "../../../utils/util";
 import { ParsedTile } from "../Level";
 
@@ -39,7 +40,7 @@ class Device<Options extends DeviceOptions> extends Group {
   readonly lights: Light[];
 
   sprite?: Sprite;
-  body?: Physics.Box2D.Body;
+  body?: Body;
   signal?: Signal;
 
   constructor(game: Game, options: Options) {

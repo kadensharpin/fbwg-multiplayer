@@ -1,5 +1,6 @@
-import { Game, Physics } from "phaser";
-import * as box2d from "phaser-box2d";
+import Body from "@/utils/box2d/Body";
+import box2d from "@box2d/core";
+import { Game } from "phaser";
 import { deepObjectExtend } from "../../../utils/util";
 import BoxedDevice from "./BoxedDevice";
 import { type DeviceOptions } from "./Device";
@@ -13,7 +14,7 @@ type BallOptions = {
 
 class Ball extends BoxedDevice<BallOptions> {
   radius = 0.4;
-  declare body: Physics.Box2D.Body;
+  declare body: Body;
 
   constructor(game: Game, options: BallOptions) {
     options.x -= game.physics.box2d.mpx(0.5);
@@ -29,12 +30,12 @@ class Ball extends BoxedDevice<BallOptions> {
     super(game, options);
 
     const shape = new box2d.b2CircleShape(this.radius);
-    const fixtureDef = new box2d.b2FixtureDef();
+    const fixtureDef = {} as box2d.b2FixtureDef;
     fixtureDef.shape = shape;
     fixtureDef.friction = 0.2;
     fixtureDef.restitution = 0.1;
     fixtureDef.density = 2.3;
-    fixtureDef.filter.categoryBits = 17;
+    fixtureDef.filter = { categoryBits: 17 };
     const fixture = this.body.data.CreateFixture(fixtureDef);
     fixture.id = this.body.world.getNextFixtureId();
 
@@ -44,12 +45,14 @@ class Ball extends BoxedDevice<BallOptions> {
     if (null != this.options.properties?.angularDamping)
       this.body.data.SetAngularDamping(this.options.properties.angularDamping);
 
-    const d = new box2d.b2CircleShape(0.1);
-    d.m_p.SetXY(0, 0);
-    const fixtureDef2 = new box2d.b2FixtureDef();
-    fixtureDef2.shape = d;
-    fixtureDef2.filter.categoryBits = 4096;
-    fixtureDef2.filter.maskBits = 4096;
+    const shape2 = new box2d.b2CircleShape(0.1);
+    shape2.m_p.Set(0, 0);
+    const fixtureDef2 = {} as box2d.b2FixtureDef;
+    fixtureDef2.shape = shape2;
+    fixtureDef2.filter = {
+      categoryBits: 4096,
+      maskBits: 4096,
+    };
     fixtureDef2.friction = 0.5;
     fixtureDef2.density = 0;
     fixtureDef2.userData = { "portal-sensor": true };

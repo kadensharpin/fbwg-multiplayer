@@ -1,8 +1,10 @@
-import { BitmapData, Color, Game, Graphics, Physics } from "phaser";
-import * as box2d from "phaser-box2d";
+import Body from "@/utils/box2d/Body";
+import { Fixture } from "@/utils/util";
+import box2d from "@box2d/core";
+import { BitmapData, Color, Game, Graphics } from "phaser";
 import _ from "underscore";
 import BoxedDevice from "./BoxedDevice";
-import { type DeviceOptions, Light } from "./Device";
+import Device, { type DeviceOptions, Light } from "./Device";
 
 type BeamerOptions = {
   pusherWidth: number;
@@ -19,7 +21,7 @@ class Beamer extends BoxedDevice<BeamerOptions> {
   state = 1;
   dirty: boolean = false;
   points: Points | null = null;
-  declare body: Physics.Box2D.Body;
+  declare body: Body;
 
   constructor(game: Game, options: BeamerOptions) {
     options.pusherWidth ??= 0.8;
@@ -53,13 +55,12 @@ class Beamer extends BoxedDevice<BeamerOptions> {
     );
     const shape = new box2d.b2PolygonShape();
     shape.Set(vertices);
-    const fixtureDef = new box2d.b2FixtureDef();
+    const fixtureDef = {} as box2d.b2FixtureDef;
     fixtureDef.shape = shape;
     fixtureDef.friction = 0.7;
     fixtureDef.restitution = 0;
     fixtureDef.density = 0;
-    fixtureDef.filter.categoryBits = 1;
-    fixtureDef.filter.maskBits = 65535;
+    fixtureDef.filter = { categoryBits: 1, maskBits: 65535 };
     const fixture = this.body.data.CreateFixture(fixtureDef);
     fixture.id = this.body.world.getNextFixtureId();
     const light = this.game.make.sprite(
@@ -156,78 +157,92 @@ class Beamer extends BoxedDevice<BeamerOptions> {
       this.points = null;
       return this.graphics.clear();
     }
-    const callback =
-      new box2d.b2RayCastCallback() as box2d.b2RayCastCallback & {
-        dir?: null | undefined | box2d.b2Vec2;
-        point?: null | undefined | box2d.b2Vec2;
-        contact?:
-          | null
-          | undefined
+    const callback = ((fixture, point, normal, fraction) => {
+      const fixtureData = fixture.GetUserData() as {
+        device?: Device<DeviceOptions>;
+        lightProperties?:
           | {
-              point: box2d.b2Vec2;
-              normal?: box2d.b2Vec2 | null;
+              type: "transparent" | "normal" | "mirror";
               sensor?: box2d.b2Fixture;
-              output?: (v: box2d.b2Vec2) => box2d.b2Vec2;
-              skipPoint?: box2d.b2Vec2;
+              iluminated?: "red" | "blue" | "yellow";
+              lightAt?: box2d.b2Vec2;
+            }
+          | {
+              type: "portal";
+              getOutput: (input: box2d.b2Vec2) => box2d.b2Vec2;
+              getPoint: (
+                point: box2d.b2Readonly<box2d.b2Vec2>,
+                normal: box2d.b2Readonly<box2d.b2Vec2>,
+              ) => box2d.b2Vec2;
             };
-      };
-    callback.ReportFixture = (fixture, point, normal, fraction) => {
-      if (
-        fixture.m_userData == null ||
-        fixture.m_userData.lightProperties == null
-      ) {
+      } | null;
+      if (fixtureData?.lightProperties == null) {
         callback.contact = { point: point.Clone(), normal: null };
         return fraction;
       }
-      if (fixture.m_userData.lightProperties.type === "transparent") {
+      if (fixtureData.lightProperties.type === "transparent") {
         return 0;
       }
-      if ("normal" === fixture.m_userData.lightProperties.type) {
+      if ("normal" === fixtureData.lightProperties.type) {
         callback.contact = { point: point.Clone(), normal: null };
-        if (fixture.m_userData.lightProperties.sensor) {
-          callback.contact.sensor = fixture;
+        if (fixtureData.lightProperties.sensor) {
+          callback.contact.sensor = fixture as any;
         }
         return fraction;
       }
-      if ("mirror" === fixture.m_userData.lightProperties.type) {
+      if ("mirror" === fixtureData.lightProperties.type) {
         callback.contact = {
           point: point.Clone(),
           normal: normal.Clone(),
         };
-        if (fixture.m_userData.lightProperties.sensor) {
-          callback.contact.sensor = fixture;
+        if (fixtureData.lightProperties.sensor) {
+          callback.contact.sensor = fixture as any;
         }
         return fraction;
       }
-      if ("portal" === fixture.m_userData.lightProperties.type) {
-        if (fixture.m_userData.device.state !== 1) return 0;
+      if ("portal" === fixtureData.lightProperties.type) {
+        if (fixtureData.device?.state !== 1) return 0;
         callback.contact = {
-          point: fixture.m_userData.lightProperties.getPoint(point, normal),
-          output: fixture.m_userData.lightProperties.getOutput,
+          point: fixtureData.lightProperties.getPoint(point, normal),
+          output: fixtureData.lightProperties.getOutput,
           skipPoint: point.Clone(),
         };
         return fraction;
       }
-      if (fixture.m_userData.lightProperties.sensor && callback.contact) {
-        callback.contact.sensor = fixture;
+      if (fixtureData.lightProperties.sensor && callback.contact) {
+        callback.contact.sensor = fixture as any;
       }
       return 0;
+    }) as box2d.b2RayCastCallback & {
+      dir?: null | undefined | box2d.b2Vec2;
+      point?: null | undefined | box2d.b2Vec2;
+      contact?:
+        | null
+        | undefined
+        | {
+            point: box2d.b2Vec2;
+            normal?: box2d.b2Vec2 | null;
+            sensor?: Fixture<{
+              lightProperties: {
+                iluminated?: "red" | "blue" | "yellow";
+                lightAt?: box2d.b2Vec2;
+              };
+            }>;
+            output?: (v: box2d.b2Vec2) => box2d.b2Vec2;
+            skipPoint?: box2d.b2Vec2;
+          };
     };
     callback.point = new box2d.b2Vec2(
       this.pxm(this.options.x),
       this.pxm(this.options.y),
     );
-    callback.dir = new box2d.b2Vec2(-1, 0).SelfRotateRadians(
-      this.options.rotation || 0,
-    );
+    callback.dir = new box2d.b2Vec2(-1, 0).Rotate(this.options.rotation || 0);
     const points: Points = [{ point: callback.point.Clone() }];
     while (callback.dir != null && points.length < 12) {
       const point1 = callback.point.Clone();
-      const point2 = callback.point
-        .Clone()
-        .SelfAdd(callback.dir.Clone().SelfMul(50));
+      const point2 = callback.point.Clone().Add(callback.dir.Clone().Scale(50));
       callback.contact = null;
-      this.body.world.world.RayCast(callback, point1, point2);
+      this.body.world.world.RayCast(point1, point2, callback);
       callback.contact = (callback as typeof callback).contact;
       if (callback.contact == null) continue;
       callback.point = callback.contact.point;
@@ -249,11 +264,15 @@ class Beamer extends BoxedDevice<BeamerOptions> {
       if (callback.contact.output != null && callback.dir) {
         callback.dir = callback.contact.output(callback.dir);
       } else if (callback.contact.normal != null) {
-        const normal1 = point1.Clone().SelfSub(point2).SelfNormalize();
-        const normal2 = callback.contact.normal.Clone().SelfCrossVS(1);
+        const normal1 = point1.Clone().Subtract(point2);
+        normal1.Normalize();
+        const normal2 = new box2d.b2Vec2(
+          callback.contact.normal.y,
+          -callback.contact.normal.x,
+        );
         callback.dir = normal1
           .Clone()
-          .SelfSub(normal2.Clone().SelfMul(2 * normal1.Clone().Dot(normal2)));
+          .Subtract(normal2.Clone().Scale(2 * normal1.Clone().Dot(normal2)));
       } else {
         callback.dir = null;
       }

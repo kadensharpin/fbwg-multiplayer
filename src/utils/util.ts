@@ -1,5 +1,5 @@
+import box2d from "@box2d/core";
 import { Game, Loader, Plugin, PluginManager } from "phaser";
-import * as box2d from "phaser-box2d";
 import _ from "underscore";
 
 export function deepObjectExtend(target: any, source: any) {
@@ -43,6 +43,11 @@ export class CacheBuster extends Plugin {
   }
 }
 
-export type Fixture<UserData> = Omit<box2d.b2Fixture, "m_userData"> & {
-  m_userData: UserData;
+export type Fixture<UserData> = Omit<
+  box2d.b2Fixture,
+  "m_userData" | "GetUserData" | "SetUserData"
+> & {
+  readonly m_userData: UserData;
+  GetUserData(): UserData;
+  SetUserData(userData: UserData): void;
 };

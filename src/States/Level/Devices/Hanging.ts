@@ -1,5 +1,5 @@
+import box2d from "@box2d/core";
 import { Game, Sprite, TileSprite } from "phaser";
-import * as box2d from "phaser-box2d";
 import Device, { DeviceOptions } from "./Device";
 
 type HangingOptions = {
@@ -90,13 +90,12 @@ class Hanging extends Device<HangingOptions> {
     vertices.push(new box2d.b2Vec2(centre + 0.1, 0));
     const polygon = new box2d.b2PolygonShape();
     polygon.Set(vertices);
-    const fixtureDef = new box2d.b2FixtureDef();
+    const fixtureDef = {} as box2d.b2FixtureDef;
     fixtureDef.shape = polygon;
     fixtureDef.friction = 0.4;
     fixtureDef.restitution = 0;
     fixtureDef.density = this.options.properties?.density || 2.5;
-    fixtureDef.filter.categoryBits = 65535;
-    fixtureDef.filter.maskBits = 65535;
+    fixtureDef.filter = { categoryBits: 65535, maskBits: 65535 };
     const fixture = platformBody.data.CreateFixture(fixtureDef);
     fixture.id = platformBody.world.getNextFixtureId();
     const jointDef = new box2d.b2DistanceJointDef();
@@ -139,7 +138,7 @@ class Hanging extends Device<HangingOptions> {
       this.platform.position.x,
       this.platform.position.y,
     );
-    const anchor = pos.Clone().SelfSub(this.anchor);
+    const anchor = pos.Clone().Subtract(this.anchor);
     this.rope.rotation = Math.atan2(-anchor.y, -anchor.x);
   }
 }

@@ -1,5 +1,5 @@
+import box2d from "@box2d/core";
 import { Game, Signal, Sound } from "phaser";
-import * as box2d from "phaser-box2d";
 import Device, { DeviceOptions, Light } from "./Device";
 
 type SliderOptions = {
@@ -61,8 +61,8 @@ class Slider extends Device<SliderOptions> {
     this.game.layers.underGround.addChild(sliderTrack);
     sprite.body.clearFixtures();
     const circle = new box2d.b2CircleShape(0.3);
-    circle.m_p.SetXY(0, 0);
-    const fixtureDef = new box2d.b2FixtureDef();
+    circle.m_p.Set(0, 0);
+    const fixtureDef = {} as box2d.b2FixtureDef;
     fixtureDef.shape = circle;
     fixtureDef.friction = 0;
     sprite.body.data.CreateFixture(fixtureDef);

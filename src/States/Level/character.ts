@@ -1,14 +1,14 @@
+import Body from "@/utils/box2d/Body";
+import box2d from "@box2d/core";
 import {
   Animation,
   BitmapData,
   Easing,
   Game,
   Group,
-  Physics,
   Signal,
   Sprite,
 } from "phaser";
-import * as box2d from "phaser-box2d";
 import { Fixture } from "../../utils/util";
 import CharCursors from "./CharCursors";
 import Door from "./Devices/Door";
@@ -18,6 +18,7 @@ export type CharacterSprite = Sprite & {
   character: Character;
   char: Characters;
 };
+export type CharacterBody = Body & { sprite: CharacterSprite };
 
 class Character extends Group {
   data: { char: Characters; diamonds: 0; silverDiamond: 0 };
@@ -40,7 +41,7 @@ class Character extends Group {
   absoluteMaxSpeed = 40;
   maxSpeed: number;
   sprite: CharacterSprite;
-  body: Physics.Box2D.Body;
+  body: Body;
   signal: Signal;
   cursors: CharCursors;
   char: Characters;
@@ -92,24 +93,24 @@ class Character extends Group {
     this.body = this.sprite.body;
     this.body.clearFixtures();
     this.body.fixedRotation = true;
-    this.body.data.m_userData = "pers";
+    this.body.data.SetUserData("pers");
     this.body.data.SetBullet(true);
     this.signal = new Signal();
     const createCircleFixture = (
       radius: number,
       pos: [number, number],
       friction: number,
-    ) => {
+    ): Fixture<{}> => {
       const shape = new box2d.b2CircleShape(radius);
-      shape.m_p.SetXY(pos[0], pos[1]);
-      const def = new box2d.b2FixtureDef();
+      shape.m_p.Set(pos[0], pos[1]);
+      const def = {} as box2d.b2FixtureDef;
       def.shape = shape;
       def.density = 0;
-      def.filter.categoryBits = 16;
-      def.filter.maskBits = 4353;
+      def.filter = { categoryBits: 16, maskBits: 4353 };
       def.friction = friction;
       const fixture = this.body.data.CreateFixture(def);
       fixture.id = this.body.world.getNextFixtureId();
+      // @ts-expect-error
       return fixture;
     };
     const createPolygonFixture = (
@@ -125,27 +126,29 @@ class Character extends Group {
       vertices.push(new box2d.b2Vec2(-x2 + this.dr, y2));
       const shape = new box2d.b2PolygonShape();
       shape.Set(vertices);
-      const def = new box2d.b2FixtureDef();
+      const def = {} as box2d.b2FixtureDef;
       def.shape = shape;
       def.friction = 0;
       def.density = 1.4;
-      def.filter.categoryBits = 16;
-      def.filter.maskBits = 4353;
+      def.filter = { categoryBits: 16, maskBits: 4353 };
       const fixture = this.body.data.CreateFixture(def);
       fixture.id = this.body.world.getNextFixtureId();
     };
     const portalSensorShape = new box2d.b2CircleShape(0.1);
-    portalSensorShape.m_p.SetXY(0, 0);
-    const portalSensorDef = new box2d.b2FixtureDef();
+    portalSensorShape.m_p.Set(0, 0);
+    const portalSensorDef = {} as box2d.b2FixtureDef;
     portalSensorDef.shape = portalSensorShape;
     portalSensorDef.density = 0;
-    portalSensorDef.filter.categoryBits = 4096;
-    portalSensorDef.filter.maskBits = 4096;
-    portalSensorDef.filter.groupIndex = -1;
+    portalSensorDef.filter = {
+      categoryBits: 4096,
+      maskBits: 4096,
+      groupIndex: -1,
+    };
     portalSensorDef.friction = 0;
+    // @ts-expect-error
     this.portalSensor = this.body.data.CreateFixture(portalSensorDef);
     this.portalSensor.id = this.body.world.getNextFixtureId();
-    this.portalSensor.m_userData = { "portal-sensor": true };
+    this.portalSensor.SetUserData({ "portal-sensor": true });
     createCircleFixture(this.r1, [0, this.y1], 0);
     this.feetSensor = createCircleFixture(
       this.r2,
@@ -153,7 +156,7 @@ class Character extends Group {
       this.feetFriction,
     ) as typeof this.feetSensor;
     createPolygonFixture(this.r1, this.r2, this.y1, this.y2);
-    this.feetSensor.m_userData = "feet";
+    this.feetSensor.SetUserData("feet");
     this.feetSensor.contacts = [];
     this.prefix = "fb" === character ? "fire" : "water";
     this.bodySprite = game.make.sprite(0, 0, "CharAssets", "_default0000");
@@ -226,22 +229,22 @@ class Character extends Group {
     };
     this.bodySprite.hitArea = new PIXI.Circle(0, 0, 0.65 * legSprite.height);
     this.body.setFixtureContactCallback(
+      // @ts-expect-error
       this.feetSensor,
       (_body1, _body2, _fixture1, fixture2, begin, contact) => {
-        if (fixture2.m_isSensor) {
-          if (
-            null != fixture2.m_userData &&
-            "liquid_death" === fixture2.m_userData.type
-          ) {
+        if (fixture2.IsSensor()) {
+          // @ts-expect-error
+          if ("liquid_death" === fixture2.GetUserData()?.type) {
             if (begin) {
-              this.liquidTouched(fixture2.m_userData.liquidType);
+              // @ts-expect-error
+              this.liquidTouched(fixture2.GetUserData().liquidType);
               this.isOnLiquid = true;
             } else {
               this.isOnLiquid = false;
             }
           }
         } else {
-          if (begin && contact.m_manifold.localNormal.Length() > 0) {
+          if (begin && contact.GetManifold().localNormal.Length() > 0) {
             this.feetSensor.contacts.push(contact);
             return;
           }
@@ -335,18 +338,18 @@ class Character extends Group {
   setFriction() {
     if (this.isOnIce) {
       if ("fb" === this.data.char) {
-        this.feetSensor.m_friction = 0;
+        this.feetSensor.SetFriction(0);
         this.maxSpeed = this.defaultMaxSpeed;
       } else if ("wg" === this.data.char) {
-        this.feetSensor.m_friction = 0.7;
+        this.feetSensor.SetFriction(0.7);
         this.maxSpeed = this.waterIceMaxSpeed;
       }
     } else {
-      this.feetSensor.m_friction = this.feetFriction;
+      this.feetSensor.SetFriction(this.feetFriction);
       this.maxSpeed = this.defaultMaxSpeed;
     }
     this.feetSensor.Refilter();
-    let edge = this.feetSensor.m_body.m_contactList;
+    let edge = this.feetSensor.GetBody().GetContactList();
     while (edge != null) {
       edge.contact.ResetFriction();
       edge = edge.next;
@@ -401,10 +404,13 @@ class Character extends Group {
       if (this.feetSensor.contacts.length > 0) {
         this.feetSensor.contacts.forEach((contact) => {
           contact.m_normal ||= new box2d.b2Vec2();
-          contact.m_fixtureA.m_body.GetWorldVector(
-            contact.m_manifold.localNormal,
-            contact.m_normal,
-          );
+          contact
+            .GetFixtureA()
+            .GetBody()
+            .GetWorldVector(
+              contact.GetManifold().localNormal,
+              contact.m_normal,
+            );
         });
         const down = new box2d.b2Vec2(0, -1);
         this.feetSensor.contacts.sort(
@@ -434,7 +440,7 @@ class Character extends Group {
           acceleration = normalForce
             .Clone()
             .SelfCrossSV(-this.currentRunForce)
-            .SelfMul(Math.max(0, Math.sqrt(normalY)));
+            .Scale(Math.max(0, Math.sqrt(normalY)));
           if (normalY > 0.6 && acceleration.y >= 0 && acceleration.y < 20) {
             acceleration.y += 20;
           }
@@ -453,7 +459,7 @@ class Character extends Group {
           acceleration = normalForce
             .Clone()
             .SelfCrossSV(this.currentRunForce)
-            .SelfMul(Math.max(0, Math.sqrt(normalY)));
+            .Scale(Math.max(0, Math.sqrt(normalY)));
           if (normalY > 0.6 && acceleration.y >= 0 && acceleration.y < 20) {
             acceleration.y += 20;
           }
@@ -521,16 +527,17 @@ class Character extends Group {
                   Math.sqrt(Math.sqrt(normalForce.y)) * this.jumpVelocity,
                 );
           if (velocity.Length() > this.jumpVelocity) {
-            velocity.SelfNormalize().SelfMul(this.jumpVelocity);
+            velocity.Normalize();
+            velocity.Scale(this.jumpVelocity);
           }
           this.body.data.SetLinearVelocity(velocity);
           jumping = true;
         }
-        let edge = this.feetSensor.m_body.m_contactList;
+        let edge = this.feetSensor.GetBody().GetContactList();
         const down = new box2d.b2Vec2(0, -1);
         while (edge != null) {
-          const pulleyPlatformBody = edge.contact.m_fixtureA.m_body;
-          if (pulleyPlatformBody.m_userData === "reactable") {
+          const pulleyPlatformBody = edge.contact.GetFixtureA().GetBody();
+          if (pulleyPlatformBody.GetUserData() === "reactable") {
             pulleyPlatformBody.ApplyLinearImpulse(
               down,
               new box2d.b2Vec2(0, 0),
@@ -552,18 +559,19 @@ class Character extends Group {
       }
       if (this.isOnIce) {
         if (this.data.char === "fb") {
-          acceleration.SelfMul(0.2);
+          acceleration.Scale(0.2);
         }
         if (this.data.char === "wg") {
-          acceleration.SelfMul(1);
+          acceleration.Scale(1);
         }
-        const velocity = this.body.data.GetLinearVelocity();
+        const velocity = this.body.data.GetLinearVelocity().Clone();
         if (velocity.Length() > this.maxSpeed) {
-          velocity.SelfNormalize().SelfMul(this.maxSpeed);
+          velocity.Normalize();
+          velocity.Scale(this.maxSpeed);
           this.body.data.SetLinearVelocity(velocity);
         }
       }
-      let velocity = this.body.data.GetLinearVelocity();
+      let velocity = this.body.data.GetLinearVelocity().Clone();
       if (acceleration.x > 0 && velocity.x < this.maxSpeed) {
         this.body.data.ApplyForce(acceleration, new box2d.b2Vec2(0, 0));
       }
@@ -571,11 +579,13 @@ class Character extends Group {
         this.body.data.ApplyForce(acceleration, new box2d.b2Vec2(0, 0));
       }
       if (velocity.Length() > this.absoluteMaxSpeed) {
-        velocity.SelfNormalize().SelfMul(this.absoluteMaxSpeed);
+        velocity.Normalize();
+        velocity.Scale(this.absoluteMaxSpeed);
         this.body.data.SetLinearVelocity(velocity);
       }
-      velocity = this.body.data.GetLinearVelocity();
-      const velocityDirection = velocity.Clone().SelfNormalize();
+      velocity = this.body.data.GetLinearVelocity().Clone();
+      const velocityDirection = velocity.Clone();
+      velocityDirection.Normalize();
       let headRotation = Math.atan2(
         Math.max(-0.333, velocityDirection.y),
         velocityDirection.x,

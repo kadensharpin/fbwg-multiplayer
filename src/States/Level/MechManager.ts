@@ -1,5 +1,5 @@
+import box2d from "@box2d/core";
 import { Game } from "phaser";
-import * as box2d from "phaser-box2d";
 import BackgroundCover from "./Devices/BackgroundCover";
 import Ball from "./Devices/Ball";
 import Beamer from "./Devices/Beamer";
@@ -69,14 +69,10 @@ class MechManager {
     const pos = new box2d.b2Vec2(x, y);
     const bottom = pos
       .Clone()
-      .SelfAdd(
-        new box2d.b2Vec2(0.5, 0).SelfRotateRadians(portal.options.rotation),
-      );
+      .Add(new box2d.b2Vec2(0.5, 0).Rotate(portal.options.rotation));
     const top = pos
       .Clone()
-      .SelfAdd(
-        new box2d.b2Vec2(-0.5, 0).SelfRotateRadians(portal.options.rotation),
-      );
+      .Add(new box2d.b2Vec2(-0.5, 0).Rotate(portal.options.rotation));
     let block: box2d.b2Vec2 | null = null;
     if (
       this.game.level.ground?.getTileAt(
@@ -93,9 +89,7 @@ class MechManager {
       block = top;
     }
     if (null != block) {
-      block.SelfAdd(
-        new box2d.b2Vec2(0, -0.5).SelfRotateRadians(portal.options.rotation),
-      );
+      block.Add(new box2d.b2Vec2(0, -0.5).Rotate(portal.options.rotation));
       const options = {
         center: new box2d.b2Vec2(-block.x, -block.y),
         rotation: portal.options.rotation,

@@ -121,3 +121,14 @@ declare global {
     }
   }
 }
+
+declare module "@box2d/core" {
+  interface b2Body {
+    SetPosition(pos: b2Vec2): void;
+    SetPositionXY(x: number, y: number): void;
+  }
+  interface b2Vec2 {
+    SelfNormalize(): this;
+    SelfCrossSV(s: number): this;
+  }
+}

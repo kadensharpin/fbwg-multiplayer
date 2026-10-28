@@ -1,4 +1,4 @@
-import * as box2d from "phaser-box2d";
+import box2d from "@box2d/core";
 
 export default class DefaultContactListener implements box2d.b2ContactListener {
   BeginContact(contact: box2d.b2Contact) {

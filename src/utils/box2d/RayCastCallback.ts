@@ -1,9 +1,9 @@
-import * as box2d from "phaser-box2d";
+import box2d from "@box2d/core";
 import Body from "./Body";
 import Box2D from "./Box2D";
 import { AABBHit } from "./QueryCallback";
 
-export default class RayCastCallback implements box2d.b2RayCastCallback {
+export default class RayCastCallback {
   world: Box2D;
   closestHitOnly: boolean;
   filterFunction: RayCastFilterFunction | null;
@@ -14,18 +14,20 @@ export default class RayCastCallback implements box2d.b2RayCastCallback {
     closestHitOnly: boolean,
     filterFunction: RayCastFilterFunction | null,
   ) {
+    this.Callback = this.Callback.bind(this);
+
     this.world = world;
     this.closestHitOnly = closestHitOnly;
     this.filterFunction = filterFunction;
     this.hits = [];
   }
 
-  ReportFixture(
+  Callback: box2d.b2RayCastCallback = (
     fixture: box2d.b2Fixture,
-    point: box2d.b2Vec2,
-    normal: box2d.b2Vec2,
-    number: number,
-  ): number {
+    point: box2d.b2Readonly<box2d.b2Vec2>,
+    normal: box2d.b2Readonly<box2d.b2Vec2>,
+    fraction: number,
+  ): number => {
     if (this.filterFunction !== null) {
       var vO = {
         x: this.world.mpx(-point.x),
@@ -51,11 +53,11 @@ export default class RayCastCallback implements box2d.b2RayCastCallback {
     };
     this.hits.push(vO3);
     if (this.closestHitOnly) {
-      return number;
+      return fraction;
     } else {
       return 1;
     }
-  }
+  };
 }
 
 export type RayCastFilterFunction = (

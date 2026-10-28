@@ -1,12 +1,13 @@
-import { Easing, Game, Physics, Signal, Sprite } from "phaser";
-import * as box2d from "phaser-box2d";
+import Body from "@/utils/box2d/Body";
+import box2d from "@box2d/core";
+import { Easing, Game, Signal, Sprite } from "phaser";
 import Character, { CharacterSprite } from "../character";
 
 class Diamond extends Sprite {
   readonly options = { width: 0.7, height: 0.7 };
   readonly sprite: Sprite;
   readonly signal: Signal;
-  declare body: Physics.Box2D.Body;
+  declare body: Body;
 
   constructor(game: Game, x: number, y: number, asset: string) {
     x += game.physics.box2d.mpx(1);
@@ -29,13 +30,13 @@ class Diamond extends Sprite {
     this.body.clearFixtures();
     this.body.mass = 0;
     const shape = new box2d.b2PolygonShape();
-    shape.SetAsOrientedBox(
+    shape.SetAsBox(
       this.options.width / 2,
       this.options.height / 2,
       new box2d.b2Vec2(0, 0),
       0,
     );
-    const fixtureDef = new box2d.b2FixtureDef();
+    const fixtureDef = {} as box2d.b2FixtureDef;
     fixtureDef.shape = shape;
     fixtureDef.friction = 0.7;
     fixtureDef.restitution = 0;
@@ -50,13 +51,7 @@ class Diamond extends Sprite {
 
     this.body.setFixtureContactCallback(
       fixture,
-      (
-        _body1: Physics.Box2D.Body,
-        body2: Physics.Box2D.Body,
-        _fixture1: box2d.b2Fixture,
-        _fixture2: box2d.b2Fixture,
-        begin: boolean,
-      ) => {
+      (_body1, body2, _fixture1, _fixture2, begin) => {
         const sprite = body2.sprite as CharacterSprite;
         if (
           sprite.character &&

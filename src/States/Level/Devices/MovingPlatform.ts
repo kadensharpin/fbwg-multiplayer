@@ -1,5 +1,6 @@
-import { BitmapData, Game, Group, Physics, Sound } from "phaser";
-import * as box2d from "phaser-box2d";
+import Body from "@/utils/box2d/Body";
+import box2d from "@box2d/core";
+import { BitmapData, Game, Group, Sound } from "phaser";
 import Device, { DeviceOptions } from "./Device";
 
 type MovingPlatformOptions = {
@@ -21,7 +22,7 @@ class MovingPlatform extends Device<MovingPlatformOptions> {
   readonly joint: box2d.b2RevoluteJoint | box2d.b2PrismaticJoint;
   readonly shapeSprite: Group;
   private sound?: Sound | null;
-  declare body: Physics.Box2D.Body;
+  declare body: Body;
 
   constructor(game: Game, options: MovingPlatformOptions) {
     options.lightAtlas ??= "MechAssets";
@@ -77,20 +78,19 @@ class MovingPlatform extends Device<MovingPlatformOptions> {
 
     const shape = new box2d.b2PolygonShape();
 
-    shape.SetAsOrientedBox(
+    shape.SetAsBox(
       this.options.width / 2 - this.options.padding!.x,
       this.options.height / 2 - this.options.padding!.y,
       new box2d.b2Vec2(0, 0),
       this.shapeRotation,
     );
-    const fixtureDef = new box2d.b2FixtureDef();
+    const fixtureDef = {} as box2d.b2FixtureDef;
     fixtureDef.shape = shape;
     fixtureDef.friction = 0.7;
     fixtureDef.restitution = 0;
     fixtureDef.density = this.options.properties.dtheta ? 0.5 : 0;
     fixtureDef.userData = { reflection: true };
-    fixtureDef.filter.categoryBits = 256;
-    fixtureDef.filter.maskBits = 4369;
+    fixtureDef.filter = { categoryBits: 256, maskBits: 4369 };
     const fixture = this.body.data.CreateFixture(fixtureDef);
     fixture.id = this.body.world.getNextFixtureId();
     if (this.options.properties.dtheta) {
@@ -172,10 +172,10 @@ class MovingPlatform extends Device<MovingPlatformOptions> {
 
   update() {
     if (this.joint instanceof box2d.b2RevoluteJoint) {
-      if (this.joint.GetJointAngleRadians() < this.joint.GetLowerLimit()) {
+      if (this.joint.GetJointAngle() < this.joint.GetLowerLimit()) {
         this.body.data.SetAngle(-this.joint.GetLowerLimit());
       }
-      if (this.joint.GetJointAngleRadians() > this.joint.GetUpperLimit()) {
+      if (this.joint.GetJointAngle() > this.joint.GetUpperLimit()) {
         this.body.data.SetAngle(-this.joint.GetUpperLimit());
       }
     }
@@ -190,7 +190,7 @@ class MovingPlatform extends Device<MovingPlatformOptions> {
         : 2;
     this.cacheAsBitmap = true;
     if (!this.state) {
-      this.joint.SetMotorSpeed?.(speed);
+      this.joint.SetMotorSpeed(speed);
       this.body.data.ApplyForce(new box2d.b2Vec2(1, 0), new box2d.b2Vec2(0, 0));
       if (this.sound) {
         this.sound.stopInstance();
@@ -198,10 +198,9 @@ class MovingPlatform extends Device<MovingPlatformOptions> {
       }
       if (!mute) {
         this.sound = this.game.level.sounds?.platform?.playInstance();
-        return this.sound;
       }
     } else {
-      this.joint.SetMotorSpeed?.(-speed);
+      this.joint.SetMotorSpeed(-speed);
       this.body.data.ApplyForce(new box2d.b2Vec2(1, 0), new box2d.b2Vec2(0, 0));
       if (this.sound) {
         this.sound.stopInstance();
@@ -209,7 +208,6 @@ class MovingPlatform extends Device<MovingPlatformOptions> {
       }
       if (!mute) {
         this.sound = this.game.level.sounds?.platform?.playInstance();
-        return this.sound;
       }
     }
   }
@@ -218,20 +216,20 @@ class MovingPlatform extends Device<MovingPlatformOptions> {
     const a = () =>
       this.joint instanceof box2d.b2PrismaticJoint
         ? this.joint.GetJointTranslation()
-        : this.joint.GetJointAngleRadians!() *
+        : this.joint.GetJointAngle() *
           (this.options.properties.dtheta! > 0 ? -1 : 1);
     const b = () =>
       this.joint instanceof box2d.b2PrismaticJoint
-        ? this.joint.m_lowerTranslation!
+        ? this.joint.GetLowerLimit()
         : this.options.properties.dtheta! > 0
-          ? -this.joint.GetUpperLimit!()
-          : this.joint.GetLowerLimit!();
+          ? -this.joint.GetUpperLimit()
+          : this.joint.GetLowerLimit();
     const c = () =>
       this.joint instanceof box2d.b2PrismaticJoint
-        ? this.joint.m_upperTranslation!
+        ? this.joint.GetUpperLimit()
         : this.options.properties.dtheta! > 0
-          ? -this.joint.GetLowerLimit!()
-          : this.joint.GetUpperLimit!();
+          ? -this.joint.GetLowerLimit()
+          : this.joint.GetUpperLimit();
     if (this.sound && !this.state && a() >= c()) {
       this.sound.stopInstance();
       this.sound = null;
@@ -248,8 +246,8 @@ class MovingPlatform extends Device<MovingPlatformOptions> {
       x: this.sprite!.x + data.offset.x,
       y: this.sprite!.y + data.offset.y,
     };
-    const b = new box2d.b2Vec2(36, 0).SelfRotateRadians(this.shapeRotation);
-    const c = new box2d.b2Vec2(-36, 0).SelfRotateRadians(this.shapeRotation);
+    const b = new box2d.b2Vec2(36, 0).Rotate(this.shapeRotation);
+    const c = new box2d.b2Vec2(-36, 0).Rotate(this.shapeRotation);
     const gradient = data.ctx.createRadialGradient(
       pos.x + b.x,
       pos.y + b.y,

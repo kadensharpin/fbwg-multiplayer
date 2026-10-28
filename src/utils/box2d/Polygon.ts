@@ -1,9 +1,8 @@
-import * as box2d from "phaser-box2d";
-
-type Vertex = { x: number; y: number };
+import { XY } from "@box2d/core";
+import { b2CrossVS, b2DotVV, b2SubVV } from "./Box2D";
 
 export default class Polygon {
-  vertices: Vertex[];
+  vertices: XY[];
 
   constructor() {
     this.vertices = [];
@@ -17,10 +16,10 @@ export default class Polygon {
       });
     }
   }
-  setFromXYObjects(vertices: Vertex[]) {
+  setFromXYObjects(vertices: XY[]) {
     this.vertices = vertices.concat();
   }
-  addVertex(vertex: Vertex) {
+  addVertex(vertex: XY) {
     this.vertices.push(vertex);
   }
   at(index: number) {
@@ -60,7 +59,7 @@ export default class Polygon {
   rightOn(indexA: number, indexB: number, indexC: number) {
     return this.areaInTriangle(indexA, indexB, indexC) <= 0;
   }
-  static sqdist(vertexA: Vertex, vertexB: Vertex) {
+  static sqdist(vertexA: XY, vertexB: XY) {
     var v176 = vertexB.x - vertexA.x;
     var v177 = vertexB.y - vertexA.y;
     return v176 * v176 + v177 * v177;
@@ -99,14 +98,14 @@ export default class Polygon {
   isReflex(index: number) {
     return this.right(index - 1, index, index + 1);
   }
-  static areVecsEqual(vertexA: Vertex, vertexB: Vertex) {
+  static areVecsEqual(vertexA: XY, vertexB: XY) {
     return vertexA.x == vertexB.x && vertexA.y == vertexB.y;
   }
   static linesCross(
-    lineStartA: Vertex,
-    lineEndA: Vertex,
-    lineStartB: Vertex,
-    lineEndB: Vertex,
+    lineStartA: XY,
+    lineEndA: XY,
+    lineStartB: XY,
+    lineEndB: XY,
   ) {
     if (
       Polygon.areVecsEqual(lineEndA, lineStartB) ||
@@ -116,24 +115,24 @@ export default class Polygon {
     ) {
       return null;
     }
-    var vO5 = {};
-    box2d.b2SubVV(lineEndA, lineStartA, vO5);
-    box2d.b2CrossVS(vO5, 1, vO5);
-    var v188 = box2d.b2DotVV(vO5, lineStartA);
-    var v187 = box2d.b2DotVV(vO5, lineStartB);
-    var v186 = box2d.b2DotVV(vO5, lineEndB);
+    var vO5 = { x: 0, y: 0 };
+    b2SubVV(lineEndA, lineStartA, vO5);
+    b2CrossVS(vO5, 1, vO5);
+    var v188 = b2DotVV(vO5, lineStartA);
+    var v187 = b2DotVV(vO5, lineStartB);
+    var v186 = b2DotVV(vO5, lineEndB);
     if (v187 > v188 && v186 > v188) {
       return null;
     }
     if (v187 < v188 && v186 < v188) {
       return null;
     }
-    var vO6 = {};
-    box2d.b2SubVV(lineEndB, lineStartB, vO6);
-    box2d.b2CrossVS(vO6, 1, vO6);
-    var v187 = box2d.b2DotVV(vO6, lineStartB);
-    var v188 = box2d.b2DotVV(vO6, lineStartA);
-    var v189 = box2d.b2DotVV(vO6, lineEndA);
+    var vO6 = { x: 0, y: 0 };
+    b2SubVV(lineEndB, lineStartB, vO6);
+    b2CrossVS(vO6, 1, vO6);
+    var v187 = b2DotVV(vO6, lineStartB);
+    var v188 = b2DotVV(vO6, lineStartA);
+    var v189 = b2DotVV(vO6, lineEndA);
     if (v188 > v187 && v189 > v187) {
       return null;
     }
@@ -195,7 +194,7 @@ export default class Polygon {
       return this.vertices;
     }
     this.makeCCW();
-    var vA9: Vertex[][] = [];
+    var vA9: XY[][] = [];
     var vA10 = [];
     var vA11 = [];
     var v192 = Number.MAX_VALUE;
@@ -222,7 +221,7 @@ export default class Polygon {
     this.makeCCW();
     var v193;
     var v194;
-    var vA12: Vertex[][] = [];
+    var vA12: XY[][] = [];
     var v195 = Number.MAX_VALUE;
     var v196 = false;
     for (var vLN019 = 0; vLN019 < this.vertices.length; vLN019++) {

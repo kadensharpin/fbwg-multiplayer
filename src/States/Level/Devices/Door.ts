@@ -1,12 +1,13 @@
-import { Animation, Game, Group, Physics, Signal, Sound, Sprite } from "phaser";
-import * as box2d from "phaser-box2d";
+import Body from "@/utils/box2d/Body";
+import box2d from "@box2d/core";
+import { Animation, Game, Group, Signal, Sound, Sprite } from "phaser";
 import Character, { Characters } from "../character";
 
 class Door extends Group {
   readonly options = { width: 64, height: 8 };
   readonly pos: { x: number; y: number };
   readonly sprite: Sprite;
-  readonly body: Physics.Box2D.Body;
+  readonly body: Body;
   readonly signal: Signal;
   readonly data: { char: Characters };
   private isOpen: boolean = false;
@@ -43,13 +44,13 @@ class Door extends Group {
     this.body.clearFixtures();
     this.body.data.SetType(box2d.b2BodyType.b2_staticBody);
     const shape = new box2d.b2PolygonShape();
-    shape.SetAsOrientedBox(
+    shape.SetAsBox(
       this.game.physics.box2d.pxm(this.options.width / 2),
       this.game.physics.box2d.pxm(this.options.height / 2),
       new box2d.b2Vec2(0, 0),
       0,
     );
-    const fixtureDef = new box2d.b2FixtureDef();
+    const fixtureDef = {} as box2d.b2FixtureDef;
     fixtureDef.shape = shape;
     fixtureDef.friction = 0.7;
     fixtureDef.restitution = 0;
@@ -61,13 +62,7 @@ class Door extends Group {
     fixture.id = this.body.world.getNextFixtureId();
     this.body.setFixtureContactCallback(
       fixture,
-      (
-        _body1: Physics.Box2D.Body,
-        body2: Physics.Box2D.Body,
-        _fixture1: box2d.b2Fixture,
-        _fixture2: box2d.b2Fixture,
-        begin: boolean,
-      ) => {
+      (_body1, body2, _fixture1, _fixture2, begin) => {
         const sprite = body2.sprite as Sprite & { character: Character };
         if (sprite.character && sprite.character.data.char === this.data.char)
           return (this.isOpen = !!begin);

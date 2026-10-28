@@ -1,5 +1,5 @@
+import box2d from "@box2d/core";
 import { Game } from "phaser";
-import * as box2d from "phaser-box2d";
 import BoxedDevice from "./BoxedDevice";
 import { type DeviceOptions } from "./Device";
 
@@ -68,13 +68,12 @@ class Roman extends BoxedDevice<RomanOptions> {
     vertices.push(new box2d.b2Vec2(-x / 2 + 2, f / 2));
     const fixtureShape = new box2d.b2PolygonShape();
     fixtureShape.Set(vertices);
-    const fixtureDef = new box2d.b2FixtureDef();
+    const fixtureDef = {} as box2d.b2FixtureDef;
     fixtureDef.shape = fixtureShape;
     fixtureDef.friction = 0.7;
     fixtureDef.restitution = 0;
     fixtureDef.density = 0.1;
-    fixtureDef.filter.categoryBits = 1;
-    fixtureDef.filter.maskBits = 65535;
+    fixtureDef.filter = { categoryBits: 1, maskBits: 65535 };
     bar.body.data.CreateFixture(fixtureDef);
     bar.body.data.SetAngle(angle || 0);
     const base = this.game.make.sprite(
@@ -99,13 +98,12 @@ class Roman extends BoxedDevice<RomanOptions> {
     vertices1.push(new box2d.b2Vec2(1, 0));
     const fixtureShape1 = new box2d.b2PolygonShape();
     fixtureShape1.Set(vertices1);
-    const fixtureDef1 = new box2d.b2FixtureDef();
+    const fixtureDef1 = {} as box2d.b2FixtureDef;
     fixtureDef1.shape = fixtureShape1;
     fixtureDef1.friction = 0.7;
     fixtureDef1.restitution = 0;
     fixtureDef1.density = 0.1;
-    fixtureDef1.filter.categoryBits = 1;
-    fixtureDef1.filter.maskBits = 65535;
+    fixtureDef1.filter = { categoryBits: 1, maskBits: 65535 };
     base.body.data.CreateFixture(fixtureDef1);
     const jointDef = new box2d.b2RevoluteJointDef();
     const bodyCentre = bar.body.data.GetWorldCenter();

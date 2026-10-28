@@ -16969,7 +16969,7 @@ declare module Phaser {
     /**
      * The Box2D Physics system.
      */
-    box2d: Phaser.Physics.Box2D;
+    box2d: import("@/utils/box2d/Box2D").default;
 
     /**
      * Clears down all active physics systems. This doesn't destroy them, it just clears them of objects and is called when the State changes.

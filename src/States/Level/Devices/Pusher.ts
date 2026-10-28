@@ -1,5 +1,5 @@
+import box2d from "@box2d/core";
 import { Game, Signal, Sprite } from "phaser";
-import * as box2d from "phaser-box2d";
 import { ParsedTile } from "../Level";
 import BoxedDevice from "./BoxedDevice";
 import type { DeviceOptions, Light } from "./Device";
@@ -72,14 +72,13 @@ class Pusher<Options extends PusherOptions> extends BoxedDevice<Options> {
     );
     const shape = new box2d.b2PolygonShape();
     shape.Set(vertices);
-    const fixtureDef = new box2d.b2FixtureDef();
+    const fixtureDef = {} as box2d.b2FixtureDef;
     fixtureDef.shape = shape;
     fixtureDef.friction = 0.7;
     fixtureDef.restitution = 0;
     fixtureDef.density = 0.1;
     fixtureDef.userData = "pusher";
-    fixtureDef.filter.categoryBits = 1;
-    fixtureDef.filter.maskBits = 61695;
+    fixtureDef.filter = { categoryBits: 1, maskBits: 61695 };
     const m = button.body.data.CreateFixture(fixtureDef);
     m.id = button.body.world.getNextFixtureId();
     const jointDef = new box2d.b2PrismaticJointDef();

@@ -1,6 +1,7 @@
-import { Animation, BitmapData, Game, Physics, Sound, Sprite } from "phaser";
-import * as box2d from "phaser-box2d";
-import Character from "../character";
+import Body from "@/utils/box2d/Body";
+import box2d from "@box2d/core";
+import { Animation, BitmapData, Game, Sound, Sprite } from "phaser";
+import { CharacterBody } from "../character";
 import { ParsedTile } from "../Level";
 import BoxedDevice, { BoxedDeviceOptions } from "./BoxedDevice";
 
@@ -23,15 +24,12 @@ type WindOptions = {
 class Wind extends BoxedDevice<WindOptions> {
   readonly windSensor: box2d.b2Fixture;
   readonly windEffect: Sprite;
-  readonly activeBodies: Record<
-    number,
-    { body: Physics.Box2D.Body & { sprite: { character: Character } } }
-  >;
+  readonly activeBodies: Record<number, { body: CharacterBody }>;
   private running: boolean = false;
   private sound?: Sound | null;
 
   declare sprite: Sprite;
-  declare body: Physics.Box2D.Body;
+  declare body: Body;
 
   constructor(game: Game, options: WindOptions) {
     options.rotation ||= 0;
@@ -58,7 +56,7 @@ class Wind extends BoxedDevice<WindOptions> {
     this.sprite.anchor.set(0.5);
     const shape1 = new box2d.b2PolygonShape();
     if (this.options.properties.flat) {
-      shape1.SetAsOrientedBox(
+      shape1.SetAsBox(
         this.options.boxWidth / 2,
         this.options.boxHeight / 2,
         new box2d.b2Vec2(0, 0.3),
@@ -76,26 +74,24 @@ class Wind extends BoxedDevice<WindOptions> {
       );
       shape1.Set(vertices);
     }
-    const fixtureDef1 = new box2d.b2FixtureDef();
+    const fixtureDef1 = {} as box2d.b2FixtureDef;
     fixtureDef1.shape = shape1;
     fixtureDef1.friction = 0.4;
     fixtureDef1.restitution = 0;
     fixtureDef1.density = 0.2;
-    const offset = new box2d.b2Vec2(0, 0).SelfRotateRadians(
-      this.options.rotation || 0,
-    );
+    const offset = new box2d.b2Vec2(0, 0).Rotate(this.options.rotation || 0);
     const fixture1 = this.body.data.CreateFixture(fixtureDef1);
     fixture1.id = this.body.world.getNextFixtureId();
     this.body.mass = 0;
     const width = this.options.properties.windWidth ?? this.options.windWidth;
     const shape2 = new box2d.b2PolygonShape();
-    shape2.SetAsOrientedBox(
+    shape2.SetAsBox(
       width / 2,
       this.options.properties.length / 2,
       new box2d.b2Vec2(0, this.options.properties.length / 2 + 0.5),
       0,
     );
-    const windSensorDef = new box2d.b2FixtureDef();
+    const windSensorDef = {} as box2d.b2FixtureDef;
     windSensorDef.shape = shape2;
     windSensorDef.isSensor = true;
     windSensorDef.userData = { lightProperties: { type: "transparent" } };
@@ -105,17 +101,11 @@ class Wind extends BoxedDevice<WindOptions> {
     this.activeBodies = {};
     this.body.setFixtureContactCallback(
       this.windSensor,
-      (
-        _body1: Physics.Box2D.Body,
-        body2: Physics.Box2D.Body & { sprite: { character?: Character } },
-        _fixture1: box2d.b2Fixture,
-        _fixture2: box2d.b2Fixture,
-        begin: boolean,
-      ) => {
-        if (null == body2.sprite.character) return;
+      (_body1, body2: CharacterBody | Body, _fixture1, _fixture2, begin) => {
+        if (!body2.sprite || !("character" in body2.sprite)) return;
         if (begin && null == this.activeBodies[body2.id]) {
           this.activeBodies[body2.id] = {
-            body: body2 as (typeof this.activeBodies)[number]["body"],
+            body: body2 as CharacterBody,
           };
         } else if (!begin && null != this.activeBodies[body2.id]) {
           delete this.activeBodies[body2.id];
@@ -166,22 +156,26 @@ class Wind extends BoxedDevice<WindOptions> {
     const state = this.getState();
     if (1 !== state) return;
     for (const { body } of Object.values(this.activeBodies)) {
-      const force = new box2d.b2Vec2(0, 1).SelfRotateRadians(
-        this.options.rotation || 0,
-      );
-      const pos = body.data.GetPosition().SelfSub(this.body.data.GetPosition());
+      const force = new box2d.b2Vec2(0, 1).Rotate(this.options.rotation || 0);
+      const pos = body.data
+        .GetPosition()
+        .Clone()
+        .Subtract(this.body.data.GetPosition());
       force
-        .SelfMul(1.2 + 0.2 * Math.sin(this.game.time.now / 1e3))
-        .SelfMul(100)
-        .SelfMul(1 - pos.GetLength() / this.options.properties.length);
+        .Scale(1.2 + 0.2 * Math.sin(this.game.time.now / 1e3))
+        .Scale(100)
+        .Scale(1 - pos.Length() / this.options.properties.length);
       body.data.ApplyForce(force, new box2d.b2Vec2(0, 0));
-      body.data.SetLinearVelocity(body.data.GetLinearVelocity().SelfMul(0.975));
-      const velocity = body.data.GetLinearVelocity().GetLength();
+      body.data.SetLinearVelocity(
+        body.data.GetLinearVelocity().Clone().Scale(0.975),
+      );
+      const velocity = body.data.GetLinearVelocity().Length();
       body.data.SetLinearVelocity(
         body.data
           .GetLinearVelocity()
+          .Clone()
           .SelfNormalize()
-          .SelfMul(Math.min(velocity, 15)),
+          .Scale(Math.min(velocity, 15)),
       );
     }
   }
@@ -227,9 +221,7 @@ class Wind extends BoxedDevice<WindOptions> {
       x: this.sprite.x + bitmapData.offset.x,
       y: this.sprite.y + bitmapData.offset.y,
     };
-    const offset1 = new box2d.b2Vec2(36, 0).SelfRotateRadians(
-      this.options.rotation,
-    );
+    const offset1 = new box2d.b2Vec2(36, 0).Rotate(this.options.rotation);
     const gradient1 = bitmapData.ctx.createRadialGradient(
       pos.x + offset1.x,
       pos.y + offset1.y,
@@ -242,9 +234,7 @@ class Wind extends BoxedDevice<WindOptions> {
     gradient1.addColorStop(0.5, "rgba(255,255,255,0.3)");
     gradient1.addColorStop(1, "transparent");
     bitmapData.circle(pos.x + offset1.x, pos.y + offset1.y, 90, gradient1);
-    const offset2 = new box2d.b2Vec2(-36, 0).SelfRotateRadians(
-      this.options.rotation,
-    );
+    const offset2 = new box2d.b2Vec2(-36, 0).Rotate(this.options.rotation);
     const gradient2 = bitmapData.ctx.createRadialGradient(
       pos.x + offset2.x,
       pos.y + offset2.y,

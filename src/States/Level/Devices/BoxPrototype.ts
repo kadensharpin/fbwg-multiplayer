@@ -1,5 +1,7 @@
-import { Game, Physics } from "phaser";
-import * as box2d from "phaser-box2d";
+import Body from "@/utils/box2d/Body";
+import { Fixture } from "@/utils/util";
+import box2d from "@box2d/core";
+import { Game } from "phaser";
 import BoxedDevice from "./BoxedDevice";
 import { DeviceOptions } from "./Device";
 
@@ -18,8 +20,8 @@ export type BoxPrototypeOptions = {
 class BoxPrototype<
   Options extends BoxPrototypeOptions = BoxPrototypeOptions,
 > extends BoxedDevice<Options> {
-  readonly boxFixture: box2d.b2Fixture & { id: number };
-  declare body: Physics.Box2D.Body;
+  readonly boxFixture: Fixture<{}>;
+  declare body: Body;
 
   constructor(game: Game, options: Partial<BoxPrototypeOptions>) {
     options.atlasName ??= "MechAssets";
@@ -88,7 +90,7 @@ class BoxPrototype<
       ),
     );
     shape.Set(vertices.reverse());
-    const fixtureDef = new box2d.b2FixtureDef();
+    const fixtureDef = {} as box2d.b2FixtureDef;
     fixtureDef.shape = shape;
     fixtureDef.friction =
       this.options.properties.friction != null
@@ -96,15 +98,15 @@ class BoxPrototype<
         : 0.4;
     fixtureDef.restitution = 0;
     fixtureDef.density = this.options.density;
+    // @ts-expect-error
     this.boxFixture = this.body.data.CreateFixture(fixtureDef);
     this.boxFixture.id = this.body.world.getNextFixtureId();
     const createFixture = (radius: number, pos: [number, number]) => {
       const d = new box2d.b2CircleShape(radius);
-      d.m_p.SetXY(pos[0], pos[1]);
-      const fixtureDef = new box2d.b2FixtureDef();
+      d.m_p.Set(pos[0], pos[1]);
+      const fixtureDef = {} as box2d.b2FixtureDef;
       fixtureDef.shape = d;
-      fixtureDef.filter.categoryBits = 17;
-      fixtureDef.filter.maskBits = 4097;
+      fixtureDef.filter = { categoryBits: 17, maskBits: 4097 };
       fixtureDef.friction = this.options.circleFriction;
       fixtureDef.density = 0;
       fixtureDef.userData = { lightProperties: { type: "transparent" } };
@@ -118,11 +120,10 @@ class BoxPrototype<
     createFixture(0.1, [-size, size]);
     createFixture(0.1, [size, size]);
     const circle = new box2d.b2CircleShape(0.1);
-    circle.m_p.SetXY(0, 0);
-    const fixtureDef2 = new box2d.b2FixtureDef();
+    circle.m_p.Set(0, 0);
+    const fixtureDef2 = {} as box2d.b2FixtureDef;
     fixtureDef2.shape = circle;
-    fixtureDef2.filter.categoryBits = 4096;
-    fixtureDef2.filter.maskBits = 4096;
+    fixtureDef2.filter = { categoryBits: 4096, maskBits: 4096 };
     fixtureDef2.friction = 0.5;
     fixtureDef2.density = 0;
     fixtureDef2.userData = {

@@ -1,12 +1,7 @@
-import {
-  BitmapData,
-  Game,
-  Image,
-  Physics,
-  RenderTexture,
-  Sprite,
-} from "phaser";
-import * as box2d from "phaser-box2d";
+import Body from "@/utils/box2d/Body";
+import Box2D from "@/utils/box2d/Box2D";
+import box2d from "@box2d/core";
+import { BitmapData, Game, Image, RenderTexture, Sprite } from "phaser";
 import seedrandom from "seedrandom";
 import InlineFilter from "../../filters/InlineFilter";
 import OutlineFilter from "../../filters/OutlineFilter";
@@ -17,7 +12,7 @@ import { ParsedMapData, ParsedTile } from "./Level";
 import MechManager from "./MechManager";
 
 class Ground extends Sprite {
-  declare body: Physics.Box2D.Body;
+  declare body: Body;
   filterPadding = 10;
   options = {
     width: 0,
@@ -56,7 +51,7 @@ class Ground extends Sprite {
     this.options.height = this.mapData.height * this.mapData.tileHeight;
     this.convertTilemap();
     this.CreateSnows();
-    Physics.Box2D.worldBoundsFilterCategory = 65535;
+    Box2D.worldBoundsFilterCategory = 65535;
     this.game.physics.box2d.setBounds(
       -100,
       -100,
@@ -136,7 +131,7 @@ class Ground extends Sprite {
   }
 
   convertTilemap() {
-    this.body.data.m_userData = "ground";
+    this.body.data.SetUserData("ground");
     this.game.level.groundBody = this.body.data;
     const maskBmd = this.game.add.bitmapData(
       this.options.width + 64,
@@ -527,10 +522,9 @@ class Ground extends Sprite {
     isSensor: boolean = false,
     userData: any = null,
   ) {
-    const fixtureDef = new box2d.b2FixtureDef();
+    const fixtureDef = {} as box2d.b2FixtureDef;
     fixtureDef.shape = shape;
-    fixtureDef.filter.categoryBits = 1;
-    fixtureDef.filter.maskBits = 4369;
+    fixtureDef.filter = { categoryBits: 1, maskBits: 4369 };
     fixtureDef.friction = 0.8;
     fixtureDef.isSensor = isSensor;
     fixtureDef.userData = userData;

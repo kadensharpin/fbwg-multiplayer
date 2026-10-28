@@ -1,3 +1,4 @@
+import box2d from "@box2d/core";
 import {
   BitmapData,
   BitmapText,
@@ -13,7 +14,6 @@ import {
   Tilemap,
   TilemapParser,
 } from "phaser";
-import box2d from "phaser-box2d";
 
 import _ from "underscore";
 import { LevelData } from "../../temple";
@@ -495,14 +495,11 @@ class Level extends State {
     this.game.physics.box2d.useElapsedTime = true;
     this.game.physics.box2d.paused = true;
     this.game.physics.box2d.update = function () {
-      if (!this.paused) {
-        this.world.Step(
-          Math.min(0.04, this.game.time.elapsed / 1000),
-          this.velocityIterations,
-          this.positionIterations,
-        );
-        return;
-      }
+      if (this.paused) return;
+      this.world.Step(Math.min(0.04, this.game.time.elapsed / 1000), {
+        positionIterations: this.positionIterations,
+        velocityIterations: this.velocityIterations,
+      });
     };
     this.decodeAudio(() => {
       console.log("load completed");

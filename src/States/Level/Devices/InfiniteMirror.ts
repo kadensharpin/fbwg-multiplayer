@@ -1,5 +1,6 @@
-import { Game, Physics } from "phaser";
-import * as box2d from "phaser-box2d";
+import Body from "@/utils/box2d/Body";
+import box2d from "@box2d/core";
+import { Game } from "phaser";
 import BoxedDevice from "./BoxedDevice";
 import { Light, type DeviceOptions } from "./Device";
 
@@ -12,7 +13,7 @@ type InfiniteMirrorOptions = {
 } & DeviceOptions;
 
 class InfiniteMirror extends BoxedDevice<InfiniteMirrorOptions> {
-  declare body: Physics.Box2D.Body;
+  declare body: Body;
   joint: box2d.b2RevoluteJoint;
 
   constructor(game: Game, options: InfiniteMirrorOptions) {
@@ -56,20 +57,20 @@ class InfiniteMirror extends BoxedDevice<InfiniteMirrorOptions> {
     this.game.layers.overGround.addChild(mirror);
     this.body.clearFixtures();
     const shape = new box2d.b2PolygonShape();
-    shape.SetAsOrientedBox(
+    shape.SetAsBox(
       this.options.boxWidth / 2,
       this.options.boxHeight / 2,
       new box2d.b2Vec2(0, 0),
       0,
     );
     const m = new box2d.b2PolygonShape();
-    m.SetAsOrientedBox(
+    m.SetAsBox(
       this.options.mirrorWidth / 2,
       this.options.mirrorHeight / 2,
       new box2d.b2Vec2(0, 0),
       Math.PI / 4,
     );
-    const fixtureDef1 = new box2d.b2FixtureDef();
+    const fixtureDef1 = {} as box2d.b2FixtureDef;
     fixtureDef1.shape = m;
     fixtureDef1.friction = 0.7;
     fixtureDef1.restitution = 0;
@@ -79,13 +80,13 @@ class InfiniteMirror extends BoxedDevice<InfiniteMirrorOptions> {
     fixture1.id = this.body.world.getNextFixtureId();
     this.body.data.SetAngle(this.options.rotation);
     const shape2 = new box2d.b2CircleShape(0.3);
-    shape2.m_p = new box2d.b2Vec2(1.1, 1.1);
-    const fixtureDef2 = new box2d.b2FixtureDef();
+    shape2.Set(new box2d.b2Vec2(1.1, 1.1));
+    const fixtureDef2 = {} as box2d.b2FixtureDef;
     fixtureDef2.shape = shape2;
     this.body.data.CreateFixture(fixtureDef2);
     const shape3 = new box2d.b2CircleShape(0.3);
-    shape3.m_p = new box2d.b2Vec2(-1.1, -1.1);
-    const fixtureDef3 = new box2d.b2FixtureDef();
+    shape3.Set(new box2d.b2Vec2(-1.1, -1.1));
+    const fixtureDef3 = {} as box2d.b2FixtureDef;
     fixtureDef3.shape = shape3;
     this.body.data.CreateFixture(fixtureDef3);
     const jointDef = new box2d.b2RevoluteJointDef();

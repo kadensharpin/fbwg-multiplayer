@@ -1,5 +1,6 @@
-import { Game, Physics } from "phaser";
-import * as box2d from "phaser-box2d";
+import Body from "@/utils/box2d/Body";
+import box2d from "@box2d/core";
+import { Game } from "phaser";
 import { deepObjectExtend } from "../../../utils/util";
 import Device, { DeviceOptions } from "./Device";
 
@@ -12,7 +13,7 @@ type WindowOptions = {
 } & DeviceOptions;
 
 class Window extends Device<WindowOptions> {
-  declare body: Physics.Box2D.Body;
+  declare body: Body;
   constructor(game: Game, options: WindowOptions) {
     if (options.width < options.height) {
       const temp = options.width;
@@ -46,20 +47,19 @@ class Window extends Device<WindowOptions> {
     this.body.data.SetAngle(this.options.rotation);
     this.body.static = true;
     const shape = new box2d.b2PolygonShape();
-    shape.SetAsOrientedBox(
+    shape.SetAsBox(
       this.options.width / 2,
       this.options.height / 2,
       new box2d.b2Vec2(0, 0),
       0,
     );
-    const fixtureDef = new box2d.b2FixtureDef();
+    const fixtureDef = {} as box2d.b2FixtureDef;
     fixtureDef.shape = shape;
     fixtureDef.friction = 0.7;
     fixtureDef.restitution = 0;
     fixtureDef.density = 0;
     fixtureDef.userData = { lightProperties: { type: "transparent" } };
-    fixtureDef.filter.categoryBits = 1;
-    fixtureDef.filter.maskBits = 61695;
+    fixtureDef.filter = { categoryBits: 1, maskBits: 61695 };
     const fixture = this.body.data.CreateFixture(fixtureDef);
     fixture.id = this.body.world.getNextFixtureId();
     new box2d.b2Vec2(this.options.properties.dx, this.options.properties.dy);

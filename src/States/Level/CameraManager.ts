@@ -1,5 +1,5 @@
+import box2d from "@box2d/core";
 import { Game, Graphics, Rectangle } from "phaser";
-import * as box2d from "phaser-box2d";
 import _ from "underscore";
 import Level from "./Level";
 
@@ -195,7 +195,7 @@ class CameraManager {
       this.level.pers2.sprite.x,
       this.level.pers2.sprite.y,
     );
-    let charDistance = pers2Pos.Clone().SelfSub(pers1Pos);
+    let charDistance = pers2Pos.Clone().Subtract(pers1Pos);
     let realSize = {
       width:
         this.game.realWidth -
@@ -252,8 +252,8 @@ class CameraManager {
     }
     let focusPoint = pers1Pos
       .Clone()
-      .SelfAdd(charDistance.Clone().SelfMul(0.5))
-      .SelfMul(focusScale);
+      .Add(charDistance.Clone().Scale(0.5))
+      .Scale(focusScale);
     if (this.userCenter != null) {
       focusPoint = new box2d.b2Vec2(this.userCenter.x, this.userCenter.y);
     }

@@ -1,4 +1,4 @@
-import * as box2d from "phaser-box2d";
+import box2d from "@box2d/core";
 
 export default class DefaultDebugDraw implements box2d.b2Draw {
   context: CanvasRenderingContext2D | null;

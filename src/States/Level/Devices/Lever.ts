@@ -1,5 +1,6 @@
-import { BitmapData, Game, Physics, Signal, Sprite } from "phaser";
-import * as box2d from "phaser-box2d";
+import Body from "@/utils/box2d/Body";
+import box2d from "@box2d/core";
+import { BitmapData, Game, Signal, Sprite } from "phaser";
 import BoxedDevice from "./BoxedDevice";
 import { DeviceOptions, Light } from "./Device";
 
@@ -14,10 +15,10 @@ class Lever extends BoxedDevice<LeverOptions> {
   readonly base: Sprite;
   joint: box2d.b2RevoluteJoint;
   signal: Signal;
-  declare body: Physics.Box2D.Body;
+  declare body: Body;
 
-  constructor(b: Game, c: LeverOptions) {
-    super(b, c);
+  constructor(game: Game, options: LeverOptions) {
+    super(game, options);
 
     this.drawDarkMask = this.drawDarkMask.bind(this);
     this.checkState = this.checkState.bind(this);
@@ -64,14 +65,13 @@ class Lever extends BoxedDevice<LeverOptions> {
     this.game.layers.overGround.addChild(this.base);
     this.body.clearFixtures();
     const shape = new box2d.b2PolygonShape();
-    shape.SetAsOrientedBox(0.15, 0.7, new box2d.b2Vec2(0, 0.55), 0);
-    const fixtureDef = new box2d.b2FixtureDef();
+    shape.SetAsBox(0.15, 0.7, new box2d.b2Vec2(0, 0.55), 0);
+    const fixtureDef = {} as box2d.b2FixtureDef;
     fixtureDef.shape = shape;
     fixtureDef.friction = 0.7;
     fixtureDef.restitution = 0;
     fixtureDef.density = 1.6;
-    fixtureDef.filter.categoryBits = 1;
-    fixtureDef.filter.maskBits = 61695;
+    fixtureDef.filter = { categoryBits: 1, maskBits: 61695 };
     const fixture = stick.body.data.CreateFixture(fixtureDef);
     fixture.id = stick.body.world.getNextFixtureId();
     const joint = new box2d.b2RevoluteJointDef();
@@ -101,12 +101,12 @@ class Lever extends BoxedDevice<LeverOptions> {
   checkState() {
     if (
       !this.state &&
-      this.joint.GetJointAngleRadians() * this.options.properties.onis < 0
+      this.joint.GetJointAngle() * this.options.properties.onis < 0
     ) {
       this.state = 1;
     } else if (
       this.state &&
-      this.joint.GetJointAngleRadians() * this.options.properties.onis > 0
+      this.joint.GetJointAngle() * this.options.properties.onis > 0
     ) {
       this.state = 0;
     } else {
@@ -127,8 +127,8 @@ class Lever extends BoxedDevice<LeverOptions> {
       y: this.base.y + data.offset.y,
     };
     const radius = new box2d.b2Vec2(0, this.mpx(-1.1));
-    radius.SelfRotateRadians(this.joint.GetJointAngleRadians());
-    radius.SelfAdd(new box2d.b2Vec2(0, this.mpx(1.8)));
+    radius.Rotate(this.joint.GetJointAngle());
+    radius.Add(new box2d.b2Vec2(0, this.mpx(1.8)));
     const gradient = data.ctx.createRadialGradient(
       pos.x + radius.x,
       pos.y + radius.y,

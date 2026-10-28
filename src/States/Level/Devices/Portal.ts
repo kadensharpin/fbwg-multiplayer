@@ -1,13 +1,6 @@
-import {
-  Animation,
-  BitmapData,
-  Game,
-  Graphics,
-  Physics,
-  Sound,
-  Sprite,
-} from "phaser";
-import * as box2d from "phaser-box2d";
+import Body from "@/utils/box2d/Body";
+import box2d from "@box2d/core";
+import { Animation, BitmapData, Game, Graphics, Sound, Sprite } from "phaser";
 import { ParsedTile } from "../Level";
 import BoxedDevice, { BoxedDeviceOptions } from "./BoxedDevice";
 import { Light } from "./Device";
@@ -33,13 +26,13 @@ class Portal extends BoxedDevice<PortalOptions> {
   readonly nearBodies: Record<
     number,
     {
-      body: Physics.Box2D.Body & { side?: -1 | 1 };
+      body: Body & { side?: -1 | 1 };
       dist: null;
       mask?: Graphics;
     }
   >;
   readonly transporting: {
-    body: Physics.Box2D.Body;
+    body: Body;
     vel: box2d.b2Vec2;
     side: -1 | 1;
   }[] = [];
@@ -49,7 +42,7 @@ class Portal extends BoxedDevice<PortalOptions> {
   private sound?: Sound | null;
   private receiving: boolean = false;
 
-  declare body: Physics.Box2D.Body;
+  declare body: Body;
 
   constructor(game: Game, options: PortalOptions) {
     options.rotation ||= 0;
@@ -150,34 +143,32 @@ class Portal extends BoxedDevice<PortalOptions> {
     this.body.mass = 0;
     this.body.data.SetAngle(this.options.rotation);
     const sensorShape = new box2d.b2PolygonShape();
-    sensorShape.SetAsOrientedBox(
+    sensorShape.SetAsBox(
       this.options.sensorWidth,
       this.options.sensorHeigh,
       new box2d.b2Vec2(0, 0),
       0,
     );
-    const sensorfixtureDef = new box2d.b2FixtureDef();
+    const sensorfixtureDef = {} as box2d.b2FixtureDef;
     sensorfixtureDef.shape = sensorShape;
     sensorfixtureDef.density = 0;
     sensorfixtureDef.isSensor = true;
-    sensorfixtureDef.filter.maskBits = 4096;
-    sensorfixtureDef.filter.categoryBits = 4096;
+    sensorfixtureDef.filter = { maskBits: 4096, categoryBits: 4096 };
     sensorfixtureDef.userData = { lightProperties: { type: "transparent" } };
     this.sensorFixture = this.body.data.CreateFixture(sensorfixtureDef);
     this.sensorFixture.id = this.body.world.getNextFixtureId();
     const eventHorizonShape = new box2d.b2PolygonShape();
-    eventHorizonShape.SetAsOrientedBox(
+    eventHorizonShape.SetAsBox(
       this.options.lightSensorWidth,
       this.options.sensorHeigh,
       new box2d.b2Vec2(0, 0),
       0,
     );
-    const eventHorizonDef = new box2d.b2FixtureDef();
+    const eventHorizonDef = {} as box2d.b2FixtureDef;
     eventHorizonDef.shape = eventHorizonShape;
     eventHorizonDef.density = 0;
     eventHorizonDef.isSensor = false;
-    eventHorizonDef.filter.maskBits = 4096;
-    eventHorizonDef.filter.categoryBits = 4096;
+    eventHorizonDef.filter = { maskBits: 4096, categoryBits: 4096 };
     eventHorizonDef.userData = {
       lightProperties: {
         type: "portal",
@@ -187,28 +178,26 @@ class Portal extends BoxedDevice<PortalOptions> {
             (this.other.options.rotation || 0) - (this.options.rotation || 0);
           return this.other.options.properties.inverted ===
             this.options.properties.inverted
-            ? input.SelfRotateRadians(rotation + Math.PI)
-            : input.SelfRotateRadians(rotation);
+            ? input.Rotate(rotation + Math.PI)
+            : input.Rotate(rotation);
         },
         getPoint: (point: box2d.b2Vec2, normal: box2d.b2Vec2): box2d.b2Vec2 => {
           if (!this.other) return point;
-          normal = new box2d.b2Vec2(0, 1).SelfRotateRadians(
-            this.options.rotation || 0,
-          );
-          let offset = point.Clone().SelfSub(this.body.data.GetPosition());
+          normal = new box2d.b2Vec2(0, 1).Rotate(this.options.rotation || 0);
+          let offset = point.Clone().Subtract(this.body.data.GetPosition());
           if (
             this.other.options.properties.inverted !==
             this.options.properties.inverted
           ) {
             offset = normal
               .Clone()
-              .SelfMul((2 * offset.Dot(normal)) / normal.Length())
-              .SelfSub(offset);
+              .Scale((2 * offset.Dot(normal)) / normal.Length())
+              .Subtract(offset);
           }
           const rotation =
             (this.other.options.rotation || 0) - (this.options.rotation || 0);
-          offset.SelfRotateRadians(rotation);
-          return this.other.body.data.GetPosition().SelfAdd(offset);
+          offset.Rotate(rotation);
+          return offset.Add(this.other.body.data.GetPosition());
         },
       },
       device: this,
@@ -220,13 +209,16 @@ class Portal extends BoxedDevice<PortalOptions> {
     this.body.setFixtureContactCallback(
       this.sensorFixture,
       (
-        _body1: Physics.Box2D.Body,
-        body2: Physics.Box2D.Body & { side?: -1 | 1 },
+        _body1: Body,
+        body2: Body & { side?: -1 | 1 },
         _fixture1: box2d.b2Fixture,
         fixture2: box2d.b2Fixture,
         begin: boolean,
       ) => {
-        if (!fixture2.m_userData["portal-sensor"]) return;
+        const fixture2Data = fixture2.GetUserData() as {
+          "portal-sensor"?: true;
+        };
+        if (!fixture2Data["portal-sensor"]) return;
         if (begin || null == this.nearBodies[body2.id]) {
           if (1 === this.state && begin && null == this.nearBodies[body2.id]) {
             console.log("add", body2.id);
@@ -251,8 +243,8 @@ class Portal extends BoxedDevice<PortalOptions> {
     this.body.setFixtureContactCallback(
       this.eventHorizon,
       (
-        _body1: Physics.Box2D.Body,
-        body2: Physics.Box2D.Body & { lastTransport?: number },
+        _body1: Body,
+        body2: Body & { lastTransport?: number },
         _fixture1: box2d.b2Fixture,
         _fixture2: box2d.b2Fixture,
         begin: boolean,
@@ -286,7 +278,7 @@ class Portal extends BoxedDevice<PortalOptions> {
     this.options.properties.inverted
       ? (this.normal = new box2d.b2Vec2(1, 0))
       : (this.normal = new box2d.b2Vec2(-1, 0));
-    this.normal.SelfRotateRadians(this.options.rotation || 0);
+    this.normal.Rotate(this.options.rotation || 0);
   }
 
   static sounds() {
@@ -298,20 +290,20 @@ class Portal extends BoxedDevice<PortalOptions> {
     const mask = this.game.make.graphics(0, 0);
     this.game.level.root?.addChild(mask);
     mask.beginFill(16777215);
-    const direction = new box2d.b2Vec2(-1, 0).SelfRotateRadians(
+    const direction = new box2d.b2Vec2(-1, 0).Rotate(
       this.options.rotation || 0,
     );
     const position = body.body.data
       .GetPosition()
       .Clone()
-      .SelfSub(this.body.data.GetPosition());
+      .Subtract(this.body.data.GetPosition());
     const width = direction.Dot(position) < 0 ? this.mpx(5) : -this.mpx(5);
     mask.drawRect(0, -height, width, 2 * height);
     mask.x = this.options.x;
     mask.y = this.options.y;
     mask.angle = (180 * this.options.rotation) / Math.PI || 0;
     body.mask = mask;
-    body.body.sprite.mask = mask;
+    if (body.body.sprite) body.body.sprite.mask = mask;
   }
 
   removeMask(body: (typeof this.nearBodies)[number]) {
@@ -322,45 +314,44 @@ class Portal extends BoxedDevice<PortalOptions> {
 
   transport(body: (typeof this.transporting)[number]) {
     if (!this.other) return;
-    const direction = new box2d.b2Vec2(0, 1).SelfRotateRadians(
-      this.options.rotation || 0,
-    );
+    const direction = new box2d.b2Vec2(0, 1).Rotate(this.options.rotation || 0);
     let pos = body.body.data
       .GetPosition()
       .Clone()
-      .SelfSub(this.body.data.GetPosition());
+      .Subtract(this.body.data.GetPosition());
     if (
       this.other.options.properties.inverted !==
       this.options.properties.inverted
     ) {
       pos = direction
         .Clone()
-        .SelfMul((2 * pos.Dot(direction)) / direction.Length())
-        .SelfSub(pos);
+        .Scale((2 * pos.Dot(direction)) / direction.Length())
+        .Subtract(pos);
     }
     const rotation =
       (this.other.options.rotation || 0) - (this.options.rotation || 0);
-    pos.SelfRotateRadians(rotation);
-    body.body.data.SetPosition(this.other.body.data.GetPosition().SelfAdd(pos));
+    pos.Rotate(rotation);
+    body.body.data.SetPosition(pos.Add(this.other.body.data.GetPosition()));
     let velocity: box2d.b2Vec2;
     if (
       this.other.options.properties.inverted ===
       this.options.properties.inverted
     ) {
-      velocity = body.vel.Clone().SelfRotateRadians(-rotation);
+      velocity = body.vel.Clone().Rotate(-rotation);
       velocity = direction
         .Clone()
-        .SelfMul((2 * velocity.Dot(direction)) / direction.Length())
-        .SelfSub(velocity);
+        .Scale((2 * velocity.Dot(direction)) / direction.Length())
+        .Subtract(velocity);
     } else {
-      velocity = body.vel.Clone().SelfRotateRadians(rotation);
+      velocity = body.vel.Clone().Rotate(rotation);
     }
     body.body.data.SetLinearVelocity(velocity);
     if (velocity.Length() < 10) {
       const otherNormal = this.other.normal.Clone();
-      if (1 === body.side) otherNormal.SelfMul(-1);
+      if (1 === body.side) otherNormal.Scale(-1);
+      velocity.Normalize();
       body.body.data.SetLinearVelocity(
-        velocity.SelfNormalize().SelfMul(10 / body.body.data.GetMass()),
+        velocity.Scale(10 / body.body.data.GetMass()),
       );
     }
     this.game.physics.update();
@@ -373,7 +364,7 @@ class Portal extends BoxedDevice<PortalOptions> {
     if (1 !== this.state || this.center.visible) {
       if (0 === this.state && this.center.visible) {
         this.center.visible = false;
-        const filter = new box2d.b2Filter();
+        const filter = {} as box2d.b2Filter;
         filter.maskBits = 0;
         filter.categoryBits = 0;
         this.eventHorizon.SetFilterData(filter);
@@ -388,7 +379,7 @@ class Portal extends BoxedDevice<PortalOptions> {
       }
     } else {
       this.center.visible = true;
-      const filter = new box2d.b2Filter();
+      const filter = {} as box2d.b2Filter;
       filter.maskBits = 4096;
       filter.categoryBits = 4096;
       this.eventHorizon.SetFilterData(filter);
@@ -403,7 +394,7 @@ class Portal extends BoxedDevice<PortalOptions> {
     }
     this.sensorFixture.Refilter();
     if (this.fakeWallFixture != null) {
-      const filter = new box2d.b2Filter();
+      const filter = {} as box2d.b2Filter;
       if (1 === this.state) {
         filter.maskBits = 0;
         filter.categoryBits = 0;
@@ -430,7 +421,7 @@ class Portal extends BoxedDevice<PortalOptions> {
         if (body.body.side && body.body.side !== x / Math.abs(x)) {
           console.log("side violation!", body.body);
           body.body.data.SetPosition(
-            body.body.data.GetPosition().SelfAdd(pos.Clone().SelfMul(-2)),
+            pos.Clone().Scale(-2).Add(body.body.data.GetPosition()),
           );
         }
         if (this.options.properties.inverted) x *= -1;
@@ -498,13 +489,13 @@ class Portal extends BoxedDevice<PortalOptions> {
     options.center.y -= 0.5 * Math.cos(this.options.rotation);
     options.center.x += 0.5 * Math.sin(this.options.rotation);
     const shape = new box2d.b2PolygonShape();
-    shape.SetAsOrientedBox(
+    shape.SetAsBox(
       options.width,
       options.height,
       options.center,
       options.rotation,
     );
-    const fakeWallDef = new box2d.b2FixtureDef();
+    const fakeWallDef = {} as box2d.b2FixtureDef;
     fakeWallDef.shape = shape;
     this.fakeWallFixture = body.data.CreateFixture(fakeWallDef);
     body.mass = 0;
@@ -526,9 +517,7 @@ class Portal extends BoxedDevice<PortalOptions> {
       x: this.center.x + bitmapData.offset.x,
       y: this.center.y + bitmapData.offset.y,
     };
-    const offset1 = new box2d.b2Vec2(0, 36).SelfRotateRadians(
-      this.options.rotation,
-    );
+    const offset1 = new box2d.b2Vec2(0, 36).Rotate(this.options.rotation);
     const gradient1 = bitmapData.ctx.createRadialGradient(
       pos.x + offset1.x,
       pos.y + offset1.y,
@@ -541,9 +530,7 @@ class Portal extends BoxedDevice<PortalOptions> {
     gradient1.addColorStop(0.5, "rgba(255,255,255,0.3)");
     gradient1.addColorStop(1, "transparent");
     bitmapData.circle(pos.x + offset1.x, pos.y + offset1.y, 90, gradient1);
-    const offset2 = new box2d.b2Vec2(0, -36).SelfRotateRadians(
-      this.options.rotation,
-    );
+    const offset2 = new box2d.b2Vec2(0, -36).Rotate(this.options.rotation);
     const gradient2 = bitmapData.ctx.createRadialGradient(
       pos.x + offset2.x,
       pos.y + offset2.y,
