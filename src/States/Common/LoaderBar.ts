@@ -1,4 +1,4 @@
-import { Game, Group, Rectangle, Sprite } from "phaser";
+import { Game, Group, PIXI, Rectangle, Sprite } from "phaser";
 
 class LoaderBar extends Group {
   constructor(game: Game, parent: PIXI.DisplayObjectContainer, name?: string) {

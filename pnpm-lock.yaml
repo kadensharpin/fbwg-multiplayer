@@ -4,13 +4,17 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  '@azerion/phaser-super-storage': c4d21155ee53fe0740270539ac0da446d1906ec93d0b8af5790a138f254536cd
+  phaser: 24ca9fb42c3bb180190aa08b51345695ff738b25e8a5454bf23ead0401ec9d7a
+
 importers:
 
   .:
     dependencies:
       '@azerion/phaser-super-storage':
         specifier: 1.0.4
-        version: 1.0.4
+        version: 1.0.4(patch_hash=c4d21155ee53fe0740270539ac0da446d1906ec93d0b8af5790a138f254536cd)
       '@box2d/core':
         specifier: ^0.11.0
         version: 0.11.0
@@ -37,7 +41,7 @@ importers:
         version: 8.2.1
       phaser:
         specifier: 2.6.2
-        version: 2.6.2
+        version: 2.6.2(patch_hash=24ca9fb42c3bb180190aa08b51345695ff738b25e8a5454bf23ead0401ec9d7a)
       seedrandom:
         specifier: ^3.0.5
         version: 3.0.5
@@ -529,7 +533,7 @@ packages:
 
 snapshots:
 
-  '@azerion/phaser-super-storage@1.0.4': {}
+  '@azerion/phaser-super-storage@1.0.4(patch_hash=c4d21155ee53fe0740270539ac0da446d1906ec93d0b8af5790a138f254536cd)': {}
 
   '@babel/runtime@7.29.2': {}
 
@@ -745,7 +749,7 @@ snapshots:
 
   nanoid@3.3.18: {}
 
-  phaser@2.6.2: {}
+  phaser@2.6.2(patch_hash=24ca9fb42c3bb180190aa08b51345695ff738b25e8a5454bf23ead0401ec9d7a): {}
 
   picocolors@1.1.1: {}
 

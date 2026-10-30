@@ -1,4 +1,4 @@
-import { Game, Group } from "phaser";
+import { Game, Group, PIXI } from "phaser";
 import Button from "../Common/Button";
 import Clock from "./Clock";
 import Level from "./Level";

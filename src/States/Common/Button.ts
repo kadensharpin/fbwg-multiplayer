@@ -1,4 +1,11 @@
-import { BitmapData, BitmapText, Game, RenderTexture, Sprite } from "phaser";
+import {
+  BitmapData,
+  BitmapText,
+  Game,
+  PIXI,
+  RenderTexture,
+  Sprite,
+} from "phaser";
 import { Sounds } from "../../utils/sound/sounds";
 
 class Button extends Sprite {

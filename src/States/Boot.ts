@@ -1,3 +1,4 @@
+import PhaserSuperStorage from "@azerion/phaser-super-storage";
 import { State } from "phaser";
 import ProgressModel from "../ProgressModel";
 import { CacheBuster } from "../utils/util";

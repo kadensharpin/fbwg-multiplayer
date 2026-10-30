@@ -6,6 +6,7 @@ import {
   Easing,
   Game,
   Group,
+  PIXI,
   Signal,
   Sprite,
 } from "phaser";

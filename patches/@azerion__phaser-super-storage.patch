@@ -1,0 +1,11 @@
+diff --git a/build/phaser-super-storage.js b/build/phaser-super-storage.js
+index 861d60530be145614cec4285f2ce1031721261a1..1e8dd53168a897bab0c0b8ceb1c587ce83255a68 100644
+--- a/build/phaser-super-storage.js
++++ b/build/phaser-super-storage.js
+@@ -601,4 +601,6 @@ var PhaserSuperStorage;
+     }());
+     PhaserSuperStorage.StorageUtils = StorageUtils;
+ })(PhaserSuperStorage || (PhaserSuperStorage = {}));
++
++export default PhaserSuperStorage;
+ //# sourceMappingURL=phaser-super-storage.js.map

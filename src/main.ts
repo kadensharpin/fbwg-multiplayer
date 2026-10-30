@@ -1,7 +1,6 @@
 import { b2Body, b2BodyType, b2Vec2 } from "@box2d/core";
 import bowser from "bowser";
-import {
-  AUTO,
+import Phaser, {
   Device,
   Game,
   IGameConfig,
@@ -28,7 +27,7 @@ const defaultSettings = {
 const gameConfig: IGameConfig = {
   width: window.innerWidth,
   height: window.innerHeight,
-  renderer: AUTO,
+  renderer: Phaser.AUTO,
   parent: "container",
   transparent: false,
   multiTexture: false,

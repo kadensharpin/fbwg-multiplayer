@@ -1,4 +1,4 @@
-import { Game, Sprite } from "phaser";
+import { Game, PIXI, Sprite } from "phaser";
 
 type LevelType = "speed" | "puzzle" | "dark";
 

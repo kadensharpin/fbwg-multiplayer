@@ -1,0 +1,225 @@
+diff --git a/dist/modules/exports.js b/dist/modules/exports.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..aafb2dd45abd4bc26f842483195eba015d6e658b
+--- /dev/null
++++ b/dist/modules/exports.js
+@@ -0,0 +1,193 @@
++const PhaserPIXI = Phaser.PIXI;
++const PhaserCircle = Phaser.Circle;
++const PhaserEllipse = Phaser.Ellipse;
++const PhaserLine = Phaser.Line;
++const PhaserMatrix = Phaser.Matrix;
++const PhaserPoint = Phaser.Point;
++const PhaserPolygon = Phaser.Polygon;
++const PhaserRectangle = Phaser.Rectangle;
++const PhaserRoundedRectangle = Phaser.RoundedRectangle;
++const PhaserCamera = Phaser.Camera;
++const PhaserState = Phaser.State;
++const PhaserStateManager = Phaser.StateManager;
++const PhaserSignal = Phaser.Signal;
++const PhaserSignalBinding = Phaser.SignalBinding;
++const PhaserFilter = Phaser.Filter;
++const PhaserPlugin = Phaser.Plugin;
++const PhaserPluginManager = Phaser.PluginManager;
++const PhaserStage = Phaser.Stage;
++const PhaserGroup = Phaser.Group;
++const PhaserWorld = Phaser.World;
++const PhaserGame = Phaser.Game;
++const PhaserInput = Phaser.Input;
++const PhaserMouse = Phaser.Mouse;
++const PhaserMSPointer = Phaser.MSPointer;
++const PhaserDeviceButton = Phaser.DeviceButton;
++const PhaserPointer = Phaser.Pointer;
++const PhaserTouch = Phaser.Touch;
++const PhaserInputHandler = Phaser.InputHandler;
++const PhaserGamepad = Phaser.Gamepad;
++const PhaserSinglePad = Phaser.SinglePad;
++const PhaserKey = Phaser.Key;
++const PhaserKeyboard = Phaser.Keyboard;
++const PhaserComponent = Phaser.Component;
++const PhaserEvents = Phaser.Events;
++const PhaserGameObjectFactory = Phaser.GameObjectFactory;
++const PhaserGameObjectCreator = Phaser.GameObjectCreator;
++const PhaserSprite = Phaser.Sprite;
++const PhaserImage = Phaser.Image;
++const PhaserButton = Phaser.Button;
++const PhaserSpriteBatch = Phaser.SpriteBatch;
++const PhaserBitmapData = Phaser.BitmapData;
++const PhaserGraphics = Phaser.Graphics;
++const PhaserRenderTexture = Phaser.RenderTexture;
++const PhaserText = Phaser.Text;
++const PhaserBitmapText = Phaser.BitmapText;
++const PhaserRetroFont = Phaser.RetroFont;
++const PhaserRope = Phaser.Rope;
++const PhaserTileSprite = Phaser.TileSprite;
++const PhaserDevice = Phaser.Device;
++const PhaserRequestAnimationFrame = Phaser.RequestAnimationFrame;
++const PhaserRandomDataGenerator = Phaser.RandomDataGenerator;
++const PhaserQuadTree = Phaser.QuadTree;
++const PhaserNet = Phaser.Net;
++const PhaserTweenManager = Phaser.TweenManager;
++const PhaserTween = Phaser.Tween;
++const PhaserTweenData = Phaser.TweenData;
++const PhaserTime = Phaser.Time;
++const PhaserTimer = Phaser.Timer;
++const PhaserTimerEvent = Phaser.TimerEvent;
++const PhaserAnimationManager = Phaser.AnimationManager;
++const PhaserAnimation = Phaser.Animation;
++const PhaserFrame = Phaser.Frame;
++const PhaserFrameData = Phaser.FrameData;
++const PhaserCache = Phaser.Cache;
++const PhaserLoader = Phaser.Loader;
++const PhaserAudioSprite = Phaser.AudioSprite;
++const PhaserSound = Phaser.Sound;
++const PhaserSoundManager = Phaser.SoundManager;
++const PhaserScaleManager = Phaser.ScaleManager;
++const PhaserArraySet = Phaser.ArraySet;
++const PhaserLinkedList = Phaser.LinkedList;
++const PhaserCreate = Phaser.Create;
++const PhaserFlexGrid = Phaser.FlexGrid;
++const PhaserFlexLayer = Phaser.FlexLayer;
++const PhaserPhysics = Phaser.Physics;
++const PhaserParticles = Phaser.Particles;
++const PhaserVideo = Phaser.Video;
++const PhaserImageCollection = Phaser.ImageCollection;
++const PhaserTile = Phaser.Tile;
++const PhaserTilemap = Phaser.Tilemap;
++const PhaserTilemapLayer = Phaser.TilemapLayer;
++const PhaserTileset = Phaser.Tileset;
++
++const PhaserUtils = Phaser.Utils;
++const PhaserPointerMode = Phaser.PointerMode;
++const PhaserKeyCode = Phaser.KeyCode;
++const PhaserCanvas = Phaser.Canvas;
++const PhaserMath = Phaser.Math;
++const PhaserEasing = Phaser.Easing;
++const PhaserAnimationParser = Phaser.AnimationParser;
++const PhaserLoaderParser = Phaser.LoaderParser;
++const PhaserDOM = Phaser.DOM;
++const PhaserArrayUtils = Phaser.ArrayUtils;
++const PhaserColor = Phaser.Color;
++const PhaserTilemapParser = Phaser.TilemapParser;
++
++export {
++  PhaserPIXI as PIXI,
++  PhaserCircle as Circle,
++  PhaserEllipse as Ellipse,
++  PhaserLine as Line,
++  PhaserMatrix as Matrix,
++  PhaserPoint as Point,
++  PhaserPolygon as Polygon,
++  PhaserRectangle as Rectangle,
++  PhaserRoundedRectangle as RoundedRectangle,
++  PhaserCamera as Camera,
++  PhaserState as State,
++  PhaserStateManager as StateManager,
++  PhaserSignal as Signal,
++  PhaserSignalBinding as SignalBinding,
++  PhaserFilter as Filter,
++  PhaserPlugin as Plugin,
++  PhaserPluginManager as PluginManager,
++  PhaserStage as Stage,
++  PhaserGroup as Group,
++  PhaserWorld as World,
++  PhaserGame as Game,
++  PhaserInput as Input,
++  PhaserMouse as Mouse,
++  PhaserMSPointer as MSPointer,
++  PhaserDeviceButton as DeviceButton,
++  PhaserPointer as Pointer,
++  PhaserTouch as Touch,
++  PhaserInputHandler as InputHandler,
++  PhaserGamepad as Gamepad,
++  PhaserSinglePad as SinglePad,
++  PhaserKey as Key,
++  PhaserKeyboard as Keyboard,
++  PhaserComponent as Component,
++  PhaserEvents as Events,
++  PhaserGameObjectFactory as GameObjectFactory,
++  PhaserGameObjectCreator as GameObjectCreator,
++  PhaserSprite as Sprite,
++  PhaserImage as Image,
++  PhaserButton as Button,
++  PhaserSpriteBatch as SpriteBatch,
++  PhaserBitmapData as BitmapData,
++  PhaserGraphics as Graphics,
++  PhaserRenderTexture as RenderTexture,
++  PhaserText as Text,
++  PhaserBitmapText as BitmapText,
++  PhaserRetroFont as RetroFont,
++  PhaserRope as Rope,
++  PhaserTileSprite as TileSprite,
++  PhaserDevice as Device,
++  PhaserRequestAnimationFrame as RequestAnimationFrame,
++  PhaserRandomDataGenerator as RandomDataGenerator,
++  PhaserQuadTree as QuadTree,
++  PhaserNet as Net,
++  PhaserTweenManager as TweenManager,
++  PhaserTween as Tween,
++  PhaserTweenData as TweenData,
++  PhaserTime as Time,
++  PhaserTimer as Timer,
++  PhaserTimerEvent as TimerEvent,
++  PhaserAnimationManager as AnimationManager,
++  PhaserAnimation as Animation,
++  PhaserFrame as Frame,
++  PhaserFrameData as FrameData,
++  PhaserCache as Cache,
++  PhaserLoader as Loader,
++  PhaserAudioSprite as AudioSprite,
++  PhaserSound as Sound,
++  PhaserSoundManager as SoundManager,
++  PhaserScaleManager as ScaleManager,
++  PhaserArraySet as ArraySet,
++  PhaserLinkedList as LinkedList,
++  PhaserCreate as Create,
++  PhaserFlexGrid as FlexGrid,
++  PhaserFlexLayer as FlexLayer,
++  PhaserPhysics as Physics,
++  PhaserParticles as Particles,
++  PhaserVideo as Video,
++  PhaserImageCollection as ImageCollection,
++  PhaserTile as Tile,
++  PhaserTilemap as Tilemap,
++  PhaserTilemapLayer as TilemapLayer,
++  PhaserTileset as Tileset,
++  PhaserUtils as Utils,
++  PhaserPointerMode as PointerMode,
++  PhaserKeyCode as KeyCode,
++  PhaserCanvas as Canvas,
++  PhaserMath as Math,
++  PhaserEasing as Easing,
++  PhaserAnimationParser as AnimationParser,
++  PhaserLoaderParser as LoaderParser,
++  PhaserDOM as DOM,
++  PhaserArrayUtils as ArrayUtils,
++  PhaserColor as Color,
++  PhaserTilemapParser as TilemapParser,
++  Phaser as default,
++};
+diff --git a/dist/modules/phaser.js b/dist/modules/phaser.js
+index 103583f0d6e7a3374d869a5a4bb70adc18456234..07beb4c125faef47ccb1783b53bfef9f6d83e26f 100644
+--- a/dist/modules/phaser.js
++++ b/dist/modules/phaser.js
+@@ -1,3 +1,5 @@
++import PIXI from "pixi";
++
+ /**
+ * @author       Richard Davey <rich@photonstorm.com>
+ * @copyright    2016 Photon Storm Ltd.
+diff --git a/dist/modules/pixi-main.js b/dist/modules/pixi-main.js
+index cc0f2a1a93fa2d3338d1d81ead0fef8ef676bb98..f3a96271adf3150cbb4267930e400ceaa5679b2b 100644
+--- a/dist/modules/pixi-main.js
++++ b/dist/modules/pixi-main.js
+@@ -1,3 +1,5 @@
++import Phaser from "phaser";
++
+ /**
+  * @author Mat Groves http://matgroves.com/ @Doormat23
+  */
+@@ -7864,3 +7866,5 @@ PIXI.AbstractFilter.prototype.syncUniforms = function()
+         this.shaders[i].dirty = true;
+     }
+ };
++
++export default PIXI;

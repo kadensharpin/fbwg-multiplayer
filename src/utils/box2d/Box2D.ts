@@ -6,6 +6,7 @@ import {
   Group,
   Math,
   Physics,
+  PIXI,
   Point,
   Signal,
   Sprite,

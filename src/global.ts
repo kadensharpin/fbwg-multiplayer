@@ -1,6 +1,6 @@
+import PhaserSuperStorage from "@azerion/phaser-super-storage";
 import bowser from "bowser";
 import { i18n } from "i18next";
-import PhaserSuperStorage from "phaser-super-storage";
 import ProgressModel from "./ProgressModel";
 import CharCursors from "./States/Level/CharCursors";
 import CursorToggle from "./States/Level/CursorToggle";
@@ -78,6 +78,12 @@ declare module "phaser" {
       target: null | "cordova";
     };
   }
+
+  namespace PIXI {
+    interface RenderSession {
+      resolution: number;
+    }
+  }
 }
 
 declare global {
@@ -113,12 +119,6 @@ declare global {
       Wind: typeof import("./States/Level/Devices/Wind");
       Window: typeof import("./States/Level/Devices/Window");
     };
-  }
-
-  namespace PIXI {
-    interface RenderSession {
-      resolution: number;
-    }
   }
 }
 

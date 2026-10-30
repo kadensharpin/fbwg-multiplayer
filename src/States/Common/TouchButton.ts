@@ -1,4 +1,4 @@
-import { Game } from "phaser";
+import { Game, PIXI } from "phaser";
 import Button from "./Button";
 
 type TouchButtonType = "up" | "right" | "left";

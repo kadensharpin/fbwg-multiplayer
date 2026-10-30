@@ -1,4 +1,4 @@
-import { Animation, Game, Signal, Sprite } from "phaser";
+import { Animation, Game, PIXI, Signal, Sprite } from "phaser";
 import GoldButton from "../Common/GoldButton";
 import MenuFairy from "../Common/Navies";
 

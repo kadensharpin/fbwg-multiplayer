@@ -1,7 +1,7 @@
 import Body from "@/utils/box2d/Body";
 import { Fixture } from "@/utils/util";
 import box2d from "@box2d/core";
-import { BitmapData, Color, Game, Graphics } from "phaser";
+import { BitmapData, Color, Game, Graphics, PIXI } from "phaser";
 import _ from "underscore";
 import BoxedDevice from "./BoxedDevice";
 import Device, { type DeviceOptions, Light } from "./Device";

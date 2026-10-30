@@ -1,3 +1,4 @@
+import { PIXI } from "phaser";
 import { LevelData, Temple } from "../../temple";
 import BuyMenu from "../Buy/BuyMenu";
 import Button from "../Common/Button";

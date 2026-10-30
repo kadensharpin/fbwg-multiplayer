@@ -110,7 +110,7 @@ declare module PhaserSuperStorage {
         }
     }
 }
-declare module 'phaser-super-storage' {
+declare module '@azerion/phaser-super-storage' {
     export = PhaserSuperStorage;
 }
 declare module PhaserSuperStorage {

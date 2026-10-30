@@ -1,5 +1,5 @@
 import Hammer from "hammerjs";
-import { Game, Point, Signal } from "phaser";
+import { Game, PIXI, Point, Signal } from "phaser";
 
 type Handler<Sprite, Callback> = {
   sprite: Sprite;
@@ -317,7 +317,7 @@ class TouchManager extends Signal {
 
 export default TouchManager;
 
-declare global {
+declare module "phaser" {
   namespace PIXI {
     interface DisplayObject {
       /**
