@@ -93,7 +93,7 @@ class Device<Options extends DeviceOptions> extends Group {
       if (this.options.enableBody) {
         this.game.physics.box2d.enable(this.sprite);
         this.sprite.body.clearFixtures();
-        this.sprite.body.data.SetAngle(degToRad(this.options.rotation));
+        this.sprite.body.data.SetAngle(this.options.rotation);
         this.body = this.sprite.body;
       }
     }
