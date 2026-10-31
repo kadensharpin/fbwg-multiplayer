@@ -28,9 +28,10 @@ class ProgressModel extends Model {
   fetch(): any {
     let keys = this.game.gameConfig.temples;
     if (!Array.isArray(keys)) keys = [keys];
+    const baseUrl = this.game.load.baseURL;
     const requests = keys.map((temple) =>
       window
-        .fetch(`./data/${temple}/temple.json`)
+        .fetch(`${baseUrl}data/${temple}/temple.json`)
         .then((res) => res.json() as Promise<Temple>),
     );
     return Promise.allSettled(requests).then(async (responses) => {

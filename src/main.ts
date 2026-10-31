@@ -95,6 +95,7 @@ Device.whenReady(() => {
   game.state.add("boot", Boot);
   game.TouchManager = new TouchManager();
   game.TouchManager.start(game);
+  game.load.baseURL = "forest/";
   game.state.start("boot");
   const createFadeOverlay = (opts: { showText: boolean }) => {
     const sprite = game.make.sprite(0, 0);
