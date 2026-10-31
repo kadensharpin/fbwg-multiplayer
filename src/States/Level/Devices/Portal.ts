@@ -1,4 +1,5 @@
 import Body from "@/utils/box2d/Body";
+import { radToDeg } from "@/utils/util";
 import box2d from "@box2d/core";
 import { Animation, BitmapData, Game, Graphics, Sound, Sprite } from "phaser";
 import { ParsedTile } from "../Level";
@@ -301,7 +302,7 @@ class Portal extends BoxedDevice<PortalOptions> {
     mask.drawRect(0, -height, width, 2 * height);
     mask.x = this.options.x;
     mask.y = this.options.y;
-    mask.angle = (180 * this.options.rotation) / Math.PI || 0;
+    mask.angle = radToDeg(this.options.rotation);
     body.mask = mask;
     if (body.body.sprite) body.body.sprite.mask = mask;
   }

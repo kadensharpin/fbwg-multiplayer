@@ -1,3 +1,4 @@
+import { degToRad } from "@/utils/util";
 import box2d from "@box2d/core";
 import { Game, Signal, Sprite } from "phaser";
 import { ParsedTile } from "../Level";
@@ -54,7 +55,7 @@ class Pusher<Options extends PusherOptions> extends BoxedDevice<Options> {
     this.game.layers.overGround.addChild(this.base);
     this.lights.push(lightBlock);
     button.body.clearFixtures();
-    button.body.data.SetAngle((Math.PI * (options.rotation || 0)) / 180);
+    button.body.data.SetAngle(degToRad(options.rotation));
     const vertices = [];
     vertices.push(new box2d.b2Vec2(-this.options.pusherWidth! / 2 - 0.5, 0));
     vertices.push(new box2d.b2Vec2(this.options.pusherWidth! / 2 + 0.5, 0));

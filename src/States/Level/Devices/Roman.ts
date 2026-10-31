@@ -1,3 +1,4 @@
+import { degToRad } from "@/utils/util";
 import box2d from "@box2d/core";
 import { Game } from "phaser";
 import BoxedDevice from "./BoxedDevice";
@@ -89,7 +90,7 @@ class Roman extends BoxedDevice<RomanOptions> {
     this.game.layers.overGround.addChild(bar);
     this.game.layers.overChars.addChild(centre);
     base.body.clearFixtures();
-    base.body.data.SetAngle((Math.PI * options.rotation) / 180 || 0);
+    base.body.data.SetAngle(degToRad(options.rotation));
     base.body.mass = 0;
     base.body;
     const vertices1 = [];

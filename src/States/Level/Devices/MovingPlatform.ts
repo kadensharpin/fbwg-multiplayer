@@ -1,4 +1,5 @@
 import Body from "@/utils/box2d/Body";
+import { degToRad } from "@/utils/util";
 import box2d from "@box2d/core";
 import { BitmapData, Game, Group, Sound } from "phaser";
 import Device, { DeviceOptions } from "./Device";
@@ -103,9 +104,9 @@ class MovingPlatform extends Device<MovingPlatformOptions> {
       jointDef.Initialize(this.body.data, this.game.level.groundBody!, pos);
       if (this.options.properties.dtheta > 0) {
         jointDef.lowerAngle = 0;
-        jointDef.upperAngle = (Math.PI * this.options.properties.dtheta) / 180;
+        jointDef.upperAngle = degToRad(this.options.properties.dtheta);
       } else {
-        jointDef.lowerAngle = (Math.PI * this.options.properties.dtheta) / 180;
+        jointDef.lowerAngle = degToRad(this.options.properties.dtheta);
         jointDef.upperAngle = 0;
       }
       jointDef.enableLimit = true;

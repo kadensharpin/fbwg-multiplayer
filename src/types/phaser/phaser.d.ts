@@ -26632,11 +26632,7 @@ declare module Phaser {
      *
      * If you need a different result then adjust or re-create the Body shape offsets manually or reset the anchor after enabling physics.
      */
-    body:
-      | Phaser.Physics.Arcade.Body
-      | Phaser.Physics.P2.Body
-      | Phaser.Physics.Ninja.Body
-      | any;
+    body: import("@/utils/box2d/Body").default;
 
     /**
      * The sum of the y and height properties.

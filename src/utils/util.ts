@@ -1,5 +1,5 @@
 import box2d from "@box2d/core";
-import { Game, Loader, Plugin, PluginManager } from "phaser";
+import Phaser, { Game, Loader, Plugin, PluginManager } from "phaser";
 import _ from "underscore";
 
 export function deepObjectExtend(target: any, source: any) {
@@ -15,6 +15,14 @@ export function deepObjectExtend(target: any, source: any) {
     }
   }
   return target;
+}
+
+export function degToRad(deg: number | undefined | null): number {
+  return Phaser.Math.degToRad(deg || 0);
+}
+
+export function radToDeg(rad: number | undefined | null): number {
+  return Phaser.Math.radToDeg(rad || 0);
 }
 
 export class CacheBuster extends Plugin {

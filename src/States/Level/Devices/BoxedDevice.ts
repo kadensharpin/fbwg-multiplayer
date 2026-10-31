@@ -1,3 +1,4 @@
+import { degToRad } from "@/utils/util";
 import box2d from "@box2d/core";
 import { Game } from "phaser";
 import { ParsedTile } from "../Level";
@@ -16,7 +17,7 @@ class BoxedDevice<Options extends BoxedDeviceOptions> extends Device<Options> {
       game.physics.box2d.mpx(options.boxSize.width / 2),
       game.physics.box2d.mpx(options.boxSize.height / 2),
     );
-    box = box.Rotate((-Math.PI * options.rotation) / 180);
+    box = box.Rotate(-degToRad(options.rotation));
     options.x = options.x + box.x;
     options.y = options.y - box.y;
 

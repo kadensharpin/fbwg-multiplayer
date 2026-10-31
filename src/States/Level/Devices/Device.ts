@@ -1,6 +1,6 @@
 import Body from "@/utils/box2d/Body";
 import { Color, Game, Group, Signal, Sprite } from "phaser";
-import { deepObjectExtend } from "../../../utils/util";
+import { deepObjectExtend, degToRad } from "../../../utils/util";
 import { ParsedTile } from "../Level";
 
 export type DeviceOptions = {
@@ -72,7 +72,7 @@ class Device<Options extends DeviceOptions> extends Group {
     this.options.properties ||= {};
     this.options.layer ??= "overGround";
     this.options.rotation ||= 0;
-    this.options.rotation = (Math.PI * this.options.rotation) / 180;
+    this.options.rotation = degToRad(this.options.rotation);
     this.options.width = game.physics.box2d.pxm(this.options.width);
     this.options.height = game.physics.box2d.pxm(this.options.height);
     this.state = this.options.properties?.initialState || 0;
@@ -93,9 +93,7 @@ class Device<Options extends DeviceOptions> extends Group {
       if (this.options.enableBody) {
         this.game.physics.box2d.enable(this.sprite);
         this.sprite.body.clearFixtures();
-        this.sprite.body.data.SetAngle(
-          (Math.PI * this.options.rotation) / 180 || 0,
-        );
+        this.sprite.body.data.SetAngle(degToRad(this.options.rotation));
         this.body = this.sprite.body;
       }
     }
