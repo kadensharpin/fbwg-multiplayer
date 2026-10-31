@@ -25,6 +25,12 @@ export function radToDeg(rad: number | undefined | null): number {
   return Phaser.Math.radToDeg(rad || 0);
 }
 
+export function debug(game: Game) {
+  game.raf.stop();
+  debugger;
+  game.raf.start();
+}
+
 export class CacheBuster extends Plugin {
   static version = 1;
 
