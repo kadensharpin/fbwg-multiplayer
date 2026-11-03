@@ -1,6 +1,5 @@
 import { State } from "phaser";
 import LevelMenu from "./LevelMenu/LevelMenu";
-import SingleMenu from "./Menu/SingleMenu";
 
 class Load extends State {
   constructor() {
@@ -31,7 +30,6 @@ class Load extends State {
         this.game.progress.get("temples")[0],
       );
     } else {
-      this.game.state.add("menu", SingleMenu);
       this.game.state.start("menu");
     }
     this.game.load.onFileComplete.remove(this.onFileComplete);

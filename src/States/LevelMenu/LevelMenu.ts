@@ -8,8 +8,6 @@ import Complete from "../Complete/Complete";
 import Level from "../Level/Level";
 import LevelButton from "./LevelButton";
 import LevelMenuButtons from "./LevelMenuButtons";
-import LevelMenuGrid from "./LevelMenuGrid";
-import LevelMenuTree from "./LevelMenuTree";
 
 class LevelMenu extends UIState {
   templeData?: Temple;
@@ -85,15 +83,9 @@ class LevelMenu extends UIState {
     if (this.buttons != null) {
       this.buttons.destroy();
     }
-    if (this.templeData.type === "tree") {
-      this.buttons = new LevelMenuTree(this.game, this.templeData);
-      this.buttons.onClick.add(this.startLevel);
-      this.root?.addChild(this.buttons);
-    } else {
-      this.buttons = new LevelMenuGrid(this.game, this.templeData);
-      this.buttons.onClick.add(this.startLevel);
-      this.root?.addChild(this.buttons);
-    }
+    this.buttons = new LevelMenuButtons(this.game, this.templeData);
+    this.buttons.onClick.add(this.startLevel);
+    this.root?.addChild(this.buttons);
   }
 
   init(temple: Temple) {
