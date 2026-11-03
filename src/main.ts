@@ -1,4 +1,4 @@
-import { b2Body, b2BodyType, b2Vec2 } from "@box2d/core";
+import { b2Body, b2BodyType, b2Fixture, b2Vec2 } from "@box2d/core";
 import bowser from "bowser";
 import Phaser, {
   Device,
@@ -245,16 +245,26 @@ Device.whenReady(() => {
     this.y = s * x;
     return this;
   };
+  b2Vec2.prototype.SelfCrossVS = function (s) {
+    const x = this.x;
+    this.x = s * this.y;
+    this.y = -s * x;
+    return this;
+  };
   const originalResetMassData = b2Body.prototype.ResetMassData;
   b2Body.prototype.ResetMassData = function () {
     originalResetMassData.call(this);
-    // @ts-expect-error
-    if (this.m_type === b2BodyType.b2_dynamicBody && this.m_mass <= 0) {
-      // @ts-expect-error
-      this.m_mass = 1;
-      // @ts-expect-error
-      this.m_invMass = 1;
+    if (this.GetType() === b2BodyType.b2_dynamicBody && this.GetMass() <= 0) {
+      (this as any as Omit<b2Body, "m_mass"> & { m_mass: number }).m_mass = 1;
+      (
+        this as any as Omit<b2Body, "m_invMass"> & { m_invMass: number }
+      ).m_invMass = 1;
     }
+  };
+  b2Fixture.prototype.SetUserData = function (data) {
+    (
+      this as any as Omit<b2Fixture, "m_userData"> & { m_userData: any }
+    ).m_userData = data;
   };
   const onResize = _.debounce(() => {
     console.log("_resize to height: ", window.innerWidth);

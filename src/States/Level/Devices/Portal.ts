@@ -1,4 +1,11 @@
 import Body from "@/utils/box2d/Body";
+import {
+  Fixture,
+  FixtureData,
+  PortalLightProperties,
+  SimpleFixture,
+  TransparentLightProperties,
+} from "@/utils/Fixture";
 import { radToDeg } from "@/utils/util";
 import box2d from "@box2d/core";
 import { Animation, BitmapData, Game, Graphics, Sound, Sprite } from "phaser";
@@ -22,8 +29,8 @@ class Portal extends BoxedDevice<PortalOptions> {
   readonly center: Sprite;
   readonly glowLeft: Sprite;
   readonly glowRight: Sprite;
-  readonly sensorFixture: box2d.b2Fixture;
-  readonly eventHorizon: box2d.b2Fixture;
+  readonly sensorFixture: Fixture<TransparentLightProperties>;
+  readonly eventHorizon: Fixture<PortalLightProperties>;
   readonly nearBodies: Record<
     number,
     {
@@ -39,7 +46,7 @@ class Portal extends BoxedDevice<PortalOptions> {
   }[] = [];
   readonly normal: box2d.b2Vec2;
   other?: Portal;
-  private fakeWallFixture?: box2d.b2Fixture;
+  private fakeWallFixture?: SimpleFixture;
   private sound?: Sound | null;
   private receiving: boolean = false;
 
@@ -150,13 +157,13 @@ class Portal extends BoxedDevice<PortalOptions> {
       new box2d.b2Vec2(0, 0),
       0,
     );
-    const sensorfixtureDef = {} as box2d.b2FixtureDef;
-    sensorfixtureDef.shape = sensorShape;
-    sensorfixtureDef.density = 0;
-    sensorfixtureDef.isSensor = true;
-    sensorfixtureDef.filter = { maskBits: 4096, categoryBits: 4096 };
-    sensorfixtureDef.userData = { lightProperties: { type: "transparent" } };
-    this.sensorFixture = this.body.data.CreateFixture(sensorfixtureDef);
+    this.sensorFixture = this.body.data.CreateFixture({
+      shape: sensorShape,
+      density: 0,
+      isSensor: true,
+      filter: { maskBits: 4096, categoryBits: 4096 },
+      userData: FixtureData.builder().withTransparentLight().build(),
+    });
     this.sensorFixture.id = this.body.world.getNextFixtureId();
     const eventHorizonShape = new box2d.b2PolygonShape();
     eventHorizonShape.SetAsBox(
@@ -165,45 +172,13 @@ class Portal extends BoxedDevice<PortalOptions> {
       new box2d.b2Vec2(0, 0),
       0,
     );
-    const eventHorizonDef = {} as box2d.b2FixtureDef;
-    eventHorizonDef.shape = eventHorizonShape;
-    eventHorizonDef.density = 0;
-    eventHorizonDef.isSensor = false;
-    eventHorizonDef.filter = { maskBits: 4096, categoryBits: 4096 };
-    eventHorizonDef.userData = {
-      lightProperties: {
-        type: "portal",
-        getOutput: (input: box2d.b2Vec2): box2d.b2Vec2 => {
-          if (!this.other) return input;
-          const rotation =
-            (this.other.options.rotation || 0) - (this.options.rotation || 0);
-          return this.other.options.properties.inverted ===
-            this.options.properties.inverted
-            ? input.Rotate(rotation + Math.PI)
-            : input.Rotate(rotation);
-        },
-        getPoint: (point: box2d.b2Vec2, normal: box2d.b2Vec2): box2d.b2Vec2 => {
-          if (!this.other) return point;
-          normal = new box2d.b2Vec2(0, 1).Rotate(this.options.rotation || 0);
-          let offset = point.Clone().Subtract(this.body.data.GetPosition());
-          if (
-            this.other.options.properties.inverted !==
-            this.options.properties.inverted
-          ) {
-            offset = normal
-              .Clone()
-              .Scale((2 * offset.Dot(normal)) / normal.Length())
-              .Subtract(offset);
-          }
-          const rotation =
-            (this.other.options.rotation || 0) - (this.options.rotation || 0);
-          offset.Rotate(rotation);
-          return offset.Add(this.other.body.data.GetPosition());
-        },
-      },
-      device: this,
-    };
-    this.eventHorizon = this.body.data.CreateFixture(eventHorizonDef);
+    this.eventHorizon = this.body.data.CreateFixture({
+      shape: eventHorizonShape,
+      density: 0,
+      isSensor: false,
+      filter: { maskBits: 4096, categoryBits: 4096 },
+      userData: FixtureData.builder().withPortalLight(this).build(),
+    });
     this.eventHorizon.id = this.body.world.getNextFixtureId();
     this.registerDevice();
     this.nearBodies = {};
@@ -216,10 +191,8 @@ class Portal extends BoxedDevice<PortalOptions> {
         fixture2: box2d.b2Fixture,
         begin: boolean,
       ) => {
-        const fixture2Data = fixture2.GetUserData() as {
-          "portal-sensor"?: true;
-        };
-        if (!fixture2Data["portal-sensor"]) return;
+        const fixture2Data = fixture2.GetUserData() as FixtureData | null;
+        if (!fixture2Data?.isPortalSensor) return;
         if (begin || null == this.nearBodies[body2.id]) {
           if (1 === this.state && begin && null == this.nearBodies[body2.id]) {
             console.log("add", body2.id);
@@ -496,9 +469,7 @@ class Portal extends BoxedDevice<PortalOptions> {
       options.center,
       options.rotation,
     );
-    const fakeWallDef = {} as box2d.b2FixtureDef;
-    fakeWallDef.shape = shape;
-    this.fakeWallFixture = body.data.CreateFixture(fakeWallDef);
+    this.fakeWallFixture = body.data.CreateFixture({ shape });
     body.mass = 0;
   }
 
@@ -544,6 +515,10 @@ class Portal extends BoxedDevice<PortalOptions> {
     gradient2.addColorStop(0.5, "rgba(255,255,255,0.3)");
     gradient2.addColorStop(1, "transparent");
     bitmapData.circle(pos.x + offset2.x, pos.y + offset2.y, 90, gradient2);
+  }
+
+  getRotation() {
+    return this.options.rotation || 0;
   }
 }
 

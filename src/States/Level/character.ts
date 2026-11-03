@@ -1,4 +1,11 @@
 import Body from "@/utils/box2d/Body";
+import {
+  Fixture,
+  FixtureData,
+  LiquidType,
+  SimpleFixture,
+  SimpleFixtureDef,
+} from "@/utils/Fixture";
 import box2d from "@box2d/core";
 import {
   Animation,
@@ -10,7 +17,6 @@ import {
   Signal,
   Sprite,
 } from "phaser";
-import { Fixture } from "../../utils/util";
 import CharCursors from "./CharCursors";
 import Door from "./Devices/Door";
 
@@ -46,8 +52,8 @@ class Character extends Group {
   signal: Signal;
   cursors: CharCursors;
   char: Characters;
-  portalSensor: Fixture<{ "portal-sensor": true }>;
-  feetSensor: Fixture<"feet"> & {
+  portalSensor: Fixture;
+  feetSensor: SimpleFixture<"feet"> & {
     contacts: (box2d.b2Contact & { m_normal?: box2d.b2Vec2 })[];
   };
   prefix: "fire" | "water";
@@ -97,21 +103,22 @@ class Character extends Group {
     this.body.data.SetUserData("pers");
     this.body.data.SetBullet(true);
     this.signal = new Signal();
-    const createCircleFixture = (
+    const createCircleFixture = <T>(
       radius: number,
       pos: [number, number],
       friction: number,
-    ): Fixture<{}> => {
+      userData?: T,
+    ): SimpleFixture<T> => {
       const shape = new box2d.b2CircleShape(radius);
       shape.m_p.Set(pos[0], pos[1]);
-      const def = {} as box2d.b2FixtureDef;
-      def.shape = shape;
-      def.density = 0;
-      def.filter = { categoryBits: 16, maskBits: 4353 };
-      def.friction = friction;
-      const fixture = this.body.data.CreateFixture(def);
+      const fixture = this.body.data.CreateFixture({
+        shape,
+        friction,
+        userData,
+        density: 0,
+        filter: { categoryBits: 16, maskBits: 4353 },
+      });
       fixture.id = this.body.world.getNextFixtureId();
-      // @ts-expect-error
       return fixture;
     };
     const createPolygonFixture = (
@@ -127,7 +134,7 @@ class Character extends Group {
       vertices.push(new box2d.b2Vec2(-x2 + this.dr, y2));
       const shape = new box2d.b2PolygonShape();
       shape.Set(vertices);
-      const def = {} as box2d.b2FixtureDef;
+      const def = {} as SimpleFixtureDef;
       def.shape = shape;
       def.friction = 0;
       def.density = 1.4;
@@ -137,27 +144,26 @@ class Character extends Group {
     };
     const portalSensorShape = new box2d.b2CircleShape(0.1);
     portalSensorShape.m_p.Set(0, 0);
-    const portalSensorDef = {} as box2d.b2FixtureDef;
-    portalSensorDef.shape = portalSensorShape;
-    portalSensorDef.density = 0;
-    portalSensorDef.filter = {
-      categoryBits: 4096,
-      maskBits: 4096,
-      groupIndex: -1,
-    };
-    portalSensorDef.friction = 0;
-    // @ts-expect-error
-    this.portalSensor = this.body.data.CreateFixture(portalSensorDef);
+    this.portalSensor = this.body.data.CreateFixture({
+      shape: portalSensorShape,
+      density: 0,
+      filter: {
+        categoryBits: 4096,
+        maskBits: 4096,
+        groupIndex: -1,
+      },
+      userData: FixtureData.builder().withPortalSensor(true).build(),
+      friction: 0,
+    });
     this.portalSensor.id = this.body.world.getNextFixtureId();
-    this.portalSensor.SetUserData({ "portal-sensor": true });
     createCircleFixture(this.r1, [0, this.y1], 0);
     this.feetSensor = createCircleFixture(
       this.r2,
       [0, this.y2],
       this.feetFriction,
+      "feet",
     ) as typeof this.feetSensor;
     createPolygonFixture(this.r1, this.r2, this.y1, this.y2);
-    this.feetSensor.SetUserData("feet");
     this.feetSensor.contacts = [];
     this.prefix = "fb" === character ? "fire" : "water";
     this.bodySprite = game.make.sprite(0, 0, "CharAssets", "_default0000");
@@ -230,15 +236,13 @@ class Character extends Group {
     };
     this.bodySprite.hitArea = new PIXI.Circle(0, 0, 0.65 * legSprite.height);
     this.body.setFixtureContactCallback(
-      // @ts-expect-error
       this.feetSensor,
       (_body1, _body2, _fixture1, fixture2, begin, contact) => {
         if (fixture2.IsSensor()) {
-          // @ts-expect-error
-          if ("liquid_death" === fixture2.GetUserData()?.type) {
+          const data = fixture2.GetUserData() as FixtureData;
+          if ("liquid_death" === data?.liquidProperties?.type) {
             if (begin) {
-              // @ts-expect-error
-              this.liquidTouched(fixture2.GetUserData().liquidType);
+              this.liquidTouched(data.liquidProperties.liquid);
               this.isOnLiquid = true;
             } else {
               this.isOnLiquid = false;
@@ -259,11 +263,11 @@ class Character extends Group {
     this.sprite.char = this.char = character;
   }
 
-  liquidTouched(liquidType: 5 | 6 | 7) {
+  liquidTouched(liquidType: LiquidType) {
     if (
-      7 === liquidType ||
-      ("wg" === this.char && 6 === liquidType) ||
-      ("fb" === this.char && 5 === liquidType)
+      liquidType === LiquidType.GREEN ||
+      ("wg" === this.char && liquidType === LiquidType.FIRE) ||
+      ("fb" === this.char && liquidType === LiquidType.WATER)
     ) {
       this.kill();
     }

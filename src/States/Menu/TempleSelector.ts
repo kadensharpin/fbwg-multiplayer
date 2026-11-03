@@ -11,7 +11,7 @@ class TempleSelector extends Sprite {
   readonly strip_height: number;
   private readonly strip: Sprite;
   private readonly bs: [Group, Group];
-  private readonly icons: Button[];
+  private readonly icons: TempleButton[];
   private currentX: number;
   private _x: number;
   private v: number;
@@ -71,7 +71,7 @@ class TempleSelector extends Sprite {
     this.icons = [];
     for (const temple of temples) {
       const icon = temple.icon || temple.id;
-      let button;
+      let button: TempleButton;
       if (temple.locked && !this.game.config.devUnlock) {
         button = new Button(
           game,
@@ -81,7 +81,7 @@ class TempleSelector extends Sprite {
           [icon + "Icon0000", icon + "Icon0000"],
           () => this.showBuyTemple(temple),
           null,
-        );
+        ) as TempleButton;
         const goldLock = new Sprite(
           this.game,
           0,
@@ -101,7 +101,7 @@ class TempleSelector extends Sprite {
           [icon + "Icon0000", icon + "Icon0000"],
           this.showSoftLockWarning,
           null,
-        );
+        ) as TempleButton;
       } else {
         button = new Button(
           game,
@@ -109,9 +109,9 @@ class TempleSelector extends Sprite {
           -this.strip_height / 2,
           "TempleIcons",
           [icon + "Icon0001", icon + "Icon0002"],
-          this.templeClicked,
+          () => this.templeClicked(temple),
           null,
-        );
+        ) as TempleButton;
         if (temple.hasNew) {
           const newText = new Sprite(
             this.game,
@@ -217,11 +217,11 @@ class TempleSelector extends Sprite {
     this.rigthSide.x = this.cover.width / 2;
   }
 
-  templeClicked(button: Button) {
+  templeClicked(temple: Temple) {
     if (!this.didpan) {
       this.game.currentSounds.pusher?.play();
-      console.log("clicked temple" + button.data.id);
-      this.onSelected.dispatch(button.data);
+      console.log("clicked temple" + temple.id);
+      this.onSelected.dispatch(temple);
     }
     this.didpan = false;
   }
@@ -290,7 +290,7 @@ class TempleSelector extends Sprite {
     }
   }
 
-  getTarget() {
+  getTarget(): TempleButton {
     return this.icons.sort(
       (buttonA, buttonB) =>
         Math.abs(this._x + buttonA.x) - Math.abs(this._x + buttonB.x),
@@ -315,5 +315,7 @@ class TempleSelector extends Sprite {
     super.destroy(destroyChildren);
   }
 }
+
+export type TempleButton = Button & { data: Temple };
 
 export default TempleSelector;

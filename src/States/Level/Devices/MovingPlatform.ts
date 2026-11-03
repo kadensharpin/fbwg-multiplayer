@@ -85,14 +85,13 @@ class MovingPlatform extends Device<MovingPlatformOptions> {
       new box2d.b2Vec2(0, 0),
       this.shapeRotation,
     );
-    const fixtureDef = {} as box2d.b2FixtureDef;
-    fixtureDef.shape = shape;
-    fixtureDef.friction = 0.7;
-    fixtureDef.restitution = 0;
-    fixtureDef.density = this.options.properties.dtheta ? 0.5 : 0;
-    fixtureDef.userData = { reflection: true };
-    fixtureDef.filter = { categoryBits: 256, maskBits: 4369 };
-    const fixture = this.body.data.CreateFixture(fixtureDef);
+    const fixture = this.body.data.CreateFixture({
+      shape,
+      friction: 0.7,
+      restitution: 0,
+      density: this.options.properties.dtheta ? 0.5 : 0,
+      filter: { categoryBits: 256, maskBits: 4369 },
+    });
     fixture.id = this.body.world.getNextFixtureId();
     if (this.options.properties.dtheta) {
       const jointDef = new box2d.b2RevoluteJointDef();

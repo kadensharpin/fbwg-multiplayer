@@ -1,4 +1,10 @@
 import Body from "@/utils/box2d/Body";
+import {
+  Fixture,
+  FixtureData,
+  NormalLightProperties,
+  TransparentLightProperties,
+} from "@/utils/Fixture";
 import box2d from "@box2d/core";
 import { Game } from "phaser";
 import BoxPrototype, { BoxPrototypeOptions } from "./BoxPrototype";
@@ -10,6 +16,7 @@ type BoxMirrorOptions = {
 
 class BoxMirror extends BoxPrototype<BoxMirrorOptions> {
   declare body: Body;
+  declare readonly boxFixture: Fixture<TransparentLightProperties>;
 
   constructor(game: Game, options: BoxMirrorOptions) {
     options.mirrorWidth ??= 2;
@@ -18,9 +25,9 @@ class BoxMirror extends BoxPrototype<BoxMirrorOptions> {
 
     super(game, options);
 
-    this.boxFixture.SetUserData({
-      lightProperties: { type: "transparent" },
-    });
+    this.boxFixture.SetUserData(
+      FixtureData.builder().withTransparentLight().build(),
+    );
     const shape = new box2d.b2PolygonShape();
     shape.SetAsBox(
       this.options.mirrorWidth / 2,
@@ -28,14 +35,15 @@ class BoxMirror extends BoxPrototype<BoxMirrorOptions> {
       new box2d.b2Vec2(0, 0),
       Math.PI / 4,
     );
-    const fixtureDef = {} as box2d.b2FixtureDef;
-    fixtureDef.shape = shape;
-    fixtureDef.friction = 0;
-    fixtureDef.restitution = 0;
-    fixtureDef.density = 0;
-    fixtureDef.userData = { lightProperties: { type: "mirror" } };
-    const fixture = this.body.data.CreateFixture(fixtureDef);
-    fixture.id = this.body.world.getNextFixtureId();
+    const mirrorFixture: Fixture<NormalLightProperties> =
+      this.body.data.CreateFixture({
+        shape,
+        friction: 0,
+        restitution: 0,
+        density: 0,
+        userData: FixtureData.builder().withNormalLight(false, true).build(),
+      });
+    mirrorFixture.id = this.body.world.getNextFixtureId();
   }
 }
 

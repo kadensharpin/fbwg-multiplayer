@@ -1,6 +1,6 @@
+import Body from "@/utils/box2d/Body";
 import box2d from "@box2d/core";
 import { Game, Point, Sprite, TileSprite } from "phaser";
-import Body from "../../../utils/box2d/Body";
 import Device, { DeviceOptions } from "./Device";
 
 type PulleyOptions = {
@@ -140,8 +140,8 @@ class Pulley extends Device<PulleyOptions> {
     this.game.layers.underGround.addChild(this.platform2);
     this.platform1.body.data.SetFixedRotation(true);
     this.platform2.body.data.SetFixedRotation(true);
-    this.platform1.body.data.m_userData = "reactable";
-    this.platform2.body.data.m_userData = "reactable";
+    this.platform1.body.data.SetUserData("reactable");
+    this.platform2.body.data.SetUserData("reactable");
     this.platform1.body.data.SetLinearDamping(0.1);
     this.platform2.body.data.SetLinearDamping(0.1);
 
@@ -162,12 +162,12 @@ class Pulley extends Device<PulleyOptions> {
       vertices.push(new box2d.b2Vec2(paddedWidth, 0));
       const shape = new box2d.b2PolygonShape();
       shape.Set(vertices);
-      const fixtureDef = {} as box2d.b2FixtureDef;
-      fixtureDef.shape = shape;
-      fixtureDef.friction = 0.4;
-      fixtureDef.restitution = 0;
-      fixtureDef.density = 3;
-      const fixture = platformBody.data.CreateFixture(fixtureDef);
+      const fixture = platformBody.data.CreateFixture({
+        shape,
+        friction: 0.4,
+        restitution: 0,
+        density: 3,
+      });
       fixture.id = platformBody.world.getNextFixtureId();
 
       if (this.options.properties.prismatic) {

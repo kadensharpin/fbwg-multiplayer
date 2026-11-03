@@ -1,4 +1,9 @@
 import Body from "@/utils/box2d/Body";
+import {
+  Fixture,
+  FixtureData,
+  TransparentLightProperties,
+} from "@/utils/Fixture";
 import box2d from "@box2d/core";
 import { Animation, BitmapData, Game, Sound, Sprite } from "phaser";
 import { CharacterBody } from "../character";
@@ -22,7 +27,7 @@ type WindOptions = {
 } & BoxedDeviceOptions;
 
 class Wind extends BoxedDevice<WindOptions> {
-  readonly windSensor: box2d.b2Fixture;
+  readonly windSensor: Fixture<TransparentLightProperties>;
   readonly windEffect: Sprite;
   readonly activeBodies: Record<number, { body: CharacterBody }>;
   private running: boolean = false;
@@ -74,13 +79,13 @@ class Wind extends BoxedDevice<WindOptions> {
       );
       shape1.Set(vertices);
     }
-    const fixtureDef1 = {} as box2d.b2FixtureDef;
-    fixtureDef1.shape = shape1;
-    fixtureDef1.friction = 0.4;
-    fixtureDef1.restitution = 0;
-    fixtureDef1.density = 0.2;
     const offset = new box2d.b2Vec2(0, 0).Rotate(this.options.rotation || 0);
-    const fixture1 = this.body.data.CreateFixture(fixtureDef1);
+    const fixture1 = this.body.data.CreateFixture({
+      shape: shape1,
+      friction: 0.4,
+      restitution: 0,
+      density: 0.2,
+    });
     fixture1.id = this.body.world.getNextFixtureId();
     this.body.mass = 0;
     const width = this.options.properties.windWidth ?? this.options.windWidth;
@@ -91,11 +96,11 @@ class Wind extends BoxedDevice<WindOptions> {
       new box2d.b2Vec2(0, this.options.properties.length / 2 + 0.5),
       0,
     );
-    const windSensorDef = {} as box2d.b2FixtureDef;
-    windSensorDef.shape = shape2;
-    windSensorDef.isSensor = true;
-    windSensorDef.userData = { lightProperties: { type: "transparent" } };
-    this.windSensor = this.body.data.CreateFixture(windSensorDef);
+    this.windSensor = this.body.data.CreateFixture({
+      shape: shape2,
+      isSensor: true,
+      userData: FixtureData.builder().withTransparentLight().build(),
+    });
     this.windSensor.id = this.body.world.getNextFixtureId();
     this.body.mass = 0;
     this.activeBodies = {};

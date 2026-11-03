@@ -1,4 +1,9 @@
 import Body from "@/utils/box2d/Body";
+import {
+  FixtureData,
+  FixtureDef,
+  TransparentLightProperties,
+} from "@/utils/Fixture";
 import box2d from "@box2d/core";
 import { Easing, Game, Signal, Sprite } from "phaser";
 import Character, { CharacterSprite } from "../character";
@@ -8,6 +13,7 @@ class Diamond extends Sprite {
   readonly sprite: Sprite;
   readonly signal: Signal;
   declare body: Body;
+  declare data: { char: string };
 
   constructor(game: Game, x: number, y: number, asset: string) {
     x += game.physics.box2d.mpx(1);
@@ -36,14 +42,13 @@ class Diamond extends Sprite {
       new box2d.b2Vec2(0, 0),
       0,
     );
-    const fixtureDef = {} as box2d.b2FixtureDef;
+    const fixtureDef = {} as FixtureDef<TransparentLightProperties>;
     fixtureDef.shape = shape;
     fixtureDef.friction = 0.7;
     fixtureDef.restitution = 0;
     fixtureDef.density = 0;
-    fixtureDef.userData = "diamond-" + asset;
     fixtureDef.isSensor = true;
-    fixtureDef.userData = { lightProperties: { type: "transparent" } };
+    fixtureDef.userData = FixtureData.builder().withTransparentLight().build();
     this.data.char = asset;
     const fixture = this.body.data.CreateFixture(fixtureDef);
     fixture.id = this.body.world.getNextFixtureId();

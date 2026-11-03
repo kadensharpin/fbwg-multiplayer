@@ -13,6 +13,7 @@ import LevelUI from "./States/Level/LevelUI";
 import MechManager from "./States/Level/MechManager";
 import { Temple } from "./temple";
 import type TouchManager from "./TouchManager";
+import { SimpleFixture, SimpleFixtureDef } from "./utils/Fixture";
 import Lang from "./utils/lang/Lang";
 import { Sounds } from "./utils/sound/sounds";
 
@@ -126,9 +127,11 @@ declare module "@box2d/core" {
   interface b2Body {
     SetPosition(pos: b2Vec2): void;
     SetPositionXY(x: number, y: number): void;
+    CreateFixture<T>(def: SimpleFixtureDef<T>): SimpleFixture<T>;
   }
   interface b2Vec2 {
     SelfNormalize(): this;
     SelfCrossSV(s: number): this;
+    SelfCrossVS(s: number): this;
   }
 }

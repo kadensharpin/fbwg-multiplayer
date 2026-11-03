@@ -1,3 +1,4 @@
+import { SimpleFixture } from "@/utils/Fixture";
 import Body from "@/utils/box2d/Body";
 import box2d from "@box2d/core";
 import { Game, Sprite } from "phaser";
@@ -18,7 +19,7 @@ export type SnowOptions = {
 class Snow extends Sprite {
   readonly options: SnowOptions;
   readonly ground: Ground;
-  readonly iceFixture: box2d.b2Fixture;
+  readonly iceFixture: SimpleFixture;
   declare body: Body;
 
   constructor(game: Game, ground: Ground, data: SnowOptions["data"]) {
@@ -67,12 +68,11 @@ class Snow extends Sprite {
     iceVertices.push(new box2d.b2Vec2(iceX / 2 - 0.3, 0.01 - height));
     iceVertices.push(new box2d.b2Vec2(-iceX / 2 + 0.3, 0.01 - height));
     iceShape.Set(iceVertices);
-    const iceFixtureDef = {} as box2d.b2FixtureDef;
-    iceFixtureDef.shape = iceShape;
-    iceFixtureDef.filter = { categoryBits: 1, maskBits: 16 };
-    iceFixtureDef.friction = 1;
-    iceFixtureDef.userData = { type: "ice" };
-    this.iceFixture = this.body.data.CreateFixture(iceFixtureDef);
+    this.iceFixture = this.body.data.CreateFixture({
+      shape: iceShape,
+      filter: { categoryBits: 1, maskBits: 16 },
+      friction: 1,
+    });
     this.iceFixture.id = this.body.world.getNextFixtureId();
     this.body.setFixtureContactCallback(
       this.iceFixture,

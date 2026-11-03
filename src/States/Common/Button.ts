@@ -1,3 +1,4 @@
+import { Sounds } from "@/utils/sound/sounds";
 import {
   BitmapData,
   BitmapText,
@@ -6,7 +7,6 @@ import {
   RenderTexture,
   Sprite,
 } from "phaser";
-import { Sounds } from "../../utils/sound/sounds";
 
 class Button extends Sprite {
   private readonly soundId: keyof Sounds | null;

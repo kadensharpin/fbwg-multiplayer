@@ -73,15 +73,14 @@ class Pusher<Options extends PusherOptions> extends BoxedDevice<Options> {
     );
     const shape = new box2d.b2PolygonShape();
     shape.Set(vertices);
-    const fixtureDef = {} as box2d.b2FixtureDef;
-    fixtureDef.shape = shape;
-    fixtureDef.friction = 0.7;
-    fixtureDef.restitution = 0;
-    fixtureDef.density = 0.1;
-    fixtureDef.userData = "pusher";
-    fixtureDef.filter = { categoryBits: 1, maskBits: 61695 };
-    const m = button.body.data.CreateFixture(fixtureDef);
-    m.id = button.body.world.getNextFixtureId();
+    const fixture = button.body.data.CreateFixture({
+      shape,
+      friction: 0.7,
+      restitution: 0,
+      density: 0.1,
+      filter: { categoryBits: 1, maskBits: 61695 },
+    });
+    fixture.id = button.body.world.getNextFixtureId();
     const jointDef = new box2d.b2PrismaticJointDef();
     jointDef.Initialize(
       button.body.data,

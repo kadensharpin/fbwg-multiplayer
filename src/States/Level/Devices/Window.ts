@@ -1,7 +1,8 @@
 import Body from "@/utils/box2d/Body";
+import { FixtureData } from "@/utils/Fixture";
+import { deepObjectExtend } from "@/utils/util";
 import box2d from "@box2d/core";
 import { Game } from "phaser";
-import { deepObjectExtend } from "../../../utils/util";
 import Device, { DeviceOptions } from "./Device";
 
 type WindowOptions = {
@@ -53,14 +54,14 @@ class Window extends Device<WindowOptions> {
       new box2d.b2Vec2(0, 0),
       0,
     );
-    const fixtureDef = {} as box2d.b2FixtureDef;
-    fixtureDef.shape = shape;
-    fixtureDef.friction = 0.7;
-    fixtureDef.restitution = 0;
-    fixtureDef.density = 0;
-    fixtureDef.userData = { lightProperties: { type: "transparent" } };
-    fixtureDef.filter = { categoryBits: 1, maskBits: 61695 };
-    const fixture = this.body.data.CreateFixture(fixtureDef);
+    const fixture = this.body.data.CreateFixture({
+      shape,
+      friction: 0.7,
+      restitution: 0,
+      density: 0,
+      filter: { categoryBits: 1, maskBits: 61695 },
+      userData: FixtureData.builder().withTransparentLight().build(),
+    });
     fixture.id = this.body.world.getNextFixtureId();
     new box2d.b2Vec2(this.options.properties.dx, this.options.properties.dy);
     this.state = 0;

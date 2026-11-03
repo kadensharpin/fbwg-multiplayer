@@ -66,13 +66,13 @@ class Lever extends BoxedDevice<LeverOptions> {
     this.body.clearFixtures();
     const shape = new box2d.b2PolygonShape();
     shape.SetAsBox(0.15, 0.7, new box2d.b2Vec2(0, 0.55), 0);
-    const fixtureDef = {} as box2d.b2FixtureDef;
-    fixtureDef.shape = shape;
-    fixtureDef.friction = 0.7;
-    fixtureDef.restitution = 0;
-    fixtureDef.density = 1.6;
-    fixtureDef.filter = { categoryBits: 1, maskBits: 61695 };
-    const fixture = stick.body.data.CreateFixture(fixtureDef);
+    const fixture = stick.body.data.CreateFixture({
+      shape,
+      friction: 0.7,
+      restitution: 0,
+      density: 1.6,
+      filter: { categoryBits: 1, maskBits: 61695 },
+    });
     fixture.id = stick.body.world.getNextFixtureId();
     const joint = new box2d.b2RevoluteJointDef();
     const centre = this.body.data.GetWorldCenter();

@@ -93,8 +93,7 @@ class Menu extends UIState {
           url: "https://store.steampowered.com/app/1003480/Fireboy__Watergirl_Elements/",
         },
       ].map((store) => {
-        const onClick = (button: Button) =>
-          window.open(button.data.url, "_blank");
+        const onClick = (_button: Button) => window.open(store.url, "_blank");
         const storeButton = new Button(
           this.game,
           0,
@@ -104,7 +103,6 @@ class Menu extends UIState {
           onClick,
           "pusher",
         );
-        storeButton.data = store;
         storeButton.anchor.set(1);
         this.root?.addChild(storeButton);
         return storeButton;

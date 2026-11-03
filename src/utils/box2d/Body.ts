@@ -40,7 +40,6 @@ export default class Body {
     x: number = 0,
     y: number = 0,
     density: number = 2,
-    // @ts-ignore
     world: Box2D = game.physics.box2d,
   ) {
     this.game = game;
@@ -383,7 +382,6 @@ export default class Body {
   }
   removeFromWorld() {
     if (this.data.world === this.game.physics.box2d.world) {
-      // @ts-ignore
       this.game.physics.box2d.removeBodyNextStep(this);
     }
   }

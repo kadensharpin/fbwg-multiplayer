@@ -1,9 +1,12 @@
+import { LevelData } from "@/temple";
 import { Game, PIXI, Sprite } from "phaser";
 
 type LevelType = "speed" | "puzzle" | "dark";
 
 class LevelButton extends Sprite {
+  declare data: LevelData;
   diamond: Sprite;
+
   constructor(
     game: Game,
     x: number,

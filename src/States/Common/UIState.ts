@@ -1,5 +1,5 @@
+import { Sounds } from "@/utils/sound/sounds";
 import { Group, Signal, State } from "phaser";
-import { Sounds } from "../../utils/sound/sounds";
 import MuteButton from "./MuteButton";
 
 class UIState extends State {

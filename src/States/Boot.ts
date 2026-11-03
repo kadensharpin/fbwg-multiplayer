@@ -1,7 +1,7 @@
+import { CacheBuster } from "@/utils/util";
 import PhaserSuperStorage from "@azerion/phaser-super-storage";
 import { State } from "phaser";
 import ProgressModel from "../ProgressModel";
-import { CacheBuster } from "../utils/util";
 import MultiMenu from "./Menu/MultiMenu";
 import SingleMenu from "./Menu/SingleMenu";
 

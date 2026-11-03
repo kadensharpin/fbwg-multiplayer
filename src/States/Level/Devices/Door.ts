@@ -1,7 +1,7 @@
 import Body from "@/utils/box2d/Body";
 import box2d from "@box2d/core";
 import { Animation, Game, Group, Signal, Sound, Sprite } from "phaser";
-import Character, { Characters } from "../character";
+import { Characters, CharacterSprite } from "../character";
 
 class Door extends Group {
   readonly options = { width: 64, height: 8 };
@@ -50,20 +50,20 @@ class Door extends Group {
       new box2d.b2Vec2(0, 0),
       0,
     );
-    const fixtureDef = {} as box2d.b2FixtureDef;
-    fixtureDef.shape = shape;
-    fixtureDef.friction = 0.7;
-    fixtureDef.restitution = 0;
-    fixtureDef.density = 0;
-    fixtureDef.userData = "door-" + char;
-    fixtureDef.isSensor = true;
     this.data = { char };
-    const fixture = this.body.data.CreateFixture(fixtureDef);
+    const fixture = this.body.data.CreateFixture({
+      shape,
+      friction: 0.7,
+      restitution: 0,
+      density: 0,
+      userData: `door-${char}` as const,
+      isSensor: true,
+    });
     fixture.id = this.body.world.getNextFixtureId();
     this.body.setFixtureContactCallback(
       fixture,
       (_body1, body2, _fixture1, _fixture2, begin) => {
-        const sprite = body2.sprite as Sprite & { character: Character };
+        const sprite = body2.sprite as CharacterSprite;
         if (sprite.character && sprite.character.data.char === this.data.char)
           return (this.isOpen = !!begin);
       },

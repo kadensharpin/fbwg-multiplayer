@@ -15,11 +15,11 @@ import {
   TilemapParser,
 } from "phaser";
 
+import { TranslationString } from "@/utils/lang/translations";
+import { Sounds } from "@/utils/sound/sounds";
+import { deepObjectExtend } from "@/utils/util";
 import _ from "underscore";
 import { LevelData } from "../../temple";
-import { TranslationString } from "../../utils/lang/translations";
-import { Sounds } from "../../utils/sound/sounds";
-import { deepObjectExtend } from "../../utils/util";
 import Navies from "../Common/Navies";
 import End from "../End";
 import CameraManager from "./CameraManager";

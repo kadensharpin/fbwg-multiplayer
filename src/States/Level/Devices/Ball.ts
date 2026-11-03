@@ -1,7 +1,8 @@
 import Body from "@/utils/box2d/Body";
+import { FixtureData } from "@/utils/Fixture";
+import { deepObjectExtend } from "@/utils/util";
 import box2d from "@box2d/core";
 import { Game } from "phaser";
-import { deepObjectExtend } from "../../../utils/util";
 import BoxedDevice from "./BoxedDevice";
 import { type DeviceOptions } from "./Device";
 
@@ -29,14 +30,13 @@ class Ball extends BoxedDevice<BallOptions> {
 
     super(game, options);
 
-    const shape = new box2d.b2CircleShape(this.radius);
-    const fixtureDef = {} as box2d.b2FixtureDef;
-    fixtureDef.shape = shape;
-    fixtureDef.friction = 0.2;
-    fixtureDef.restitution = 0.1;
-    fixtureDef.density = 2.3;
-    fixtureDef.filter = { categoryBits: 17 };
-    const fixture = this.body.data.CreateFixture(fixtureDef);
+    const fixture = this.body.data.CreateFixture({
+      shape: new box2d.b2CircleShape(this.radius),
+      friction: 0.2,
+      restitution: 0.1,
+      density: 2.3,
+      filter: { categoryBits: 17 },
+    });
     fixture.id = this.body.world.getNextFixtureId();
 
     if (null != this.options.properties?.linearDamping)
@@ -45,19 +45,17 @@ class Ball extends BoxedDevice<BallOptions> {
     if (null != this.options.properties?.angularDamping)
       this.body.data.SetAngularDamping(this.options.properties.angularDamping);
 
-    const shape2 = new box2d.b2CircleShape(0.1);
-    shape2.m_p.Set(0, 0);
-    const fixtureDef2 = {} as box2d.b2FixtureDef;
-    fixtureDef2.shape = shape2;
-    fixtureDef2.filter = {
-      categoryBits: 4096,
-      maskBits: 4096,
-    };
-    fixtureDef2.friction = 0.5;
-    fixtureDef2.density = 0;
-    fixtureDef2.userData = { "portal-sensor": true };
-    const fixture2 = this.body.data.CreateFixture(fixtureDef2);
-    fixture2.id = this.body.world.getNextFixtureId();
+    const portalSensor = this.body.data.CreateFixture({
+      shape: new box2d.b2CircleShape(0.1).Set(new box2d.b2Vec2(0, 0)),
+      filter: {
+        categoryBits: 4096,
+        maskBits: 4096,
+      },
+      friction: 0.5,
+      density: 0,
+      userData: FixtureData.builder().withPortalSensor(true).build(),
+    });
+    portalSensor.id = this.body.world.getNextFixtureId();
   }
 }
 

@@ -26699,7 +26699,7 @@ declare module Phaser {
      * without polluting the Game Object directly.
      * Default: {}
      */
-    data: any;
+    readonly data: {};
 
     /**
      * A debug flag designed for use with `Game.enableStep`.

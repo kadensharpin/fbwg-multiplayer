@@ -2,10 +2,9 @@ import { BitmapData, Easing, Game, Group, Signal, Sprite } from "phaser";
 import _ from "underscore";
 import { Temple } from "../../temple";
 import BuyMenu from "../Buy/BuyMenu";
-import Button from "../Common/Button";
 import Navies from "../Common/Navies";
 import SoftLockMenu from "../Common/SoftLockMenu";
-import TempleSelector from "./TempleSelector";
+import TempleSelector, { TempleButton } from "./TempleSelector";
 
 class MultiHall extends Sprite {
   readonly onStart: Signal;
@@ -57,7 +56,7 @@ class MultiHall extends Sprite {
     this.setBackground(this.templeSelector.getTarget(), false);
   }
 
-  setBackground(button: Button, fade: boolean | null) {
+  setBackground(button: TempleButton, fade: boolean | null) {
     fade ??= true;
     const background = this.backgroundImages?.[button.data.id];
     if (this.currentBkg !== background && background) {

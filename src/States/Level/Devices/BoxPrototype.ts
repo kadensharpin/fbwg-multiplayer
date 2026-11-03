@@ -1,5 +1,11 @@
 import Body from "@/utils/box2d/Body";
-import { Fixture } from "@/utils/util";
+import {
+  Fixture,
+  FixtureData,
+  SimpleFixture,
+  SimpleFixtureDef,
+  TransparentLightProperties,
+} from "@/utils/Fixture";
 import box2d from "@box2d/core";
 import { Game } from "phaser";
 import BoxedDevice from "./BoxedDevice";
@@ -20,7 +26,7 @@ export type BoxPrototypeOptions = {
 class BoxPrototype<
   Options extends BoxPrototypeOptions = BoxPrototypeOptions,
 > extends BoxedDevice<Options> {
-  readonly boxFixture: Fixture<{}>;
+  readonly boxFixture: SimpleFixture<unknown>;
   declare body: Body;
 
   constructor(game: Game, options: Partial<BoxPrototypeOptions>) {
@@ -90,7 +96,7 @@ class BoxPrototype<
       ),
     );
     shape.Set(vertices.reverse());
-    const fixtureDef = {} as box2d.b2FixtureDef;
+    const fixtureDef = {} as SimpleFixtureDef;
     fixtureDef.shape = shape;
     fixtureDef.friction =
       this.options.properties.friction != null
@@ -98,18 +104,19 @@ class BoxPrototype<
         : 0.4;
     fixtureDef.restitution = 0;
     fixtureDef.density = this.options.density;
-    // @ts-expect-error
     this.boxFixture = this.body.data.CreateFixture(fixtureDef);
     this.boxFixture.id = this.body.world.getNextFixtureId();
     const createFixture = (radius: number, pos: [number, number]) => {
       const d = new box2d.b2CircleShape(radius);
       d.m_p.Set(pos[0], pos[1]);
-      const fixtureDef = {} as box2d.b2FixtureDef;
+      const fixtureDef = {} as SimpleFixtureDef<TransparentLightProperties>;
       fixtureDef.shape = d;
       fixtureDef.filter = { categoryBits: 17, maskBits: 4097 };
       fixtureDef.friction = this.options.circleFriction;
       fixtureDef.density = 0;
-      fixtureDef.userData = { lightProperties: { type: "transparent" } };
+      fixtureDef.userData = FixtureData.builder()
+        .withTransparentLight()
+        .build();
       const fixture = this.body.data.CreateFixture(fixtureDef);
       fixture.id = this.body.world.getNextFixtureId();
       return fixture;
@@ -121,16 +128,17 @@ class BoxPrototype<
     createFixture(0.1, [size, size]);
     const circle = new box2d.b2CircleShape(0.1);
     circle.m_p.Set(0, 0);
-    const fixtureDef2 = {} as box2d.b2FixtureDef;
-    fixtureDef2.shape = circle;
-    fixtureDef2.filter = { categoryBits: 4096, maskBits: 4096 };
-    fixtureDef2.friction = 0.5;
-    fixtureDef2.density = 0;
-    fixtureDef2.userData = {
-      "portal-sensor": true,
-      lightProperties: { type: "transparent" },
-    };
-    const fixture2 = this.body.data.CreateFixture(fixtureDef2);
+    const fixture2: Fixture<TransparentLightProperties> =
+      this.body.data.CreateFixture({
+        shape: circle,
+        filter: { categoryBits: 4096, maskBits: 4096 },
+        friction: 0.5,
+        density: 0,
+        userData: FixtureData.builder()
+          .withTransparentLight()
+          .withPortalSensor(true)
+          .build(),
+      });
     fixture2.id = this.body.world.getNextFixtureId();
     this.body.data.SetLinearDamping(1);
     this.body.data.SetAngularDamping(20);

@@ -62,10 +62,7 @@ class Slider extends Device<SliderOptions> {
     sprite.body.clearFixtures();
     const circle = new box2d.b2CircleShape(0.3);
     circle.m_p.Set(0, 0);
-    const fixtureDef = {} as box2d.b2FixtureDef;
-    fixtureDef.shape = circle;
-    fixtureDef.friction = 0;
-    sprite.body.data.CreateFixture(fixtureDef);
+    sprite.body.data.CreateFixture({ shape: circle, friction: 0 });
     const axis = new box2d.b2Vec2(-1, 0);
     const jointDef = new box2d.b2PrismaticJointDef();
     jointDef.Initialize(

@@ -1,6 +1,6 @@
 import Body from "@/utils/box2d/Body";
+import { deepObjectExtend, degToRad } from "@/utils/util";
 import { Color, Game, Group, Signal, Sprite } from "phaser";
-import { deepObjectExtend, degToRad } from "../../../utils/util";
 import { ParsedTile } from "../Level";
 
 export type DeviceOptions = {

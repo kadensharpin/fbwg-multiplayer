@@ -1,4 +1,5 @@
 import Body from "@/utils/box2d/Body";
+import { FixtureData } from "@/utils/Fixture";
 import box2d from "@box2d/core";
 import { BitmapData, Game, Sound, Sprite } from "phaser";
 import BoxedDevice from "./BoxedDevice";
@@ -73,13 +74,13 @@ class RotMirror extends BoxedDevice<RotMirrorOptions> {
       new box2d.b2Vec2(0, 0),
       0,
     );
-    const fixtureDef1 = {} as box2d.b2FixtureDef;
-    fixtureDef1.shape = fixtureShape;
-    fixtureDef1.friction = 0.7;
-    fixtureDef1.restitution = 0;
-    fixtureDef1.density = 1;
-    fixtureDef1.userData = { lightProperties: { type: "transparent" } };
-    const fixture1 = this.body.data.CreateFixture(fixtureDef1);
+    const fixture1 = this.body.data.CreateFixture({
+      shape: fixtureShape,
+      friction: 0.7,
+      restitution: 0,
+      density: 1,
+      userData: FixtureData.builder().withTransparentLight().build(),
+    });
     fixture1.id = this.body.world.getNextFixtureId();
     const fixtureShape2 = new box2d.b2PolygonShape();
     fixtureShape2.SetAsBox(
@@ -88,13 +89,13 @@ class RotMirror extends BoxedDevice<RotMirrorOptions> {
       new box2d.b2Vec2(0, 0),
       Math.PI / 4,
     );
-    const fixtureDef2 = {} as box2d.b2FixtureDef;
-    fixtureDef2.shape = fixtureShape2;
-    fixtureDef2.friction = 0.7;
-    fixtureDef2.restitution = 0;
-    fixtureDef2.density = 0.2;
-    fixtureDef2.userData = { lightProperties: { type: "mirror" } };
-    const fixture2 = this.body.data.CreateFixture(fixtureDef2);
+    const fixture2 = this.body.data.CreateFixture({
+      shape: fixtureShape2,
+      friction: 0.7,
+      restitution: 0,
+      density: 0.2,
+      userData: FixtureData.builder().withNormalLight(false, true).build(),
+    });
     fixture2.id = this.body.world.getNextFixtureId();
     const fixtureShape3 = new box2d.b2CircleShape(0.25);
     fixtureShape3.Set(
@@ -103,9 +104,7 @@ class RotMirror extends BoxedDevice<RotMirrorOptions> {
         this.options.boxWidth / 2 - 0.25,
       ),
     );
-    const fixtureDef3 = {} as box2d.b2FixtureDef;
-    fixtureDef3.shape = fixtureShape3;
-    this.body.data.CreateFixture(fixtureDef3);
+    this.body.data.CreateFixture({ shape: fixtureShape3 });
     new box2d.b2CircleShape(0.25);
     fixtureShape3.Set(
       new box2d.b2Vec2(
@@ -113,8 +112,13 @@ class RotMirror extends BoxedDevice<RotMirrorOptions> {
         -this.options.boxWidth / 2 + 0.25,
       ),
     );
-    fixtureDef1.shape = fixtureShape3;
-    this.body.data.CreateFixture(fixtureDef1);
+    this.body.data.CreateFixture({
+      shape: fixtureShape3,
+      friction: 0.7,
+      restitution: 0,
+      density: 1,
+      userData: FixtureData.builder().withTransparentLight().build(),
+    });
     const jointDef = new box2d.b2RevoluteJointDef();
     const centre = this.body.data.GetWorldCenter();
     const jointPos = new box2d.b2Vec2(centre.x, centre.y);

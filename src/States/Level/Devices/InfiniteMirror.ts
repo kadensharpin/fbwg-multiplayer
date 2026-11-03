@@ -1,4 +1,5 @@
 import Body from "@/utils/box2d/Body";
+import { FixtureData } from "@/utils/Fixture";
 import box2d from "@box2d/core";
 import { Game } from "phaser";
 import BoxedDevice from "./BoxedDevice";
@@ -63,32 +64,28 @@ class InfiniteMirror extends BoxedDevice<InfiniteMirrorOptions> {
       new box2d.b2Vec2(0, 0),
       0,
     );
-    const m = new box2d.b2PolygonShape();
-    m.SetAsBox(
+    const shape1 = new box2d.b2PolygonShape();
+    shape1.SetAsBox(
       this.options.mirrorWidth / 2,
       this.options.mirrorHeight / 2,
       new box2d.b2Vec2(0, 0),
       Math.PI / 4,
     );
-    const fixtureDef1 = {} as box2d.b2FixtureDef;
-    fixtureDef1.shape = m;
-    fixtureDef1.friction = 0.7;
-    fixtureDef1.restitution = 0;
-    fixtureDef1.density = 0.2;
-    fixtureDef1.userData = { lightProperties: { type: "mirror" } };
-    const fixture1 = this.body.data.CreateFixture(fixtureDef1);
+    const fixture1 = this.body.data.CreateFixture({
+      shape: shape1,
+      friction: 0.7,
+      restitution: 0,
+      density: 0.2,
+      userData: FixtureData.builder().withNormalLight(false, true).build(),
+    });
     fixture1.id = this.body.world.getNextFixtureId();
     this.body.data.SetAngle(this.options.rotation);
     const shape2 = new box2d.b2CircleShape(0.3);
     shape2.Set(new box2d.b2Vec2(1.1, 1.1));
-    const fixtureDef2 = {} as box2d.b2FixtureDef;
-    fixtureDef2.shape = shape2;
-    this.body.data.CreateFixture(fixtureDef2);
+    this.body.data.CreateFixture({ shape: shape2 });
     const shape3 = new box2d.b2CircleShape(0.3);
     shape3.Set(new box2d.b2Vec2(-1.1, -1.1));
-    const fixtureDef3 = {} as box2d.b2FixtureDef;
-    fixtureDef3.shape = shape3;
-    this.body.data.CreateFixture(fixtureDef3);
+    this.body.data.CreateFixture({ shape: shape3 });
     const jointDef = new box2d.b2RevoluteJointDef();
     const bodyCentre = this.body.data.GetWorldCenter();
     jointDef.Initialize(

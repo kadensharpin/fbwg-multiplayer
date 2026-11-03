@@ -517,18 +517,18 @@ class Ground extends Sprite {
     super.destroy();
   }
 
-  createGroundFixture(
+  createGroundFixture<T>(
     shape: box2d.b2Shape,
     isSensor: boolean = false,
-    userData: any = null,
+    userData?: T,
   ) {
-    const fixtureDef = {} as box2d.b2FixtureDef;
-    fixtureDef.shape = shape;
-    fixtureDef.filter = { categoryBits: 1, maskBits: 4369 };
-    fixtureDef.friction = 0.8;
-    fixtureDef.isSensor = isSensor;
-    fixtureDef.userData = userData;
-    const fixture = this.body.data.CreateFixture(fixtureDef);
+    const fixture = this.body.data.CreateFixture({
+      shape: shape,
+      filter: { categoryBits: 1, maskBits: 4369 },
+      friction: 0.8,
+      isSensor: isSensor,
+      userData: userData,
+    });
     fixture.id = this.body.world.getNextFixtureId();
   }
 

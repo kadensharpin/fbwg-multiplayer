@@ -72,7 +72,11 @@ class Hanging extends Device<HangingOptions> {
     hangingBase.anchor.set(0.5);
     this.game.physics.box2d.enable(this.platform, false);
     this.game.physics.box2d.enable(hangingAnchor);
-    hangingAnchor.body.data.m_fixtureList.m_filter.categoryBits = 0;
+    const anchorFixture = hangingAnchor.body.data.GetFixtureList();
+    anchorFixture?.SetFilterData({
+      ...(anchorFixture.GetFilterData() ?? {}),
+      categoryBits: 0,
+    });
     this.platform.addChild(hangingBase);
     this.game.layers.underGround.addChild(this.platform);
     this.game.layers.underGround.addChild(hangingAnchor);
@@ -90,13 +94,13 @@ class Hanging extends Device<HangingOptions> {
     vertices.push(new box2d.b2Vec2(centre + 0.1, 0));
     const polygon = new box2d.b2PolygonShape();
     polygon.Set(vertices);
-    const fixtureDef = {} as box2d.b2FixtureDef;
-    fixtureDef.shape = polygon;
-    fixtureDef.friction = 0.4;
-    fixtureDef.restitution = 0;
-    fixtureDef.density = this.options.properties?.density || 2.5;
-    fixtureDef.filter = { categoryBits: 65535, maskBits: 65535 };
-    const fixture = platformBody.data.CreateFixture(fixtureDef);
+    const fixture = platformBody.data.CreateFixture({
+      shape: polygon,
+      friction: 0.4,
+      restitution: 0,
+      density: this.options.properties?.density || 2.5,
+      filter: { categoryBits: 65535, maskBits: 65535 },
+    });
     fixture.id = platformBody.world.getNextFixtureId();
     const jointDef = new box2d.b2DistanceJointDef();
     const anchorPos = new box2d.b2Vec2(
