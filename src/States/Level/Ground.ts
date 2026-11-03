@@ -7,7 +7,7 @@ import InlineFilter from "../../filters/InlineFilter";
 import OutlineFilter from "../../filters/OutlineFilter";
 import ShadowFilter from "../../filters/ShadowFilter";
 import Liquid from "./Devices/Liquid";
-import Snow, { SnowOptions } from "./Devices/Snow";
+import Snow, { SnowOptions, SnowType } from "./Devices/Snow";
 import { ParsedMapData, ParsedTile } from "./Level";
 import MechManager from "./MechManager";
 
@@ -585,15 +585,15 @@ class Ground extends Sprite {
     const mapHeight = this.mapData.height;
     const mapWidth = this.mapData.width;
     const snows: SnowOptions["data"][] = [];
-    console.log("WE");
+    console.log(SnowType.FLAT);
     for (const rows of this.mapData.layers[0].data) {
       for (const tile of rows) {
         if (tile.properties.type === 10) {
           snow ??= {
-            x: tile.x,
-            y: tile.y,
+            x: tile.y,
+            y: tile.x,
             length: 0,
-            dir: "WE",
+            dir: SnowType.FLAT,
           };
           snow.length += 1;
         } else if (snow != null) {
@@ -602,7 +602,7 @@ class Ground extends Sprite {
         }
       }
     }
-    console.log("SE");
+    console.log(SnowType.SLOPE_EAST);
     for (let l = 0; l <= mapWidth + mapHeight; ++l) {
       for (let y = 0; y <= l; y = ++y) {
         let x = l - y;
@@ -613,7 +613,7 @@ class Ground extends Sprite {
             x: y,
             y: x,
             length: 0,
-            dir: "SE",
+            dir: SnowType.SLOPE_EAST,
           };
           snow.length += 1;
         } else if (snow != null) {
@@ -622,7 +622,7 @@ class Ground extends Sprite {
         }
       }
     }
-    console.log("SW");
+    console.log(SnowType.SLOPE_WEST);
     const l = Math.max(mapWidth, mapHeight);
     for (let i = 0; i <= l * 2; i++) {
       for (let x = 0; x <= mapHeight; ++x) {
@@ -634,7 +634,7 @@ class Ground extends Sprite {
             x: x,
             y: y,
             length: 0,
-            dir: "SW",
+            dir: SnowType.SLOPE_WEST,
           };
           snow.length += 1;
         } else if (snow != null) {

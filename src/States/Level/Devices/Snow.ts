@@ -12,7 +12,7 @@ export type SnowOptions = {
     x: number;
     y: number;
     length: number;
-    dir: "SW" | "SE" | "WE";
+    dir: SnowType;
   };
 };
 
@@ -26,17 +26,17 @@ class Snow extends Sprite {
     const options: Partial<SnowOptions> = { data };
     let iceX: number;
     let angle;
-    if ("SW" === data.dir) {
+    if (data.dir === SnowType.SLOPE_WEST) {
       iceX = data.length * Math.sqrt(2);
       angle = Math.PI / 4;
       options.y = data.x + data.length / 2;
       options.x = data.y + data.length / 2;
-    } else if ("SE" === data.dir) {
+    } else if (data.dir === SnowType.SLOPE_EAST) {
       iceX = data.length * Math.sqrt(2);
       angle = -Math.PI / 4;
       options.y = data.x + data.length / 2;
       options.x = data.y - data.length / 2 + 1;
-    } else if ("WE" === data.dir) {
+    } else if (data.dir === SnowType.FLAT) {
       iceX = data.length;
       angle = 0;
       options.y = data.x;
@@ -101,7 +101,7 @@ class Snow extends Sprite {
   createSnowGraphics() {
     for (let i = 0; i < this.options.data.length; i++) {
       let x, y, asset;
-      if (this.options.data.dir === "SW") {
+      if (this.options.data.dir === SnowType.SLOPE_WEST) {
         x =
           this.game.physics.box2d.mpx(1) *
           (this.options.x - this.options.data.length / 2 + i * 1);
@@ -109,7 +109,7 @@ class Snow extends Sprite {
           this.game.physics.box2d.mpx(1) *
           (this.options.y - this.options.data.length / 2 + i * 1);
         asset = "SnowSlope0000";
-      } else if (this.options.data.dir === "SE") {
+      } else if (this.options.data.dir === SnowType.SLOPE_EAST) {
         x =
           this.game.physics.box2d.mpx(1) *
           (this.options.x + this.options.data.length / 2 - 1 - i * 1);
@@ -117,7 +117,7 @@ class Snow extends Sprite {
           this.game.physics.box2d.mpx(1) *
           (this.options.y - this.options.data.length / 2 + i * 1);
         asset = "SnowSlope0001";
-      } else if (this.options.data.dir === "WE") {
+      } else if (this.options.data.dir === SnowType.FLAT) {
         x =
           this.game.physics.box2d.mpx(1) *
           (this.options.x - this.options.data.length / 2 + i);
@@ -145,6 +145,12 @@ class Snow extends Sprite {
       frame.height,
     );
   }
+}
+
+export const enum SnowType {
+  FLAT = "WE",
+  SLOPE_EAST = "SE",
+  SLOPE_WEST = "SW",
 }
 
 export default Snow;
