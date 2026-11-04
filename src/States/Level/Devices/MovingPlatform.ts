@@ -28,7 +28,10 @@ class MovingPlatform extends Device<MovingPlatformOptions> {
   constructor(game: Game, options: MovingPlatformOptions) {
     options.lightAtlas ??= "MechAssets";
     options.lightFrame ??= "moving_platform_light";
-    options.properties ??= { group: 0, dx: 4, dy: 0 };
+    options.properties ??= {};
+    options.properties.group ??= 0;
+    options.properties.dx ??= 4;
+    options.properties.dy ??= 0;
 
     let shapeRotation: number;
     if (options.width < options.height) {
