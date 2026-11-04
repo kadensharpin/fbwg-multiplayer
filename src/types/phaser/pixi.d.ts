@@ -1,6 +1,6 @@
 // Type definitions for PIXI with Phaser Deviations. 
 
-declare module Phaser {
+declare module "phaser" {
     namespace PIXI {
 
         export var game: Phaser.Game;

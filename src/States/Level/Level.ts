@@ -1,5 +1,5 @@
 import box2d from "@box2d/core";
-import {
+import Phaser, {
   BitmapData,
   BitmapText,
   Game,
