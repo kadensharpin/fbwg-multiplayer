@@ -1,4 +1,3 @@
-import PhaserSuperStorage from "@azerion/phaser-super-storage";
 import bowser from "bowser";
 import { i18n } from "i18next";
 import ProgressModel from "./ProgressModel";
@@ -16,6 +15,7 @@ import type TouchManager from "./TouchManager";
 import { SimpleFixture, SimpleFixtureDef } from "./utils/Fixture";
 import Lang from "./utils/lang/Lang";
 import { Sounds } from "./utils/sound/sounds";
+import { NamespaceStorage } from "./utils/storage/NamespaceStorage";
 
 declare module "phaser" {
   interface IGameConfig {
@@ -66,7 +66,7 @@ declare module "phaser" {
       };
     };
     level: Level;
-    storage: PhaserSuperStorage.StoragePlugin;
+    storage: NamespaceStorage;
     currentSounds: Sounds;
     menuMusic?: Sound | undefined | null;
     currentTemple: Temple;

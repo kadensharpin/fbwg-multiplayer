@@ -1,5 +1,5 @@
+import { NamespaceStorage } from "@/utils/storage/NamespaceStorage";
 import { CacheBuster } from "@/utils/util";
-import PhaserSuperStorage from "@azerion/phaser-super-storage";
 import { State } from "phaser";
 import ProgressModel from "../ProgressModel";
 import MultiMenu from "./Menu/MultiMenu";
@@ -25,8 +25,6 @@ class Boot extends State {
   }
 
   async create() {
-    // @ts-ignore
-    this.game.plugins.add(PhaserSuperStorage.StoragePlugin);
     this.game.plugins.add(CacheBuster);
     this.game.gameConfig = this.game.cache.getJSON("gameConfig");
     await this.setStorageAdapter();
@@ -35,33 +33,8 @@ class Boot extends State {
     this.game.state.start("load");
   }
 
-  setStorageAdapter() {
-    const windowIsTop = () => {
-      try {
-        return window.self !== window.top;
-      } catch (err) {
-        return true;
-      }
-    };
-    return new Promise<void>(async (fulfill) => {
-      if (windowIsTop()) {
-        const iframeStorage =
-          new PhaserSuperStorage.StorageAdapters.IframeStorage(
-            "",
-            document.referrer,
-          );
-        try {
-          await iframeStorage.init();
-          this.game.storage.setAdapter(iframeStorage);
-        } catch (error) {
-          this.game.storage.forcePromises = true;
-        }
-        fulfill();
-      } else {
-        this.game.storage.forcePromises = true;
-        return fulfill();
-      }
-    });
+  async setStorageAdapter() {
+    this.game.storage = new NamespaceStorage();
   }
 
   loadSettings() {

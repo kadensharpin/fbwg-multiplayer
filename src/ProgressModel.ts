@@ -205,20 +205,23 @@ class ProgressModel extends Model {
   }
 
   erase() {
-    this.game.storage.setNamespace("fb-" + this.game.gameConfig.id);
+    this.game.storage.namespace = "fb-" + this.game.gameConfig.id;
     this.game.storage.clear();
   }
 
   getStored() {
-    this.game.storage.setNamespace("fb-" + this.game.gameConfig.id);
-    return this.game.storage
-      .getItem("progress")
-      .then(JSON.parse)
-      .catch(() => null);
+    this.game.storage.namespace = "fb-" + this.game.gameConfig.id;
+    const item = this.game.storage.getItem("progress");
+    if (item == null) return null;
+    try {
+      return JSON.parse(item);
+    } catch (error) {
+      return null;
+    }
   }
 
   save() {
-    this.game.storage.setNamespace("fb-" + this.game.gameConfig.id);
+    this.game.storage.namespace = "fb-" + this.game.gameConfig.id;
     this.game.storage.setItem("progress", JSON.stringify(this.toJSON()));
   }
 

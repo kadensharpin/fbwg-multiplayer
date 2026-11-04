@@ -73,11 +73,11 @@ Device.whenReady(() => {
   );
   game.lang = new Lang();
   game.saveSettings = async function () {
-    this.storage.setNamespace("fb-" + this.gameConfig.id);
+    this.storage.namespace = "fb-" + this.gameConfig.id;
     return this.storage.setItem("settings", JSON.stringify(this.settings));
   };
   game.loadSettings = async function () {
-    this.storage.setNamespace("fb-" + this.gameConfig.id);
+    this.storage.namespace = "fb-" + this.gameConfig.id;
     const settings = await this.storage.getItem("settings");
     if (settings) {
       this.settings = JSON.parse(settings);

@@ -1,3 +1,2 @@
 patchedDependencies:
-  '@azerion/phaser-super-storage': patches/@azerion__phaser-super-storage.patch
   phaser: patches/phaser.patch
