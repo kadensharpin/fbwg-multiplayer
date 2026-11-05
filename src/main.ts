@@ -58,19 +58,17 @@ Device.whenReady(() => {
     ?.addEventListener(event, (ev) => game.gameResumed(ev));
   game.bowser = bowser;
   game.settingsSignal = new Signal();
-  game.settingsSignal.add(
-    (setting: "vibrate" | "music" | "fx" | "controls") => {
-      if (setting === "fx") {
-        if (!game.paused) {
-          game.sound.mute = !game.settings.fx;
-        }
+  game.settingsSignal.add((setting) => {
+    if (setting === "fx") {
+      if (!game.paused) {
+        game.sound.mute = !game.settings.fx;
       }
-      if (setting === "music") {
-        const state = game.state.states[game.state.current];
-        if (state.updateMusic != null) return state.updateMusic();
-      }
-    },
-  );
+    }
+    if (setting === "music") {
+      const state = game.state.states[game.state.current];
+      if (state.updateMusic != null) return state.updateMusic();
+    }
+  });
   game.lang = new Lang();
   game.saveSettings = async function () {
     this.storage.namespace = "fb-" + this.gameConfig.id;

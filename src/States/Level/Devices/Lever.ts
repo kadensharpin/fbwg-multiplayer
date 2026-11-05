@@ -14,7 +14,7 @@ type LeverOptions = {
 class Lever extends BoxedDevice<LeverOptions> {
   readonly base: Sprite;
   joint: box2d.b2RevoluteJoint;
-  signal: Signal;
+  signal: Signal<[this]>;
   declare body: Body;
 
   constructor(game: Game, options: LeverOptions) {

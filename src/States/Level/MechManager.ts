@@ -32,7 +32,7 @@ class MechManager {
     this.registerDevice = this.registerDevice.bind(this);
   }
 
-  registerDevice(device: Device<DeviceOptions>) {
+  registerDevice(device: Device<any>) {
     const groupId = device.options.properties?.group ?? 0;
     this.deviceGroups[groupId] ||= [];
     this.deviceGroups[groupId].push(device);

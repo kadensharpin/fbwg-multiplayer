@@ -41,7 +41,7 @@ class Device<Options extends DeviceOptions> extends Group {
 
   sprite?: Sprite;
   body?: Body;
-  signal?: Signal;
+  signal?: Signal<[this]>;
 
   constructor(game: Game, options: Options) {
     super(game);

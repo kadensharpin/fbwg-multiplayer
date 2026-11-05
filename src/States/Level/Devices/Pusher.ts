@@ -12,7 +12,7 @@ export type PusherOptions = {
 
 class Pusher<Options extends PusherOptions> extends BoxedDevice<Options> {
   readonly button: Sprite;
-  readonly signal: Signal;
+  readonly signal: Signal<[this]>;
   readonly base: Sprite;
   readonly joint: box2d.b2PrismaticJoint;
 

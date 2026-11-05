@@ -36,9 +36,9 @@ class Load extends State {
     this.game.load.onLoadComplete.remove(this.onLoadComplete);
   }
 
-  onFileComplete(_percent: number) {}
+  onFileComplete() {}
 
-  onLoadComplete(_percent: number) {
+  onLoadComplete() {
     this.startGame();
   }
 

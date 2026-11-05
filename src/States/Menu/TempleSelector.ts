@@ -3,10 +3,12 @@ import { Temple } from "../../temple";
 import Button from "../Common/Button";
 
 class TempleSelector extends Sprite {
-  readonly onSelected: Signal;
+  readonly onSelected: Signal<[Temple]>;
   private readonly onMove: Signal;
-  readonly onTarget: Signal;
-  readonly onShowPopup: Signal;
+  readonly onTarget: Signal<[TempleButton]>;
+  readonly onShowPopup: Signal<
+    [{ type: "softLock" } | { type: "buyTemple"; value: Temple }]
+  >;
   private readonly icon_distance: number;
   readonly strip_height: number;
   private readonly strip: Sprite;
@@ -281,8 +283,7 @@ class TempleSelector extends Sprite {
     }
     if (this.lastAnchor !== this._anchor) {
       this.lastAnchor = this._anchor;
-      const k = this.getTarget();
-      this.onTarget.dispatch(k);
+      this.onTarget.dispatch(this.getTarget());
     }
     if (this.strip.x !== Math.round(this._x)) {
       this.strip.x = Math.round(this._x);

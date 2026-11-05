@@ -67,8 +67,8 @@ class Box2D {
     top: any;
     bottom: any;
   };
-  onBodyAdded: Signal;
-  onBodyRemoved: Signal;
+  onBodyAdded: Signal<[Body]>;
+  onBodyRemoved: Signal<[Body]>;
   private _toRemove: Body[];
 
   constructor(game: Game, config?: any) {

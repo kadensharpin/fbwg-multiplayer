@@ -13,7 +13,7 @@ type SliderOptions = {
 class Slider extends Device<SliderOptions> {
   readonly _width: number;
   readonly joint: any;
-  readonly signal: Signal;
+  readonly signal: Signal<[this]>;
   private sound?: Sound;
 
   constructor(game: Game, options: SliderOptions) {

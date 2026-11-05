@@ -3,7 +3,7 @@ import Button from "../Common/Button";
 import { Characters } from "./character";
 
 class CursorToggle extends Button {
-  onChange: Signal;
+  onChange: Signal<[Characters]>;
   vtheta: number;
   atheta: number;
   current!: Characters;

@@ -162,7 +162,7 @@ declare module "phaser" {
   interface Game {
     loadSettings(): Promise<void>;
     saveSettings(): Promise<void>;
-    settingsSignal: Signal;
+    settingsSignal: Signal<["vibrate" | "music" | "fx" | "controls"]>;
     settings: {
       controls: "keyboard" | "dual" | "single";
       vibrate: boolean;

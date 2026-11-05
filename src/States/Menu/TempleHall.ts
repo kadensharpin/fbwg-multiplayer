@@ -1,3 +1,4 @@
+import { Temple } from "@/temple";
 import { Animation, Game, PIXI, Signal, Sprite } from "phaser";
 import GoldButton from "../Common/GoldButton";
 import MenuFairy from "../Common/Navies";
@@ -11,7 +12,7 @@ class TempleHall extends Sprite {
   fireboy: Sprite;
   watergirl: Sprite;
   gameName: Sprite;
-  onStart: Signal;
+  onStart: Signal<[Temple]>;
   playBtn: GoldButton;
   fairies: MenuFairy;
   t: number = 0;

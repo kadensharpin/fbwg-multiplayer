@@ -726,7 +726,7 @@ class Level extends State {
     return this.game.settingsSignal.add(this.onSettingChange);
   }
 
-  onSettingChange(setting: "controls" | "fx" | "music") {
+  onSettingChange(setting: "vibrate" | "controls" | "fx" | "music") {
     if (setting === "controls") {
       if (this.cursorToggle != null) {
         this.cursorToggle.destroy();
@@ -872,7 +872,7 @@ class Level extends State {
           "Linear",
           true,
         );
-        animation.onComplete.add((text: BitmapText) => {
+        animation.onComplete.add((text) => {
           text.visible = false;
         });
       }

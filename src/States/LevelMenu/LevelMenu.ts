@@ -1,4 +1,4 @@
-import { BitmapText, Sound, TileSprite } from "phaser";
+import { BitmapText, TileSprite } from "phaser";
 import { Temple } from "../../temple";
 import Buy from "../Buy/Buy";
 import BackButton from "../Common/BackButton";
@@ -229,7 +229,7 @@ class LevelMenu extends UIState {
     this.game.progress.setPlayed(button.data);
     if (this.game.menuMusic != null) {
       this.game.menuMusic.fadeOut(500);
-      this.game.menuMusic.onFadeComplete.add((sound: Sound) => sound.stop());
+      this.game.menuMusic.onFadeComplete.add((sound) => sound.stop());
     }
     this.game.state.add("level", Level);
     this.game.state.fade(

@@ -19,7 +19,7 @@ import SoftLockMenu from "../Common/SoftLockMenu";
 import LevelButton from "./LevelButton";
 
 class LevelMenuButtons extends Sprite {
-  onClick: Signal;
+  onClick: Signal<[LevelButton]>;
   templeData: Temple;
   currentMenu: null | RewardedAdMenu | SoftLockMenu | BuyMenu;
   /** All light gray connectors */

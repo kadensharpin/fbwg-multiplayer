@@ -15,7 +15,7 @@ type LightPusherOptions = {
 class LightPusher extends BoxedDevice<LightPusherOptions> {
   declare body: Body;
   readonly sensorFixture: Fixture<NormalLightProperties>;
-  readonly signal: Signal;
+  readonly signal: Signal<[this]>;
 
   constructor(game: Game, options: LightPusherOptions) {
     options.pusherWidth ??= 1;

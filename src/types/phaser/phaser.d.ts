@@ -8907,7 +8907,7 @@ declare module "phaser" {
        * @param object Object the tween will be run on.
        * @return The newly created Phaser.Tween object.
        */
-      tween(obj: any): Phaser.Tween;
+      tween<T>(obj: T): Phaser.Tween<T>;
 
       /**
        * Weapons provide the ability to easily create a bullet pool and manager.
@@ -14004,7 +14004,7 @@ declare module "phaser" {
        *
        * Params: `(progress, file key, file url)`
        */
-      onFileStart: Phaser.Signal;
+      onFileStart: Phaser.Signal<[progress: number, file_key: string, file_url: string]>;
 
       /**
        * This event is dispatched when a file has either loaded or failed to load.
@@ -14015,7 +14015,7 @@ declare module "phaser" {
        *
        * Where progress is a number between 1 and 100 (inclusive) representing the percentage of the load.
        */
-      onFileComplete: Phaser.Signal;
+      onFileComplete: Phaser.Signal<[percent: number, file_key: string, success: boolean, total_loaded_files: number, total_files: number]>;
 
       /**
        * This event is dispatched when a file (or pack) errors as a result of the load request.
@@ -14024,18 +14024,28 @@ declare module "phaser" {
        *
        * Params: `(file key, file)`
        */
-      onFileError: Phaser.Signal;
+      onFileError: Phaser.Signal<[file_key: string, file: {
+            type: string,
+            key: string,
+            path: string,
+            url: string,
+            syncPoint: boolean,
+            data: null,
+            loading: boolean,
+            loaded: boolean,
+            error: boolean
+        }]>;
 
       /**
        * This event is dispatched when the final file in the load queue has either loaded or failed.
        */
-      onLoadComplete: Phaser.Signal;
+      onLoadComplete: Phaser.Signal<[]>;
 
       /**
        * This event is dispatched when the loading process starts: before the first file has been requested,
        * but after all the initial packs have been loaded.
        */
-      onLoadStart: Phaser.Signal;
+      onLoadStart: Phaser.Signal<[]>;
 
       /**
        * This event is dispatched when an asset pack has either loaded or failed to load.
@@ -14044,7 +14054,7 @@ declare module "phaser" {
        *
        * Params: `(pack key, success?, total packs loaded, total packs)`
        */
-      onPackComplete: Phaser.Signal;
+      onPackComplete: Phaser.Signal<[pack_key: string, success: boolean, total_packs_loaded: number, total_packs: number]>;
 
       /**
        * The value of `path`, if set, is placed before any _relative_ file path given. For example:
@@ -25503,7 +25513,7 @@ declare module "phaser" {
      *
      * And your callback will be invoked. See the dispatch method for more details.
      */
-    class Signal {
+    class Signal<T extends any[] = []> {
       /**
        * Is the Signal active? Only active signals will broadcast dispatched events.
        *
@@ -25545,7 +25555,7 @@ declare module "phaser" {
        * @return An Object representing the binding between the Signal and listener.
        */
       add(
-        listener: Function,
+        listener: (...args: T) => void,
         listenerContext?: any,
         priority?: number,
         ...args: any[]
@@ -25564,7 +25574,7 @@ declare module "phaser" {
        * @return An Object representing the binding between the Signal and listener.
        */
       addOnce(
-        listener: Function,
+        listener: (...args: T) => void,
         listenerContext?: any,
         priority?: number,
         ...args: any[]
@@ -25577,7 +25587,7 @@ declare module "phaser" {
        *
        * @param params Parameters that should be passed to each handler.
        */
-      dispatch(...params: any[]): void;
+      dispatch(...params: T): void;
 
       /**
        * Dispose the signal - no more events can be dispatched.
@@ -25613,7 +25623,7 @@ declare module "phaser" {
        * @param context Context on which listener will be executed (object that should represent the `this` variable inside listener function).
        * @return If Signal has the specified listener.
        */
-      has(listener: Function, context?: any): boolean;
+      has(listener: (...args: T) => void, context?: any): boolean;
 
       /**
        * Remove a single event listener.
@@ -25622,7 +25632,7 @@ declare module "phaser" {
        * @param context Execution context (since you can add the same handler multiple times if executing in a different context).
        * @return Listener handler function.
        */
-      remove(listener: Function, context?: any): Function;
+      remove(listener: (...args: T) => void, context?: any): (...args: T) => void;
 
       /**
        * Remove all event listeners.
@@ -25643,7 +25653,7 @@ declare module "phaser" {
        * @param listener Signal handler function.
        * @param fnName Function name.
        */
-      validateListener(listener: Function, fnName: string): void;
+      validateListener(listener: (...args: T) => void, fnName: string): void;
     }
 
     /**
@@ -26072,42 +26082,42 @@ declare module "phaser" {
       /**
        * The onFadeComplete event is dispatched when this sound finishes fading either in or out.
        */
-      onFadeComplete: Phaser.Signal;
+      onFadeComplete: Phaser.Signal<[this, volume: number]>;
 
       /**
        * The onLoop event is dispatched when this sound loops during playback.
        */
-      onLoop: Phaser.Signal;
+      onLoop: Phaser.Signal<[this]>;
 
       /**
        * The onMarkerComplete event is dispatched when a marker within this sound completes playback.
        */
-      onMarkerComplete: Phaser.Signal;
+      onMarkerComplete: Phaser.Signal<[marker: string, this]>;
 
       /**
        * The onMute event is dispatched when this sound is muted.
        */
-      onMute: Phaser.Signal;
+      onMute: Phaser.Signal<[this]>;
 
       /**
        * The onPause event is dispatched when this sound is paused.
        */
-      onPause: Phaser.Signal;
+      onPause: Phaser.Signal<[this]>;
 
       /**
        * The onPlay event is dispatched each time this sound is played.
        */
-      onPlay: Phaser.Signal;
+      onPlay: Phaser.Signal<[this]>;
 
       /**
        * The onResume event is dispatched when this sound is resumed from a paused state.
        */
-      onResume: Phaser.Signal;
+      onResume: Phaser.Signal<[this]>;
 
       /**
        * The onStop event is dispatched when this sound stops playback.
        */
-      onStop: Phaser.Signal;
+      onStop: Phaser.Signal<[this, prevMarker: string]>;
 
       /**
        * if true when you play this sound it will always start from the beginning.
@@ -32600,7 +32610,7 @@ declare module "phaser" {
      * by calling Tween.to multiple times on the same Tween. Additional tweens specified in this way become "child" tweens and
      * are played through in sequence. You can use Tween.timeScale and Tween.reverse to control the playback of this Tween and all of its children.
      */
-    class Tween {
+    class Tween<Target> {
       /**
        * A Tween allows you to alter one or more properties of a target object over a defined period of time.
        * This can be used for things such as alpha fading Sprites, scaling them or motion.
@@ -32612,7 +32622,7 @@ declare module "phaser" {
        * @param game Current game instance.
        * @param manager The TweenManager responsible for looking after this Tween.
        */
-      constructor(target: any, game: Phaser.Game, manager: Phaser.TweenManager);
+      constructor(target: Target, game: Phaser.Game, manager: Phaser.TweenManager);
 
       /**
        * If this Tween is chained to another this holds a reference to it.
@@ -32662,31 +32672,31 @@ declare module "phaser" {
        * Fires every time a child completes unless a child is set to repeat forever.
        * It will be sent 2 parameters: the target object and this tween.
        */
-      onChildComplete: Phaser.Signal;
+      onChildComplete: Phaser.Signal<[Target, this]>;
 
       /**
        * The onComplete event is fired when the Tween and all of its children completes. Does not fire if the Tween is set to loop or repeatAll(-1).
        * It will be sent 2 parameters: the target object and this tween.
        */
-      onComplete: Phaser.Signal;
+      onComplete: Phaser.Signal<[Target, this]>;
 
       /**
        * The onLoop event is fired if the Tween, or any child tweens loop.
        * It will be sent 2 parameters: the target object and this tween.
        */
-      onLoop: Phaser.Signal;
+      onLoop: Phaser.Signal<[Target, this]>;
 
       /**
        * The onRepeat event is fired if the Tween and all of its children repeats. If this tween has no children this will never be fired.
        * It will be sent 2 parameters: the target object and this tween.
        */
-      onRepeat: Phaser.Signal;
+      onRepeat: Phaser.Signal<[Target, this]>;
 
       /**
        * The onStart event is fired when the Tween begins. If there is a delay before the tween starts then onStart fires after the delay is finished.
        * It will be sent 2 parameters: the target object and this tween.
        */
-      onStart: Phaser.Signal;
+      onStart: Phaser.Signal<[Target, this]>;
 
       /**
        * True if this Tween is ready to be deleted by the TweenManager.
@@ -32713,7 +32723,7 @@ declare module "phaser" {
       /**
        * The target object, such as a Phaser.Sprite or property like Phaser.Sprite.scale.
        */
-      target: any;
+      target: Target;
 
       /**
        * An Array of TweenData objects that comprise the different parts of this Tween.
@@ -32745,7 +32755,7 @@ declare module "phaser" {
        * @param tweens One or more tweens that will be chained to this one.
        * @return This tween. Useful for method chaining.
        */
-      chain(...args: any[]): Phaser.Tween;
+      chain(...args: any[]): this;
 
       /**
        * Sets the delay in milliseconds before this tween will start. If there are child tweens it sets the delay before the first child starts.
@@ -32757,7 +32767,7 @@ declare module "phaser" {
        * @param index If this tween has more than one child this allows you to target a specific child. If set to -1 it will set the delay on all the children.
        * @return This tween. Useful for method chaining.
        */
-      delay(duration: number, index?: number): Phaser.Tween;
+      delay(duration: number, index?: number): this;
 
       /**
        * Set easing function this tween will use, i.e. Phaser.Easing.Linear.None.
@@ -32769,7 +32779,7 @@ declare module "phaser" {
        * @param index If this tween has more than one child this allows you to target a specific child. If set to -1 it will set the easing function on all children.
        * @return This tween. Useful for method chaining.
        */
-      easing(ease: Function, index?: number): Phaser.Tween;
+      easing(ease: Function, index?: number): this;
 
       /**
        * Set easing function this tween will use, i.e. Phaser.Easing.Linear.None.
@@ -32781,7 +32791,7 @@ declare module "phaser" {
        * @param index If this tween has more than one child this allows you to target a specific child. If set to -1 it will set the easing function on all children.
        * @return This tween. Useful for method chaining.
        */
-      easing(ease: string, index?: number): Phaser.Tween;
+      easing(ease: string, index?: number): this;
 
       /**
        * Sets this tween to be a `from` tween on the properties given. A `from` tween sets the target to the destination value and tweens to its current value.
@@ -32806,7 +32816,7 @@ declare module "phaser" {
         delay?: number,
         repeat?: number,
         yoyo?: boolean,
-      ): Phaser.Tween;
+      ): this;
 
       /**
        * Sets this tween to be a `from` tween on the properties given. A `from` tween sets the target to the destination value and tweens to its current value.
@@ -32831,7 +32841,7 @@ declare module "phaser" {
         delay?: number,
         repeat?: number,
         yoyo?: boolean,
-      ): Phaser.Tween;
+      ): this;
 
       /**
        * This will generate an array populated with the tweened object values from start to end.
@@ -32860,7 +32870,7 @@ declare module "phaser" {
         interpolation: Function,
         context?: any,
         index?: number,
-      ): Phaser.Tween;
+      ): this;
 
       /**
        * Enables the looping of this tween. The tween will loop forever, and onComplete will never fire.
@@ -32878,7 +32888,7 @@ declare module "phaser" {
        * @param value If `true` this tween will loop once it reaches the end. Set to `false` to remove an active loop. - Default: true
        * @return This tween. Useful for method chaining.
        */
-      loop(value?: boolean): Phaser.Tween;
+      loop(value?: boolean): this;
 
       /**
        * Sets a callback to be fired each time this tween updates.
@@ -32887,7 +32897,7 @@ declare module "phaser" {
        * @param callbackContext The context in which to call the onUpdate callback.
        * @return This tween. Useful for method chaining.
        */
-      onUpdateCallback(callback: Function, callbackContext?: any): Phaser.Tween;
+      onUpdateCallback(callback: Function, callbackContext?: any): this;
 
       /**
        * Pauses the tween. Resume playback with Tween.resume.
@@ -32905,7 +32915,7 @@ declare module "phaser" {
        * @param index If this tween has more than one child this allows you to target a specific child. If set to -1 it will set the repeat value on all the children.
        * @return This tween. Useful for method chaining.
        */
-      repeat(total: number, repeatDelay?: number, index?: number): Phaser.Tween;
+      repeat(total: number, repeatDelay?: number, index?: number): this;
 
       /**
        * Sets the delay in milliseconds before this tween will repeat itself.
@@ -32917,7 +32927,7 @@ declare module "phaser" {
        * @param index If this tween has more than one child this allows you to target a specific child. If set to -1 it will set the repeatDelay on all the children.
        * @return This tween. Useful for method chaining.
        */
-      repeatDelay(duration: number, index?: number): Phaser.Tween;
+      repeatDelay(duration: number, index?: number): this;
 
       /**
        * Set how many times this tween and all of its children will repeat.
@@ -32926,7 +32936,7 @@ declare module "phaser" {
        * @param total How many times this tween and all children should repeat before completing. Set to zero to remove an active repeat. Set to -1 to repeat forever.
        * @return This tween. Useful for method chaining.
        */
-      repeatAll(total?: number): Phaser.Tween;
+      repeatAll(total?: number): this;
 
       /**
        * Resumes a paused tween.
@@ -32941,7 +32951,7 @@ declare module "phaser" {
        * @param index If this Tween contains child tweens you can specify which one to start from. The default is zero, i.e. the first tween created.
        * @return This tween. Useful for method chaining.
        */
-      start(index?: number): Phaser.Tween;
+      start(index?: number): this;
 
       /**
        * Stops the tween if running and flags it for deletion from the TweenManager.
@@ -32951,7 +32961,7 @@ declare module "phaser" {
        * @param complete Set to `true` to dispatch the Tween.onComplete signal.
        * @return This tween. Useful for method chaining.
        */
-      stop(complete?: boolean): Phaser.Tween;
+      stop(complete?: boolean): this;
 
       /**
        * Sets this tween to be a `to` tween on the properties given. A `to` tween starts at the current value and tweens to the destination value given.
@@ -32976,7 +32986,7 @@ declare module "phaser" {
         delay?: number,
         repeat?: number,
         yoyo?: boolean,
-      ): Phaser.Tween;
+      ): this;
 
       /**
        * Sets this tween to be a `to` tween on the properties given. A `to` tween starts at the current value and tweens to the destination value given.
@@ -33001,7 +33011,7 @@ declare module "phaser" {
         delay?: number,
         repeat?: number,
         yoyo?: boolean,
-      ): Phaser.Tween;
+      ): this;
 
       /**
        * Core tween update function called by the TweenManager. Does not need to be invoked directly.
@@ -33025,7 +33035,7 @@ declare module "phaser" {
         property: string,
         value: number | Function,
         index?: number,
-      ): Phaser.Tween;
+      ): this;
 
       /**
        * A Tween that has yoyo set to true will run through from its starting values to its end values and then play back in reverse from end to start.
@@ -33039,7 +33049,7 @@ declare module "phaser" {
        * @param index If this tween has more than one child this allows you to target a specific child. If set to -1 it will set yoyo on all the children.
        * @return This tween. Useful for method chaining.
        */
-      yoyo(enable: boolean, yoyoDelay?: number, index?: number): Phaser.Tween;
+      yoyo(enable: boolean, yoyoDelay?: number, index?: number): this;
 
       /**
        * Sets the delay in milliseconds before this tween will run a yoyo (only applies if yoyo is enabled).
@@ -33051,7 +33061,7 @@ declare module "phaser" {
        * @param index If this tween has more than one child this allows you to target a specific child. If set to -1 it will set the yoyoDelay on all the children.
        * @return This tween. Useful for method chaining.
        */
-      yoyoDelay(duration: number, index?: number): Phaser.Tween;
+      yoyoDelay(duration: number, index?: number): this;
     }
 
     /**

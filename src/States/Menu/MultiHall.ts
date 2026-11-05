@@ -7,7 +7,7 @@ import SoftLockMenu from "../Common/SoftLockMenu";
 import TempleSelector, { TempleButton } from "./TempleSelector";
 
 class MultiHall extends Sprite {
-  readonly onStart: Signal;
+  readonly onStart: Signal<[Temple]>;
   private readonly templeSelector: TempleSelector;
   private readonly title: Sprite;
   private readonly navies: Navies;
@@ -45,7 +45,7 @@ class MultiHall extends Sprite {
     this.addChild(this.title);
     this.onStart = new Signal();
     this.templeSelector.onTarget.add(_.debounce(this.setBackground, 800));
-    this.templeSelector.onSelected.add((temple: Temple) =>
+    this.templeSelector.onSelected.add((temple) =>
       this.onStart.dispatch(temple),
     );
     this.templeSelector.onShowPopup.add(this.showPopup);
@@ -56,8 +56,7 @@ class MultiHall extends Sprite {
     this.setBackground(this.templeSelector.getTarget(), false);
   }
 
-  setBackground(button: TempleButton, fade: boolean | null) {
-    fade ??= true;
+  setBackground(button: TempleButton, fade: boolean = true) {
     const background = this.backgroundImages?.[button.data.id];
     if (this.currentBkg !== background && background) {
       if (fade) {
