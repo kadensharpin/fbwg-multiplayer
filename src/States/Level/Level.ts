@@ -499,6 +499,7 @@ class Level extends State {
       this.world.Step(Math.min(0.04, this.game.time.elapsed / 1000), {
         positionIterations: this.positionIterations,
         velocityIterations: this.velocityIterations,
+        particleIterations: this.particleIterations,
       });
     };
     this.decodeAudio(() => {

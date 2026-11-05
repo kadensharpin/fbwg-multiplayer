@@ -1,6 +1,35 @@
 import box2d from "@box2d/core";
+import {
+  b2ParticleBodyContact,
+  b2ParticleContact,
+  b2ParticleSystem,
+} from "@box2d/particles";
 
 export default class DefaultContactListener implements box2d.b2ContactListener {
+  BeginContactFixtureParticle(
+    _system: b2ParticleSystem,
+    _contact: b2ParticleBodyContact,
+  ): void {
+    throw new Error("Method not implemented.");
+  }
+  EndContactFixtureParticle(
+    _system: b2ParticleSystem,
+    _contact: b2ParticleBodyContact,
+  ): void {
+    throw new Error("Method not implemented.");
+  }
+  BeginContactParticleParticle(
+    _system: b2ParticleSystem,
+    _contact: b2ParticleContact,
+  ): void {
+    throw new Error("Method not implemented.");
+  }
+  EndContactParticleParticle(
+    _system: b2ParticleSystem,
+    _contact: b2ParticleContact,
+  ): void {
+    throw new Error("Method not implemented.");
+  }
   BeginContact(contact: box2d.b2Contact) {
     this.handleContactBeginOrEnd(contact, true);
   }

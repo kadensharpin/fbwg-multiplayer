@@ -5,6 +5,8 @@ settings:
   excludeLinksFromLockfile: false
 
 patchedDependencies:
+  '@box2d/debug-draw': 901d986bd298533a46b7556e6426551b1db57724cc82d741973b3a6e7fcc7886
+  '@box2d/particles': 8f5730ce5c457f2e5cede395519a3572ad72d41e2ae14f3be640cf0f7b1eff63
   phaser: 24ca9fb42c3bb180190aa08b51345695ff738b25e8a5454bf23ead0401ec9d7a
 
 importers:
@@ -16,10 +18,10 @@ importers:
         version: 0.11.0
       '@box2d/debug-draw':
         specifier: ^0.11.0
-        version: 0.11.0
+        version: 0.11.0(patch_hash=901d986bd298533a46b7556e6426551b1db57724cc82d741973b3a6e7fcc7886)
       '@box2d/particles':
         specifier: ^0.11.0
-        version: 0.11.0
+        version: 0.11.0(patch_hash=8f5730ce5c457f2e5cede395519a3572ad72d41e2ae14f3be640cf0f7b1eff63)
       backbone:
         specifier: 1.4.1
         version: 1.4.1
@@ -530,11 +532,11 @@ snapshots:
 
   '@box2d/core@0.11.0': {}
 
-  '@box2d/debug-draw@0.11.0':
+  '@box2d/debug-draw@0.11.0(patch_hash=901d986bd298533a46b7556e6426551b1db57724cc82d741973b3a6e7fcc7886)':
     dependencies:
       '@box2d/core': 0.11.0
 
-  '@box2d/particles@0.11.0':
+  '@box2d/particles@0.11.0(patch_hash=8f5730ce5c457f2e5cede395519a3572ad72d41e2ae14f3be640cf0f7b1eff63)':
     dependencies:
       '@box2d/core': 0.11.0
 

@@ -1,5 +1,6 @@
 import box2d, { XY } from "@box2d/core";
-import box2p from "@box2d/particles";
+import { DebugDraw } from "@box2d/debug-draw";
+import { b2ParticleSystem } from "@box2d/particles";
 import {
   Color,
   Game,
@@ -16,7 +17,6 @@ import {
 } from "phaser";
 import Body from "./Body";
 import DefaultContactListener from "./DefaultContactListener";
-import DefaultDebugDraw from "./DefaultDebugDraw";
 import PointProxy from "./PointProxy";
 import Polygon from "./Polygon";
 import QueryCallback, { AABBHit } from "./QueryCallback";
@@ -42,7 +42,9 @@ class Box2D {
   version: string;
   ptmRatio: number;
   world: box2d.b2World;
-  // debugDraw: DefaultDebugDraw;
+  debugDraw: DebugDraw | undefined;
+  debugDrawColour: box2d.b2Color;
+  debugDrawFlags = new DebugDrawFlags();
   contactListener: DefaultContactListener;
   nextBodyId: number;
   nextFixtureId: number;
@@ -53,9 +55,10 @@ class Box2D {
   frameRate: number;
   velocityIterations: number;
   positionIterations: number;
+  particleIterations: number;
   useElapsedTime: boolean;
   paused: boolean;
-  particleSystem: box2p.b2ParticleSystem | null;
+  particleSystem: b2ParticleSystem | null;
   mouseJointBody: box2d.b2Body;
   mouseJoint: box2d.b2MouseJoint | null;
   walls: {
@@ -73,7 +76,7 @@ class Box2D {
     this.version = "1.0.2";
     this.ptmRatio = 50;
     this.world = box2d.b2World.Create(new box2d.b2Vec2(0, 0));
-    // this.debugDraw = new DefaultDebugDraw(this.mpx(1));
+    this.debugDrawColour = new box2d.b2Color(0, 0, 0, 1);
     this.contactListener = new DefaultContactListener();
     this.world.SetContactListener(this.contactListener);
     this.nextBodyId = 0;
@@ -90,6 +93,7 @@ class Box2D {
     this.frameRate = 1 / 60;
     this.velocityIterations = 8;
     this.positionIterations = 3;
+    this.particleIterations = 3;
     this.useElapsedTime = false;
     this.paused = false;
     this.particleSystem = null;
@@ -296,11 +300,13 @@ class Box2D {
       this.world.Step(this.game.time.physicsElapsed, {
         velocityIterations: this.velocityIterations,
         positionIterations: this.positionIterations,
+        particleIterations: this.particleIterations,
       });
     } else {
       this.world.Step(this.frameRate, {
         velocityIterations: this.velocityIterations,
         positionIterations: this.positionIterations,
+        particleIterations: this.particleIterations,
       });
     }
   }
@@ -405,11 +411,6 @@ class Box2D {
     }
   }
 
-  toJSON() {
-    // @ts-ignore
-    return this.world.toJSON();
-  }
-
   mpx(v: number) {
     return v * this.ptmRatio;
   }
@@ -420,10 +421,92 @@ class Box2D {
 
   renderDebugDraw(context: CanvasRenderingContext2D) {
     if (this.game.physics.box2d) {
-      var v15 = this.game.physics.box2d;
-      v15.debugDraw.start(context);
-      v15.world.DrawDebugData();
-      v15.debugDraw.stop();
+      const world = this.game.physics.box2d;
+      world.debugDraw = new DebugDraw(context);
+      const colour = new box2d.b2Color(0, 0, 0);
+      let transform = new box2d.b2Transform();
+      if (world.debugDrawFlags.shapes) {
+        let body = world.world.GetBodyList();
+        while (body !== null) {
+          world.debugDraw.PushTransform(transform);
+          let fixture = body.GetFixtureList();
+          while (fixture !== null) {
+            if (body.IsEnabled() === false) {
+              colour.SetRGB(0.5, 0.5, 0.3);
+              DrawShape(world.debugDraw, fixture, colour);
+            } else if (body.GetType() === box2d.b2BodyType.b2_staticBody) {
+              colour.SetRGB(0.5, 0.9, 0.5);
+              DrawShape(world.debugDraw, fixture, colour);
+            } else if (body.GetType() === box2d.b2BodyType.b2_kinematicBody) {
+              colour.SetRGB(0.5, 0.5, 0.9);
+              DrawShape(world.debugDraw, fixture, colour);
+            } else if (body.IsAwake() === false) {
+              colour.SetRGB(0.6, 0.6, 0.6);
+              DrawShape(world.debugDraw, fixture, colour);
+            } else {
+              colour.SetRGB(0.9, 0.7, 0.7);
+              DrawShape(world.debugDraw, fixture, colour);
+            }
+            fixture = fixture.GetNext();
+          }
+          world.debugDraw.PopTransform(transform);
+          body = body.GetNext();
+        }
+      }
+      if (this.debugDrawFlags.joints) {
+        let joint = world.world.GetJointList();
+        while (joint !== null) {
+          DrawJoint(world.debugDraw, joint, colour);
+          joint = joint.GetNext();
+        }
+      }
+      if (this.debugDrawFlags.aabbs) {
+        // colour.SetRGB(0.9, 0.3, 0.9);
+        // const broadPhase = world.world.GetContactManager().m_broadPhase;
+        // let body = world.world.GetBodyList();
+        // while (body !== null) {
+        //   if (body.IsEnabled() !== false) {
+        //     let fixture = body.GetFixtureList();
+        //     while (fixture !== null) {
+        //       for (let i = 0; i < fixture.m_proxyCount; ++i) {
+        //         let proxy = fixture.m_proxies[i];
+        //         let aabb = broadPhase.GetFatAABB(proxy.proxy);
+        //         world.debugDraw.DrawPolygon(
+        //           [
+        //             { x: aabb.lowerBound.x, y: aabb.lowerBound.y },
+        //             { x: aabb.upperBound.x, y: aabb.lowerBound.y },
+        //             { x: aabb.upperBound.x, y: aabb.upperBound.y },
+        //             { x: aabb.lowerBound.x, y: aabb.upperBound.y },
+        //           ],
+        //           4,
+        //           colour,
+        //         );
+        //       }
+        //       fixture = fixture.GetNext();
+        //     }
+        //   }
+        //   body = body.GetNext();
+        // }
+      }
+      if (this.debugDrawFlags.centerOfMass) {
+        let body = world.world.GetBodyList();
+        while (body !== null) {
+          transform.q.Copy(body.GetTransform().q);
+          transform.p.Copy(body.GetWorldCenter());
+          world.debugDraw.DrawTransform(transform);
+          body = body.GetNext();
+        }
+      }
+      if (this.debugDrawFlags.controllers) {
+        // for (
+        //   let controller = this.m_controllerList;
+        //   controller;
+        //   controller = controller.m_next
+        // ) {
+        //   controller.Draw(world.debugDraw);
+        // }
+      }
+      world.debugDraw.Finish();
     }
   }
 
@@ -526,7 +609,7 @@ class Box2D {
     ay = 0,
     bx = 0,
     by = 0,
-    frequency = 0,
+    _frequency = 0,
     damping = 0,
   ): box2d.b2DistanceJoint {
     ay = this.pxm(-ay);
@@ -555,7 +638,7 @@ class Box2D {
       ax = this.pxm(ax);
     }
     v30.length = ax;
-    v30.frequencyHz = frequency;
+    // v30.frequencyHz = frequency;
     v30.damping = damping;
     return this.world.CreateJoint(v30);
   }
@@ -721,7 +804,7 @@ class Box2D {
     ay = 0,
     bx = 0,
     by = 0,
-    frequency = 0,
+    _frequency = 0,
     damping = 0,
   ): box2d.b2WeldJoint {
     ax = this.pxm(-ax);
@@ -739,7 +822,7 @@ class Box2D {
     v39.bodyB = bodyB.data;
     v39.localAnchorA.Set(ax, ay);
     v39.localAnchorB.Set(bx, by);
-    v39.frequencyHz = frequency;
+    // v39.frequencyHz = frequency;
     v39.damping = damping;
     return this.world.CreateJoint(v39);
   }
@@ -782,7 +865,7 @@ class Box2D {
     by = 0,
     axisX = 0,
     axisY = 1,
-    frequency = 0,
+    _frequency = 0,
     damping = 0,
     motorSpeed = 0,
     motorTorque = 0,
@@ -809,7 +892,7 @@ class Box2D {
     v41.motorSpeed = Math.degToRad(-motorSpeed);
     v41.maxMotorTorque = motorTorque;
     v41.enableMotor = motorEnabled;
-    v41.frequencyHz = frequency;
+    // v41.frequencyHz = frequency;
     v41.damping = damping;
     return this.world.CreateJoint(v41);
   }
@@ -992,8 +1075,6 @@ class Box2D {
 
   setPTMRatio(newRatio: number) {
     this.ptmRatio = newRatio;
-    // this.debugDraw = new DefaultDebugDraw(this.ptmRatio);
-    // this.world.SetDebugDraw(this.debugDraw);
   }
 
   static renderBody(
@@ -1001,28 +1082,35 @@ class Box2D {
     body: Body,
     colour = "rgb(255,255,255)",
   ) {
-    var v59 = body.data;
-    var v60 = v59.GetTransform();
-    var v61 = body.world;
-    v60.p.x += -body.game.camera.x / v61.ptmRatio;
-    v60.p.y -= -body.game.camera.y / v61.ptmRatio;
-    // v61.debugDraw.start(context);
-    // v61.debugDraw.PushTransform(v60);
-    var v62 = Color.webToColor(colour);
-    // var v63 = v61.debugDraw.color;
-    // v63.r = v62.r / 255;
-    // v63.g = v62.g / 255;
-    // v63.b = v62.b / 255;
-    for (var v64 = v59.GetFixtureList(); v64; v64 = v64.GetNext()) {
-      v61.world.DrawShape(v64, v63);
+    const world = body.world;
+    const b2Body = body.data;
+    const transform = new box2d.b2Transform();
+    transform.SetPositionXY(
+      b2Body.GetTransform().p.x - body.game.camera.x / world.ptmRatio,
+      b2Body.GetTransform().p.y - body.game.camera.y / world.ptmRatio,
+    );
+    b2Body.SetTransform(transform);
+    world.debugDraw = new DebugDraw(context);
+    world.debugDraw.PushTransform(transform);
+    var newColour = Color.webToColor(colour);
+    const debugColour = world.debugDrawColour;
+    debugColour.r = newColour.r / 255;
+    debugColour.g = newColour.g / 255;
+    debugColour.b = newColour.b / 255;
+    for (
+      let fixutre = b2Body.GetFixtureList();
+      fixutre;
+      fixutre = fixutre.GetNext()
+    ) {
+      DrawShape(world.debugDraw, fixutre, debugColour);
     }
-    // v61.debugDraw.PopTransform();
-    // v61.debugDraw.stop();
+    world.debugDraw.PopTransform(transform);
+    world.debugDraw.Finish();
   }
 
   static Body = Body;
   static DefaultContactListener = DefaultContactListener;
-  static DefaultDebugDraw = DefaultDebugDraw;
+  static DebugDraw = DebugDraw;
   static PointProxy = PointProxy;
   static Polygon = Polygon;
   static QueryCallback = QueryCallback;
@@ -1050,6 +1138,74 @@ export function b2CrossVS(a: XY, b: number, c: XY) {
 
 export function b2DotVV(a: XY, b: XY) {
   return a.x * b.x + a.y * b.y;
+}
+
+function DrawShape(
+  debugDraw: DebugDraw,
+  fixture: box2d.b2Fixture,
+  colour: box2d.b2Color,
+) {
+  const shape = fixture.GetShape();
+  if (shape instanceof box2d.b2CircleShape) {
+    debugDraw.DrawSolidCircle(
+      shape.m_p,
+      shape.m_radius,
+      box2d.b2Vec2.UNITX,
+      colour,
+    );
+  } else if (shape instanceof box2d.b2EdgeShape) {
+    debugDraw.DrawSegment(shape.m_vertex1, shape.m_vertex2, colour);
+  } else if (shape instanceof box2d.b2ChainShape) {
+    let prev: box2d.b2Vec2 | null = null;
+    for (const vertex of shape.m_vertices) {
+      if (prev !== null) {
+        debugDraw.DrawSegment(prev, vertex, colour);
+        debugDraw.DrawCircle(vertex, 0.05, colour);
+      }
+      prev = vertex;
+    }
+  } else if (shape instanceof box2d.b2PolygonShape) {
+    debugDraw.DrawSolidPolygon(shape.m_vertices, shape.m_count, colour);
+  }
+}
+
+function DrawJoint(
+  debugDraw: DebugDraw,
+  joint: box2d.b2Joint,
+  colour: box2d.b2Color,
+) {
+  const bodyA = joint.GetBodyA();
+  const bodyB = joint.GetBodyB();
+  const transformA = bodyA.GetTransform();
+  const transformB = bodyB.GetTransform();
+  const anchorA = joint.GetAnchorA(new box2d.b2Vec2());
+  const anchorB = joint.GetAnchorB(new box2d.b2Vec2());
+  colour.SetRGB(0.5, 0.8, 0.8);
+  if (joint instanceof box2d.b2DistanceJoint) {
+    debugDraw.DrawSegment(anchorA, anchorB, colour);
+  } else if (joint instanceof box2d.b2PulleyJoint) {
+    const groundAnchorA = joint.GetGroundAnchorA();
+    const groundAnchorB = joint.GetGroundAnchorB();
+    debugDraw.DrawSegment(groundAnchorA, anchorA, colour);
+    debugDraw.DrawSegment(groundAnchorB, anchorB, colour);
+    debugDraw.DrawSegment(groundAnchorA, groundAnchorB, colour);
+  } else if (joint instanceof box2d.b2MouseJoint) {
+    debugDraw.DrawSegment(anchorA, anchorB, colour);
+  } else {
+    debugDraw.DrawSegment(transformA.p, anchorA, colour);
+    debugDraw.DrawSegment(anchorA, anchorB, colour);
+    debugDraw.DrawSegment(transformB.p, anchorB, colour);
+  }
+}
+
+class DebugDrawFlags {
+  constructor(
+    public shapes: boolean = true,
+    public joints: boolean = false,
+    public aabbs: boolean = false,
+    public centerOfMass: boolean = true,
+    public controllers: boolean = false,
+  ) {}
 }
 
 export default Box2D;

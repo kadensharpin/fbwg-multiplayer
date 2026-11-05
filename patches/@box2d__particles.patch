@@ -1,0 +1,15 @@
+diff --git a/package.json b/package.json
+index 21344cfde59475db6dac5f0d2bd36856046ed384..fce02f313fd1e992cdd1dbc9412b176a219ca196 100644
+--- a/package.json
++++ b/package.json
+@@ -24,8 +24,8 @@
+   },
+   "license": "MIT",
+   "author": "Santo Pfingsten",
+-  "main": "./dist/index.js",
+-  "types": "./dist/index.d.ts",
++  "main": "./dist/particles/src/index.js",
++  "types": "./dist/particles/src/index.d.ts",
+   "files": [
+     "dist"
+   ],
