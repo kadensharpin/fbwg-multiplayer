@@ -12,7 +12,7 @@ type SliderOptions = {
 
 class Slider extends Device<SliderOptions> {
   readonly _width: number;
-  readonly joint: any;
+  readonly joint: box2d.b2PrismaticJoint;
   readonly signal: Signal<[this]>;
   private sound?: Sound;
 

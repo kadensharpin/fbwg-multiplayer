@@ -5,7 +5,7 @@ import SettingsMenu from "../Settings/SettingsMenu";
 import IngameMenu from "./IngameMenu";
 import Level from "./Level";
 
-class PauseMenu extends IngameMenu {
+class PauseMenu extends IngameMenu<undefined> {
   isPressed = false;
   level: Level;
   divID: string;
@@ -13,12 +13,11 @@ class PauseMenu extends IngameMenu {
   label!: BitmapText;
   settingsButton!: Button;
   settingsMenu!: SettingsMenu;
-  levelState: any;
   retryButton!: StoneButton;
   quitButton!: StoneButton;
   resumeButton!: StoneButton;
   constructor(game: Game, level: Level) {
-    super(game, null);
+    super(game, undefined);
 
     this.retry = this.retry.bind(this);
     this.quit = this.quit.bind(this);
@@ -56,7 +55,7 @@ class PauseMenu extends IngameMenu {
       "MenuAssets",
       ["SettingsButton0000", "SettingsButton0001"],
       () => {
-        this.settingsMenu = new SettingsMenu(this.game, this.levelState);
+        this.settingsMenu = new SettingsMenu(this.game);
         this.settingsMenu.show();
       },
       "pusher",

@@ -1,11 +1,12 @@
+import { EndState } from "@/ProgressModel";
 import { Game, Signal } from "phaser";
 import StoneButton from "../Common/StoneButton";
 import IngameMenu from "../Level/IngameMenu";
 
-class GameCompleteMenu extends IngameMenu {
+class GameCompleteMenu extends IngameMenu<EndState> {
   readonly onClose = new Signal();
 
-  constructor(game: Game, options: any) {
+  constructor(game: Game, options: EndState) {
     super(game, options);
 
     this.close = this.close.bind(this);

@@ -4,7 +4,7 @@ import IngameMenu from "../Level/IngameMenu";
 import ToggleControlButton from "./ToggleControlButton";
 import ToggleSettingButton from "./ToggleSettingButton";
 
-class SettingsMenu extends IngameMenu {
+class SettingsMenu extends IngameMenu<undefined> {
   onClose: Signal;
   music!: ToggleSettingButton<"music">;
   fx!: ToggleSettingButton<"fx">;
@@ -13,7 +13,7 @@ class SettingsMenu extends IngameMenu {
   vibrate!: ToggleSettingButton<"vibrate">;
   button!: StoneButton;
 
-  constructor(game: Game, options: any) {
+  constructor(game: Game, options?: never) {
     super(game, options);
 
     this.changeControls = this.changeControls.bind(this);
@@ -148,7 +148,7 @@ class SettingsMenu extends IngameMenu {
     this.setState();
   }
 
-  changeControls(controls: any) {
+  changeControls(controls: "keyboard" | "dual" | "single") {
     this.game.settings.controls = controls;
     this.game.saveSettings();
     this.game.settingsSignal.dispatch("controls");

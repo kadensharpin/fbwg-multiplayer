@@ -1,14 +1,16 @@
+import { EndState } from "@/ProgressModel";
 import { Animation, Game } from "phaser";
 import StoneButton from "../Common/StoneButton";
 import FinishCounter from "./FinishCounter";
 import IngameMenu from "./IngameMenu";
 
-class EndMenu extends IngameMenu {
+class EndMenu extends IngameMenu<EndState> {
   finishCheck!: FinishCounter;
   diamondsCheck!: FinishCounter;
   timeCheck!: FinishCounter;
   animationDone: boolean = false;
-  constructor(game: Game, options: any) {
+
+  constructor(game: Game, options: EndState) {
     super(game, options);
 
     this.gotoMenu = this.gotoMenu.bind(this);

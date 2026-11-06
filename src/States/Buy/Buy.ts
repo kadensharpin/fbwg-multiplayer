@@ -18,7 +18,7 @@ class Buy extends State {
   }
 
   create() {
-    this.menu = new BuyMenu(this.game, {});
+    this.menu = new BuyMenu(this.game);
     this.menu.show();
     return this.menu.onClose.add(this.doKill);
   }

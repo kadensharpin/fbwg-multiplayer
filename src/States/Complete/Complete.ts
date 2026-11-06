@@ -1,8 +1,9 @@
+import { EndState } from "@/ProgressModel";
 import { Particles, State } from "phaser";
 import GameCompleteMenu from "./GameCompleteMenu";
 
 class Complete extends State {
-  private levelState: any;
+  private levelState!: EndState;
   private menu?: GameCompleteMenu;
   private emitter?: Particles.Arcade.Emitter;
 
@@ -14,7 +15,7 @@ class Complete extends State {
     this.init = this.init.bind(this);
   }
 
-  init(levelState: any) {
+  init(levelState: EndState) {
     this.levelState = levelState;
   }
 

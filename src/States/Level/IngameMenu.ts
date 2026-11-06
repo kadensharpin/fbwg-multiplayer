@@ -1,25 +1,28 @@
+import { XY } from "@box2d/core";
 import { Game, Graphics, Group, Sprite } from "phaser";
 
-class IngameMenu extends Group {
-  options: any;
+class IngameMenu<Options> extends Group {
+  options: Options;
   background: Graphics;
   board: Sprite;
   boardBg: Sprite;
-  target: any;
-  outside: any;
   force: number;
   vy: number;
   ay: number;
   friction: number;
-  shown: any;
-  center: any;
+  shown: boolean = false;
+
+  target!: XY;
+  outside!: XY;
+  center!: XY;
   contentSize!: {
     width: number;
     height: number;
     halfWidth: number;
     halfHeight: number;
   };
-  constructor(game: Game, options: any) {
+
+  constructor(game: Game, options: Options) {
     super(game);
 
     this.destroy = this.destroy.bind(this);

@@ -1,14 +1,15 @@
+import { EndState } from "@/ProgressModel";
 import { BitmapText, Game } from "phaser";
 import RewardedUnavailableMenu from "../Common/RewardedUnavailableMenu";
 import StoneButton from "../Common/StoneButton";
 import IngameMenu from "./IngameMenu";
 
-class GameOverMenu extends IngameMenu {
+class GameOverMenu extends IngameMenu<EndState> {
   private label!: BitmapText;
   private skipButton!: StoneButton;
   private menu?: RewardedUnavailableMenu;
 
-  constructor(game: Game, options: any) {
+  constructor(game: Game, options: EndState) {
     super(game, options);
     this.onUnavailableClose = this.onUnavailableClose.bind(this);
     this.showRewardedUnavailable = this.showRewardedUnavailable.bind(this);
@@ -90,12 +91,12 @@ class GameOverMenu extends IngameMenu {
 
   skip() {
     this.options.data.skipped = true;
-    this.game.progress.process();
+    this.game.progress.update(this.options);
     this.gotoMenu();
   }
 
   showRewardedUnavailable() {
-    this.menu = new RewardedUnavailableMenu(this.game, null);
+    this.menu = new RewardedUnavailableMenu(this.game);
     this.menu.show();
     this.menu.onClose.add(this.onUnavailableClose);
     this.skipButton.alpha = 0.5;

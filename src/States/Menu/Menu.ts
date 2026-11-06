@@ -136,7 +136,7 @@ class Menu extends UIState {
   }
 
   showSettings() {
-    const settings = new SettingsMenu(this.game, {});
+    const settings = new SettingsMenu(this.game);
     settings.show();
     this.currentMenu = settings;
     settings.onClose.add(() => {
@@ -146,7 +146,7 @@ class Menu extends UIState {
   }
 
   showCredits() {
-    const credits = new CreditsMenu(this.game, {});
+    const credits = new CreditsMenu(this.game);
     credits.show();
     this.currentMenu = credits;
     credits.onClose.add(() => {
@@ -156,7 +156,7 @@ class Menu extends UIState {
   }
 
   showBuy() {
-    const buy = new BuyMenu(this.game, {});
+    const buy = new BuyMenu(this.game);
     buy.show();
     this.currentMenu = buy;
     buy.onClose.add(() => {

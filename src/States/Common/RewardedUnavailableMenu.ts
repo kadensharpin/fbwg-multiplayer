@@ -2,10 +2,10 @@ import { Game, Signal } from "phaser";
 import IngameMenu from "../Level/IngameMenu";
 import StoneButton from "./StoneButton";
 
-class RewardedUnavailableMenu extends IngameMenu {
+class RewardedUnavailableMenu extends IngameMenu<undefined> {
   readonly onClose = new Signal();
 
-  constructor(game: Game, options: any) {
+  constructor(game: Game, options?: never) {
     super(game, options);
 
     this.close = this.close.bind(this);

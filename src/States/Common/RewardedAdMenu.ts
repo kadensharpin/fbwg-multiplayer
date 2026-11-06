@@ -4,7 +4,11 @@ import LevelButton from "../LevelMenu/LevelButton";
 import RewardedUnavailableMenu from "./RewardedUnavailableMenu";
 import StoneButton from "./StoneButton";
 
-class RewardedAdMenu extends IngameMenu {
+type Options = {
+  button: LevelButton;
+  buttonClick: (button: LevelButton) => void;
+};
+class RewardedAdMenu extends IngameMenu<Options> {
   readonly onClose: Signal;
   rewarded: boolean;
   watchButton?: StoneButton;
@@ -14,13 +18,7 @@ class RewardedAdMenu extends IngameMenu {
   button: LevelButton;
   buttonClick: (button: LevelButton) => void;
 
-  constructor(
-    game: Game,
-    options: {
-      button: LevelButton;
-      buttonClick: (button: LevelButton) => void;
-    },
-  ) {
+  constructor(game: Game, options: Options) {
     super(game, options);
 
     this.close = this.close.bind(this);
@@ -91,7 +89,7 @@ class RewardedAdMenu extends IngameMenu {
     this.game.sound.mute = !this.game.settings.fx;
     this.game.paused = false;
     if (!this.rewarded) {
-      this.menu = new RewardedUnavailableMenu(this.game, {});
+      this.menu = new RewardedUnavailableMenu(this.game);
       this.menu.show();
     }
     this.button.data.rewarded = true;

@@ -135,7 +135,7 @@ class MultiHall extends Sprite {
         menu = new SoftLockMenu(this.game, { label: "temple" });
         break;
       case "buyTemple":
-        menu = new BuyMenu(this.game, {});
+        menu = new BuyMenu(this.game);
         break;
     }
     menu.show();

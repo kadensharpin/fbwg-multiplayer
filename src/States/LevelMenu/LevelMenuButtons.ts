@@ -303,7 +303,7 @@ class LevelMenuButtons extends Sprite {
         break;
       }
       case "buyTemple": {
-        menu = new BuyMenu(this.game, {});
+        menu = new BuyMenu(this.game);
         break;
       }
     }

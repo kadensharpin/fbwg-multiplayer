@@ -1,13 +1,12 @@
 import { Sounds } from "@/utils/sound/sounds";
 import { Group, Signal, State } from "phaser";
-import MuteButton from "./MuteButton";
 
 class UIState extends State {
   readonly onReady: Signal;
   private sounds!: Sounds;
   started: boolean = false;
   root?: Group;
-  muteButton?: MuteButton;
+
   constructor() {
     super();
 
@@ -65,12 +64,7 @@ class UIState extends State {
   addContent() {
     throw new Error("Method not implemented.");
   }
-  layoutContent() {
-    if (this.muteButton) {
-      this.muteButton.x = this.game.realWidth / 2;
-      this.muteButton.y = -this.game.realHeight / 2;
-    }
-  }
+  layoutContent() {}
 }
 
 export default UIState;

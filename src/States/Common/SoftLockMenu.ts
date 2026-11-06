@@ -1,11 +1,12 @@
+import { TranslationString } from "@/utils/lang/translations";
 import { Game, Signal } from "phaser";
 import IngameMenu from "../Level/IngameMenu";
 import StoneButton from "./StoneButton";
 
-class SoftLockMenu extends IngameMenu {
+class SoftLockMenu extends IngameMenu<{ label: TranslationString }> {
   readonly onClose: Signal;
 
-  constructor(game: Game, options: {}) {
+  constructor(game: Game, options: { label: TranslationString }) {
     super(game, options);
 
     this.close = this.close.bind(this);
