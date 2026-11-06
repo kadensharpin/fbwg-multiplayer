@@ -110,7 +110,7 @@ class Level extends State {
     this.decodeAudio = this.decodeAudio.bind(this);
     this.preloadAudioFiles = this.preloadAudioFiles.bind(this);
     this.baseLoadComplete = this.baseLoadComplete.bind(this);
-    this.create = this.create.bind(this);
+    this.preload = this.preload.bind(this);
     this.init = this.init.bind(this);
     this.onReady = new Signal();
   }
@@ -127,24 +127,17 @@ class Level extends State {
     this.game.sound.mute = !this.game.settings.fx;
   }
 
-  create() {
-    this.game.load.tilemap("map", this.levelPath, null, Tilemap.TILED_JSON);
-    this.game.load.onLoadComplete.addOnce(this.baseLoadComplete, this);
-    this.game.load.start();
+  preload(): void {
+    this.load.tilemap("map", this.levelPath, null, Tilemap.TILED_JSON);
+    this.load.onLoadComplete.addOnce(this.baseLoadComplete, this);
   }
 
   baseLoadComplete() {
     setTimeout(() => {
       this.mapData = this.parseMapPropper();
-      const prefix = "./assets/atlasses/Temples/" + this.game.currentTemple.id;
-      this.game.load.atlasJSONArray(
-        "TempleAssets",
-        prefix + "/TempleAssets.png",
-        prefix + "/TempleAssets.json",
-      );
       this.preloadAudioFiles();
-      this.game.load.onLoadComplete.addOnce(this.loadComplete, this);
-      this.game.load.start();
+      this.load.onLoadComplete.addOnce(this.loadComplete, this);
+      this.load.start();
     });
   }
 
@@ -213,7 +206,8 @@ class Level extends State {
     for (const sound of this.soundIds) {
       const soundId = music[sound as "levelMusic"] || sound;
       const SoundId = soundId.charAt(0).toUpperCase() + soundId.slice(1);
-      this.game.load.audio(sound, "./assets/audio/" + SoundId + ".mp3");
+      if (!this.cache.checkSoundKey(sound))
+        this.load.audio(sound, "./assets/audio/" + SoundId + ".mp3");
     }
   }
 

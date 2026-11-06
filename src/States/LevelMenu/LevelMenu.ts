@@ -32,14 +32,6 @@ class LevelMenu extends UIState {
   }
 
   preload() {
-    if (!this.templeData) return;
-
-    const url = "./assets/atlasses/Temples/" + this.templeData.id;
-    this.game.load.atlasJSONArray(
-      "TempleAssets",
-      url + "/TempleAssets.png",
-      url + "/TempleAssets.json",
-    );
     if (this.game.device.desktop) {
       this.divID = "rtb-v-1";
       this.blockID = "R-A-800494-9";
