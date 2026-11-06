@@ -16,7 +16,7 @@ import { Light } from "./Device";
 type PortalOptions = {
   rotation: number;
   sensorWidth: number;
-  sensorHeigh: number;
+  sensorHeight: number;
   lightSensorWidth: number;
 
   properties: {
@@ -33,11 +33,7 @@ class Portal extends BoxedDevice<PortalOptions> {
   readonly eventHorizon: Fixture<PortalLightProperties>;
   readonly nearBodies: Record<
     number,
-    {
-      body: Body & { side?: -1 | 1 };
-      dist: null;
-      mask?: Graphics;
-    }
+    { body: Body & { side?: -1 | 1 }; mask?: Graphics }
   >;
   readonly transporting: {
     body: Body;
@@ -55,7 +51,7 @@ class Portal extends BoxedDevice<PortalOptions> {
   constructor(game: Game, options: PortalOptions) {
     options.rotation ||= 0;
     options.sensorWidth ??= 2;
-    options.sensorHeigh ??= 1.5;
+    options.sensorHeight ??= 1.5;
     options.lightSensorWidth ??= 0.1;
     options.boxSize = { width: 2, height: 3 };
 
@@ -142,18 +138,19 @@ class Portal extends BoxedDevice<PortalOptions> {
     portalLight.onFrameName = "portal_light_on0000";
     this.lights.push(portalLight);
     this.game.layers.liquids.addChild(portal);
-    this.options.properties.inverted &&
-      ((this.center.scale.x = -1),
-      (portal.scale.x = -1),
-      (this.glowLeft.scale.x = 1),
-      (this.glowRight.scale.x = -1));
+    if (this.options.properties.inverted) {
+      this.center.scale.x = -1;
+      portal.scale.x = -1;
+      this.glowLeft.scale.x = 1;
+      this.glowRight.scale.x = -1;
+    }
     this.body.clearFixtures();
     this.body.mass = 0;
     this.body.data.SetAngle(this.options.rotation);
     const sensorShape = new box2d.b2PolygonShape();
     sensorShape.SetAsBox(
       this.options.sensorWidth,
-      this.options.sensorHeigh,
+      this.options.sensorHeight,
       new box2d.b2Vec2(0, 0),
       0,
     );
@@ -168,7 +165,7 @@ class Portal extends BoxedDevice<PortalOptions> {
     const eventHorizonShape = new box2d.b2PolygonShape();
     eventHorizonShape.SetAsBox(
       this.options.lightSensorWidth,
-      this.options.sensorHeigh,
+      this.options.sensorHeight,
       new box2d.b2Vec2(0, 0),
       0,
     );
@@ -184,32 +181,20 @@ class Portal extends BoxedDevice<PortalOptions> {
     this.nearBodies = {};
     this.body.setFixtureContactCallback(
       this.sensorFixture,
-      (
-        _body1: Body,
-        body2: Body & { side?: -1 | 1 },
-        _fixture1: box2d.b2Fixture,
-        fixture2: box2d.b2Fixture,
-        begin: boolean,
-      ) => {
+      (_body1, body2, _fixture1, fixture2, begin) => {
         const fixture2Data = fixture2.GetUserData() as FixtureData | null;
         if (!fixture2Data?.isPortalSensor) return;
-        if (begin || null == this.nearBodies[body2.id]) {
-          if (1 === this.state && begin && null == this.nearBodies[body2.id]) {
-            console.log("add", body2.id);
-            const x = this.body.data.GetLocalPoint(
-              body2.data.GetPosition(),
-              new box2d.b2Vec2(),
-            ).x;
-            const body = { body: body2, dist: null };
-            body2.side = (x / Math.abs(x)) as -1 | 1;
-            this.createMask(body);
-            this.nearBodies[body2.id] = body;
-          }
-        } else {
+        if (!begin && this.nearBodies[body2.id] != null) {
           console.log("remove", body2.id);
           const body = this.nearBodies[body2.id];
-          if (body) this.removeMask(body);
+          this.removeMask(body);
           delete this.nearBodies[body2.id];
+        } else if (
+          this.state === 1 &&
+          begin &&
+          this.nearBodies[body2.id] == null
+        ) {
+          this.createMask(body2);
         }
       },
       this,
@@ -249,9 +234,9 @@ class Portal extends BoxedDevice<PortalOptions> {
       },
       this,
     );
-    this.options.properties.inverted
-      ? (this.normal = new box2d.b2Vec2(1, 0))
-      : (this.normal = new box2d.b2Vec2(-1, 0));
+    this.normal = this.options.properties.inverted
+      ? new box2d.b2Vec2(1, 0)
+      : new box2d.b2Vec2(-1, 0);
     this.normal.Rotate(this.options.rotation || 0);
   }
 
@@ -259,15 +244,24 @@ class Portal extends BoxedDevice<PortalOptions> {
     return ["portalOpen", "portalLoop", "portalClose", "portalTransport"];
   }
 
-  createMask(body: (typeof this.nearBodies)[number]) {
-    const height = this.mpx(3 * this.options.sensorHeigh);
+  createMask(body: Body & { side?: -1 | 1 }) {
+    console.log("add", body.id);
+
+    const x = this.body.data.GetLocalPoint(
+      body.data.GetPosition(),
+      new box2d.b2Vec2(),
+    ).x;
+    body.side = (x / Math.abs(x)) as -1 | 1;
+
+    const height = this.mpx(3 * this.options.sensorHeight);
     const mask = this.game.make.graphics(0, 0);
     this.game.level.root?.addChild(mask);
     mask.beginFill(16777215);
+    mask.fillAlpha = 0;
     const direction = new box2d.b2Vec2(-1, 0).Rotate(
       this.options.rotation || 0,
     );
-    const position = body.body.data
+    const position = body.data
       .GetPosition()
       .Clone()
       .Subtract(this.body.data.GetPosition());
@@ -276,8 +270,9 @@ class Portal extends BoxedDevice<PortalOptions> {
     mask.x = this.options.x;
     mask.y = this.options.y;
     mask.angle = radToDeg(this.options.rotation);
-    body.mask = mask;
-    if (body.body.sprite) body.body.sprite.mask = mask;
+    if (body.sprite) body.sprite.mask = mask;
+
+    this.nearBodies[body.id] = { body, mask };
   }
 
   removeMask(body: (typeof this.nearBodies)[number]) {
@@ -332,6 +327,7 @@ class Portal extends BoxedDevice<PortalOptions> {
     this.game.level.sounds?.portalTransport?.play();
     this.sensorFixture.Refilter();
     this.eventHorizon.Refilter();
+    this.other.createMask(body.body);
   }
 
   updateState(mute: boolean) {
