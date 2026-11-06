@@ -25,7 +25,6 @@ class Buy extends State {
 
   doKill() {
     this.menu?.destroy();
-    return setTimeout(this.shutdown, 1000);
   }
 }
 

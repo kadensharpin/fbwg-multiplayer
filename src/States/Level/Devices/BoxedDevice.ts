@@ -8,7 +8,9 @@ export type BoxedDeviceOptions = {
   boxSize?: { width: number; height: number };
 } & DeviceOptions;
 
-class BoxedDevice<Options extends BoxedDeviceOptions> extends Device<Options> {
+abstract class BoxedDevice<
+  Options extends BoxedDeviceOptions,
+> extends Device<Options> {
   constructor(game: Game, options: Options) {
     options.boxSize ??= { width: 2, height: 2 };
     options.enableBody ??= true;

@@ -34,7 +34,7 @@ export type Light = Sprite & {
 
 export type Cell = { occupied: boolean };
 
-class Device<Options extends DeviceOptions> extends Group {
+abstract class Device<Options extends DeviceOptions> extends Group {
   state: number;
   readonly options: Options;
   readonly lights: Light[];

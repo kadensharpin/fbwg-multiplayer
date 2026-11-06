@@ -28423,11 +28423,89 @@ declare module "phaser" {
       static inLayoutViewport(element: any, cushion?: number): boolean;
     }
 
+    interface State {
+
+      /**
+       * create is called once preload has completed, this includes the loading of any assets from the Loader.
+       * If you don't have a preload method then create is the first method called in your State.
+       */
+      create?(): void;
+
+      /**
+       * init is the very first function called when your State starts up. It's called before preload, create or anything else.
+       * If you need to route the game away to another State you could do so here, or if you need to prepare a set of variables
+       * or objects before the preloading starts.
+       */
+      init?(...args: any[]): void;
+
+      /**
+       * loadRender is called during the Loader process. This only happens if you've set one or more assets to load in the preload method.
+       * The difference between loadRender and render is that any objects you render in this method you must be sure their assets exist.
+       */
+      loadRender?(): void;
+
+      /**
+       * loadUpdate is called during the Loader process. This only happens if you've set one or more assets to load in the preload method.
+       */
+      loadUpdate?(): void;
+
+      /**
+       * This method will be called if the core game loop is paused.
+       */
+      paused?(): void;
+
+      /**
+       * pauseUpdate is called while the game is paused instead of preUpdate, update and postUpdate.
+       */
+      pauseUpdate?(): void;
+
+      /**
+       * preload is called first. Normally you'd use this to load your game assets (or those needed for the current State)
+       * You shouldn't create any objects in this method that require assets that you're also loading in this method, as
+       * they won't yet be available.
+       */
+      preload?(): void;
+
+      /**
+       * The preRender method is called after all Game Objects have been updated, but before any rendering takes place.
+       */
+      preRender?(): void;
+
+      /**
+       * Nearly all display objects in Phaser render automatically, you don't need to tell them to render.
+       * However the render method is called AFTER the game renderer and plugins have rendered, so you're able to do any
+       * final post-processing style effects here. Note that this happens before plugins postRender takes place.
+       */
+      render?(): void;
+
+      /**
+       * If your game is set to Scalemode RESIZE then each time the browser resizes it will call this function, passing in the new width and height.
+       */
+      resize?(): void;
+
+      /**
+       * This method will be called when the core game loop resumes from a paused state.
+       */
+      resumed?(): void;
+
+      /**
+       * This method will be called when the State is shutdown (i.e. you switch to another state from this one).
+       */
+      shutdown?(): void;
+
+      /**
+       * The update method is left empty for your own use.
+       * It is called during the core game loop AFTER debug, physics, plugins and the Stage have had their preUpdate methods called.
+       * It is called BEFORE Stage, Tweens, Sounds, Input, Physics, Particles and Plugins have had their postUpdate methods called.
+       */
+      update?(): void;
+    }
+
     /**
      * This is a base State class which can be extended if you are creating your own game.
      * It provides quick access to common functions such as the camera, cache, input, match, sound and more.
      */
-    class State {
+    abstract class State {
       /**
        * A reference to the GameObjectFactory which can be used to add new objects to the World.
        */
@@ -28512,81 +28590,6 @@ declare module "phaser" {
        * A reference to the game world. All objects live in the Game World and its size is not bound by the display resolution.
        */
       world: Phaser.World;
-
-      /**
-       * create is called once preload has completed, this includes the loading of any assets from the Loader.
-       * If you don't have a preload method then create is the first method called in your State.
-       */
-      create(): void;
-
-      /**
-       * init is the very first function called when your State starts up. It's called before preload, create or anything else.
-       * If you need to route the game away to another State you could do so here, or if you need to prepare a set of variables
-       * or objects before the preloading starts.
-       */
-      init(...args: any[]): void;
-
-      /**
-       * loadRender is called during the Loader process. This only happens if you've set one or more assets to load in the preload method.
-       * The difference between loadRender and render is that any objects you render in this method you must be sure their assets exist.
-       */
-      loadRender(): void;
-
-      /**
-       * loadUpdate is called during the Loader process. This only happens if you've set one or more assets to load in the preload method.
-       */
-      loadUpdate(): void;
-
-      /**
-       * This method will be called if the core game loop is paused.
-       */
-      paused(): void;
-
-      /**
-       * pauseUpdate is called while the game is paused instead of preUpdate, update and postUpdate.
-       */
-      pauseUpdate(): void;
-
-      /**
-       * preload is called first. Normally you'd use this to load your game assets (or those needed for the current State)
-       * You shouldn't create any objects in this method that require assets that you're also loading in this method, as
-       * they won't yet be available.
-       */
-      preload(): void;
-
-      /**
-       * The preRender method is called after all Game Objects have been updated, but before any rendering takes place.
-       */
-      preRender(): void;
-
-      /**
-       * Nearly all display objects in Phaser render automatically, you don't need to tell them to render.
-       * However the render method is called AFTER the game renderer and plugins have rendered, so you're able to do any
-       * final post-processing style effects here. Note that this happens before plugins postRender takes place.
-       */
-      render(): void;
-
-      /**
-       * If your game is set to Scalemode RESIZE then each time the browser resizes it will call this function, passing in the new width and height.
-       */
-      resize(): void;
-
-      /**
-       * This method will be called when the core game loop resumes from a paused state.
-       */
-      resumed(): void;
-
-      /**
-       * This method will be called when the State is shutdown (i.e. you switch to another state from this one).
-       */
-      shutdown(): void;
-
-      /**
-       * The update method is left empty for your own use.
-       * It is called during the core game loop AFTER debug, physics, plugins and the Stage have had their preUpdate methods called.
-       * It is called BEFORE Stage, Tweens, Sounds, Input, Physics, Particles and Plugins have had their postUpdate methods called.
-       */
-      update(): void;
     }
 
     interface IStateCycle {

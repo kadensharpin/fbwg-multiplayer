@@ -22,7 +22,6 @@ class SingleMenu extends Menu {
 
     this.layoutContent = this.layoutContent.bind(this);
     this.addContent = this.addContent.bind(this);
-    this.preload = this.preload.bind(this);
     this.prevTemple = this.prevTemple.bind(this);
     this.nextTemple = this.nextTemple.bind(this);
     this.setTemple = this.setTemple.bind(this);
@@ -75,7 +74,6 @@ class SingleMenu extends Menu {
     this.root?.addChild(prevButton);
     this.root?.addChild(label);
     this.root?.addChild(nextButton);
-    this.resize();
     this.templeHall.onStart.add(this.startTemple);
     this.onReady.dispatch();
     this.afterAddContent();

@@ -34,7 +34,6 @@ class LevelMenu extends UIState {
   preload() {
     if (!this.templeData) return;
 
-    super.preload();
     const url = "./assets/atlasses/Temples/" + this.templeData.id;
     this.game.load.atlasJSONArray(
       "TempleAssets",
@@ -50,7 +49,6 @@ class LevelMenu extends UIState {
   layoutContent() {
     if (!this.bkg || !this.templeData) return;
 
-    super.layoutContent();
     this.bkg.width = this.game.realWidth;
     this.bkg.height = this.game.realHeight;
     this.bkg.x = -this.game.realWidth / 2;
@@ -68,7 +66,6 @@ class LevelMenu extends UIState {
         this.text.y = -this.game.realHeight / 2 + 50;
       }
     }
-    this.resize();
     if (this.back != null) {
       const b = this.back.sprite!.height / 4;
       this.back.x = -this.game.realWidth / 2 + this.back.sprite!.width / 2 + b;

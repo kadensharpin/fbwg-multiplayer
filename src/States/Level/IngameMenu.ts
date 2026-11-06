@@ -1,7 +1,7 @@
 import { XY } from "@box2d/core";
 import { Game, Graphics, Group, Sprite } from "phaser";
 
-class IngameMenu<Options> extends Group {
+abstract class IngameMenu<Options> extends Group {
   options: Options;
   background: Graphics;
   board: Sprite;
@@ -61,22 +61,26 @@ class IngameMenu<Options> extends Group {
     setTimeout(() => this.renderContent());
   }
 
-  renderContent() {}
+  abstract renderContent(): void;
+
   layoutContent() {
     this.fixToCamera();
     this.target = this.shown ? this.center : this.outside;
     this.board.x = this.target.x;
   }
+
   show() {
     this.target = this.center;
     this.shown = true;
     this.visible = true;
   }
+
   hide() {
     this.shown = false;
     this.target = this.outside;
   }
-  fixToCamera() {
+
+  private fixToCamera() {
     this.x = -this.game.realWidth / 2;
     this.y = -this.game.realHeight / 2;
     this.background.clear();
@@ -108,6 +112,7 @@ class IngameMenu<Options> extends Group {
       y: 1.5 * this.game.realHeight,
     };
   }
+
   update() {
     if (!this.visible) return;
     this.background.alpha =
@@ -122,6 +127,7 @@ class IngameMenu<Options> extends Group {
     this.board.y += this.vy;
     if (Math.abs(this.board.y - this.outside.y) < 3) this.visible = false;
   }
+
   destroy(destroyChildren?: boolean, soft?: boolean) {
     this.background.clear();
     this.visible = false;

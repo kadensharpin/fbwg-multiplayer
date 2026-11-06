@@ -12,11 +12,6 @@ class MultiMenu extends Menu {
     this.layoutContent = this.layoutContent.bind(this);
     this.update = this.update.bind(this);
     this.addContent = this.addContent.bind(this);
-    this.preload = this.preload.bind(this);
-  }
-
-  preload() {
-    super.preload();
   }
 
   addContent() {

@@ -26,11 +26,11 @@ class Menu extends UIState {
     this.showCredits = this.showCredits.bind(this);
     this.showSettings = this.showSettings.bind(this);
     this.afterAddContent = this.afterAddContent.bind(this);
-    this.preload = this.preload.bind(this);
   }
 
+  addContent(): void {}
+
   layoutContent() {
-    super.layoutContent();
     if (this.appStoreButtons != null && this.appStoreButtons.length > 0) {
       let i = 0;
       for (const button of this.appStoreButtons) {

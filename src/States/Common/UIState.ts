@@ -1,7 +1,7 @@
 import { Sounds } from "@/utils/sound/sounds";
 import { Group, Signal, State } from "phaser";
 
-class UIState extends State {
+abstract class UIState extends State {
   readonly onReady: Signal;
   private sounds!: Sounds;
   started: boolean = false;
@@ -10,15 +10,19 @@ class UIState extends State {
   constructor() {
     super();
 
-    this.layoutContent = this.layoutContent.bind(this);
     this.startMusic = this.startMusic.bind(this);
     this.updateMusic = this.updateMusic.bind(this);
     this.decodeAudio = this.decodeAudio.bind(this);
-    this.preload = this.preload.bind(this);
+    this.create = this.create.bind(this);
 
     this.onReady = new Signal();
   }
-  decodeAudio(callback: () => void) {
+
+  abstract layoutContent(): void;
+
+  abstract addContent(): void;
+
+  private decodeAudio() {
     const sounds: Sounds = {};
     for (const sound of ["menuMusic", "pusher"] as const) {
       sounds[sound] = this.game.add.audio(sound);
@@ -33,9 +37,9 @@ class UIState extends State {
       },
       this,
     );
-    callback();
   }
-  updateMusic() {
+
+  private updateMusic() {
     this.sounds.menuMusic?.stop();
     if (!this.game.settings.music) {
       this.game.menuMusic?.stop();
@@ -47,7 +51,8 @@ class UIState extends State {
       this.game.menuMusic.play();
     }
   }
-  startMusic() {
+
+  private startMusic() {
     if (!this.game.settings.music) return;
     if (!this.game.menuMusic?.isPlaying && this.sounds.menuMusic) {
       this.sounds.menuMusic.loop = true;
@@ -55,16 +60,14 @@ class UIState extends State {
       this.game.menuMusic = this.sounds.menuMusic.play();
     }
   }
+
   create() {
     this.root = this.game.make.group();
     this.game.add.existing(this.root);
     this.game.stage.backgroundColor = "#000000";
-    this.decodeAudio(() => this.addContent());
+    this.decodeAudio();
+    this.addContent();
   }
-  addContent() {
-    throw new Error("Method not implemented.");
-  }
-  layoutContent() {}
 }
 
 export default UIState;

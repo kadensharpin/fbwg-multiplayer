@@ -45,7 +45,6 @@ class Complete extends State {
   doKill() {
     this.menu?.destroy();
     this.emitter && (this.emitter.on = false);
-    setTimeout(() => this.shutdown(), 5200);
   }
 }
 
