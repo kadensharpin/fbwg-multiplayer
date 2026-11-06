@@ -30,7 +30,7 @@ const proxies = [
     "https://html5.gamedistribution.com/rvvASMiM/03f124074b0049f89fdace0cacf8ead5",
   ],
   [
-    "fairy",
+    "fairytales",
     "https://html5.gamedistribution.com/rvvASMiM/56da8a54fe204845b34ccff750d4a60b",
   ],
   [

@@ -73,7 +73,7 @@ declare module "phaser" {
     menuMusic?: Sound | undefined | null;
     currentTemple: Temple;
     gameConfig: {
-      id: string | string[];
+      id: string;
       type: "legacy" | "multi";
       assets: string | string[];
       temples: string | string[];

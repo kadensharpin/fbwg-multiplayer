@@ -2,7 +2,6 @@ import { NamespaceStorage } from "@/utils/storage/NamespaceStorage";
 import { CacheBuster } from "@/utils/util";
 import { Game, State } from "phaser";
 import ProgressModel from "../ProgressModel";
-import LevelMenu from "./LevelMenu/LevelMenu";
 import MultiMenu from "./Menu/MultiMenu";
 import SingleMenu from "./Menu/SingleMenu";
 
@@ -159,17 +158,7 @@ class Load extends State {
       this.game.state.add("menu", SingleMenu);
     }
 
-    if (this.game.progress.get("temples")[0].levels[0].played) {
-      this.game.state.add("levelMenu", LevelMenu);
-      this.game.state.fade(
-        "levelMenu",
-        true,
-        false,
-        this.game.progress.get("temples")[0],
-      );
-    } else {
-      this.game.state.fade("menu");
-    }
+    this.game.state.fade("menu");
   }
 
   processPack(pack: {
