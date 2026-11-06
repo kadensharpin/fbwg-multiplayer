@@ -8,11 +8,11 @@ import Phaser, {
   Rectangle,
   Signal,
   Sound,
-  Sprite,
 } from "phaser";
 import _ from "underscore";
-import Boot from "./States/Boot";
+import ProgressModel from "./ProgressModel";
 import Load from "./States/Load";
+import Transitions from "./States/Transitions";
 import TouchManager from "./TouchManager";
 import Box2D from "./utils/box2d/Box2D";
 import Lang from "./utils/lang/Lang";
@@ -70,13 +70,13 @@ Device.whenReady(() => {
     }
   });
   game.lang = new Lang();
-  game.saveSettings = async function () {
+  game.saveSettings = function () {
     this.storage.namespace = "fb-" + this.gameConfig.id;
-    return this.storage.setItem("settings", JSON.stringify(this.settings));
+    this.storage.setItem("settings", JSON.stringify(this.settings));
   };
-  game.loadSettings = async function () {
+  game.loadSettings = function () {
     this.storage.namespace = "fb-" + this.gameConfig.id;
-    const settings = await this.storage.getItem("settings");
+    const settings = this.storage.getItem("settings");
     if (settings) {
       this.settings = JSON.parse(settings);
     } else {
@@ -89,129 +89,46 @@ Device.whenReady(() => {
       };
     }
   };
+  game.camera.reset = function () {
+    this.target = null;
+    this._shake.duration = 0;
+    return this.resetFX();
+  };
+  game.sound.volume = 0.1;
+  game.stage.disableVisibilityChange = true;
+  game.onBlur.add(() => {
+    game.sound.mute = true;
+  });
+  game.onPause.add(() => {
+    game.sound.mute = true;
+  });
+  game.onFocus.add(() => {
+    game.sound.mute = !game.settings?.fx;
+  });
+  game.onResume.add(() => {
+    game.sound.mute = !game.settings?.fx;
+  });
+  game.camera.bounds = null;
+  const width = 800;
+  const height = 600;
+  if (game.width < width || game.height < height) {
+    game.camera.scale.set(Math.min(game.width / width, game.height / height));
+  }
+  game.camera.x = -game.width / 2;
+  game.camera.y = -game.height / 2;
+  game.realWidth = game.width / game.camera.scale.x;
+  game.realHeight = game.height / game.camera.scale.y;
+  window.addEventListener("keydown", (ev) => {
+    if (ev.keyCode === 40 || ev.keyCode === 38) {
+      return ev.preventDefault();
+    }
+  });
+  game.progress = new ProgressModel(game);
   game.state.add("load", Load);
-  game.state.add("boot", Boot);
-  game.TouchManager = new TouchManager();
-  game.TouchManager.start(game);
+  game.TouchManager = new TouchManager(game);
   game.load.baseURL = "forest/";
-  game.state.start("boot");
-  const createFadeOverlay = (opts: { showText: boolean }) => {
-    const sprite = game.make.sprite(0, 0);
-    const graphics = game.make.graphics(0, 0);
-    graphics.beginFill(0, 1);
-    graphics.drawRect(0, 0, game.realWidth, game.realHeight);
-    graphics.endFill();
-    sprite.addChild(graphics);
-    if (opts.showText) {
-      const text = game.make.bitmapText(
-        0,
-        0,
-        game.lang.font,
-        game.lang.locale("loading"),
-        Math.min(30, 36 / Math.max(1, game.resolution)),
-      );
-      text.anchor.set(0);
-      text.alpha = 0;
-      text.x = window.innerWidth / 2 - text.textWidth / 2;
-      text.y = window.innerHeight / 2 - text.textHeight / 2;
-      sprite.addChild(text);
-      // graphics.text = text;
-      const startTime = game.time.time;
-      const progress = function () {
-        const elapsed = game.time.elapsedSince(startTime);
-        const alpha = 800;
-        if (elapsed > alpha) {
-          text.alpha = 1;
-        }
-        const state = Math.floor((elapsed - alpha) / 300) % 4;
-        if (state === 0) {
-          text.text = game.lang.locale("loading") + "...";
-        }
-        if (state === 1) {
-          text.text = game.lang.locale("loading");
-        }
-        if (state === 2) {
-          text.text = game.lang.locale("loading") + ".";
-        }
-        if (state === 3) {
-          text.text = game.lang.locale("loading") + "..";
-        }
-        if (game.state.fading) {
-          return requestAnimationFrame(progress);
-        }
-      };
-      requestAnimationFrame(progress);
-    }
-    game.stage.addChild(sprite);
-    return sprite;
-  };
-  const fadeIn = (overlay: Sprite, onComplete: () => void) => {
-    game.paused = false;
-    overlay.alpha = 0;
-    const animation = game.add.tween(overlay);
-    animation.to({ alpha: 1 }, 500);
-    animation.onComplete.add(function () {
-      game.stage.backgroundColor = "#000000";
-      game.tweens.remove(animation);
-      return onComplete();
-    });
-    return animation.start();
-  };
-  const fadeOut = (overlay: Sprite, onComplete: () => void) => {
-    game.stage.backgroundColor = "#000000";
-    game.paused = false;
-    const animation = game.add.tween(overlay);
-    animation.to({ alpha: 0 }, 500);
-    animation.onComplete.add(function () {
-      game.tweens.remove(animation);
-      onComplete();
-      return overlay.kill();
-    });
-    return animation.start();
-  };
-  game.state.actualFadeToState = function (
-    state,
-    clearWorld,
-    clearCache,
-    ...args
-  ) {
-    this.game.state.start(state, clearWorld, clearCache, ...args);
-    this.game.paused = false;
-    const onReady = () => {
-      this.fading = false;
-      if (this.overlay != null) {
-        this.overlay?.kill();
-      }
-      const overlay = createFadeOverlay({
-        showText: false,
-      });
-      this.overlay = overlay;
-      overlay.alpha = 1;
-      return requestAnimationFrame(() => {
-        return fadeOut(overlay, () => {
-          this.fading = false;
-          this.game.state.states[state].start?.();
-        });
-      });
-    };
-    if (this.game.state.states[state].onReady != null) {
-      return this.game.state.states[state].onReady.addOnce(onReady);
-    } else {
-      return requestAnimationFrame(() => onReady());
-    }
-  };
-  game.state.fade = function (state, clearWorld, clearCache, ...args) {
-    if (!this.fading) {
-      this.fading = true;
-      const overlay = createFadeOverlay({
-        showText: true,
-      });
-      this.overlay = overlay;
-      return fadeIn(overlay, function () {
-        game.state.actualFadeToState(state, clearWorld, clearCache, ...args);
-      });
-    }
-  };
+  game.transitions = new Transitions(game);
+  game.state.fade = game.transitions.fade;
   Sound.prototype.playInstance = function () {
     this.instances ||= 0;
     if (this.instances === 0 || this.loop) {
@@ -282,6 +199,7 @@ Device.whenReady(() => {
     return game.camera.update();
   }, 200);
   window.addEventListener("resize", onResize);
+  game.state.start("load");
   return onResize();
 });
 
@@ -295,21 +213,6 @@ declare module "phaser" {
   }
 
   interface StateManager {
-    fading?: boolean;
-    overlay?: Sprite;
-
-    actualFadeToState(
-      state: "level" | "levelMenu" | "menu",
-      clearWorld: boolean,
-      clearCache: boolean,
-      ...args: any[]
-    ): void;
-
-    fade(
-      state: "level" | "levelMenu" | "menu",
-      clearWorld: boolean,
-      clearCache: boolean,
-      ...args: any[]
-    ): void;
+    fade: Transitions["fade"];
   }
 }

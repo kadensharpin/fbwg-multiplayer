@@ -94,7 +94,7 @@ class LevelMenu extends UIState {
         this.game.progress.get("temples")[0].levels[0],
       );
       this.game.state.add("level", Level);
-      this.game.state.start(
+      this.game.state.fade(
         "level",
         true,
         false,

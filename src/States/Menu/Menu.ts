@@ -167,7 +167,7 @@ class Menu extends UIState {
 
   startTemple(temple: Temple) {
     this.game.state.add("levelMenu", LevelMenu);
-    this.game.state.start("levelMenu", true, false, temple);
+    this.game.state.fade("levelMenu", true, false, temple);
   }
 
   skipToLevel(

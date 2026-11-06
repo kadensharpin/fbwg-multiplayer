@@ -35,16 +35,15 @@ class TouchManager extends Signal {
   private $el!: HTMLElement;
   private events!: Events;
 
-  constructor() {
+  constructor(game: Game) {
     super();
+
     this.update = this.update.bind(this);
     this.hammerIt = this.hammerIt.bind(this);
     this.unregister = this.unregister.bind(this);
     this.register = this.register.bind(this);
     this.resize = this.resize.bind(this);
-    this.start = this.start.bind(this);
-  }
-  start(game: Game) {
+
     this.game = game;
     this.$el = document.getElementById("hammer")!;
     this.$el.style.position = "absolute";
@@ -54,7 +53,6 @@ class TouchManager extends Signal {
     this.$el.style.height = window.innerHeight + "px";
     this.hammerIt();
     this.events = {};
-    return this.events;
   }
   resize() {
     this.$el.style.width = window.innerWidth + "px";

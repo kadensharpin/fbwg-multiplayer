@@ -10,6 +10,7 @@ import Snow from "./States/Level/Devices/Snow";
 import Level from "./States/Level/Level";
 import LevelUI from "./States/Level/LevelUI";
 import MechManager from "./States/Level/MechManager";
+import Transitions from "./States/Transitions";
 import { Temple } from "./temple";
 import type TouchManager from "./TouchManager";
 import { SimpleFixture, SimpleFixtureDef } from "./utils/Fixture";
@@ -35,6 +36,7 @@ declare module "phaser" {
     TouchManager: TouchManager;
     MechManager: MechManager;
     lang: Lang;
+    transitions: Transitions;
     progress: ProgressModel;
     bounds: Rectangle;
     layers: {

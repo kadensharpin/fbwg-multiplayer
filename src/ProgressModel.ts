@@ -25,7 +25,8 @@ class ProgressModel extends Model {
     this.url = () => "";
   }
 
-  fetch(): any {
+  // @ts-expect-error
+  async fetch(): Promise<void> {
     let keys = this.game.gameConfig.temples;
     if (!Array.isArray(keys)) keys = [keys];
     const baseUrl = this.game.load.baseURL;

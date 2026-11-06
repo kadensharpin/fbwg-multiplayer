@@ -160,8 +160,8 @@ export default SettingsMenu;
 
 declare module "phaser" {
   interface Game {
-    loadSettings(): Promise<void>;
-    saveSettings(): Promise<void>;
+    loadSettings(): void;
+    saveSettings(): void;
     settingsSignal: Signal<["vibrate" | "music" | "fx" | "controls"]>;
     settings: {
       controls: "keyboard" | "dual" | "single";
