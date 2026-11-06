@@ -73,7 +73,7 @@ class MultiHall extends Sprite {
   }
 
   drawBackgrounds() {
-    const temples = this.game.progress.get("temples") as Temple[];
+    const temples = this.game.progress.temples;
     this.backgroundImages = {};
     this.bkgBmd = this.game.make.bitmapData(1366, 768);
     this.bkgBmd.fill(0, 0, 0, 1);

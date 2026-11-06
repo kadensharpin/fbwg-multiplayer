@@ -22,9 +22,6 @@ importers:
       '@box2d/particles':
         specifier: ^0.11.0
         version: 0.11.0(patch_hash=8f5730ce5c457f2e5cede395519a3572ad72d41e2ae14f3be640cf0f7b1eff63)
-      backbone:
-        specifier: 1.4.1
-        version: 1.4.1
       bowser:
         specifier: 1.9.4
         version: 1.9.4
@@ -323,9 +320,6 @@ packages:
     engines: {node: '>=16.20.0'}
     cpu: [x64]
     os: [win32]
-
-  backbone@1.4.1:
-    resolution: {integrity: sha512-ADy1ztN074YkWbHi8ojJVFe3vAanO/lrzMGZWUClIP7oDD/Pjy2vrASraUP+2EVCfIiTtCW4FChVow01XneivA==}
 
   bowser@1.9.4:
     resolution: {integrity: sha512-9IdMmj2KjigRq6oWhmwv1W36pDuA4STQZ8q6YO9um+x07xgYNCD3Oou+WP/3L1HNz7iqythGet3/p4wvc8AAwQ==}
@@ -665,10 +659,6 @@ snapshots:
 
   '@typescript/typescript-win32-x64@7.0.2':
     optional: true
-
-  backbone@1.4.1:
-    dependencies:
-      underscore: 1.9.2
 
   bowser@1.9.4: {}
 

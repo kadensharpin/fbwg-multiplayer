@@ -89,16 +89,14 @@ class LevelMenu extends UIState {
   }
 
   init(temple: Temple) {
-    if (!this.game.progress.get("temples")[0].levels[0].played) {
-      this.game.progress.setPlayed(
-        this.game.progress.get("temples")[0].levels[0],
-      );
+    if (!this.game.progress.temples[0].levels[0].played) {
+      this.game.progress.setPlayed(this.game.progress.temples[0].levels[0]);
       this.game.state.add("level", Level);
       this.game.state.fade(
         "level",
         true,
         false,
-        this.game.progress.get("temples")[0].levels[0],
+        this.game.progress.temples[0].levels[0],
       );
     }
     this.templeData = temple;

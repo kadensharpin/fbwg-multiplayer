@@ -8,7 +8,6 @@
     "@box2d/core": "^0.11.0",
     "@box2d/debug-draw": "^0.11.0",
     "@box2d/particles": "^0.11.0",
-    "backbone": "1.4.1",
     "bowser": "1.9.4",
     "hammerjs": "2.0.8",
     "i18next": "^26.0.8",

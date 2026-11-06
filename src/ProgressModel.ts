@@ -1,16 +1,14 @@
-import { Model } from "backbone";
 import { Game } from "phaser";
 import { LevelData, LevelResult, LevelState, Temple } from "./temple";
-import { deepObjectExtend } from "./utils/util";
 
-class ProgressModel extends Model {
-  readonly game: Game;
-  myKeys = [];
+type GameData = { temples: Temple[]; gameComplete: boolean };
+
+class ProgressModel {
+  private data: null | GameData = null;
   firstComplete!: boolean;
   totalStars!: number;
 
-  constructor(game: Game) {
-    super();
+  constructor(readonly game: Game) {
     this.save = this.save.bind(this);
     this.getStored = this.getStored.bind(this);
     this.erase = this.erase.bind(this);
@@ -20,17 +18,75 @@ class ProgressModel extends Model {
     this.setStates = this.setStates.bind(this);
     this.process = this.process.bind(this);
     this.fetch = this.fetch.bind(this);
-    this.on("sync", this.process);
-    this.game = game;
-    this.url = () => "";
   }
 
-  // @ts-expect-error
+  get temples(): Temple[] {
+    return this.data?.temples ?? [];
+  }
+
+  set temples(value: Temple[]) {
+    this.data ??= { temples: [], gameComplete: false };
+    this.data.temples = value;
+  }
+
+  get gameComplete(): boolean {
+    return this.data?.gameComplete ?? false;
+  }
+
+  set gameComplete(value: boolean) {
+    this.data ??= { temples: [], gameComplete: false };
+    this.data.gameComplete = value;
+  }
+
+  update(endState: EndState) {
+    const targetTime =
+      this.game.settings.controls === "single"
+        ? endState.data.mobileTime
+        : endState.data.time;
+    let stars;
+    if (endState.data.type === "puzzle") {
+      stars = endState.state.silverDiamond > 0 ? 3 : 0;
+    } else if (endState.data.type === "dark") {
+      stars = endState.state.time <= targetTime ? 3 : 2;
+    } else {
+      stars = 1;
+      if (endState.state.diamonds >= endState.data.totalDiamonds) stars++;
+      if (endState.state.time <= targetTime) stars++;
+    }
+    endState.state.stars = stars;
+    if (
+      endState.data.skipped ||
+      this.betterThan(endState.state, endState.data.best)
+    ) {
+      endState.data.best = endState.state;
+      this.process();
+    }
+  }
+
+  setPlayed(level: LevelData) {
+    if (level.played) return;
+    level.played = true;
+    this.process();
+  }
+
+  erase() {
+    this.game.storage.namespace = "fb-" + this.game.gameConfig.id;
+    this.game.storage.clear();
+  }
+
+  save() {
+    if (!this.data) return;
+    this.game.storage.namespace = "fb-" + this.game.gameConfig.id;
+    this.game.storage.setItem("progress", JSON.stringify(this.data));
+  }
+
   async fetch(): Promise<void> {
-    let keys = this.game.gameConfig.temples;
-    if (!Array.isArray(keys)) keys = [keys];
+    this.data = this.getStored();
+    if (this.data && this.temples.length > 0) return;
+    let temples = this.game.gameConfig.temples;
+    if (!Array.isArray(temples)) temples = [temples];
     const baseUrl = this.game.load.baseURL;
-    const requests = keys.map((temple) =>
+    const requests = temples.map((temple) =>
       window
         .fetch(`${baseUrl}data/${temple}/temple.json`)
         .then((res) => res.json() as Promise<Temple>),
@@ -44,18 +100,14 @@ class ProgressModel extends Model {
         }
         temples.push(response.value);
       }
-
-      const store = (await this.getStored()) || {};
-      this.setTemples(deepObjectExtend(temples, store));
-      this.myKeys = [];
-      this.trigger("sync");
+      this.temples = temples;
     });
   }
 
-  process() {
+  private process() {
     let totalStars = 0;
     let complete = true;
-    for (const temple of this.getTemples()) {
+    for (const temple of this.temples) {
       for (const level of temple.levels) {
         if (level.best) {
           totalStars += level.best.stars;
@@ -69,18 +121,18 @@ class ProgressModel extends Model {
         );
       }
     }
-    if (complete && !this.isComplete()) {
+    if (complete && !this.gameComplete) {
       this.firstComplete = true;
     }
-    this.setComplete(complete);
+    this.gameComplete = complete;
     this.totalStars = totalStars;
-    for (const temple of this.getTemples()) {
+    for (const temple of this.temples) {
       temple.softLocked = this.totalStars < temple.minRequired;
     }
-    for (const temple of this.getTemples()) {
+    for (const temple of this.temples) {
       this.setStates(temple);
     }
-    for (const temple of this.getTemples()) {
+    for (const temple of this.temples) {
       temple.hasNew = false;
       for (const level of temple.levels) {
         if (level.played || level.initial || level.locked) {
@@ -94,7 +146,7 @@ class ProgressModel extends Model {
     this.save();
   }
 
-  setStates(temple: Temple) {
+  private setStates(temple: Temple) {
     const findLevel = (id: number) =>
       temple.levels.find((temple) => temple._id == id);
     if (temple.type === "tree") {
@@ -155,7 +207,7 @@ class ProgressModel extends Model {
         }
       } else {
         level.state =
-          this.game.progress.totalStars >= level.required && !level.locked
+          this.totalStars >= level.required && !level.locked
             ? LevelState.Initial
             : LevelState.Locked;
         if (this.game.config.devUnlock) {
@@ -165,39 +217,9 @@ class ProgressModel extends Model {
     }
   }
 
-  update(endState: EndState) {
-    const targetTime =
-      this.game.settings.controls === "single"
-        ? endState.data.mobileTime
-        : endState.data.time;
-    let stars;
-    if (endState.data.type === "puzzle") {
-      stars = endState.state.silverDiamond > 0 ? 3 : 0;
-    } else if (endState.data.type === "dark") {
-      stars = endState.state.time <= targetTime ? 3 : 2;
-    } else {
-      stars = 1;
-      if (endState.state.diamonds >= endState.data.totalDiamonds) stars++;
-      if (endState.state.time <= targetTime) stars++;
-    }
-    endState.state.stars = stars;
-    if (
-      endState.state.stars > 0 &&
-      (!endState.data.best ||
-        this.betterThan(endState.state, endState.data.best))
-    ) {
-      endState.data.best = endState.state;
-      this.process();
-    }
-  }
-
-  setPlayed(level: LevelData) {
-    if (level.played) return;
-    level.played = true;
-    this.process();
-  }
-
-  betterThan(thisResult: LevelResult, bestResult: LevelResult) {
+  private betterThan(thisResult: LevelResult, bestResult?: LevelResult) {
+    if (thisResult.stars === 0) return false;
+    if (!bestResult) return true;
     if (thisResult.stars !== bestResult.stars)
       return thisResult.stars > bestResult.stars;
     if (thisResult.diamonds !== bestResult.diamonds)
@@ -205,12 +227,7 @@ class ProgressModel extends Model {
     return thisResult.time < bestResult.time;
   }
 
-  erase() {
-    this.game.storage.namespace = "fb-" + this.game.gameConfig.id;
-    this.game.storage.clear();
-  }
-
-  getStored() {
+  private getStored(): GameData | null {
     this.game.storage.namespace = "fb-" + this.game.gameConfig.id;
     const item = this.game.storage.getItem("progress");
     if (item == null) return null;
@@ -219,27 +236,6 @@ class ProgressModel extends Model {
     } catch (error) {
       return null;
     }
-  }
-
-  save() {
-    this.game.storage.namespace = "fb-" + this.game.gameConfig.id;
-    this.game.storage.setItem("progress", JSON.stringify(this.toJSON()));
-  }
-
-  private getTemples(): Temple[] {
-    return super.get("temples");
-  }
-
-  private setTemples(temples: Temple[]) {
-    super.set("temples", temples);
-  }
-
-  private isComplete(): boolean {
-    return super.get("gameComplete");
-  }
-
-  private setComplete(complete: boolean) {
-    super.set("gameComplete", complete);
   }
 }
 

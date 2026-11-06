@@ -69,7 +69,7 @@ class TempleSelector extends Sprite {
       group.x = -bsIndex++ * group.width;
       this.strip.addChild(group);
     }
-    const temples = game.progress.get("temples") as Temple[];
+    const temples = game.progress.temples;
     this.icons = [];
     for (const temple of temples) {
       const icon = temple.icon || temple.id;

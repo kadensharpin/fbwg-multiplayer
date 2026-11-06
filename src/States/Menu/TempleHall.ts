@@ -70,7 +70,7 @@ class TempleHall extends Sprite {
       0,
       0,
       this.game.lang.locale("Play"),
-      () => this.onStart.dispatch(game.progress.get("temples")[0]),
+      () => this.onStart.dispatch(game.progress.temples[0]),
       40,
     );
     this.addChild(this.playBtn);
