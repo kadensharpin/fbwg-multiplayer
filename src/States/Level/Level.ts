@@ -211,7 +211,7 @@ class Level extends State {
     }
   }
 
-  decodeAudio(onComplete: () => void) {
+  decodeAudio() {
     const sounds: Sounds = {};
     for (const soundId of this.soundIds!) {
       sounds[soundId] = this.game.add.audio(soundId);
@@ -227,7 +227,6 @@ class Level extends State {
       },
       this,
     );
-    return onComplete();
   }
 
   shutdown() {
@@ -485,6 +484,7 @@ class Level extends State {
       this.game.layers.ui.alpha = 1;
       this.ui?.show();
       this.cursorToggle?.init();
+      this.game.transitions.fadeToGame();
     });
     this.game.physics.box2d.useElapsedTime = true;
     this.game.physics.box2d.paused = true;
@@ -496,10 +496,9 @@ class Level extends State {
         particleIterations: this.particleIterations,
       });
     };
-    this.decodeAudio(() => {
-      console.log("load completed");
-      this.startLevel();
-    });
+    this.decodeAudio();
+    console.log("load completed");
+    this.startLevel();
   }
 
   layoutContent() {

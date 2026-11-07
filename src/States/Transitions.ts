@@ -1,4 +1,4 @@
-import { BitmapText, Game, Sprite } from "phaser";
+import { BitmapText, Game, Signal, Sprite } from "phaser";
 
 export type States =
   | "menu"
@@ -36,17 +36,12 @@ export default class Transitions {
     this.fadeToBlack(duration).then(() => {
       this.game.state.start(state, clearWorld, clearCache, ...args);
       this.game.paused = false;
-      const fadeBackIn = () => {
-        requestAnimationFrame(() => {
-          this.fadeToGame().then(() => {
-            this.game.state.states[state].start?.();
-          });
-        });
-      };
-      if (this.game.state.states[state].onReady != null) {
-        this.game.state.states[state].onReady.addOnce(fadeBackIn);
+
+      const currentState = this.game.state.states[state];
+      if ("onReady" in currentState && currentState.onReady instanceof Signal) {
+        currentState.onReady.addOnce(this.fadeToGame);
       } else {
-        requestAnimationFrame(fadeBackIn);
+        requestAnimationFrame(this.fadeToGame);
       }
     });
   }
