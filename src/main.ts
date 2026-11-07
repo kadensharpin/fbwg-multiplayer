@@ -126,7 +126,7 @@ Device.whenReady(() => {
   game.progress = new ProgressModel(game);
   game.state.add("load", Load);
   game.TouchManager = new TouchManager(game);
-  game.load.baseURL = "forest/";
+  game.load.baseURL = ProgressModel.lastTemple + "/";
   game.transitions = new Transitions(game);
   game.state.fade = game.transitions.fade;
   Sound.prototype.playInstance = function () {

@@ -237,6 +237,14 @@ class ProgressModel {
       return null;
     }
   }
+
+  static get lastTemple(): string {
+    return localStorage.getItem("last-temple") ?? "forest";
+  }
+
+  static set lastTemple(value: string) {
+    localStorage.setItem("last-temple", value);
+  }
 }
 
 export default ProgressModel;

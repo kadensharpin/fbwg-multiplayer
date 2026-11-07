@@ -1,3 +1,4 @@
+import ProgressModel from "@/ProgressModel";
 import { BitmapText } from "phaser";
 import Button from "../Common/Button";
 import Menu from "./Menu";
@@ -94,6 +95,7 @@ class SingleMenu extends Menu {
   setTemple(temple: string) {
     console.log("set temple", temple);
     this.game.progress.save();
+    ProgressModel.lastTemple = temple;
     this.game.load.baseURL = temple + "/";
     this.game.transitions.fadeToBlack().then(() => {
       this.game.state.start("load");
