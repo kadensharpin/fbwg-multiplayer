@@ -1,3 +1,4 @@
+import { cloudflare } from "@cloudflare/vite-plugin";
 import { createReadStream, createWriteStream } from "node:fs";
 import { mkdir, readFile, stat, writeFile } from "node:fs/promises";
 import { pipeline } from "node:stream/promises";
@@ -106,6 +107,7 @@ export default defineConfig({
       ),
     },
   },
+  plugins: [cloudflare({ configPath: file("cloudflare/wrangler.jsonc") })],
 });
 
 function file(name: string) {

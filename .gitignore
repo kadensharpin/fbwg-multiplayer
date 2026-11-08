@@ -1,4 +1,5 @@
 .idea/
+.wrangler/
 node_modules/
 public/
 dist/

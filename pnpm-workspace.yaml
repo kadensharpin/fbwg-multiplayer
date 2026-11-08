@@ -1,3 +1,6 @@
+allowBuilds:
+  esbuild: true
+  workerd: true
 patchedDependencies:
   '@box2d/debug-draw': patches/@box2d__debug-draw.patch
   '@box2d/particles': patches/@box2d__particles.patch
