@@ -112,7 +112,6 @@ class GameLogic {
         }
       });
       this.rtc?.on("jump", (isDown) => {
-        console.error(12456);
         if (this.myCharacter === "wg") {
           this.game.level.pers1!.cursors.up.isDown = isDown;
         } else {
@@ -128,7 +127,6 @@ class GameLogic {
   }
 
   move(type: "left" | "right" | "jump", isDown: boolean) {
-    console.error(type, isDown);
     this.rtc?.send(type, isDown);
   }
 
