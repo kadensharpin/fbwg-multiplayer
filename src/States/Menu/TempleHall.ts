@@ -2,6 +2,7 @@ import { Temple } from "@/temple";
 import { Animation, Game, PIXI, Signal, Sprite } from "phaser";
 import GoldButton from "../Common/GoldButton";
 import MenuFairy from "../Common/Navies";
+import MultiplayerMenu from "../Multiplayer/MultiplayerMenu";
 
 class TempleHall extends Sprite {
   bkg: Sprite & { _frame?: any };
@@ -74,7 +75,26 @@ class TempleHall extends Sprite {
       40,
     );
     this.addChild(this.playBtn);
-    this.addChild(this.playBtn);
+
+    const createBtn = new GoldButton(
+      this.game,
+      0,
+      130,
+      "Create Game",
+      () => this.showMultiplayerMenu(true),
+      25,
+    );
+    this.addChild(createBtn);
+    const joinBtn = new GoldButton(
+      this.game,
+      0,
+      180,
+      "Join Game",
+      () => this.showMultiplayerMenu(false),
+      25,
+    );
+    this.addChild(joinBtn);
+
     this.fairies = new MenuFairy(this.game, 0, 0);
     this.addChild(this.fairies);
     this.layoutContent();
@@ -152,6 +172,14 @@ class TempleHall extends Sprite {
     this.playBtn.y = this.playBtn.height;
     this.playBtn.y = 2 * this.playBtn.height;
     this.fairies.y = this.playBtn.y;
+  }
+
+  showMultiplayerMenu(create: boolean) {
+    const multiplayerMenu = new MultiplayerMenu(this.game, create);
+    multiplayerMenu.show();
+    multiplayerMenu.onClose.add(() => {
+      multiplayerMenu.destroy();
+    });
   }
 }
 

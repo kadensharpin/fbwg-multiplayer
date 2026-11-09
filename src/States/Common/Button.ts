@@ -93,6 +93,11 @@ class Button extends Sprite {
       this.label.scale.set(1, 1);
     }
   }
+
+  public get isDisabled(): boolean {
+    return this.disabled;
+  }
+
   enable() {
     this.disabled = false;
   }

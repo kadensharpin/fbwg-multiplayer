@@ -13237,17 +13237,17 @@ declare module "phaser" {
       /**
        * This callback is invoked every time a key is pressed down, including key repeats when a key is held down.
        */
-      onDownCallback: Function;
+      onDownCallback?: (event: KeyboardEvent) => void;
 
       /**
        * This callback is invoked every time a DOM onkeypress event is raised, which is only for printable keys.
        */
-      onPressCallback: Function;
+      onPressCallback?: (key: string, event: KeyboardEvent) => void;
 
       /**
        * This callback is invoked every time a key is released.
        */
-      onUpCallback: Function;
+      onUpCallback?: (event: KeyboardEvent) => void;
 
       /**
        * The most recent DOM event from keypress.
@@ -13262,11 +13262,11 @@ declare module "phaser" {
        * @param onUp This callback is invoked every time a key is released.
        * @param onPress This callback is invoked every time the onkeypress event is raised.
        */
-      addCallbacks(
-        context: any,
-        onDown?: Function,
-        onUp?: Function,
-        onPress?: Function,
+      addCallbacks<Context>(
+        context: Context,
+        onDown?: (this: Context, event: KeyboardEvent) => void,
+        onUp?: (this: Context, event: KeyboardEvent) => void,
+        onPress?: (this: Context, key: string, event: KeyboardEvent) => void,
       ): void;
 
       /**
