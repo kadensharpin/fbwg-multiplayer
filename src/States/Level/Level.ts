@@ -766,13 +766,24 @@ class Level extends State {
   checkEndGame() {
     if (this.ended) return;
     if (this.door1?.isUp && this.door2?.isUp) {
-      this.ended = true;
-      this.game.physics.box2d.paused = true;
-      this.animateFinish();
+      this.game.logic.endGame(true);
+      this.endGame(true);
     }
     if (this.pers1?.isDead || this.pers2?.isDead) {
-      this.ended = true;
-      this.game.physics.box2d.paused = true;
+      this.game.logic.endGame(false);
+      this.endGame(false);
+    }
+  }
+
+  endGame(success: boolean) {
+    if (this.game.level.ended) return;
+
+    this.ended = true;
+    this.game.physics.box2d.paused = true;
+
+    if (success) {
+      this.animateFinish();
+    } else {
       this.gameOver();
     }
   }

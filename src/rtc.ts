@@ -1,10 +1,33 @@
 import { SignalServerConnection } from "./signal";
+import type { Characters } from "./States/Level/character";
 
 export type EventType = MessageType | "close" | "open";
-export type MessageType = "message";
-export type MessageData<Type extends MessageType> = Type extends "message"
-  ? string
-  : never;
+export type MessageType =
+  | "change-temple"
+  | "start-temple"
+  | "start-level"
+  | "finish-level"
+  | "pick-character"
+  | "left"
+  | "right"
+  | "jump";
+export type MessageData<Type extends MessageType> = Type extends "change-temple"
+  ? string // temple
+  : Type extends "start-temple"
+    ? null
+    : Type extends "finish-level"
+      ? boolean // success or fail
+      : Type extends "start-level"
+        ? number // id
+        : Type extends "pick-character"
+          ? Characters
+          : Type extends "right"
+            ? boolean // down - true, up - false
+            : Type extends "left"
+              ? boolean // down - true, up - false
+              : Type extends "jump"
+                ? boolean // down - true, up - false
+                : never;
 type Message<Type extends MessageType> = {
   type: Type;
   data: MessageData<Type>;
@@ -25,6 +48,7 @@ export class Rtc {
     >;
   };
   private channel: RTCDataChannel | null = null;
+  private _isHost: boolean = false;
 
   constructor(
     readonly room: string,
@@ -37,6 +61,7 @@ export class Rtc {
 
     this.signalServer.sendMessage("ping", null);
     this.signalServer.onMessage("ping", () => {
+      this._isHost = true;
       this.channel = this.connection.createDataChannel("chat");
       this.channel.onopen = () => this.onChannelOpen();
 
@@ -107,7 +132,7 @@ export class Rtc {
 
     this.channel!.onmessage = (ev) => {
       try {
-        const message = JSON.parse(ev.data) as Message<"message"> | null;
+        const message = JSON.parse(ev.data) as Message<"change-temple"> | null;
         if (!message?.type) return;
         this.messageHandlers[message.type]?.forEach((handler) =>
           handler(message.data),
@@ -119,12 +144,9 @@ export class Rtc {
     this.messageHandlers["open"]?.forEach((handler) => handler());
   }
 
-  async sendMessage<Type extends MessageType>(
-    type: Type,
-    data: MessageData<Type>,
-  ) {
-    if (!this.channel || this.channel.readyState != "open") return;
-    this.channel.send(JSON.stringify({ type, data } satisfies Message<Type>));
+  async send<Type extends MessageType>(type: Type, data: MessageData<Type>) {
+    if (!this.isOpen()) return;
+    this.channel!.send(JSON.stringify({ type, data } satisfies Message<Type>));
   }
 
   on<Type extends EventType>(
@@ -136,6 +158,12 @@ export class Rtc {
     this.messageHandlers[type] ??= [];
     this.messageHandlers[type].push(handler);
   }
-}
 
-export {};
+  isOpen() {
+    return this.channel?.readyState === "open";
+  }
+
+  isHost() {
+    return this._isHost;
+  }
+}

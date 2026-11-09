@@ -12,14 +12,14 @@ import {
 import BevelFilter from "../../filters/BevelFilter";
 import ColorMatrix from "../../filters/ColorMatrix";
 import OutlineFilter from "../../filters/OutlineFilter";
-import { LevelState, Temple } from "../../temple";
+import { LevelData, LevelState, Temple } from "../../temple";
 import BuyMenu from "../Buy/BuyMenu";
 import RewardedAdMenu from "../Common/RewardedAdMenu";
 import SoftLockMenu from "../Common/SoftLockMenu";
 import LevelButton from "./LevelButton";
 
 class LevelMenuButtons extends Sprite {
-  onClick: Signal<[LevelButton]>;
+  onClick: Signal<[LevelData]>;
   templeData: Temple;
   currentMenu: null | RewardedAdMenu | SoftLockMenu | BuyMenu;
   /** All light gray connectors */
@@ -334,7 +334,7 @@ class LevelMenuButtons extends Sprite {
   }
 
   buttonClick(button: LevelButton) {
-    this.onClick.dispatch(button);
+    this.onClick.dispatch(button.data);
   }
 }
 

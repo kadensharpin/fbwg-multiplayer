@@ -1,5 +1,6 @@
 import bowser from "bowser";
 import { i18n } from "i18next";
+import GameLogic from "./GameLogic";
 import ProgressModel from "./ProgressModel";
 import CharCursors from "./States/Level/CharCursors";
 import CursorToggle from "./States/Level/CursorToggle";
@@ -38,6 +39,7 @@ declare module "phaser" {
     lang: Lang;
     transitions: Transitions;
     progress: ProgressModel;
+    logic: GameLogic;
     bounds: Rectangle;
     layers: {
       background: Group;

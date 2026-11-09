@@ -18,7 +18,7 @@ class MultiMenu extends Menu {
     this.inputEnableChildren = true;
     this.templeHall = new MultiHall(this.game, 0, 0);
     this.root?.addChild(this.templeHall);
-    this.templeHall.onStart.add(this.startTemple);
+    this.templeHall.onStart.add(this.game.logic.startTemple);
     this.afterAddContent();
     this.onReady.dispatch();
   }

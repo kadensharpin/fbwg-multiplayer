@@ -1,4 +1,3 @@
-import ProgressModel from "@/ProgressModel";
 import { BitmapText } from "phaser";
 import Button from "../Common/Button";
 import Menu from "./Menu";
@@ -25,7 +24,6 @@ class SingleMenu extends Menu {
     this.addContent = this.addContent.bind(this);
     this.prevTemple = this.prevTemple.bind(this);
     this.nextTemple = this.nextTemple.bind(this);
-    this.setTemple = this.setTemple.bind(this);
   }
 
   layoutContent() {
@@ -75,7 +73,7 @@ class SingleMenu extends Menu {
     this.root?.addChild(prevButton);
     this.root?.addChild(label);
     this.root?.addChild(nextButton);
-    this.templeHall.onStart.add(this.startTemple);
+    this.templeHall.onStart.add(this.game.logic.startTemple);
     this.onReady.dispatch();
     this.afterAddContent();
   }
@@ -83,23 +81,13 @@ class SingleMenu extends Menu {
   nextTemple() {
     const i = temples.indexOf(this.game.gameConfig.id) + 1;
     const temple = temples[i % temples.length];
-    this.setTemple(temple);
+    this.game.logic.setTemple(temple);
   }
 
   prevTemple() {
     const i = temples.indexOf(this.game.gameConfig.id) - 1;
     const temple = temples[i >= 0 ? i : temples.length - 1];
-    this.setTemple(temple);
-  }
-
-  setTemple(temple: string) {
-    console.log("set temple", temple);
-    this.game.progress.save();
-    ProgressModel.lastTemple = temple;
-    this.game.load.baseURL = temple + "/";
-    this.game.transitions.fadeToBlack().then(() => {
-      this.game.state.start("load");
-    });
+    this.game.logic.setTemple(temple);
   }
 }
 

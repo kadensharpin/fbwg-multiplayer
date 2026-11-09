@@ -1,4 +1,4 @@
-import { Game, Group, Keyboard, Signal, Sprite } from "phaser";
+import { Game, Group, Key, Keyboard, Signal, Sprite } from "phaser";
 import TouchButton from "../Common/TouchButton";
 
 class CharCursors extends Signal {
@@ -148,15 +148,35 @@ class CharCursors extends Signal {
       this.buttons.addChild(right);
       this.game.layers.ui.addChild(this.buttons);
     } else {
-      if (this.character === "wg") {
-        this.up = this.game.input.keyboard.addKey(Keyboard.W);
-        this.left = this.game.input.keyboard.addKey(Keyboard.A);
-        this.right = this.game.input.keyboard.addKey(Keyboard.D);
+      let up: Key, left: Key, right: Key;
+      if (
+        this.game.logic.character &&
+        this.character !== this.game.logic.character
+      )
+        return;
+      if (
+        this.character === "wg" ||
+        this.game.logic.character === this.character
+      ) {
+        up = this.game.input.keyboard.addKey(Keyboard.W);
+        left = this.game.input.keyboard.addKey(Keyboard.A);
+        right = this.game.input.keyboard.addKey(Keyboard.D);
       } else {
-        this.up = this.game.input.keyboard.addKey(Keyboard.UP);
-        this.left = this.game.input.keyboard.addKey(Keyboard.LEFT);
-        this.right = this.game.input.keyboard.addKey(Keyboard.RIGHT);
+        up = this.game.input.keyboard.addKey(Keyboard.UP);
+        left = this.game.input.keyboard.addKey(Keyboard.LEFT);
+        right = this.game.input.keyboard.addKey(Keyboard.RIGHT);
       }
+      left.onDown.add(() => this.game.logic.move("left", true));
+      left.onUp.add(() => this.game.logic.move("left", false));
+
+      right.onDown.add(() => this.game.logic.move("right", true));
+      right.onUp.add(() => this.game.logic.move("right", false));
+
+      up.onDown.add(() => this.game.logic.move("jump", true));
+      up.onUp.add(() => this.game.logic.move("jump", false));
+      this.up = up;
+      this.left = left;
+      this.right = right;
     }
   }
   updateDowns() {

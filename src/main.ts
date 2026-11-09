@@ -10,6 +10,7 @@ import Phaser, {
   Sound,
 } from "phaser";
 import _ from "underscore";
+import GameLogic from "./GameLogic";
 import ProgressModel from "./ProgressModel";
 import Load from "./States/Load";
 import Transitions from "./States/Transitions";
@@ -57,6 +58,7 @@ Device.whenReady(() => {
     .getElementById("container")
     ?.addEventListener(event, (ev) => game.gameResumed(ev));
   game.bowser = bowser;
+  game.logic = new GameLogic(game);
   game.settingsSignal = new Signal();
   game.settingsSignal.add((setting) => {
     if (setting === "fx") {

@@ -5,8 +5,6 @@ import BackButton from "../Common/BackButton";
 import Button from "../Common/Button";
 import UIState from "../Common/UIState";
 import Complete from "../Complete/Complete";
-import Level from "../Level/Level";
-import LevelButton from "./LevelButton";
 import LevelMenuButtons from "./LevelMenuButtons";
 
 class LevelMenu extends UIState {
@@ -23,7 +21,6 @@ class LevelMenu extends UIState {
     super();
 
     this.goBack = this.goBack.bind(this);
-    this.startLevel = this.startLevel.bind(this);
     this.layoutContent = this.layoutContent.bind(this);
     this.afterAddContent = this.afterAddContent.bind(this);
     this.toggleNumbers = this.toggleNumbers.bind(this);
@@ -73,20 +70,14 @@ class LevelMenu extends UIState {
       this.buttons.destroy();
     }
     this.buttons = new LevelMenuButtons(this.game, this.templeData);
-    this.buttons.onClick.add(this.startLevel);
+    this.buttons.onClick.add(this.game.logic.startLevel);
     this.root?.addChild(this.buttons);
   }
 
   init(temple: Temple) {
-    if (!this.game.progress.temples[0].levels[0].played) {
-      this.game.progress.setPlayed(this.game.progress.temples[0].levels[0]);
-      this.game.state.add("level", Level);
-      this.game.state.start(
-        "level",
-        true,
-        false,
-        this.game.progress.temples[0].levels[0],
-      );
+    const firstLevel = this.game.progress.temples[0].levels[0];
+    if (!firstLevel.played) {
+      this.game.logic.startLevel(firstLevel, false);
     }
     this.templeData = temple;
     this.game.currentTemple = temple;
@@ -210,22 +201,6 @@ class LevelMenu extends UIState {
       this.root?.addChild(unlockButton);
     }
     return this.layoutContent();
-  }
-
-  startLevel(button: LevelButton) {
-    this.game.progress.setPlayed(button.data);
-    if (this.game.menuMusic != null) {
-      this.game.menuMusic.fadeOut(500);
-      this.game.menuMusic.onFadeComplete.add((sound) => sound.stop());
-    }
-    this.game.state.add("level", Level);
-    this.game.state.fade(
-      "level",
-      true,
-      false,
-      button.data,
-      !button.data.rewarded,
-    );
   }
 
   goBack() {

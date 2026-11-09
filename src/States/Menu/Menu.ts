@@ -1,12 +1,11 @@
 import { PIXI } from "phaser";
-import { LevelData, Temple } from "../../temple";
+import { LevelData } from "../../temple";
 import BuyMenu from "../Buy/BuyMenu";
 import Button from "../Common/Button";
 import GoldButton from "../Common/GoldButton";
 import UIState from "../Common/UIState";
 import CreditsMenu from "../Credits/CreditsMenu";
 import Level from "../Level/Level";
-import LevelMenu from "../LevelMenu/LevelMenu";
 import SettingsMenu from "../Settings/SettingsMenu";
 
 class Menu extends UIState {
@@ -21,7 +20,6 @@ class Menu extends UIState {
 
     this.layoutContent = this.layoutContent.bind(this);
     this.skipToLevel = this.skipToLevel.bind(this);
-    this.startTemple = this.startTemple.bind(this);
     this.showBuy = this.showBuy.bind(this);
     this.showCredits = this.showCredits.bind(this);
     this.showSettings = this.showSettings.bind(this);
@@ -163,11 +161,6 @@ class Menu extends UIState {
       buy.destroy();
       this.currentMenu = null;
     });
-  }
-
-  startTemple(temple: Temple) {
-    this.game.state.add("levelMenu", LevelMenu);
-    this.game.state.fade("levelMenu", true, false, temple);
   }
 
   skipToLevel(
