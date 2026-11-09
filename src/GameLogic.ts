@@ -28,6 +28,7 @@ class GameLogic {
     this.startTemple = this.startTemple.bind(this);
     this.startLevel = this.startLevel.bind(this);
     this.startLevelById = this.startLevelById.bind(this);
+    this.retry = this.retry.bind(this);
   }
 
   setTemple(temple: string) {
@@ -143,6 +144,7 @@ class GameLogic {
 
         otherCharacter.body.data.SetPositionXY(x, y);
       });
+      this.rtc?.on("retry", this.retry);
       setInterval(() => {
         if (this.game.state.current !== "level") return;
 
@@ -179,6 +181,13 @@ class GameLogic {
 
   endGame(success: boolean) {
     this.rtc?.send("finish-level", success);
+  }
+
+  retry() {
+    if (this.rtc?.isHost()) {
+      this.rtc.send("retry", null);
+    }
+    this.game.level.retry();
   }
 
   private createNonHostOverlay(): Sprite {

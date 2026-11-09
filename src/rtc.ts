@@ -11,7 +11,8 @@ export type MessageType =
   | "left"
   | "right"
   | "jump"
-  | "set-pos";
+  | "set-pos"
+  | "retry";
 export type MessageData<Type extends MessageType> = Type extends "change-temple"
   ? string // temple
   : Type extends "start-temple"
@@ -30,7 +31,9 @@ export type MessageData<Type extends MessageType> = Type extends "change-temple"
                 ? boolean // down - true, up - false
                 : Type extends "set-pos"
                   ? [x: number, y: number]
-                  : never;
+                  : Type extends "retry"
+                    ? null
+                    : never;
 type Message<Type extends MessageType> = {
   type: Type;
   data: MessageData<Type>;

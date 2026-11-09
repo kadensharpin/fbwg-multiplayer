@@ -86,7 +86,7 @@ class GameOverMenu extends IngameMenu<EndState> {
   }
 
   retry() {
-    this.game.level.retry();
+    this.game.logic.retry();
   }
 
   skip() {
