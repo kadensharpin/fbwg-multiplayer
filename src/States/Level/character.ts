@@ -264,6 +264,8 @@ class Character extends Group {
   }
 
   liquidTouched(liquidType: LiquidType) {
+    if (this.game.logic.character && this.game.logic.character !== this.char)
+      return;
     if (
       liquidType === LiquidType.GREEN ||
       ("wg" === this.char && liquidType === LiquidType.FIRE) ||

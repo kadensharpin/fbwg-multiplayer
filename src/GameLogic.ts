@@ -64,6 +64,7 @@ class GameLogic {
       this.rtc.send("start-level", level.id);
     } else if (this.waitingOverlay) {
       this.game.stage.removeChild(this.waitingOverlay);
+      this.game.input.enabled = true;
     }
 
     this.game.progress.setPlayed(level);
@@ -92,38 +93,84 @@ class GameLogic {
         this.rtc?.on("start-level", this.startLevelById);
         this.waitingOverlay = this.createNonHostOverlay();
         this.game.stage.addChild(this.waitingOverlay);
+        this.game.input.enabled = false;
       } else {
         this.myCharacter = "wg";
         this.rtc.send("change-temple", this.game.load.baseURL.slice(0, -1));
       }
 
       this.rtc?.on("left", (isDown) => {
-        if (this.myCharacter === "wg") {
-          this.game.level.pers1!.cursors.left.isDown = isDown;
-        } else {
-          this.game.level.pers2!.cursors.left.isDown = isDown;
-        }
+        const otherCharacter = this.getOtherCharacter();
+        if (!otherCharacter) return;
+
+        otherCharacter.cursors.left.isDown = isDown;
       });
       this.rtc?.on("right", (isDown) => {
-        if (this.myCharacter === "wg") {
-          this.game.level.pers1!.cursors.right.isDown = isDown;
-        } else {
-          this.game.level.pers2!.cursors.right.isDown = isDown;
-        }
+        const otherCharacter = this.getOtherCharacter();
+        if (!otherCharacter) return;
+
+        otherCharacter.cursors.right.isDown = isDown;
       });
       this.rtc?.on("jump", (isDown) => {
-        if (this.myCharacter === "wg") {
-          this.game.level.pers1!.cursors.up.isDown = isDown;
-        } else {
-          this.game.level.pers2!.cursors.up.isDown = isDown;
-        }
+        const otherCharacter = this.getOtherCharacter();
+        if (!otherCharacter) return;
+
+        otherCharacter.cursors.up.isDown = isDown;
       });
       this.rtc?.on("finish-level", (success) => {
+        if (!this.rtc?.isHost() && this.waitingOverlay!) {
+          this.game.stage.addChild(this.waitingOverlay!);
+          this.game.input.enabled = false;
+        }
+
         this.game.level.endGame(success);
       });
+      this.rtc?.on("set-pos", ([x, y]) => {
+        if (this.game.state.current !== "level") return;
+
+        const otherCharacter = this.getOtherCharacter();
+        if (!otherCharacter) return;
+        if (
+          otherCharacter.cursors.left.isDown ||
+          otherCharacter.cursors.right.isDown
+        ) {
+          const dist = otherCharacter.body.data
+            .GetPosition()
+            .Clone()
+            .SubtractXY(x, y);
+          if (dist.x < 1 && dist.y < 1) return;
+        }
+
+        otherCharacter.body.data.SetPositionXY(x, y);
+      });
+      setInterval(() => {
+        if (this.game.state.current !== "level") return;
+
+        const myCharacter = this.getThisCharacter();
+        if (!myCharacter) return;
+
+        const pos = myCharacter.body.data.GetPosition();
+        this.rtc?.send("set-pos", [pos.x, pos.y]);
+      }, 500);
       onOpen();
     });
     return p;
+  }
+
+  private getThisCharacter() {
+    if (this.myCharacter === "wg") {
+      return this.game.level.pers2;
+    } else {
+      return this.game.level.pers1;
+    }
+  }
+
+  private getOtherCharacter() {
+    if (this.myCharacter === "wg") {
+      return this.game.level.pers1;
+    } else {
+      return this.game.level.pers2;
+    }
   }
 
   move(type: "left" | "right" | "jump", isDown: boolean) {
